@@ -1,0 +1,1136 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.3.1, mkdocs-material-8.3.9">
+    
+    
+      
+        <title>Command Line Interface - Netezza Performance Server Lab</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.1d29e8d0.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.cbb835fc.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#000000">
+        
+      
+      
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:300,300i,400,400i,700,700i%7CIBM+Plex+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"IBM Plex Sans";--md-code-font:"IBM Plex Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="black">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#command-line-interface" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Netezza Performance Server Lab" class="md-header__button md-logo" aria-label="Netezza Performance Server Lab" data-md-component="logo">
+      
+  <img src="../nz-images/IBM_logo®_rev_RGB.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Netezza Performance Server Lab
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Command Line Interface
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Netezza Performance Server Lab" class="md-nav__button md-logo" aria-label="Netezza Performance Server Lab" data-md-component="logo">
+      
+  <img src="../nz-images/IBM_logo®_rev_RGB.png" alt="logo">
+
+    </a>
+    Netezza Performance Server Lab
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Command Line Interface
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Command Line Interface
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#nps-and-tricks-on-using-the-netezza-performance-server-virtual-machines" class="md-nav__link">
+    NPS and Tricks on Using the Netezza Performance Server Virtual Machines
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lab-environment" class="md-nav__link">
+    Lab Environment
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#connect-to-the-netezza-performance-server" class="md-nav__link">
+    Connect to the Netezza Performance Server
+  </a>
+  
+    <nav class="md-nav" aria-label="Connect to the Netezza Performance Server">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#login-to-nps-command-line-using-the-virtual-machine-gui" class="md-nav__link">
+    Login to NPS Command Line using the Virtual Machine GUI
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#login-to-nps-command-line-for-mac-users" class="md-nav__link">
+    Login to NPS Command Line for Mac Users
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#login-to-nps-command-line-for-windows-users" class="md-nav__link">
+    Login to NPS Command Line for Windows Users
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lab-setup" class="md-nav__link">
+    Lab Setup
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#connecting-to-the-system-database" class="md-nav__link">
+    Connecting to the System Database
+  </a>
+  
+    <nav class="md-nav" aria-label="Connecting to the System Database">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#connect-to-the-netezza-system-database-using-nzsql" class="md-nav__link">
+    Connect to the Netezza System Database Using nzsql
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#commonly-used-commands-and-sql-statements" class="md-nav__link">
+    Commonly Used Commands and SQL Statements
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exit-nzsql" class="md-nav__link">
+    Exit nzsql
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nzsql-command" class="md-nav__link">
+    nzsql Command
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-02-WebConsole/" class="md-nav__link">
+        Web Console
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-03-Data-Distribution/" class="md-nav__link">
+        Data Distribution
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-04-Database-Admin/" class="md-nav__link">
+        Database Administration
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-05-Loading-and-Unloading-Data/" class="md-nav__link">
+        Loading and Unloading Data
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-06-BNR/" class="md-nav__link">
+        Backup and Restore
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-07-Query-Optimization/" class="md-nav__link">
+        Query Optimization
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-08-Optimization-Objects/" class="md-nav__link">
+        Optimization Objects
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-09-Groom/" class="md-nav__link">
+        Grooming Data
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-10-Stored-Proc/" class="md-nav__link">
+        Stored Procedures
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_11" type="checkbox" id="__nav_11" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_11">
+          Appendix
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Appendix" data-md-level="1">
+        <label class="md-nav__title" for="__nav_11">
+          <span class="md-nav__icon md-icon"></span>
+          Appendix
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-disclaimer/" class="md-nav__link">
+        Disclaimer
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-acknowledgements/" class="md-nav__link">
+        Acknowledgements
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#nps-and-tricks-on-using-the-netezza-performance-server-virtual-machines" class="md-nav__link">
+    NPS and Tricks on Using the Netezza Performance Server Virtual Machines
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lab-environment" class="md-nav__link">
+    Lab Environment
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#connect-to-the-netezza-performance-server" class="md-nav__link">
+    Connect to the Netezza Performance Server
+  </a>
+  
+    <nav class="md-nav" aria-label="Connect to the Netezza Performance Server">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#login-to-nps-command-line-using-the-virtual-machine-gui" class="md-nav__link">
+    Login to NPS Command Line using the Virtual Machine GUI
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#login-to-nps-command-line-for-mac-users" class="md-nav__link">
+    Login to NPS Command Line for Mac Users
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#login-to-nps-command-line-for-windows-users" class="md-nav__link">
+    Login to NPS Command Line for Windows Users
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lab-setup" class="md-nav__link">
+    Lab Setup
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#connecting-to-the-system-database" class="md-nav__link">
+    Connecting to the System Database
+  </a>
+  
+    <nav class="md-nav" aria-label="Connecting to the System Database">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#connect-to-the-netezza-system-database-using-nzsql" class="md-nav__link">
+    Connect to the Netezza System Database Using nzsql
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#commonly-used-commands-and-sql-statements" class="md-nav__link">
+    Commonly Used Commands and SQL Statements
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exit-nzsql" class="md-nav__link">
+    Exit nzsql
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nzsql-command" class="md-nav__link">
+    nzsql Command
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+
+
+<h1 id="command-line-interface">Command Line Interface</h1>
+<p>In this lab will explore the IBM Netezza Performance Server command line (CLI).  The CLI will be our primary interface to execute the labs in the workshop.</p>
+<h2 id="nps-and-tricks-on-using-the-netezza-performance-server-virtual-machines">NPS and Tricks on Using the Netezza Performance Server Virtual Machines</h2>
+<p>The Netezza Performance Server is designed and fine-tuned for specific Cloud Pak for Data System hardware or Netezza Performance Service server on Cloud.  In order to demonstrate the system in a virtualized environment, some adaptations were made on the virtual machines. To ensure the labs run smoothly, we have listed some pointers for using the VMs:  </p>
+<p>After pausing the virtual machines, nz services need to be restarted. In the case that the VMs were paused (the host operating system went into sleep or hibernation modes, the images were paused in VMware Workstation,,, etc). To continue using the VMs, run the following commands in the prompt of the Host image. </p>
+<div class="admonition abstract">
+<p class="admonition-title">Input</p>
+<div class="highlight"><pre><span></span><code>nzstop<span class="w"> </span>
+nzstart<span class="w">      </span>
+</code></pre></div>
+</div>
+<h2 id="lab-environment">Lab Environment</h2>
+<p>The lab system will be a virtual machine running on Virtual Box.  Please see the document on how to install the NPS Virtual Machine for your workstation (Windows or Mac OS).</p>
+<h2 id="connect-to-the-netezza-performance-server">Connect to the Netezza Performance Server</h2>
+<p>Use the following information on how to connect to the lab system.  There are two options to access the command line:</p>
+<ol>
+<li>Login to the VM directly and use the terminal application available inside the VM. </li>
+<li>Local terminal application on your workstation.</li>
+</ol>
+<h3 id="login-to-nps-command-line-using-the-virtual-machine-gui">Login to NPS Command Line using the Virtual Machine GUI</h3>
+<p>After getting the VM running (see the document on how to install the VM) login as follows:</p>
+<p>Login as the <code>nz</code> user by clicking in the VM and select the <code>nz</code> user:</p>
+<p><img alt="NZ" src="../nz-images/nz-01-NPS-CLI/media/nz-logon.png" /></p>
+<p>At the password prompt enter : <code>nz</code> and click Sign In</p>
+<p><img alt="NZ" src="../nz-images/nz-01-NPS-CLI/media/nz-password.png" /></p>
+<p>Once you are signed in you can right-click the desktop and select "Open Terminal"</p>
+<p><img alt="NZ" src="../nz-images/nz-01-NPS-CLI/media/nz-desktop.png" /></p>
+<p>Start NPS if not already started as follows:</p>
+<div class="admonition abstract">
+<p class="admonition-title">Input</p>
+<div class="highlight"><pre><span></span><code>nzstate
+nzstart
+nzstate
+</code></pre></div>
+</div>
+<p><img alt="NZ" src="../nz-images/nz-01-NPS-CLI/media/nz-start.png" /></p>
+<p>You are now ready to proceed to the next section of the lab.</p>
+<h3 id="login-to-nps-command-line-for-mac-users">Login to NPS Command Line for Mac Users</h3>
+<p>From your Mac OSX system, open the terminal application (or another terminal application like iTerm2).</p>
+<p>Open the Terminal.app.</p>
+<ol>
+<li>Type command + spacebar.</li>
+<li>Type "Terminal.app" in the Spotlight Search window.</li>
+<li>Double click "Terminal.app" to launch the Terminal application.</li>
+</ol>
+<p><img alt="NZ" src="../nz-images/nz-01-NPS-CLI/media/osx-terminal.png" /></p>
+<p>From the Terminal application ssh into the NPS VM with the nz (password:nz) ID and start NPS if not already started.</p>
+<div class="admonition abstract">
+<p class="admonition-title">Input</p>
+<div class="highlight"><pre><span></span><code>ssh<span class="w"> </span>nz@192.168.9.2
+nzstate
+nzstart
+nzstate
+</code></pre></div>
+</div>
+<p><img alt="NZ" src="../nz-images/nz-01-NPS-CLI/media/osx-terminal-login.png" /></p>
+<div class="admonition note">
+<p class="admonition-title">The remainder of the lab will use the command line as the <code>nz</code> user.</p>
+</div>
+<h3 id="login-to-nps-command-line-for-windows-users">Login to NPS Command Line for Windows Users</h3>
+<p>Start a Windows PowerShell, press the Windows Key and type <code>powersh</code> in the Search Bar.  Click "Windows PowerShell"</p>
+<p><img alt="NZ" src="../nz-images/nz-01-NPS-CLI/media/win-powershell.png" /></p>
+<p>From the PowerShell application ssh into the NPS VM with the <code>nz</code> ID and start NPS if not already started.</p>
+<div class="admonition abstract">
+<p class="admonition-title">Input</p>
+<div class="highlight"><pre><span></span><code>ssh<span class="w"> </span>nz@192.168.9.2
+nzstate
+</code></pre></div>
+</div>
+<p>If the system is offline:</p>
+<div class="admonition abstract">
+<p class="admonition-title">Input</p>
+<div class="highlight"><pre><span></span><code>nzstart
+nzstate
+</code></pre></div>
+</div>
+<p><img alt="NZ" src="../nz-images/nz-01-NPS-CLI/media/win-start-nz.png" /></p>
+<div class="admonition note">
+<p class="admonition-title">The remainder of the lab will use the command line as the <code>nz</code> user.</p>
+</div>
+<h2 id="lab-setup">Lab Setup</h2>
+<p>This lab uses an initial setup script to make sure the correct users and databases exist for the remainder of the lab.  Follow the instructions below to run the setup script.</p>
+<ol>
+<li>
+<p>Login to NPS Command Line using one of these two methods.</p>
+<ol>
+<li>Login to the VM directly and use the terminal application available inside the VM.</li>
+<li>Connect to your Netezza Performance Server image using a terminal application (Windows PowerShell, PuTTY, Mac OSX Terminal)</li>
+</ol>
+</li>
+<li>
+<p>If you are continuing from the previous lab and are already connected to nzsql, quit the nzsql console with the <code>\q</code> command.</p>
+</li>
+<li>
+<p>Prepare for this lab by running the setup script.  To do this use the following commands:</p>
+</li>
+</ol>
+<div class="admonition abstract">
+<p class="admonition-title">Input</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>~/labs/cli/setupLab
+<span class="nb">time</span><span class="w"> </span>./setupLab.sh
+</code></pre></div>
+</div>
+<p>Output similar to the following will be produced.</p>
+<div class="admonition abstract">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code>ERROR:<span class="w">  </span>DROP<span class="w"> </span>DATABASE:<span class="w"> </span>object<span class="w"> </span>LABDB<span class="w"> </span>does<span class="w"> </span>not<span class="w"> </span>exist.
+CREATE<span class="w"> </span>DATABASE
+ERROR:<span class="w">  </span>DROP<span class="w"> </span>USER:<span class="w"> </span>object<span class="w"> </span>LABADMIN<span class="w"> </span>does<span class="w"> </span>not<span class="w"> </span>exist.
+CREATE<span class="w"> </span>USER
+ALTER<span class="w"> </span>USER
+ALTER<span class="w"> </span>DATABASE
+CREATE<span class="w"> </span>TABLE
+CREATE<span class="w"> </span>TABLE
+CREATE<span class="w"> </span>TABLE
+CREATE<span class="w"> </span>TABLE
+CREATE<span class="w"> </span>TABLE
+CREATE<span class="w"> </span>TABLE
+CREATE<span class="w"> </span>TABLE
+CREATE<span class="w"> </span>TABLE
+Load<span class="w"> </span>session<span class="w"> </span>of<span class="w"> </span>table<span class="w"> </span><span class="s1">&#39;NATION&#39;</span><span class="w"> </span>completed<span class="w"> </span>successfully
+Load<span class="w"> </span>session<span class="w"> </span>of<span class="w"> </span>table<span class="w"> </span><span class="s1">&#39;REGION&#39;</span><span class="w"> </span>completed<span class="w"> </span>successfully
+Load<span class="w"> </span>session<span class="w"> </span>of<span class="w"> </span>table<span class="w"> </span><span class="s1">&#39;CUSTOMER&#39;</span><span class="w"> </span>completed<span class="w"> </span>successfully
+Load<span class="w"> </span>session<span class="w"> </span>of<span class="w"> </span>table<span class="w"> </span><span class="s1">&#39;SUPPLIER&#39;</span><span class="w"> </span>completed<span class="w"> </span>successfully
+Load<span class="w"> </span>session<span class="w"> </span>of<span class="w"> </span>table<span class="w"> </span><span class="s1">&#39;PART&#39;</span><span class="w"> </span>completed<span class="w"> </span>successfully
+Load<span class="w"> </span>session<span class="w"> </span>of<span class="w"> </span>table<span class="w"> </span><span class="s1">&#39;PARTSUPP&#39;</span><span class="w"> </span>completed<span class="w"> </span>successfully
+Load<span class="w"> </span>session<span class="w"> </span>of<span class="w"> </span>table<span class="w"> </span><span class="s1">&#39;ORDERS&#39;</span><span class="w"> </span>completed<span class="w"> </span>successfully
+Load<span class="w"> </span>session<span class="w"> </span>of<span class="w"> </span>table<span class="w"> </span><span class="s1">&#39;LINEITEM&#39;</span><span class="w"> </span>completed<span class="w"> </span>successfully
+
+real<span class="w">    </span>1m46.490s
+user<span class="w">    </span>0m0.082s
+sys<span class="w"> </span>0m0.784s
+</code></pre></div>
+</div>
+<p>The error message at the beginning is expected since the database <code>LABDB</code> and user <code>LABADMIN</code> hasn't been created yet.  However, the <code>DROP</code> statements are in the setup script in the event the user <code>LABADMIN</code> and database <code>LABDB</code> exist to start this lab new.</p>
+<div class="admonition error">
+<p class="admonition-title">Dan - Check this text</p>
+<p>Note: you downloaded and installed the scripts in the lab: "01-Setup-NPS-Virtual-Machine-Setup-Lab-Guide-Win10-OSX-Final”</p>
+</div>
+<p>This lab is now setup and ready to use for the remainder of the sections.</p>
+<h2 id="connecting-to-the-system-database">Connecting to the System Database</h2>
+<p>The following section details how to connect to the system database which contains all the system views that describes the database objects.</p>
+<h3 id="connect-to-the-netezza-system-database-using-nzsql">Connect to the Netezza System Database Using nzsql</h3>
+<p>Since we have not created any user and databases yet, we will connect to the default database as the default user, with the following credentials:</p>
+<ul>
+<li>Database: <code>system</code> </li>
+<li>Username: <code>admin</code> </li>
+<li>Password: <code>password</code> </li>
+</ul>
+<p>When issuing the <code>nzsql</code> command, the user supplies the user account, password and the database to connect to using the syntax, below is an example of how this would be done. Do not try to execute that command it is just demonstrating the syntax: </p>
+<div class="admonition abstract">
+<div class="highlight"><pre><span></span><code>nzsql<span class="w"> </span>–d<span class="w"> </span><span class="o">[</span>db_name<span class="o">]</span><span class="w"> </span>–u<span class="w"> </span><span class="o">[</span>user<span class="o">]</span><span class="w"> </span>–pw<span class="w"> </span><span class="o">[</span>password<span class="o">]</span><span class="w"> </span>
+</code></pre></div>
+</div>
+<p>Alternatively, these values can be stored in the command shell and passed to the nzsql command when it is issued without any arguments. Let's verify the current database, user and password values stored in the command shell by issuing the <code>printenv NZ_DATABASE</code>, <code>printenv NZ_USER</code>, and <code>printenv NZ_PASSWORD</code> commands. </p>
+<div class="admonition abstract">
+<p class="admonition-title">Input</p>
+<div class="highlight"><pre><span></span><code>printenv<span class="w"> </span>NZ_DATABASE
+printenv<span class="w"> </span>NZ_USER
+printenv<span class="w"> </span>NZ_PASSWORD
+</code></pre></div>
+</div>
+<p>The output should look similar to the following: </p>
+<div class="admonition abstract">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code><span class="o">[</span>nz@netezza<span class="w"> </span>~<span class="o">]</span>$<span class="w"> </span>printenv<span class="w"> </span>NZ_DATABASE<span class="w"> </span>
+system
+<span class="o">[</span>nz@netezza<span class="w"> </span>~<span class="o">]</span>$<span class="w"> </span>printenv<span class="w"> </span>NZ_USER<span class="w"> </span>
+admin
+<span class="o">[</span>nz@netezza<span class="w"> </span>~<span class="o">]</span>$<span class="w"> </span>printenv<span class="w"> </span>NZ_PASSWORD<span class="w"> </span>
+password
+</code></pre></div>
+</div>
+<p>Since the current values correspond to our desired values, no modification is required.  </p>
+<p>Next, let's take a look at what options are available to start nzsql. Type in the following command:</p>
+<div class="admonition abstract">
+<p class="admonition-title">Input</p>
+<div class="highlight"><pre><span></span><code>nzsql<span class="w"> </span>-?
+</code></pre></div>
+</div>
+<div class="admonition abstract">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code>This<span class="w"> </span>is<span class="w"> </span>nzsql,<span class="w"> </span>the<span class="w"> </span>IBM<span class="w"> </span>Netezza<span class="w"> </span>SQL<span class="w"> </span>interactive<span class="w"> </span>terminal.
+
+Usage:
+<span class="w">  </span>nzsql<span class="w"> </span><span class="o">[</span>options<span class="o">]</span><span class="w"> </span><span class="o">[</span>security<span class="w"> </span>options<span class="o">]</span><span class="w"> </span><span class="o">[</span>dbname<span class="w"> </span><span class="o">[</span>username<span class="o">]</span><span class="w"> </span><span class="o">[</span>password<span class="o">]]</span>
+
+Security<span class="w"> </span>Options:
+<span class="w">  </span>-securityLevel<span class="w">       </span>Security<span class="w"> </span>Level<span class="w"> </span>you<span class="w"> </span>wish<span class="w"> </span>to<span class="w"> </span>request<span class="w"> </span><span class="o">(</span>default:<span class="w">    </span>preferredUnSecured<span class="o">)</span>
+<span class="w">  </span>-caCertFile<span class="w">          </span>ROOT<span class="w"> </span>CA<span class="w"> </span>certificate<span class="w"> </span>file<span class="w"> </span><span class="o">(</span>default:<span class="w"> </span>NULL<span class="o">)</span>
+
+Options:
+<span class="w">  </span>-a<span class="w">                   </span>Echo<span class="w"> </span>all<span class="w"> </span>input<span class="w"> </span>from<span class="w"> </span>script
+<span class="w">  </span>-A<span class="w">                   </span>Unaligned<span class="w"> </span>table<span class="w"> </span>output<span class="w"> </span>mode<span class="w"> </span><span class="o">(</span>-P<span class="w"> </span><span class="nv">format</span><span class="o">=</span>unaligned<span class="o">)</span>
+<span class="w">  </span>-c<span class="w"> </span>&lt;query&gt;<span class="w">           </span>Run<span class="w"> </span>only<span class="w"> </span>single<span class="w"> </span>query<span class="w"> </span><span class="o">(</span>or<span class="w"> </span>slash<span class="w"> </span><span class="nb">command</span><span class="o">)</span><span class="w"> </span>and<span class="w"> </span><span class="nb">exit</span>
+<span class="w">  </span>-d<span class="w"> </span>&lt;dbname&gt;<span class="w">          </span>Specify<span class="w"> </span>database<span class="w"> </span>name<span class="w"> </span>to<span class="w"> </span>connect<span class="w"> </span>to<span class="w"> </span><span class="o">(</span>default:<span class="w"> </span>SYSTEM<span class="o">)</span>
+<span class="w">  </span>-D<span class="w"> </span>&lt;dbname&gt;<span class="w">          </span>Specify<span class="w"> </span>database<span class="w"> </span>name<span class="w"> </span>to<span class="w"> </span>connect<span class="w"> </span>to<span class="w"> </span><span class="o">(</span>default:<span class="w"> </span>SYSTEM<span class="o">)</span>
+<span class="w">  </span>-schema<span class="w"> </span>&lt;schemaname&gt;<span class="w"> </span>Specify<span class="w"> </span>schema<span class="w"> </span>name<span class="w"> </span>to<span class="w"> </span>connect<span class="w"> </span>to<span class="w"> </span><span class="o">(</span>default:<span class="w"> </span><span class="nv">$NZ_SCHEMA</span><span class="o">)</span>
+<span class="w">  </span>-e<span class="w">                   </span>Echo<span class="w"> </span>queries<span class="w"> </span>sent<span class="w"> </span>to<span class="w"> </span>backend
+<span class="w">  </span>-E<span class="w">                   </span>Display<span class="w"> </span>queries<span class="w"> </span>that<span class="w"> </span>internal<span class="w"> </span>commands<span class="w"> </span>generate
+<span class="w">  </span>-f<span class="w"> </span>&lt;filename&gt;<span class="w">        </span>Execute<span class="w"> </span>queries<span class="w"> </span>from<span class="w"> </span>file,<span class="w"> </span><span class="k">then</span><span class="w"> </span><span class="nb">exit</span>
+<span class="w">  </span>-F<span class="w"> </span>&lt;string&gt;<span class="w">          </span>Set<span class="w"> </span>field<span class="w"> </span>separator<span class="w"> </span><span class="o">(</span>default:<span class="w"> </span><span class="s2">&quot;|&quot;</span><span class="o">)</span><span class="w"> </span><span class="o">(</span>-P<span class="w"> </span><span class="nv">fieldsep</span><span class="o">=)</span>
+<span class="w">                       </span>For<span class="w"> </span>any<span class="w"> </span>binary/control/non-printable<span class="w"> </span>character<span class="w"> </span>use<span class="w"> </span><span class="s1">&#39;$&#39;</span>
+<span class="w">                       </span><span class="o">(</span>e.g.,<span class="w"> </span>nzsql<span class="w"> </span>-F<span class="w"> </span><span class="s1">$&#39;\t&#39;</span><span class="w"> </span>//<span class="w"> </span><span class="k">for</span><span class="w"> </span>TAB<span class="o">)</span>
+<span class="w">  </span>-host<span class="w"> </span>&lt;host&gt;<span class="w">         </span>Specify<span class="w"> </span>database<span class="w"> </span>server<span class="w"> </span>host<span class="w"> </span><span class="o">(</span>default:<span class="w"> </span>localhost.<span class="w">   </span>localdomain<span class="o">)</span>
+<span class="w">  </span>-h<span class="w"> </span>&lt;host&gt;<span class="w">            </span>Specify<span class="w"> </span>database<span class="w"> </span>server<span class="w"> </span>host<span class="w"> </span><span class="o">(</span>default:<span class="w"> </span>localhost.<span class="w">   </span>localdomain<span class="o">)</span>
+<span class="w">  </span>-H<span class="w">                   </span>HTML<span class="w"> </span>table<span class="w"> </span>output<span class="w"> </span>mode<span class="w"> </span><span class="o">(</span>-P<span class="w"> </span><span class="nv">format</span><span class="o">=</span>html<span class="o">)</span>
+<span class="w">  </span>-l<span class="w">                   </span>List<span class="w"> </span>available<span class="w"> </span>databases,<span class="w"> </span><span class="k">then</span><span class="w"> </span><span class="nb">exit</span>
+<span class="w">  </span>-n<span class="w">                   </span>Disable<span class="w"> </span>readline
+<span class="w">  </span>-o<span class="w"> </span>&lt;filename&gt;<span class="w">        </span>Send<span class="w"> </span>query<span class="w"> </span>output<span class="w"> </span>to<span class="w"> </span>filename<span class="w"> </span><span class="o">(</span>or<span class="w"> </span><span class="p">|</span>pipe<span class="o">)</span>
+<span class="w">  </span>-O<span class="w"> </span>&lt;filename&gt;<span class="w">        </span>Send<span class="w"> </span>query<span class="w"> </span>output<span class="w"> </span>with<span class="w"> </span>errors<span class="w"> </span>to<span class="w"> </span>filename<span class="w"> </span><span class="o">(</span>or<span class="w"> </span><span class="p">|</span>pipe<span class="o">)</span>
+<span class="w">  </span>-port<span class="w"> </span>&lt;port&gt;<span class="w">         </span>Specify<span class="w"> </span>database<span class="w"> </span>server<span class="w"> </span>port<span class="w"> </span><span class="o">(</span>default:<span class="w"> </span>hardwired<span class="o">)</span>
+<span class="w">  </span>-P<span class="w"> </span>var<span class="o">[=</span>arg<span class="o">]</span><span class="w">         </span>Set<span class="w"> </span>printing<span class="w"> </span>option<span class="w"> </span><span class="s1">&#39;var&#39;</span><span class="w"> </span>to<span class="w"> </span><span class="s1">&#39;arg&#39;</span><span class="w"> </span><span class="o">(</span>see<span class="w"> </span><span class="se">\p</span>set<span class="w"> </span><span class="nb">command</span><span class="o">)</span>
+<span class="w">  </span>-q<span class="w">                   </span>Run<span class="w"> </span>quietly<span class="w"> </span><span class="o">(</span>no<span class="w"> </span>messages,<span class="w"> </span>only<span class="w"> </span>query<span class="w"> </span>output<span class="o">)</span>
+<span class="w">  </span>-r<span class="w">                   </span>Suppress<span class="w"> </span>row<span class="w"> </span>count<span class="w"> </span><span class="k">in</span><span class="w"> </span>query<span class="w"> </span>output
+<span class="w">  </span>-R<span class="w"> </span>&lt;string&gt;<span class="w">          </span>Set<span class="w"> </span>record<span class="w"> </span>separator<span class="w"> </span><span class="o">(</span>default:<span class="w"> </span>newline<span class="o">)</span><span class="w"> </span><span class="o">(</span>-P<span class="w"> </span><span class="nv">recordsep</span><span class="o">=)</span>
+<span class="w">  </span>-Rev<span class="w">                 </span>Show<span class="w"> </span>version<span class="w"> </span>information<span class="w"> </span>and<span class="w"> </span><span class="nb">exit</span>
+<span class="w">  </span>-rev<span class="w">                 </span>Show<span class="w"> </span>version<span class="w"> </span>information<span class="w"> </span>and<span class="w"> </span><span class="nb">exit</span>
+<span class="w">  </span>-s<span class="w">                   </span>Single<span class="w"> </span>step<span class="w"> </span>mode<span class="w"> </span><span class="o">(</span>confirm<span class="w"> </span>each<span class="w"> </span>query<span class="o">)</span>
+<span class="w">  </span>-S<span class="w">                   </span>Single<span class="w"> </span>line<span class="w"> </span>mode<span class="w"> </span><span class="o">(</span>newline<span class="w"> </span>terminates<span class="w"> </span>query<span class="o">)</span>
+<span class="w">  </span>-t<span class="w">                   </span>Print<span class="w"> </span>rows<span class="w"> </span>only<span class="w"> </span><span class="o">(</span>-P<span class="w"> </span>tuples_only<span class="o">)</span>
+<span class="w">  </span>-time<span class="w">                </span>Print<span class="w"> </span><span class="nb">time</span><span class="w"> </span>taken<span class="w"> </span>by<span class="w"> </span>queries
+<span class="w">  </span>-T<span class="w"> </span>text<span class="w">              </span>Set<span class="w"> </span>HTML<span class="w"> </span>table<span class="w"> </span>tag<span class="w"> </span>options<span class="w"> </span><span class="o">(</span>width,<span class="w"> </span>border<span class="o">)</span><span class="w"> </span><span class="o">(</span>-P<span class="w">  </span><span class="nv">tableattr</span><span class="o">=)</span>
+<span class="w">  </span>-u<span class="w"> </span>&lt;username&gt;<span class="w">        </span>Specify<span class="w"> </span>database<span class="w"> </span>username<span class="w"> </span><span class="o">(</span>default:<span class="w"> </span>admin<span class="o">)</span>
+<span class="w">  </span>-U<span class="w"> </span>&lt;username&gt;<span class="w">        </span>Specify<span class="w"> </span>database<span class="w"> </span>username<span class="w"> </span><span class="o">(</span>default:<span class="w"> </span>admin<span class="o">)</span>
+<span class="w">  </span>-v<span class="w"> </span><span class="nv">name</span><span class="o">=</span>val<span class="w">          </span>Set<span class="w"> </span>nzsqlvariable<span class="w"> </span><span class="s1">&#39;name&#39;</span><span class="w"> </span>to<span class="w"> </span><span class="s1">&#39;value&#39;</span>
+<span class="w">  </span>-V<span class="w">                   </span>Show<span class="w"> </span>version<span class="w"> </span>information<span class="w"> </span>and<span class="w"> </span><span class="nb">exit</span>
+<span class="w">  </span>-w<span class="w">                   </span>Don<span class="err">&#39;</span>t<span class="w"> </span>require<span class="w"> </span>password,<span class="w"> </span>other<span class="w"> </span>mechanisms<span class="w"> </span><span class="o">(</span>Kerberos<span class="o">)</span><span class="w">     </span>will<span class="w"> </span>supply<span class="w"> </span>it
+<span class="w">  </span>-W<span class="w"> </span>&lt;password&gt;<span class="w">        </span>Specify<span class="w"> </span>the<span class="w"> </span>database<span class="w"> </span>user<span class="w"> </span>password
+<span class="w">  </span>-pw<span class="w"> </span>&lt;password&gt;<span class="w">       </span>Specify<span class="w"> </span>the<span class="w"> </span>database<span class="w"> </span>user<span class="w"> </span>password
+<span class="w">  </span>-x<span class="w">                   </span>Turn<span class="w"> </span>on<span class="w"> </span>expanded<span class="w"> </span>table<span class="w"> </span>output<span class="w"> </span><span class="o">(</span>-P<span class="w"> </span>expanded<span class="o">)</span>
+<span class="w">  </span>-X<span class="w">                   </span>Do<span class="w"> </span>not<span class="w"> </span><span class="nb">read</span><span class="w"> </span>startup<span class="w"> </span>file<span class="w"> </span><span class="o">(</span>~/.nzsqlrc<span class="o">)</span>
+<span class="w">  </span>-h<span class="w"> </span>or<span class="w"> </span>-?<span class="w"> </span>or<span class="w"> </span>--help<span class="w">   </span>Display<span class="w"> </span>this<span class="w"> </span><span class="nb">help</span>
+
+For<span class="w"> </span>more<span class="w"> </span>information,<span class="w"> </span><span class="nb">type</span><span class="w"> </span><span class="s2">&quot;\?&quot;</span><span class="w"> </span><span class="o">(</span><span class="k">for</span><span class="w"> </span>internal<span class="w"> </span>commands<span class="o">)</span><span class="w"> </span>or<span class="w"> </span><span class="s2">&quot;\help&quot;</span>
+<span class="o">(</span><span class="k">for</span><span class="w"> </span>SQL<span class="w"> </span>commands<span class="o">)</span><span class="w"> </span>from<span class="w"> </span>within<span class="w"> </span>nzsql.
+</code></pre></div>
+</div>
+<p>For more information, type "\?" (for internal commands) or "\help"
+(for SQL commands) from within nzsql.
+\t```</p>
+<p>The <code>-?</code> option will list the usage and all options for the <code>nzsql</code> command. In this exercise, we will start <code>nzsql</code> without arguments. In the command prompt, issue the command: </p>
+<div class="admonition abstract">
+<p class="admonition-title">Input</p>
+<div class="highlight"><pre><span></span><code>nzsql<span class="w"> </span>
+</code></pre></div>
+</div>
+<p>This will bring up the <code>nzsql</code> prompt below that shows a connection to the system database as user admin: </p>
+<div class="admonition abstract">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code><span class="o">[</span>nz@localhost<span class="w"> </span>~<span class="o">]</span>$<span class="w"> </span>nzsql
+Welcome<span class="w"> </span>to<span class="w"> </span>nzsql,<span class="w"> </span>the<span class="w"> </span>IBM<span class="w"> </span>Netezza<span class="w"> </span>SQL<span class="w"> </span>interactive<span class="w"> </span>terminal.
+
+Type:<span class="w">  </span><span class="se">\h</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="nb">help</span><span class="w"> </span>with<span class="w"> </span>SQL<span class="w"> </span>commands
+<span class="w">       </span><span class="se">\?</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="nb">help</span><span class="w"> </span>on<span class="w"> </span>internal<span class="w"> </span>slash<span class="w"> </span>commands
+<span class="w">       </span><span class="se">\g</span><span class="w"> </span>or<span class="w"> </span>terminate<span class="w"> </span>with<span class="w"> </span>semicolon<span class="w"> </span>to<span class="w"> </span>execute<span class="w"> </span>query
+<span class="w">       </span><span class="se">\q</span><span class="w"> </span>to<span class="w"> </span>quit
+
+SYSTEM.ADMIN<span class="o">(</span>ADMIN<span class="o">)=</span>&gt;<span class="w"> </span>
+</code></pre></div>
+</div>
+<h3 id="commonly-used-commands-and-sql-statements">Commonly Used Commands and SQL Statements</h3>
+<p>There are commonly used commands that start with "\” which we will demonstrate in this section. First, we will run the 2 help commands to familiarize ourselves with these handy commands. The \h command will list the available SQL commands, while the \? command is used to list the internal slash commands. Examine the output for both commands: </p>
+<div class="admonition abstract">
+<p class="admonition-title">Input</p>
+<div class="highlight"><pre><span></span><code><span class="se">\h</span><span class="w"> </span>
+<span class="se">\?</span><span class="w"> </span>
+</code></pre></div>
+</div>
+<p>From the output of the <code>\?</code> command, we found the <code>\l</code> internal command we can use to find out all the databases.  Let's find out all the databases by entering <code>\l</code>: </p>
+<div class="admonition abstract">
+<p class="admonition-title">Input</p>
+<div class="highlight"><pre><span></span><code><span class="se">\l</span><span class="w"> </span>
+</code></pre></div>
+</div>
+<div class="admonition abstract">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code><span class="w">  </span>List<span class="w"> </span>of<span class="w"> </span>databases
+<span class="w"> </span>DATABASE<span class="w"> </span><span class="p">|</span><span class="w">  </span>OWNER<span class="w">   </span>
+----------+----------
+<span class="w"> </span>LABDB<span class="w">    </span><span class="p">|</span><span class="w"> </span>LABADMIN
+<span class="w"> </span>SYSTEM<span class="w">   </span><span class="p">|</span><span class="w"> </span>ADMIN
+<span class="o">(</span><span class="m">10</span><span class="w"> </span>rows<span class="o">)</span>
+</code></pre></div>
+</div>
+<p>Secondly, we will use <code>\dSv</code> to find out the system views within the system database.  Note: there are system tables, however, it isn't recommended to directly access those tables as there can change from release to release and are restricted from the normal user.</p>
+<p>Input:</p>
+<div class="admonition abstract">
+<p class="admonition-title">Input</p>
+<div class="highlight"><pre><span></span><code><span class="se">\d</span>Sv
+</code></pre></div>
+</div>
+<div class="admonition abstract">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code><span class="w">                                </span>List<span class="w"> </span>of<span class="w"> </span>relations
+<span class="w">       </span>Schema<span class="w">       </span><span class="p">|</span><span class="w">                 </span>Name<span class="w">                  </span><span class="p">|</span><span class="w">    </span>Type<span class="w">     </span><span class="p">|</span><span class="w">     </span>Owner
+--------------------+---------------------------------------+-------------<span class="w">  </span>+-------
+<span class="w"> </span>DEFINITION_SCHEMA<span class="w">  </span><span class="p">|</span><span class="w"> </span>_V_ACL_DATA<span class="w">                           </span><span class="p">|</span><span class="w"> </span>SYSTEM<span class="w"> </span>VIEW<span class="w"> </span><span class="p">|</span><span class="w">     </span>ADMIN
+<span class="w"> </span>DEFINITION_SCHEMA<span class="w">  </span><span class="p">|</span><span class="w"> </span>_V_AGGREGATE<span class="w">                          </span><span class="p">|</span><span class="w"> </span>SYSTEM<span class="w"> </span>VIEW<span class="w"> </span><span class="p">|</span><span class="w">     </span>ADMIN
+<span class="w"> </span>DEFINITION_SCHEMA<span class="w">  </span><span class="p">|</span><span class="w"> </span>_V_ATTRIBUTE<span class="w">                          </span><span class="p">|</span><span class="w"> </span>SYSTEM<span class="w"> </span>VIEW<span class="w"> </span><span class="p">|</span><span class="w">     </span>ADMIN
+<span class="w"> </span>DEFINITION_SCHEMA<span class="w">  </span><span class="p">|</span><span class="w"> </span>_V_ATTRIBUTE2<span class="w">                         </span><span class="p">|</span><span class="w"> </span>SYSTEM<span class="w"> </span>VIEW<span class="w"> </span><span class="p">|</span><span class="w">     </span>ADMIN
+<span class="w"> </span>DEFINITION_SCHEMA<span class="w">  </span><span class="p">|</span><span class="w"> </span>_V_AUTHENTICATION<span class="w">                     </span><span class="p">|</span><span class="w"> </span>SYSTEM<span class="w"> </span>VIEW<span class="w"> </span><span class="p">|</span><span class="w">     </span>ADMIN
+<span class="w"> </span>DEFINITION_SCHEMA<span class="w">  </span><span class="p">|</span><span class="w"> </span>_V_AUTHENTICATION_SETTINGS<span class="w">            </span><span class="p">|</span><span class="w"> </span>SYSTEM<span class="w"> </span>VIEW<span class="w"> </span><span class="p">|</span><span class="w">     </span>ADMIN
+<span class="w"> </span>DEFINITION_SCHEMA<span class="w">  </span><span class="p">|</span><span class="w"> </span>_V_BACKUP_GROUP<span class="w">                       </span><span class="p">|</span><span class="w"> </span>SYSTEM<span class="w"> </span>VIEW<span class="w"> </span><span class="p">|</span><span class="w">     </span>ADMIN
+<span class="w"> </span>DEFINITION_SCHEMA<span class="w">  </span><span class="p">|</span><span class="w"> </span>_V_BACKUP_GROUP_HISTORY<span class="w">               </span><span class="p">|</span><span class="w"> </span>SYSTEM<span class="w"> </span>VIEW<span class="w"> </span><span class="p">|</span><span class="w">     </span>ADMIN
+<span class="w"> </span>DEFINITION_SCHEMA<span class="w">  </span><span class="p">|</span><span class="w"> </span>_V_BACKUP_GROUP_MEMBER<span class="w">                </span><span class="p">|</span><span class="w"> </span>SYSTEM<span class="w"> </span>VIEW<span class="w"> </span><span class="p">|</span><span class="w">     </span>ADMIN
+<span class="w"> </span>DEFINITION_SCHEMA<span class="w">  </span><span class="p">|</span><span class="w"> </span>_V_BACKUP_HISTORY<span class="w">                     </span><span class="p">|</span><span class="w"> </span>SYSTEM<span class="w"> </span>VIEW<span class="w"> </span><span class="p">|</span><span class="w">     </span>ADMIN
+<span class="w"> </span>DEFINITION_SCHEMA<span class="w">  </span><span class="p">|</span><span class="w"> </span>_V_BACKUP_TABLE_HISTORY<span class="w">               </span><span class="p">|</span><span class="w"> </span>SYSTEM<span class="w"> </span>VIEW<span class="w"> </span><span class="p">|</span><span class="w">     </span>ADMIN
+<span class="w"> </span>DEFINITION_SCHEMA<span class="w">  </span><span class="p">|</span><span class="w"> </span>_V_BLOWER<span class="w">                             </span><span class="p">|</span><span class="w"> </span>SYSTEM<span class="w"> </span>VIEW<span class="w"> </span><span class="p">|</span><span class="w">     </span>ADMIN
+<span class="w"> </span>DEFINITION_SCHEMA<span class="w">  </span><span class="p">|</span><span class="w"> </span>_V_BNR_CONNECTOR<span class="w">                      </span><span class="p">|</span><span class="w"> </span>SYSTEM<span class="w"> </span>VIEW<span class="w"> </span><span class="p">|</span><span class="w">     </span>ADMIN
+<span class="w"> </span>DEFINITION_SCHEMA<span class="w">  </span><span class="p">|</span><span class="w"> </span>_V_CLASS<span class="w">                              </span><span class="p">|</span><span class="w"> </span>SYSTEM<span class="w"> </span>VIEW<span class="w"> </span><span class="p">|</span><span class="w">     </span>ADMIN
+<span class="w"> </span>DEFINITION_SCHEMA<span class="w">  </span><span class="p">|</span><span class="w"> </span>_V_CLASS2<span class="w">                             </span><span class="p">|</span><span class="w"> </span>SYSTEM<span class="w"> </span>VIEW<span class="w"> </span><span class="p">|</span><span class="w">     </span>ADMIN
+<span class="w"> </span>DEFINITION_SCHEMA<span class="w">  </span><span class="p">|</span><span class="w"> </span>_V_CLIENT_COMPATIBILITY<span class="w">               </span><span class="p">|</span><span class="w"> </span>SYSTEM<span class="w"> </span>VIEW<span class="w"> </span><span class="p">|</span><span class="w">     </span>ADMIN
+<span class="w"> </span>DEFINITION_SCHEMA<span class="w">  </span><span class="p">|</span><span class="w"> </span>_V_CONNECTION<span class="w">                         </span><span class="p">|</span><span class="w"> </span>SYSTEM<span class="w"> </span>VIEW<span class="w"> </span><span class="p">|</span><span class="w">     </span>ADMIN
+
+--More—
+</code></pre></div>
+</div>
+<p>Note: press the space bar to scroll down the result set when you see <code>--More--</code> on the screen.</p>
+<p>The list of the system views was truncated in the output above due to the length.  Here are the primary views to investigate for DBAs/users new to Netezza:</p>
+<div class="admonition abstract">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code>_V_GROUP
+_V_USER
+_V_SESSION_V_DATABASE
+_V_SCHEMA
+_V_TABLE
+_V_VIEW
+_V_ATTRIBUTE
+_V_SEQUENCE
+_V_SYNONYM
+_V_FUNCTION
+_V_AGGREGATE
+_V_PROCEDURE
+</code></pre></div>
+</div>
+<p>From the previous command, we can see that there is a user table called <code>_V_USER</code>. To find out what is stored in that table, we will use the describe command \d: </p>
+<div class="admonition abstract">
+<p class="admonition-title">Input</p>
+<div class="highlight"><pre><span></span><code><span class="se">\d</span><span class="w"> </span>_V_USER<span class="w"> </span>
+</code></pre></div>
+</div>
+<div class="admonition abstract">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code><span class="w">                            </span>View<span class="w"> </span><span class="s2">&quot;_V_USER&quot;</span>
+<span class="w">      </span>Attribute<span class="w">      </span><span class="p">|</span><span class="w">          </span>Type<span class="w">          </span><span class="p">|</span><span class="w"> </span>Modifier<span class="w"> </span><span class="p">|</span><span class="w"> </span>Default<span class="w"> </span>Value
+---------------------+------------------------+----------+---------------
+<span class="w"> </span>OBJID<span class="w">               </span><span class="p">|</span><span class="w"> </span>OID<span class="w">                    </span><span class="p">|</span><span class="w"> </span>NOT<span class="w"> </span>NULL<span class="w"> </span><span class="p">|</span>
+<span class="w"> </span>USERNAME<span class="w">            </span><span class="p">|</span><span class="w"> </span>NAME<span class="w">                   </span><span class="p">|</span><span class="w"> </span>NOT<span class="w"> </span>NULL<span class="w"> </span><span class="p">|</span>
+<span class="w"> </span>OWNER<span class="w">               </span><span class="p">|</span><span class="w"> </span>NAME<span class="w">                   </span><span class="p">|</span><span class="w">          </span><span class="p">|</span>
+<span class="w"> </span>VALIDUNTIL<span class="w">          </span><span class="p">|</span><span class="w"> </span>TIMESTAMP<span class="w">              </span><span class="p">|</span><span class="w">          </span><span class="p">|</span>
+<span class="w"> </span>CREATEDATE<span class="w">          </span><span class="p">|</span><span class="w"> </span>ABSTIME<span class="w">                </span><span class="p">|</span><span class="w"> </span>NOT<span class="w"> </span>NULL<span class="w"> </span><span class="p">|</span>
+<span class="w"> </span>ROWLIMIT<span class="w">            </span><span class="p">|</span><span class="w"> </span>INTEGER<span class="w">                </span><span class="p">|</span><span class="w">          </span><span class="p">|</span>
+<span class="w"> </span>ACCT_LOCKED<span class="w">         </span><span class="p">|</span><span class="w"> </span>BOOLEAN<span class="w">                </span><span class="p">|</span><span class="w">          </span><span class="p">|</span>
+<span class="w"> </span>INV_CONN_CNT<span class="w">        </span><span class="p">|</span><span class="w"> </span>SMALLINT<span class="w">               </span><span class="p">|</span><span class="w">          </span><span class="p">|</span>
+<span class="w"> </span>PWD_INVALID<span class="w">         </span><span class="p">|</span><span class="w"> </span>BOOLEAN<span class="w">                </span><span class="p">|</span><span class="w">          </span><span class="p">|</span>
+<span class="w"> </span>PWD_LAST_CHGED<span class="w">      </span><span class="p">|</span><span class="w"> </span>DATE<span class="w">                   </span><span class="p">|</span><span class="w">          </span><span class="p">|</span>
+<span class="w"> </span>SESSIONTIMEOUT<span class="w">      </span><span class="p">|</span><span class="w"> </span>INTEGER<span class="w">                </span><span class="p">|</span><span class="w">          </span><span class="p">|</span>
+<span class="w"> </span>QUERYTIMEOUT<span class="w">        </span><span class="p">|</span><span class="w"> </span>INTEGER<span class="w">                </span><span class="p">|</span><span class="w">          </span><span class="p">|</span>
+<span class="w"> </span>DEF_PRIORITY<span class="w">        </span><span class="p">|</span><span class="w"> </span>NAME<span class="w">                   </span><span class="p">|</span><span class="w">          </span><span class="p">|</span>
+<span class="w"> </span>MAX_PRIORITY<span class="w">        </span><span class="p">|</span><span class="w"> </span>NAME<span class="w">                   </span><span class="p">|</span><span class="w">          </span><span class="p">|</span>
+<span class="w"> </span>USESYSID<span class="w">            </span><span class="p">|</span><span class="w"> </span>INTEGER<span class="w">                </span><span class="p">|</span><span class="w">          </span><span class="p">|</span>
+<span class="w"> </span>OBJDELIM<span class="w">            </span><span class="p">|</span><span class="w"> </span>BOOLEAN<span class="w">                </span><span class="p">|</span><span class="w"> </span>NOT<span class="w"> </span>NULL<span class="w"> </span><span class="p">|</span>
+<span class="w"> </span>USERESOURCEGRPID<span class="w">    </span><span class="p">|</span><span class="w"> </span>OID<span class="w">                    </span><span class="p">|</span><span class="w">          </span><span class="p">|</span>
+<span class="w"> </span>USERESOURCEGRPNAME<span class="w">  </span><span class="p">|</span><span class="w"> </span>NAME<span class="w">                   </span><span class="p">|</span><span class="w">          </span><span class="p">|</span>
+<span class="w"> </span>CROSS_JOINS_ALLOWED<span class="w"> </span><span class="p">|</span><span class="w"> </span>CHARACTER<span class="w"> </span>VARYING<span class="o">(</span><span class="m">255</span><span class="o">)</span><span class="w"> </span><span class="p">|</span><span class="w">          </span><span class="p">|</span>
+<span class="w"> </span>USEAUTH<span class="w">             </span><span class="p">|</span><span class="w"> </span>CHARACTER<span class="w"> </span>VARYING<span class="o">(</span><span class="m">255</span><span class="o">)</span><span class="w"> </span><span class="p">|</span><span class="w">          </span><span class="p">|</span>
+<span class="w"> </span>PWD_EXPIRY<span class="w">          </span><span class="p">|</span><span class="w"> </span>INTEGER<span class="w">                </span><span class="p">|</span><span class="w">          </span><span class="p">|</span>
+View<span class="w"> </span>definition:<span class="w"> </span>SELECT<span class="w"> </span>O.OBJID,<span class="w"> </span>O.OBJNAME<span class="w"> </span>AS<span class="w"> </span>USERNAME,<span class="w"> </span>O.<span class="s2">&quot;OWNER&quot;</span>,<span class="w"> </span>U.VALUNTIL<span class="w">   </span>AS<span class="w"> </span>VALIDUNTIL,<span class="w"> </span>O.CREATEDATE,<span class="w"> </span>U.USERESULTLIMIT<span class="w"> </span>AS<span class="w"> </span>ROWLIMIT,<span class="w"> </span>U.USELOCKED<span class="w"> </span>AS<span class="w">     </span>ACCT_LOCKED,<span class="w"> </span>U.USEINVCONNCNT<span class="w"> </span>AS<span class="w"> </span>INV_CONN_CNT,<span class="w"> </span>U.USEPWDINV<span class="w"> </span>AS<span class="w"> </span>PWD_INVALID,<span class="w"> </span>U.<span class="w">    </span>USEPWDCHGED<span class="w"> </span>AS<span class="w"> </span>PWD_LAST_CHGED,<span class="w"> </span>U.USESESSTIMELIMIT<span class="w"> </span>AS<span class="w"> </span><span class="s2">&quot;SESSIONTIMEOUT&quot;</span>,<span class="w"> </span>U.<span class="w">   </span>USEQRYDURATION<span class="w"> </span>AS<span class="w"> </span><span class="s2">&quot;QUERYTIMEOUT&quot;</span>,<span class="w"> </span>DP.PRILITERAL<span class="w"> </span>AS<span class="w"> </span>DEF_PRIORITY,<span class="w"> </span>MP.PRILITERAL<span class="w">     </span>AS<span class="w"> </span>MAX_PRIORITY,<span class="w"> </span>U.USESYSID,<span class="w"> </span>O.OBJDELIM,<span class="w"> </span>U.USERESOURCEGRP<span class="w"> </span>AS<span class="w"> </span>USERESOURCEGRPID,<span class="w">  </span>CASE<span class="w"> </span>WHEN<span class="w"> </span><span class="o">(</span>O.OBJID<span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">4900</span><span class="o">)</span><span class="w"> </span>THEN<span class="w"> </span><span class="s2">&quot;NAME&quot;</span><span class="o">((</span><span class="s1">&#39;_ADMIN_&#39;</span>::<span class="s2">&quot;NVARCHAR&quot;</span><span class="o">)</span>::NVARCHAR<span class="o">(</span><span class="m">255</span><span class="o">))</span><span class="w">   </span>WHEN<span class="w"> </span><span class="o">((</span>U.USERESOURCEGRP<span class="w"> </span>ISNULL<span class="o">)</span><span class="w"> </span>OR<span class="w"> </span><span class="o">(</span>U.USERESOURCEGRP<span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">4901</span><span class="o">))</span><span class="w"> </span>THEN<span class="w"> </span><span class="s2">&quot;NAME&quot;</span><span class="w"> </span><span class="o">((</span><span class="s1">&#39;PUBLIC&#39;</span>::<span class="s2">&quot;NVARCHAR&quot;</span><span class="o">)</span>::NVARCHAR<span class="o">(</span><span class="m">255</span><span class="o">))</span><span class="w"> </span>ELSE<span class="w"> </span>G.OBJNAME<span class="w"> </span>END<span class="w"> </span>AS<span class="w">    </span>USERESOURCEGRPNAME,<span class="w"> </span>CASE<span class="w"> </span>WHEN<span class="w"> </span><span class="o">(</span>U.USECROSSJOIN<span class="w"> </span>ISNULL<span class="o">)</span><span class="w"> </span>THEN<span class="w"> </span><span class="o">(</span><span class="s1">&#39;NULL&#39;</span>::<span class="s2">&quot;VARCHAR&quot;</span><span class="o">)</span><span class="w"> </span>::VARCHAR<span class="o">(</span><span class="m">255</span><span class="o">)</span><span class="w"> </span>WHEN<span class="w"> </span><span class="o">(</span>U.USECROSSJOIN<span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="o">)</span><span class="w"> </span>THEN<span class="w"> </span><span class="o">(</span><span class="s1">&#39;NULL&#39;</span>::<span class="s2">&quot;VARCHAR&quot;</span><span class="o">)</span>::VARCHAR<span class="o">(</span><span class="m">255</span><span class="o">)</span><span class="w">  </span>WHEN<span class="w"> </span><span class="o">(</span>U.USECROSSJOIN<span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="o">)</span><span class="w"> </span>THEN<span class="w"> </span><span class="o">(</span><span class="s1">&#39;FALSE&#39;</span>::<span class="s2">&quot;VARCHAR&quot;</span><span class="o">)</span>::VARCHAR<span class="o">(</span><span class="m">255</span><span class="o">)</span><span class="w"> </span>ELSE<span class="w">   </span><span class="o">(</span><span class="s1">&#39;TRUE&#39;</span>::<span class="s2">&quot;VARCHAR&quot;</span><span class="o">)</span>::VARCHAR<span class="o">(</span><span class="m">255</span><span class="o">)</span><span class="w"> </span>END<span class="w"> </span>AS<span class="w"> </span>CROSS_JOINS_ALLOWED,<span class="w"> </span>CASE<span class="w"> </span>WHEN<span class="w"> </span><span class="o">(</span>U.<span class="w">   </span><span class="nv">USEAUTH</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="o">)</span><span class="w"> </span>THEN<span class="w"> </span><span class="o">(</span><span class="s1">&#39;LOCAL&#39;</span>::<span class="s2">&quot;VARCHAR&quot;</span><span class="o">)</span>::VARCHAR<span class="o">(</span><span class="m">255</span><span class="o">)</span><span class="w"> </span>ELSE<span class="w"> </span><span class="o">(</span><span class="s1">&#39;DEFAULT&#39;</span>::<span class="s2">&quot;VARCHAR&quot;</span><span class="o">)</span><span class="w">   </span>::VARCHAR<span class="o">(</span><span class="m">255</span><span class="o">)</span><span class="w"> </span>END<span class="w"> </span>AS<span class="w"> </span>USEAUTH,<span class="w"> </span>U.USEPASSWDEXPIRY<span class="w"> </span>AS<span class="w"> </span>PWD_EXPIRY<span class="w"> </span>FROM<span class="w">    </span><span class="o">((((</span>DEFINITION_SCHEMA.<span class="s2">&quot;_V_OBJ_USER&quot;</span><span class="w"> </span>O<span class="w"> </span>JOIN<span class="w"> </span>DEFINITION_SCHEMA.<span class="s2">&quot;_T_USER&quot;</span><span class="w"> </span>U<span class="w"> </span>ON<span class="w"> </span><span class="o">((</span>O.<span class="w">   </span><span class="nv">OBJID</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>U.OID<span class="o">)))</span><span class="w"> </span>LEFT<span class="w"> </span>JOIN<span class="w"> </span>DEFINITION_SCHEMA.<span class="s2">&quot;_T_PRIORITY&quot;</span><span class="w"> </span>DP<span class="w"> </span>ON<span class="w"> </span><span class="o">((</span>U.<span class="w">  </span><span class="nv">USEDEFPRIORITY</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>DP.PRICODE<span class="o">)))</span><span class="w"> </span>LEFT<span class="w"> </span>JOIN<span class="w"> </span>DEFINITION_SCHEMA.<span class="s2">&quot;_T_PRIORITY&quot;</span><span class="w"> </span>MP<span class="w"> </span>ON<span class="w">    </span><span class="o">((</span>U.USEMAXPRIORITY<span class="w"> </span><span class="o">=</span><span class="w"> </span>MP.PRICODE<span class="o">)))</span><span class="w"> </span>LEFT<span class="w"> </span>JOIN<span class="w"> </span>DEFINITION_SCHEMA.<span class="s2">&quot;_V_OBJ_GROUP&quot;</span><span class="w"> </span>G<span class="w">    </span>ON<span class="w"> </span><span class="o">((</span>U.USERESOURCEGRP<span class="w"> </span><span class="o">=</span><span class="w"> </span>G.OBJID<span class="o">)))</span><span class="p">;</span>
+</code></pre></div>
+</div>
+<p>This will return all the columns of the <code>_V_USER</code> system table. Next, we want to know the existing users stored in the table. In case too many rows are returned at once, we will first calculate the number of rows it contains by enter the following query: </p>
+<div class="admonition abstract">
+<p class="admonition-title">Input</p>
+<div class="highlight"><pre><span></span><code>SELECT<span class="w"> </span>COUNT<span class="o">(</span>*<span class="o">)</span><span class="w"> </span>FROM<span class="w"> </span><span class="o">(</span>SELECT<span class="w"> </span>*<span class="w"> </span>FROM<span class="w"> </span>_V_USER<span class="o">)</span><span class="w"> </span>AS<span class="w"> </span><span class="s2">&quot;Wrapper&quot;</span><span class="p">;</span><span class="w"> </span>
+</code></pre></div>
+</div>
+<div class="admonition abstract">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code>COUNT
+-------
+<span class="w">     </span><span class="m">2</span>
+<span class="o">(</span><span class="m">1</span><span class="w"> </span>row<span class="o">)</span>
+</code></pre></div>
+</div>
+<p>The query above is essentially the same as <code>SELECT COUNT (*) FROM _V_USER</code>, we have demonstrated the sub-select syntax in case there is a complex query that needed to have the result set evaluated. The result should show there is currently 2 entries in the user table. We can enter the following query to list the user names: </p>
+<div class="admonition abstract">
+<p class="admonition-title">Input</p>
+<div class="highlight"><pre><span></span><code><span class="k">select</span><span class="w"> </span>objid,<span class="w"> </span>username,<span class="w"> </span>owner,<span class="w"> </span>createdate,<span class="w"> </span>useauth,<span class="w"> </span>pwd_expiry<span class="w"> </span>from<span class="w"> </span>_v_user<span class="p">;</span>
+</code></pre></div>
+</div>
+<div class="admonition abstract">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code><span class="w"> </span>OBJID<span class="w">  </span><span class="p">|</span><span class="w"> </span>USERNAME<span class="w"> </span><span class="p">|</span><span class="w"> </span>OWNER<span class="w"> </span><span class="p">|</span><span class="w">     </span>CREATEDATE<span class="w">      </span><span class="p">|</span><span class="w"> </span>USEAUTH<span class="w"> </span><span class="p">|</span><span class="w"> </span>PWD_EXPIRY
+--------+----------+-------+---------------------+---------+------------
+<span class="w">   </span><span class="m">4900</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>ADMIN<span class="w">    </span><span class="p">|</span><span class="w"> </span>ADMIN<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">2020</span>-01-24<span class="w"> </span><span class="m">08</span>:26:22<span class="w"> </span><span class="p">|</span><span class="w"> </span>DEFAULT<span class="w"> </span><span class="p">|</span><span class="w">          </span><span class="m">0</span>
+<span class="w"> </span><span class="m">210500</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>LABADMIN<span class="w"> </span><span class="p">|</span><span class="w"> </span>ADMIN<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">2020</span>-05-11<span class="w"> </span><span class="m">07</span>:58:31<span class="w"> </span><span class="p">|</span><span class="w"> </span>DEFAULT<span class="w"> </span><span class="p">|</span><span class="w">          </span><span class="m">0</span>
+</code></pre></div>
+</div>
+<h3 id="exit-nzsql">Exit nzsql</h3>
+<p>To exit nzsql, use the command \q to return to the Netezza Performance Server system.  </p>
+<div class="admonition abstract">
+<p class="admonition-title">Input</p>
+<div class="highlight"><pre><span></span><code><span class="se">\q</span>
+</code></pre></div>
+</div>
+<h2 id="nzsql-command"><code>nzsql</code> Command</h2>
+<p>The nzsql command invokes a SQL command interpreter on the IBM® Netezza® host or on an IBM Netezza client system. You can use this SQL command interpreter to create database objects, run queries, and manage the database.</p>
+<p>To run the nzsql command, enter:</p>
+<div class="admonition abstract">
+<p class="admonition-title">Input</p>
+<div class="highlight"><pre><span></span><code>nzsql<span class="w"> </span><span class="o">[</span>options<span class="o">]</span><span class="w"> </span><span class="o">[</span>security<span class="w"> </span>options<span class="o">]</span><span class="w"> </span><span class="o">[</span>dbname<span class="w"> </span><span class="o">[</span>user<span class="o">]</span><span class="w"> </span><span class="o">[</span>password<span class="o">]]</span>
+</code></pre></div>
+</div>
+<p>The following table describes the <code>nzsql</code> command parameters. </p>
+<p><img alt="NZ" src="../nz-images/nz-01-NPS-CLI/media/nz-parameters.png" /></p>
+<p>You will be using the <code>nzsql</code> command line tool throughout the labs.</p>
+
+              
+            </article>
+            
+          </div>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+    <nav class="md-footer__inner md-grid" aria-label="Footer" >
+      
+      
+        
+        <a href="../nz-02-WebConsole/" class="md-footer__link md-footer__link--next" aria-label="Next: Web Console" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Web Console
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2024 IBM
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.b97dbffb.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.6c7ad80a.min.js"></script>
+      
+    
+  </body>
+</html>

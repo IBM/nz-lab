@@ -1,0 +1,1396 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.3.1, mkdocs-material-8.3.9">
+    
+    
+      
+        <title>Query Optimization - Netezza Performance Server Lab</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.1d29e8d0.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.cbb835fc.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#000000">
+        
+      
+      
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:300,300i,400,400i,700,700i%7CIBM+Plex+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"IBM Plex Sans";--md-code-font:"IBM Plex Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="black">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#query-optimization" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Netezza Performance Server Lab" class="md-header__button md-logo" aria-label="Netezza Performance Server Lab" data-md-component="logo">
+      
+  <img src="../nz-images/IBM_logo®_rev_RGB.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Netezza Performance Server Lab
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Query Optimization
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Netezza Performance Server Lab" class="md-nav__button md-logo" aria-label="Netezza Performance Server Lab" data-md-component="logo">
+      
+  <img src="../nz-images/IBM_logo®_rev_RGB.png" alt="logo">
+
+    </a>
+    Netezza Performance Server Lab
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-01-NPS-CLI/" class="md-nav__link">
+        Command Line Interface
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-02-WebConsole/" class="md-nav__link">
+        Web Console
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-03-Data-Distribution/" class="md-nav__link">
+        Data Distribution
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-04-Database-Admin/" class="md-nav__link">
+        Database Administration
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-05-Loading-and-Unloading-Data/" class="md-nav__link">
+        Loading and Unloading Data
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-06-BNR/" class="md-nav__link">
+        Backup and Restore
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Query Optimization
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Query Optimization
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objectives" class="md-nav__link">
+    Objectives
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-08-Optimization-Objects/" class="md-nav__link">
+        Optimization Objects
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-09-Groom/" class="md-nav__link">
+        Grooming Data
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-10-Stored-Proc/" class="md-nav__link">
+        Stored Procedures
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_11" type="checkbox" id="__nav_11" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_11">
+          Appendix
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Appendix" data-md-level="1">
+        <label class="md-nav__title" for="__nav_11">
+          <span class="md-nav__icon md-icon"></span>
+          Appendix
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-disclaimer/" class="md-nav__link">
+        Disclaimer
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-acknowledgements/" class="md-nav__link">
+        Acknowledgements
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objectives" class="md-nav__link">
+    Objectives
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+
+
+<h1 id="query-optimization">Query Optimization</h1>
+<p>Netezza Performance Server uses a cost-based optimizer to determine the
+best method for scan and join operations, join order, and data movement
+between SPUs (redistribute or broadcast operations if necessary). For
+example, the planner tries to avoid redistributing large tables because
+of the performance impact. The optimizer can also dynamically rewrite
+queries to improve query performance.</p>
+<p>The optimizer takes a SQL query as input and creates a detailed
+execution or query plan for the database system. For the optimizer to
+create the best execution plan that results in the best performance, it
+must have the most up-to-date statistics. You can use EXPLAIN, HTML
+(also known as bubble), and text plans to analyze how the Netezza
+Performance Server system executes a query.</p>
+<p>Explain is a very useful tool to spot and identify performance problems,
+bad distribution keys, badly written SQL queries and out-of-date
+statistics.</p>
+<h2 id="objectives">Objectives</h2>
+<p>During our POC we have identified a couple of very long running customer
+queries that have significantly worse performance than the number of
+rows involved would suggest. In this lab we will use Explain
+functionality to identify the concrete bottlenecks and if possible, fix
+them to improve query performance.</p>
+<h1 id="lab-setup">Lab Setup</h1>
+<p>This lab uses an initial setup script to make sure the correct user and
+database exist for the remainder of the lab. Follow the instructions
+below to run the setup script.</p>
+<ol>
+<li>
+<p>Login to NPS Command Line using one of these two methods.</p>
+<p>a.  Login to the VM directly and use the terminal application
+    available inside the VM.</p>
+<p>b.  Connect to your Netezza Performance Server image using putty</p>
+</li>
+</ol>
+<!-- -->
+
+<ol>
+<li>
+<p>If you are continuing from the previous lab and are already
+    connected to NZSQL quit the NZSQL console with the [\q]{.mark}
+    command.</p>
+</li>
+<li>
+<p>Prepare for this lab by running the setup script. To do this use the
+    following two commands:</p>
+</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>[nz@localhost labs]\$ [cd \~/labs/queryOptimization/setupLab]{.mark}</p>
+<p>[nz@localhost setupLab]\$ [./setupLab.sh]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>DROP DATABASE</p>
+<p>CREATE DATABASE</p>
+<p>DROP USER</p>
+<p>CREATE USER</p>
+<p>ALTER USER</p>
+<p>ALTER DATABASE</p>
+<p>CREATE TABLE</p>
+<p>CREATE TABLE</p>
+<p>CREATE TABLE</p>
+<p>CREATE TABLE</p>
+<p>CREATE TABLE</p>
+<p>CREATE TABLE</p>
+<p>CREATE TABLE</p>
+<p>CREATE TABLE</p>
+<p>Load session of table \'NATION\' completed successfully</p>
+<p>Load session of table \'REGION\' completed successfully</p>
+<p>Load session of table \'CUSTOMER\' completed successfully</p>
+<p>Load session of table \'SUPPLIER\' completed successfully</p>
+<p>Load session of table \'PART\' completed successfully</p>
+<p>Load session of table \'PARTSUPP\' completed successfully</p>
+<p>Load session of table \'ORDERS\' completed successfully</p>
+<p>Load session of table \'LINEITEM\' completed successfully</p>
+<blockquote>
+<p>There may be error message at the beginning of the output since the
+script tries to clean up existing databases and users.</p>
+</blockquote>
+<ol start="3">
+<li>Switch to the lab directory \~/labs/queryOptimization. To do this
+    use the following command: (Notice that you can use bash auto
+    complete by using the Tab key to complete folder and files names)</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>[nz@localhost setupLab]\$ [cd \~/labs/queryOptimization]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>[nz@localhost queryOptimization]\$</p>
+<blockquote>
+<p>The command line prompt changes to reflect the directory you are in
+(queryOptimization).</p>
+</blockquote>
+<h1 id="generate-statistics"><strong>Generate Statistics</strong></h1>
+<p>Cost based optimizers depend on accurate information about the data in
+the tables in order to generate well optimized query plans. This part of
+the lab looks at the importance of having up to date statistics about
+the table data, such as number of rows, size of the rows, size of the
+table, number of columns, number of unique values in each column, etc.
+The generate statistics command is used to collect the statistical
+information about the tables and columns.</p>
+<p>Our first long running customer query returns the average order price by
+customer segment for a given year and order priority. It joins the
+customer table for the market segment and the orders table for the total
+price of the order. Due to restrictive join conditions it shouldn't
+require too much processing time. But on our test systems it runs a very
+long time. In this chapter we will use Netezza Performance Server's
+Explain functionality to find out why this is the case. The customer
+query in question:</p>
+<p>SELECT c.c_mktsegment, AVG(o.o_totalprice)</p>
+<p>FROM orders AS o, CUSTOMER as c</p>
+<p>WHERE EXTRACT(YEAR FROM o.o_orderdate) = 1996 AND o.o_orderpriority =
+\'1-URGENT\'</p>
+<p>GROUP BY c.c_mktsegment;</p>
+<ol>
+<li>First, we will make sure that the system doesn't run a different
+    workload that could influence our tests. Use the following nzsession
+    command to verify that the system is free:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>[nz@localhost queryOptimization]\$ [nzsession show]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>ID Type User Start Time PID Database Schema State Priority Name Client
+IP Client PID Command</p>
+<p>----- ---- -----
+----------------------- ----- --------
+------ ------ ------------- ---------
+---------- ------------------------</p>
+<p>21920 sql ADMIN 03-Apr-20, 16:35:54 PDT 15500 SYSTEM ADMIN active normal
+127.0.0.1 15497 SELECT session_id, clien</p>
+<blockquote>
+<p>This result shows that there is currently only one session connected
+to the database, which is the nzsession command itself. Per default
+the database user in your VM image is ADMIN. Executing this command
+before doing any performance measurements ensures that other workloads
+are not influencing the performance of the system. You can use the
+nzsession command as well to abort bad or locked sessions.</p>
+</blockquote>
+<ol start="2">
+<li>After we verified that the system is free, we can start analyzing
+    the query. Connect to the lab database with the following command:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>[nz@localhost queryOptimization]\$ [nzsql labdb labadmin]{.mark}</p>
+<blockquote>
+<p><strong>Output</strong>:</p>
+</blockquote>
+<p>Welcome to nzsql, the IBM Netezza SQL interactive terminal.</p>
+<p>Type: \h for help with SQL commands</p>
+<p>\? for help on internal slash commands</p>
+<p>\g or terminate with semicolon to execute query</p>
+<p>\q to quit</p>
+<p>LABDB.ADMIN(LABADMIN)=></p>
+<ol start="3">
+<li>Let's first have a look at the two tables and the WHERE conditions
+    to get an idea of the row numbers involved. Our query joins the
+    CUSTOMER table without any where condition applied to it and the
+    ORDERS table that has two where conditions restricting it on the
+    date and order priority. From the data distribution lab, we know
+    that the CUSTOMER table has 150000 rows. To get the rows that are
+    involved from the ORDERS table Execute the following COUNT(*)
+    command:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(LABADMIN)=> [SELECT COUNT(*) FROM orders WHERE
+EXTRACT(YEAR FROM o_orderdate) = 1996 AND o_orderpriority =
+\'1-URGENT\';]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>COUNT</p>
+<p>-------</p>
+<p>46014</p>
+<p>(1 row)</p>
+<blockquote>
+<p>So, the ORDERS table has 46014 rows that fit the WHERE condition. We
+will use EXPLAIN functionality to check if the available Statistics
+allow the Netezza Performance Server optimizer to estimate this
+correctly for its plan creation.</p>
+</blockquote>
+<ol start="4">
+<li>The Netezza Performance Server optimizer uses statistics about the
+    data in the system to estimate the number of rows that result from
+    WHERE conditions, joins, etc. Doing wrong approximations can lead to
+    bad execution plans. For example, a huge result set could be
+    broadcast for a join instead of doing a double redistribution. To
+    see its estimated rows for the WHERE conditions in our query run the
+    following EXPLAIN command:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(LABADMIN)=> [EXPLAIN VERBOSE SELECT COUNT(*) FROM orders
+WHERE EXTRACT(YEAR FROM o_orderdate) = 1996 AND o_orderpriority =
+\'1-URGENT\';]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>EXPLAIN VERBOSE SELECT COUNT(*) FROM orders WHERE EXTRACT(YEAR FROM
+o_orderdate) = 1996 AND o_orderpriority = \'1-URGENT\';</p>
+<p>QUERY VERBOSE PLAN:</p>
+<p>Node 1.</p>
+<p>[SPU Sequential Scan table \"ORDERS\" {(ORDERS.O_ORDERKEY)}]</p>
+<p>-- <strong>Estimated Rows = 150</strong>, Width = 0, Cost = 0.0 .. 1653.2, Conf =
+64.0</p>
+<p>Restrictions:</p>
+<p>((ORDERS.O_ORDERPRIORITY = \'1-URGENT\'::BPCHAR) AND
+(DATE_PART(\'YEAR\'::\"VARCHAR\", ORDERS.O_ORDERDATE) = 1996))</p>
+<p>Projections:</p>
+<p>Node 2.</p>
+<p>[SPU Aggregate]</p>
+<p>-- Estimated Rows = 1, Width = 8, Cost = 1653.2 .. 1653.2, Conf = 0.0</p>
+<p>Projections:</p>
+<p>1:COUNT(*)</p>
+<p>[SPU Return]</p>
+<p>[HOST Merge Aggs]</p>
+<p>[Host Return]</p>
+<p>..\&lt;Removed Plan Text>..</p>
+<blockquote>
+<p>The execution plan of this query consists of two nodes or snippets.
+First the table is scanned and the WHERE conditions are applied, which
+can be seen in the Restrictions sub node. Since we use a COUNT(*) the
+Projections node is empty. Then an Aggregation node (Node 2) is
+applied to count the rows that are returned by node 1.</p>
+<p>When we look at the estimated number of rows, we can see that it is
+way off the mark. The Netezza Performance Server Optimizer estimates
+from its available statistics that only 150 rows are returned by the
+WHERE conditions. We have seen before that in reality its 46014 or
+roughly 300 times as many.</p>
+</blockquote>
+<ol start="5">
+<li>One way to help the optimizer in its estimates is the collection of
+    detailed statistics about the involved tables. Execute the following
+    command to generate full, detailed statistics about the ORDERS
+    table:</li>
+</ol>
+<blockquote>
+<p><strong>Input</strong>:</p>
+</blockquote>
+<p>LABDB.ADMIN(LABADMIN)=> GENERATE STATISTICS ON orders;</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>GENERATE STATISTICS</p>
+<blockquote>
+<p>Since generating full statistics involves a table scan this command
+may take some time to execute, especially on a table with many rows
+and columns.</p>
+</blockquote>
+<ol start="6">
+<li>We will now check if generating statistics has improved the
+    estimates. Execute the EXPLAIN command again:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(LABADMIN)=> [EXPLAIN VERBOSE SELECT COUNT(*) FROM orders
+WHERE EXTRACT(YEAR FROM o_orderdate) = 1996 AND o_orderpriority =
+\'1-URGENT\';]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>EXPLAIN VERBOSE SELECT COUNT(*) FROM orders WHERE EXTRACT(YEAR FROM
+o_orderdate) = 1996 AND o_orderpriority = \'1-URGENT\';</p>
+<p>QUERY VERBOSE PLAN:</p>
+<p>Node 1.</p>
+<p>[SPU Sequential Scan table \"ORDERS\" {(ORDERS.O_ORDERKEY)}]</p>
+<p>-- <strong>Estimated Rows = 3000</strong>, Width = 0, Cost = 0.0 .. 1653.2, Conf =
+64.0</p>
+<p>Restrictions:</p>
+<p>((ORDERS.O_ORDERPRIORITY = \'1-URGENT\'::BPCHAR) AND
+(DATE_PART(\'YEAR\'::\"VARCHAR\", ORDERS.O_ORDERDATE) = 1996))</p>
+<p>Projections:</p>
+<p>Node 2.</p>
+<p>[SPU Aggregate]</p>
+<p>-- Estimated Rows = 1, Width = 8, Cost = 1653.4 .. 1653.4, Conf = 0.0</p>
+<p>Projections:</p>
+<p>1:COUNT(*)</p>
+<p>[SPU Return]</p>
+<p>[HOST Merge Aggs]</p>
+<p>[Host Return]</p>
+<p>..\&lt; Removed Plan Text >..</p>
+<blockquote>
+<p>As we can see the estimated rows of the SELECT query have improved
+drastically. The optimizer now assumes this WHERE condition will apply
+to 3000 rows of the order table. Still significantly off the true
+number of 46000 but by a factor of 20 better than the original
+estimate of 150.</p>
+</blockquote>
+<p>Estimations are very difficult to make. Obviously, the optimizer cannot
+do the actual computation during planning. It relies on current
+statistics about the involved columns. Statistics include min/max
+values, distinct values, numbers of null values etc. Some of these
+statistics are collected on the fly but the most detailed statistics can
+be generated manually with the Generate Statistics command (or the
+nz_genstats command with "full" option). Generating full statistics
+after loading a table or changing its content significantly is one of
+the most important administration tasks in Netezza Performance Server.
+The Netezza Performance Server appliance will automatically generate
+express statistics after many tasks like load operations and
+just-in-time statistics during planning. Nevertheless, full statistics
+should be generated on a regular basis.</p>
+<h1 id="identifying-join-problems">Identifying Join Problems</h1>
+<p>In the last chapter we have taken a first look at the tables involved in
+our join query and have improved optimizer estimates by generating
+statistics on the involved tables. Now we will have a look at the
+complete execution plan, and we will have a specific look at the
+distribution and involved join.</p>
+<p>In our example we have a query that doesn't finish in a reasonable
+amount of time. It is taken much longer than you would expect from the
+involved data sizes. We will now analyze why this is the case.</p>
+<ol>
+<li>Let's analyze the execution plan for this query using the EXPLAIN
+    VERBOSE command:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(LABADMIN)=> [EXPLAIN VERBOSE SELECT c.c_mktsegment,
+AVG(o.o_totalprice) FROM orders AS o, CUSTOMER as c WHERE EXTRACT(YEAR
+FROM o.o_orderdate) = 1996 AND o.o_orderpriority = \'1-URGENT\' GROUP BY
+c.c_mktsegment;]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>EXPLAIN VERBOSE SELECT c.c_mktsegment, AVG(o.o_totalprice) FROM orders
+AS o, CUSTOMER as c WHERE EXTRACT(YEAR FROM o.o_orderdate) = 1996 AND
+o.o_orderpriority = \'1-URGENT\' GROUP BY c.c_mktsegment;</p>
+<p>QUERY VERBOSE PLAN:</p>
+<p>Node 1.</p>
+<p>[SPU Sequential Scan table \"CUSTOMER\" as \"C\" {(C.C_CUSTKEY)}]</p>
+<p>-- Estimated Rows = 150000, Width = 10, Cost = 0.0 .. 258.4, Conf =
+100.0</p>
+<p>Projections:</p>
+<p>1:C.C_MKTSEGMENT</p>
+<p>[SPU Broadcast]</p>
+<p>Node 2.</p>
+<p>[SPU Sequential Scan table \"ORDERS\" as \"O\" {(O.O_ORDERKEY)}]</p>
+<p>-- Estimated Rows = 3000, Width = 8, Cost = 0.0 .. 1653.2, Conf = 64.0</p>
+<p>Restrictions:</p>
+<p>((O.O_ORDERPRIORITY = \'1-URGENT\'::BPCHAR) AND
+(DATE_PART(\'YEAR\'::\"VARCHAR\", O.O_ORDERDATE) = 1996))</p>
+<p>Projections:</p>
+<p>1:O.O_TOTALPRICE</p>
+<p>Node 3.</p>
+<p>[SPU Nested Loop Stream \"Node 2\" with Temp \"Node 1\"
+{(O.O_ORDERKEY)}]</p>
+<p>-- Estimated Rows = 450000007, Width = 18, Cost = 660086.9 ..
+7306828.5, Conf = 64.0</p>
+<p>Restrictions:</p>
+<p>\'t\'::BOOL</p>
+<p>Projections:</p>
+<p>1:C.C_MKTSEGMENT 2:O.O_TOTALPRICE</p>
+<p>Node 4.</p>
+<p>[SPU Group]</p>
+<p>-- Estimated Rows = 100, Width = 18, Cost = 660086.9 .. 7341984.7, Conf
+= 0.0</p>
+<p>Projections:</p>
+<p>1:C.C_MKTSEGMENT 2:O.O_TOTALPRICE</p>
+<p>[SPU Return]</p>
+<p>[HOST Merge Group]</p>
+<p>Node 5.</p>
+<p>[Host Aggregate]</p>
+<p>-- Estimated Rows = 100, Width = 26, Cost = 660086.9 .. 7341984.7, Conf
+= 0.0</p>
+<p>Projections:</p>
+<p>1:C.C_MKTSEGMENT 2:(SUM(O.O_TOTALPRICE) /
+\"NUMERIC\"(COUNT(O.O_TOTALPRICE)))</p>
+<p>[Host Return]</p>
+<p>..\&lt;Removed Plan Text>..</p>
+<ol start="2">
+<li>First try to answer the following questions through the execution
+    plan yourself. Take your time. We will walk through the answers
+    after that.</li>
+</ol>
+<p>+--------------------------------------+--------------------------------+
+| <strong>Question</strong>                         | <strong>Answer</strong>                     |
++======================================+================================+
+| a.  Which columns of Table CUSTOMER  |                                |
+|     are used in further              |                                |
+|     computations?                    |                                |
+|                                      |                                |
+| b.  Is Table CUSTOMER redistributed, |                                |
+|     broadcast or can it be joined    |                                |
+|     locally?                         |                                |
+|                                      |                                |
+| c.  Is Table ORDERS redistributed,   |                                |
+|     broadcast or can it be joined    |                                |
+|     locally?                         |                                |
+|                                      |                                |
+| d.  In which node are the WHERE      |                                |
+|     conditions applied and how many  |                                |
+|     rows does Netezza Performance    |                                |
+|     Server expect to fulfill the     |                                |
+|     where condition?                 |                                |
+|                                      |                                |
+| e.  What kind of join takes place    |                                |
+|     and in which node?               |                                |
+|                                      |                                |
+| f.  What is the number of estimated  |                                |
+|     rows for the join?               |                                |
+|                                      |                                |
+| g.  What is the most expensive node  |                                |
+|     and why?                         |                                |
++--------------------------------------+--------------------------------+</p>
+<blockquote>
+<p>Hint: A stream operation in Netezza Performance Server Explain is an
+operation whose output data isn't persisted on disk but streamed to
+further computation nodes or snippets for a local join or local
+aggregation. No data is broadcast or redistributed in a stream
+operation.</p>
+</blockquote>
+<ol start="3">
+<li>So let's walk through the questions:</li>
+</ol>
+<!-- -->
+
+<p>a.  Which columns of Table CUSTOMER are used in further computations?</p>
+<blockquote>
+<p>The first node in the execution plan does a sequential scan of the
+CUSTOMER table on the SPUs. It estimates that 150000 rows are returned
+which we know is the number of rows in the CUSTOMER table.</p>
+</blockquote>
+<p>Node 1.</p>
+<p>[SPU Sequential Scan table \"CUSTOMER\" as \"C\" {(C.C_CUSTKEY)}]</p>
+<p>-- Estimated Rows = 150000, Width = 10, Cost = 0.0 .. 258.4, Conf =
+100.0</p>
+<p><strong>Projections:</strong></p>
+<p><strong>1:C.C_MKTSEGMENT</strong></p>
+<p><strong>[SPU Broadcast]</strong></p>
+<blockquote>
+<p>The statement that tells us which columns are used in further
+computations is the "Projections:" clause. We can see that only the
+C_MKTSEGMENT column is carried on from the CUSTOMER table. All other
+columns are thrown away. Since C_MKTSEGMENT is a CHAR(10) column the
+returned result set has a width of 10.</p>
+</blockquote>
+<p>b.  Is Table CUSTOMER redistributed, broadcast or can it be joined
+    locally?</p>
+<blockquote>
+<p>During scan the CUSTOMER table is broadcast to the other SPUs as seen
+by the "[SPU Broadcast]" clause in Node 1. This means that a
+complete CUSTOMER table is assembled on the host and broadcast to each
+SPU for further computation of the query. This may seem surprising at
+first since we have a substantial number of rows. But since the width
+of the result set is only 10 Bytes we are talking about 150000 rows *
+10 Bytes = 1.5MB. This is a small amount of data for a warehousing
+system.</p>
+</blockquote>
+<p>c.  Is Table ORDERS redistributed, broadcast or can it be joined
+    locally?</p>
+<p>Node 2.</p>
+<p>[SPU Sequential Scan table \"ORDERS\" as \"O\" {(O.O_ORDERKEY)}]</p>
+<p><strong>-- Estimated Rows = 3000</strong>, Width = 8, Cost = 0.0 .. 1653.2, Conf =
+64.0</p>
+<p><strong>Restrictions:</strong></p>
+<p><strong>((O.O_ORDERPRIORITY = \'1-URGENT\'::BPCHAR) AND
+(DATE_PART(\'YEAR\'::\"VARCHAR\", O.O_ORDERDATE) = 1996))</strong></p>
+<p>Projections:</p>
+<p>1:O.O_TOTALPRICE</p>
+<blockquote>
+<p>The second node of the execution plan does a scan of the ORDERS table.
+One column O_TOTALPRICE is projected and used in further computations.
+We cannot see any distribution or broadcast clauses so this table can
+be joined locally. This is true because the CUSTOMER table is
+broadcast to all SPUs. If one table of a join is broadcast the other
+table doesn't need any redistribution.</p>
+</blockquote>
+<p>d.  In which node are the WHERE conditions applied and how many rows
+    does Netezza Performance Server expect to fulfill the WHERE
+    condition?</p>
+<blockquote>
+<p>We can see from the "Restrictions" clause in Node 2 that the WHERE
+conditions of our query are applied here. This should be clear since
+both WHERE conditions are applied to the ORDERS table and the
+restriction of rows can occur during the scan of the ORDERS table. As
+we can see in the "Estimated Rows" clause, the optimizer estimates a
+returned set of 3000 rows. We know this is not a perfect estimate
+since we found 46014 rows are returned from this table.</p>
+</blockquote>
+<p>e.  What kind of join takes place and in which node?</p>
+<p>Node 3.</p>
+<p><strong>[SPU Nested Loop Stream \"Node 2\" with Temp \"Node 1\"
+{(O.O_ORDERKEY)}]</strong></p>
+<p><strong>-- Estimated Rows = 450000007</strong>, Width = 18, <strong>Cost = 660086.9 ..
+7306828.5</strong>, Conf = 64.0</p>
+<p>Restrictions:</p>
+<p>\'t\'::BOOL</p>
+<p>Projections:</p>
+<p>1:C.C_MKTSEGMENT 2:O.O_TOTALPRICE</p>
+<blockquote>
+<p>The third node of our execution plan contains the join between the two
+tables. It is a Nested Loop Join which means that every row of the
+first join set is compared to each row of the second join set. If the
+join condition holds true, the joined row is then added to the result
+set. This can be a very efficient join for small tables but for large
+tables its complexity is quadratic and therefore in general less fast
+than a Hash Join. However, Hash Joins cannot be used in the case of
+inequality join conditions, floating point join keys etc.</p>
+<p>Also look at the two columns that continue to be projected for further
+use in the query plan. These are the columns that were projected from
+Node 1 and Node 2.</p>
+</blockquote>
+<p>f.  What is the number of estimated rows for the join?</p>
+<blockquote>
+<p>We can see in the "Estimated Rows" clause that the optimizer estimates
+this join node to return roughly 450m rows. The 450m rows is the
+number of rows from the first node times the number of rows from the
+second node.</p>
+</blockquote>
+<p>g.  What is the most expensive node and why?</p>
+<blockquote>
+<p>The "Cost" clause provides an estimate of how expensive a Node is,
+where a higher cost usually leads to longer execution time. As we can
+see from the "Cost" clause in Node 3, the optimizer estimates that the
+join has a cost in the range from 660086.9 .. 7306828.5. This is a
+dramatically higher cost than what was estimated for Node 1 and Node
+2. Node 4 and 5, which group and aggregate the result set, do not add
+much cost eitherl. So, our performance problems clearly originate in
+the join node 3.</p>
+<p>So, what is happening here? If we look at the query, we can assume
+that it is intended to compute the average order cost per market
+segment. This means we should join all customers to their
+corresponding order rows. But for this to happen we would need a join
+condition that joins the CUSTOMER table and the ORDERS table on the
+customer key. Instead the query performs a Cartesian Join, joining
+each customer row to each orders row. This is a very work intensive
+query that results in the behavior we have seen. The joined result set
+becomes huge. And the result does not answer the question that we
+intended to ask.</p>
+</blockquote>
+<ol start="4">
+<li>So how do we fix this? By adding a join condition to the query that
+    makes sure that customers are only joined to their orders. This
+    additional join condition is O.O_CUSTKEY=C.C_CUSTKEY. Execute the
+    following EXPLAIN command for the modified query.</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(LABADMIN)=> [EXPLAIN VERBOSE SELECT c.c_mktsegment,
+AVG(o.o_totalprice) FROM orders AS o, CUSTOMER as c WHERE EXTRACT(YEAR
+FROM o.o_orderdate) = 1996 AND o.o_orderpriority = \'1-URGENT\' AND
+o.o_custkey = c.c_custkey GROUP BY c.c_mktsegment;]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>EXPLAIN VERBOSE SELECT c.c_mktsegment, AVG(o.o_totalprice) FROM orders
+AS o, CUSTOMER as c WHERE EXTRACT(YEAR FROM o.o_orderdate) = 1996 AND
+o.o_orderpriority = \'1-URGENT\' AND o.o_custkey = c.c_custkey GROUP BY
+c.c_mktsegment;</p>
+<p>QUERY VERBOSE PLAN:</p>
+<p>Node 1.</p>
+<p>[SPU Sequential Scan table \"ORDERS\" as \"O\" {(O.O_ORDERKEY)}]</p>
+<p>-- Estimated Rows = 3000, Width = 12, Cost = 0.0 .. 1653.2, Conf = 64.0</p>
+<p>Restrictions:</p>
+<p>((O.O_ORDERPRIORITY = \'1-URGENT\'::BPCHAR) AND
+(DATE_PART(\'YEAR\'::\"VARCHAR\", O.O_ORDERDATE) = 1996))</p>
+<p>Projections:</p>
+<p>1:O.O_TOTALPRICE <strong>2:O.O_CUSTKEY</strong></p>
+<p>Cardinality:</p>
+<p>O.O_CUSTKEY 3.0K (Adjusted)</p>
+<p><strong>[SPU Distribute on {(O.O_CUSTKEY)}]</strong></p>
+<p><strong>[HashIt for Join]</strong></p>
+<p>Node 2.</p>
+<p>[SPU Sequential Scan table \"CUSTOMER\" as \"C\" {(C.C_CUSTKEY)}]</p>
+<p>-- Estimated Rows = 150000, Width = 14, Cost = 0.0 .. 258.4, Conf =
+100.0</p>
+<p>Projections:</p>
+<p>1:C.C_MKTSEGMENT <strong>2:C.C_CUSTKEY</strong></p>
+<p>Node 3.</p>
+<p><strong>[SPU Hash Join Stream \"Node 2\" with Temp \"Node 1\"
+{(O.O_CUSTKEY,C.C_CUSTKEY)}]</strong></p>
+<p><strong>-- Estimated Rows = 150000</strong>, Width = 18, <strong>Cost = 1653.2 ..
+2015.2</strong>, Conf = 51.2</p>
+<p><strong>Restrictions:</strong></p>
+<p><strong>(C.C_CUSTKEY = O.O_CUSTKEY)</strong></p>
+<p>Projections:</p>
+<p>1:C.C_MKTSEGMENT 2:O.O_TOTALPRICE</p>
+<p>Cardinality:</p>
+<p>O.O_CUSTKEY 100 (Adjusted)</p>
+<p>..\&lt;Removed Plan Text>..</p>
+<blockquote>
+<p>As you can see there have been some changes to the execution plan. The
+ORDERS table is now scanned and distributed on the customer key rather
+than broadcast. The CUSTOMER table is already distributed on the
+customer key, so no redistribution needs to happen. Both tables are
+then joined in node 3 through a Hash Join on the customer key, as seen
+in the "Restrictions" clause. Also see how the join key of each table
+is now projected in Node 1 and Node 2 so the join can be done in Node
+3. The estimated number of rows is now 150000, the same as the number
+of customers. Since we have a 1:n relationship between customers and
+orders this is as we would expect. Also, the estimated cost of Node 3
+has come down by over a factor of 100!</p>
+</blockquote>
+<ol start="5">
+<li>Let's make sure that the query performance has indeed improved.
+    Switch on the display of elapsed query time with the following
+    command:</li>
+</ol>
+<p>LABDB.ADMIN(LABADMIN)=> [\time]{.mark}</p>
+<blockquote>
+<p>If you want, you can later switch off the elapsed time display by
+executing the same command again. It is a toggle.</p>
+</blockquote>
+<ol start="6">
+<li>Now execute our modified query:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(LABADMIN)=> [SELECT c.c_mktsegment, AVG(o.o_totalprice)
+FROM orders AS o,CUSTOMER as c WHERE EXTRACT(YEAR FROM o.o_orderdate) =
+1996 AND o.o_orderpriority = \'1-URGENT\' AND o.o_custkey = c.c_custkey
+GROUP BY c.c_mktsegment;]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>C_MKTSEGMENT | AVG</p>
+<p>--------------+---------------</p>
+<p>BUILDING | 151275.977882</p>
+<p>MACHINERY | 151348.971079</p>
+<p>HOUSEHOLD | 150196.009267</p>
+<p>FURNITURE | 150998.129771</p>
+<p>AUTOMOBILE | 151488.825830</p>
+<p>(5 rows)</p>
+<p>Elapsed time: 0m0.796s</p>
+<blockquote>
+<p>Before we made our changes the query took so long that we couldn't
+wait for it to finish. After our changes the execution time has
+improved to slightly under a second. In this relatively simple case we
+might have been able to pinpoint the problem through analyzing the SQL
+on its own. But this can be almost impossible for complicated
+multi-join queries that are often used in warehousing. Reporting and
+BI tools tend to create very complicated portable SQL as well. In
+these cases, EXPLAIN can be a valuable tool to pinpoint the problem.</p>
+</blockquote>
+<h1 id="html-explain">HTML Explain</h1>
+<p>In this section we will look at the HTML plangraph for the customer
+query that we just fixed. Besides the text descriptions of the exeution
+plan we used in the previous chapter, PureData System provides the
+ability to generate a graphical query tree as well. This is done with
+the help of HTML. So plangraph files can be created and viewed in your
+internet browser. PureData System can be configured to save a HTML
+plangraph or plantext file for every executed SQL query. But in this
+chapter we will use the basic EXPLAIN PLANGRAPH command and use
+Cut&amp;Paste to export the file to your host computer.</p>
+<ol>
+<li>Enter the query with the keyword EXPLAIN PLANGRAPH to generate the
+    HTML plangraph:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(LABADMIN)=> [EXPLAIN PLANGRAPH SELECT c.c_mktsegment,
+AVG(o.o_totalprice) FROM orders AS o, CUSTOMER as c WHERE EXTRACT(YEAR
+FROM o.o_orderdate) = 1996 AND o.o_orderpriority = \'1-URGENT\' AND
+o.o_custkey = c.c_custkey GROUP BY c.c_mktsegment;]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>NOTICE: QUERY PLAN:</p>
+<p><strong>\&lt;html xmlns:v=\"urn:schemas-microsoft-com:vml\"
+xmlns=\"http://www.w3.org/TR/REC-html40\"></strong></p>
+<p>\&lt;head></p>
+<p>\&lt;meta http-equiv=\"Content-Type\" content=\"text/html;
+charset=utf-8\"></p>
+<p>\&lt;meta http-equiv=\"Generator\" content=\"Netezza Performance Server\"></p>
+<p>\&lt;style></p>
+<p>v\:* {behavior:url(#default#VML);}</p>
+<p>\&lt;/style></p>
+<p>\&lt;/head></p>
+<p>\&lt;body lang=\"en-US\"></p>
+<p>\&lt;pre style=\"font:normal 68%
+verdana,arial,helvetica;background:#EEEEEE;margin-top:1em;margin-bottom:1em;margin-left:0px;padding:5pt;\"></p>
+<p>EXPLAIN PLANGRAPH SELECT c.c_mktsegment, AVG(o.o_totalprice) FROM orders
+AS o, CUSTOMER as c WHERE EXTRACT(YEAR FROM o.o_orderdate) = 1996 AND
+o.o_orderpriority = \'1-URGENT\' AND o.o_custkey = c.c_custkey GROUP BY
+c.c_mktsegment;</p>
+<p>\&lt;/pre></p>
+<p>\&lt;v:textbox
+style=\"position:absolute;margin-left:230pt;margin-top:19pt;width:80pt;height:25pt;z-index:10;\"></p>
+<p>\&lt;p style=\"text-align:center;font-size:6pt;\">AGG\&lt;br/>r=100 w=26
+s=2.5KB\&lt;/p>\&lt;/v:textbox></p>
+<p>\&lt;v:oval
+style=\"position:absolute;margin-left:231pt;margin-top:15pt;width:78pt;height:25pt;z-index:9;\"
+fillcolor=\"#808080\">\&lt;/v:oval></p>
+<p>\&lt;v:textbox
+style=\"position:absolute;margin-left:230pt;margin-top:0pt;width:80pt;height:25pt;z-index:10;\"></p>
+<p>\&lt;p style=\"text-align:center;font-size:6pt;\">ret\&lt;/p>\&lt;/v:textbox></p>
+<p>\&lt;v:textbox
+style=\"position:absolute;margin-left:230pt;margin-top:54pt;width:80pt;height:25pt;z-index:10;\"></p>
+<p>\&lt;p style=\"text-align:center;font-size:6pt;\">GROUP\&lt;br/>r=100 w=18
+s=1.8KB\&lt;/p>\&lt;/v:textbox></p>
+<p>\&lt;v:oval
+style=\"position:absolute;margin-left:231pt;margin-top:50pt;width:78pt;height:25pt;z-index:9;\">\&lt;/v:oval></p>
+<p>\&lt;v:line style=\"position:absolute;z-index:8;\" from=\"270pt,27pt\"
+to=\"270pt,62pt\"/></p>
+<p>\&lt;v:textbox
+style=\"position:absolute;margin-left:233pt;margin-top:42pt;width:80pt;height:25pt;z-index:10;\"></p>
+<p>\&lt;p
+style=\"text-align:center;font-size:6pt;\">snd,m-grp\&lt;/p>\&lt;/v:textbox></p>
+<p>\&lt;v:textbox
+style=\"position:absolute;margin-left:230pt;margin-top:89pt;width:80pt;height:31pt;z-index:10;\"></p>
+<p>\&lt;p style=\"text-align:center;font-size:6pt;\">HASHJOIN\&lt;br/>r=150.0K
+w=18 s=2.6MB\&lt;br/>(C_CUSTKEY = O_CUSTKEY)\&lt;/p>\&lt;/v:textbox></p>
+<p>\&lt;v:oval
+style=\"position:absolute;margin-left:231pt;margin-top:85pt;width:78pt;height:31pt;z-index:9;\">\&lt;/v:oval></p>
+<p>\&lt;v:line style=\"position:absolute;z-index:8;\" from=\"270pt,62pt\"
+to=\"270pt,100pt\"/></p>
+<p>\&lt;v:textbox
+style=\"position:absolute;margin-left:190pt;margin-top:124pt;width:80pt;height:31pt;z-index:10;\"></p>
+<p>\&lt;p style=\"text-align:center;font-size:6pt;\">SEQSCAN\&lt;br/>r=150.0K
+w=14 s=2.0MB\&lt;br/>C\&lt;/p>\&lt;/v:textbox></p>
+<p>\&lt;v:oval
+style=\"position:absolute;margin-left:191pt;margin-top:120pt;width:78pt;height:31pt;z-index:9;\">\&lt;/v:oval></p>
+<p>\&lt;v:line style=\"position:absolute;z-index:8;\" from=\"270pt,97pt\"
+to=\"230pt,135pt\"/></p>
+<p>\&lt;v:textbox
+style=\"position:absolute;margin-left:270pt;margin-top:124pt;width:80pt;height:25pt;z-index:10;\"></p>
+<p>\&lt;p style=\"text-align:center;font-size:6pt;\">HASH\&lt;br/>r=3.0K w=12
+s=35.2KB\&lt;/p>\&lt;/v:textbox></p>
+<p>\&lt;v:oval
+style=\"position:absolute;margin-left:271pt;margin-top:120pt;width:78pt;height:25pt;z-index:9;\">\&lt;/v:oval></p>
+<p>\&lt;v:line style=\"position:absolute;z-index:8;\" from=\"270pt,97pt\"
+to=\"310pt,132pt\"/></p>
+<p>\&lt;v:textbox
+style=\"position:absolute;margin-left:253pt;margin-top:112pt;width:80pt;height:25pt;z-index:10;\"></p>
+<p>\&lt;p
+style=\"text-align:center;font-size:6pt;\">dst{(O_CUSTKEY)}\&lt;/p>\&lt;/v:textbox></p>
+<p>\&lt;v:textbox
+style=\"position:absolute;margin-left:270pt;margin-top:159pt;width:80pt;height:31pt;z-index:10;\"></p>
+<p>\&lt;p style=\"text-align:center;font-size:6pt;\">SEQSCAN\&lt;br/>r=3.0K
+w=12 s=35.2KB\&lt;br/>O\&lt;/p>\&lt;/v:textbox></p>
+<p>\&lt;v:oval
+style=\"position:absolute;margin-left:271pt;margin-top:155pt;width:78pt;height:31pt;z-index:9;\">\&lt;/v:oval></p>
+<p>\&lt;v:line style=\"position:absolute;z-index:8;\" from=\"310pt,132pt\"
+to=\"310pt,170pt\"/></p>
+<p>\&lt;/body></p>
+<p><strong>\&lt;/html></strong></p>
+<p>EXPLAIN</p>
+<blockquote>
+<p>Next open your host computer's text editor. If your workstation is
+windows open wordpad, if you use a Linux desktop use the default text
+editor like KEDIT, or GEDIT. Copy the output from the explain
+plangraph from your putty window into notepad. Make sure that you only
+copy the HTML file from the <strong>\&lt;html ..</strong> start tag to the
+\&lt;!--<strong>html--&gt;</strong> end tag.</p>
+</blockquote>
+<ol start="2">
+<li>Save the file as "explain.html" on your desktop.</li>
+</ol>
+<blockquote>
+<p><img alt="" src="../nz-images/nz-07-Query-Optimization/media/image5.png" />{width="6.212171916010499in"
+height="3.5967322834645667in"}</p>
+</blockquote>
+<ol start="3">
+<li>Now on your desktop double click on "explain.html". In windows make
+    sure to open it with Google Chrome since this will result in the
+    best output.</li>
+</ol>
+<p><img alt="" src="../nz-images/nz-07-Query-Optimization/media/image6.png" />{width="6.0491447944007in"
+height="3.963869203849519in"}</p>
+<blockquote>
+<p>You can see a graphical representation of the query we analyzed
+before. The left leg of the tree is the scan node of the Customer
+tables C, the right leg contains a scan of the Orders table O and a
+node hashing the result set from orders in preparation for the
+HASHJOIN node, that is joining the result sets of the two table scans
+on the customer key. After the join the result is fed into a GROUP
+node and an Aggregation node that computes the Average total price,
+before being returned to the caller.</p>
+<p>A graphical representation of the execution plan can be valuable for
+complicated multi-join queries to get an overview of the join.</p>
+<p>The Web Console can generate the graphically representation of the
+query. Run the query from "Query Editor".</p>
+<p><img alt="Graphical user interface, application Description automatically
+generated" src="../nz-images/nz-07-Query-Optimization/media/image7.png" />{width="6.323850612423447in"
+height="3.816560586176728in"}</p>
+</blockquote>
+<p>Open the NPS Web Console: <a href="https://192.168.9.2:8443">https://192.168.9.2:8443</a> from a browser. If
+the NPS Web Console doesn't start reinstall the console as follows:</p>
+<p><strong>Stop active containers:</strong></p>
+<p>docker ps</p>
+<p>Take note of the container IDs.</p>
+<p><strong>Stop active containers:</strong></p>
+<p>docker stop \&lt;container-ID></p>
+<p><strong>Remove the inactive containers:</strong></p>
+<p>docker ps -a</p>
+<blockquote>
+<p>Take note of the container IDs.</p>
+</blockquote>
+<p><strong>Stop active containers:</strong></p>
+<p>docker rm \&lt;container-ID></p>
+<p><strong>Reinstall NPS Console:</strong></p>
+<p>/root/cyclops_dockerrun/standalone-install.sh</p>
+<p><strong>In the Query Editor:</strong></p>
+<ol>
+<li>
+<p>use: LABDB</p>
+</li>
+<li>
+<p>set schema: ADMIN</p>
+</li>
+<li>
+<p>set limit: 100</p>
+</li>
+<li>
+<p>Query: SELECT c.c_mktsegment, AVG(o.o_totalprice) FROM orders AS o,
+    CUSTOMER as c WHERE EXTRACT(YEAR FROM o.o_orderdate) = 1996 AND
+    o.o_orderpriority = \'1-URGENT\' AND o.o_custkey = c.c_custkey GROUP
+    BY c.c_mktsegment;</p>
+</li>
+<li>
+<p>Click "Plan graph"</p>
+</li>
+<li>
+<p>Click "Run"</p>
+</li>
+</ol>
+<blockquote>
+<p><img alt="Graphical user interface Description automatically
+generated" src="../nz-images/nz-07-Query-Optimization/media/image8.png" />{width="6.555129046369204in"
+height="4.564312117235346in"}</p>
+<p>Congratulations in this lab you have used NPS system Explain
+functionality to analyze a query.</p>
+</blockquote>
+
+              
+            </article>
+            
+          </div>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+    <nav class="md-footer__inner md-grid" aria-label="Footer" >
+      
+        
+        <a href="../nz-06-BNR/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Backup and Restore" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Backup and Restore
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../nz-08-Optimization-Objects/" class="md-footer__link md-footer__link--next" aria-label="Next: Optimization Objects" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Optimization Objects
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2024 IBM
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.b97dbffb.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.6c7ad80a.min.js"></script>
+      
+    
+  </body>
+</html>

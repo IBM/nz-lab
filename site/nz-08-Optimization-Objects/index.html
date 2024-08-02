@@ -1,0 +1,1677 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.3.1, mkdocs-material-8.3.9">
+    
+    
+      
+        <title>Optimization Objects - Netezza Performance Server Lab</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.1d29e8d0.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.cbb835fc.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#000000">
+        
+      
+      
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:300,300i,400,400i,700,700i%7CIBM+Plex+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"IBM Plex Sans";--md-code-font:"IBM Plex Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="black">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#optimizing-objects" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Netezza Performance Server Lab" class="md-header__button md-logo" aria-label="Netezza Performance Server Lab" data-md-component="logo">
+      
+  <img src="../nz-images/IBM_logo®_rev_RGB.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Netezza Performance Server Lab
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Optimization Objects
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Netezza Performance Server Lab" class="md-nav__button md-logo" aria-label="Netezza Performance Server Lab" data-md-component="logo">
+      
+  <img src="../nz-images/IBM_logo®_rev_RGB.png" alt="logo">
+
+    </a>
+    Netezza Performance Server Lab
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-01-NPS-CLI/" class="md-nav__link">
+        Command Line Interface
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-02-WebConsole/" class="md-nav__link">
+        Web Console
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-03-Data-Distribution/" class="md-nav__link">
+        Data Distribution
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-04-Database-Admin/" class="md-nav__link">
+        Database Administration
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-05-Loading-and-Unloading-Data/" class="md-nav__link">
+        Loading and Unloading Data
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-06-BNR/" class="md-nav__link">
+        Backup and Restore
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-07-Query-Optimization/" class="md-nav__link">
+        Query Optimization
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Optimization Objects
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Optimization Objects
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objectives" class="md-nav__link">
+    Objectives
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-09-Groom/" class="md-nav__link">
+        Grooming Data
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-10-Stored-Proc/" class="md-nav__link">
+        Stored Procedures
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_11" type="checkbox" id="__nav_11" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_11">
+          Appendix
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Appendix" data-md-level="1">
+        <label class="md-nav__title" for="__nav_11">
+          <span class="md-nav__icon md-icon"></span>
+          Appendix
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-disclaimer/" class="md-nav__link">
+        Disclaimer
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-acknowledgements/" class="md-nav__link">
+        Acknowledgements
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objectives" class="md-nav__link">
+    Objectives
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+
+
+<h1 id="optimizing-objects">Optimizing Objects</h1>
+<p>The Netezza Performance Server is designed to provide excellent
+performance in most cases without any specific tuning or index creation.
+One of the key technologies used to achieve this simplicity are zone
+maps: Automatically computed and maintained metadata about the data
+columns inside the extents of a database table. In general data is
+loaded into a data warehouses naturally ordered by a time dimension: so
+zone maps have the biggest performance impact on queries that restrict
+the time dimension as well. This approach works well for most
+situations, but Netezza Performance Server provides additional
+functionality to enhance specific workloads, which we will use in this
+chapter. We will first use materialized views to enhance performance of
+database queries against wide tables and for queries that only lookup
+small subsets of columns. Then we will use Cluster Based Tables to
+enhance query performance of queries which are using multiple lookup
+dimensions. Cluster Based Tables (CBT) are intended to order data based
+on specified columns so that the zone maps are most effective.</p>
+<h2 id="objectives">Objectives</h2>
+<p>In the last labs we have recreated a customer database in our Netezza
+Performance Server system. We have picked distribution keys, loaded the
+data and made some first performance investigations. In this lab we will
+take a deeper look at some customer queries and try to enhance their
+performance by organizing data to use zone maps most effectively.</p>
+<p><strong>Figure 1 LABDB database</strong></p>
+<p>Above is the data model for our customer database.</p>
+<h1 id="lab-setup">Lab Setup</h1>
+<p>This lab uses an initial setup script to make sure the correct user and
+database exist for the remainder of the lab. Follow the instructions
+below to run the setup script.</p>
+<ol>
+<li>
+<p>Login to NPS Command Line using one of these two methods.</p>
+<p>a.  Login to the VM directly and use the terminal application
+    available inside the VM.</p>
+<p>b.  Connect to your Netezza Performance Server image using putty</p>
+</li>
+</ol>
+<!-- -->
+
+<ol>
+<li>
+<p>If you are continuing from the previous lab and are already
+    connected to NZSQL quit the NZSQL console with the [\q]{.mark}
+    command.</p>
+</li>
+<li>
+<p>Prepare for this lab by running the setup script. To do this use the
+    following two commands:</p>
+</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>[nz@localhost labs]\$ [cd \~/labs/optimizationObjects/setupLab]{.mark}</p>
+<p>[nz@localhost setupLab]\$ [./setupLab.sh]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>DROP DATABASE</p>
+<p>CREATE DATABASE</p>
+<p>ERROR: CREATE USER: object LABADMIN already exists as a USER.</p>
+<p>ALTER USER</p>
+<p>ALTER DATABASE</p>
+<p>CREATE TABLE</p>
+<p>CREATE TABLE</p>
+<p>CREATE TABLE</p>
+<p>CREATE TABLE</p>
+<p>CREATE TABLE</p>
+<p>CREATE TABLE</p>
+<p>CREATE TABLE</p>
+<p>CREATE TABLE</p>
+<p>Load session of table \'NATION\' completed successfully</p>
+<p>Load session of table \'REGION\' completed successfully</p>
+<p>Load session of table \'CUSTOMER\' completed successfully</p>
+<p>Load session of table \'SUPPLIER\' completed successfully</p>
+<p>Load session of table \'PART\' completed successfully</p>
+<p>Load session of table \'PARTSUPP\' completed successfully</p>
+<p>Load session of table \'ORDERS\' completed successfully</p>
+<p>Load session of table \'LINEITEM\' completed successfully</p>
+<blockquote>
+<p>There may be error message at the beginning of the output since the
+script tries to clean up existing databases and users.</p>
+</blockquote>
+<ol start="3">
+<li>Switch to the lab directory \~/labs/optimizationObjects. To do this
+    use the following command: (Notice that you can use bash auto
+    complete by using the Tab key to complete folder and files names)</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>[nz@localhost setupLab]\$ [cd \~/labs/optimizationObjects]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>[nz@localhost optimizationObjects]\$</p>
+<blockquote>
+<p>The command line prompt changes to reflect the directory you are in
+(optimizationObjects).</p>
+</blockquote>
+<h1 id="materialized-views">Materialized Views</h1>
+<p>A materialized view is a view of a database table that projects a subset
+of the base table's columns and can be sorted on a specific set of the
+projected columns. When a materialized view is created, the sorted
+projection of the base table's data is stored in a materialized table on
+disk. Materialized views reduce the width of data being scanned in a
+base table. They are beneficial for wide tables that contain many
+columns (i.e. 50-500 columns) where typical queries only reference a
+small subset of the columns. Materialized views also provide fast,
+single or few record lookup operations. The thin materialized view is
+automatically substituted by the optimizer for the base table, allowing
+faster response, particularly for shorter tactical queries that examine
+only a small segment of the overall database table.</p>
+<h2 id="wide-tables">Wide Tables</h2>
+<p>In our customer scenario we have a couple of queries that do some basic
+computations on the LINEITEM table, but only use a few columns of the
+table. If the query could automatically use another table that had only
+the columns used, the query could be faster. Let's look at creating this
+kind of "materialized view" table.</p>
+<ol>
+<li>Connect to the lab database with the following command:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>[nz@localhost optimizationObjects]\$ [nzsql labdb labadmin]{.mark}</p>
+<blockquote>
+<p><strong>Output</strong>:</p>
+</blockquote>
+<p>Welcome to nzsql, the IBM Netezza SQL interactive terminal.</p>
+<p>Type: \h for help with SQL commands</p>
+<p>\? for help on internal slash commands</p>
+<p>\g or terminate with semicolon to execute query</p>
+<p>\q to quit</p>
+<p>LABDB.ADMIN(LABADMIN)=></p>
+<ol start="2">
+<li>The first thing we need to do is to make sure table statistics have
+    been generated so that more accurate estimated query costs can be
+    reported by explain commands which we will be looking at. Please
+    generate statistics for the ORDERS and LINEITEM tables using the
+    following commands.</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(LABADMIN)=> [GENERATE STATISTICS ON ORDERS;]{.mark}</p>
+<p>LABDB.ADMIN(LABADMIN)=> [GENERATE STATISTICS ON LINEITEM;]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(LABADMIN)=> GENERATE STATISTICS ON ORDERS;</p>
+<p>GENERATE STATISTICS</p>
+<p>LABDB.ADMIN(LABADMIN)=> GENERATE STATISTICS ON LINEITEM;</p>
+<p>GENERATE STATISTICS</p>
+<p>LABDB.ADMIN(LABADMIN)=></p>
+<ol start="3">
+<li>The following query computes the total quantity of items shipped and
+    their average tax rate for a given month. In this case the fourth
+    month or April. Execute the following query:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(LABADMIN)=> [SELECT SUM(L_QUANTITY), AVG(L_TAX) FROM
+LINEITEM WHERE EXTRACT(MONTH FROM L_SHIPDATE) = 4;]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>SUM | AVG</p>
+<p>-------------+----------</p>
+<p>13136228.00 | 0.039974</p>
+<p>(1 row)</p>
+<blockquote>
+<p>Notice the EXTRACT(MONTH FROM L_SHIPDATE) command. The EXTRACT command
+can be used to retrieve parts of a date or time column like YEAR,
+MONTH or DAY.</p>
+</blockquote>
+<ol start="4">
+<li>Now let's have a look at the cost of this query. To get the
+    projected cost from the Optimizer we use the following EXPLAIN
+    VERBOSE command:</li>
+</ol>
+<blockquote>
+<p><strong>Input</strong>:</p>
+</blockquote>
+<p>LABDB.ADMIN(LABADMIN)=> [EXPLAIN VERBOSE SELECT SUM(L_QUANTITY),
+AVG(L_TAX) FROM LINEITEM WHERE EXTRACT(MONTH FROM L_SHIPDATE) =
+4;]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>EXPLAIN VERBOSE SELECT SUM(L_QUANTITY), AVG(L_TAX) FROM LINEITEM WHERE</p>
+<p>EXTRACT(MONTH FROM L_SHIPDATE) = 4;</p>
+<p>QUERY VERBOSE PLAN:</p>
+<p>Node 1.</p>
+<p><strong>[SPU Sequential Scan table \"LINEITEM\"</strong> {(LINEITEM.L_ORDERKEY)}]</p>
+<p>-- Estimated Rows = 60012, Width = 16, <strong>Cost = 0.0 .. 6907.1</strong>, Conf =
+80.0</p>
+<p>Restrictions:</p>
+<p>(DATE_PART(\'MONTH\'::\"VARCHAR\", LINEITEM.L_SHIPDATE) = 4)</p>
+<p>Projections:</p>
+<p>1:LINEITEM.L_QUANTITY 2:LINEITEM.L_TAX</p>
+<p>Node 2.</p>
+<p>[SPU Aggregate]</p>
+<p>-- Estimated Rows = 1, Width = 32, Cost = 6921.2 .. 6921.2, Conf = 0.0</p>
+<p>Projections:</p>
+<p>1:SUM(LINEITEM.L_QUANTITY)</p>
+<p>2:(SUM(LINEITEM.L_TAX) / \"NUMERIC\"(COUNT(LINEITEM.L_TAX)))</p>
+<p>[SPU Return]</p>
+<p>[HOST Merge Aggs]</p>
+<p>[Host Return]</p>
+<p>..\&lt; Removed Plan Text >..</p>
+<blockquote>
+<p>Notice the highlighted cost associated with the table scan. In our
+example it's a value of over 6000.</p>
+</blockquote>
+<ol start="5">
+<li>Since this query is run frequently, we want to enhance the scanning
+    performance. And since it only uses 3 of the 16 LINEITEM columns we
+    have decided to create a materialized view covering these three
+    columns. This should significantly increase scan speed since only a
+    small subset of the data needs to be scanned. To create the
+    materialized view THINLINEITEM execute the following command:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(LABADMIN)=> [CREATE MATERIALIZED VIEW THINLINEITEM AS
+SELECT L_QUANTITY, L_TAX, L_SHIPDATE FROM LINEITEM;]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>CREATE MATERIALIZED VIEW</p>
+<blockquote>
+<p>This command can take several minutes since we effectively create a
+copy of the three columns of the table.</p>
+</blockquote>
+<ol start="6">
+<li>Repeat the explain call from step 2. Execute the following command:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(LABADMIN)=> [EXPLAIN VERBOSE SELECT SUM(L_QUANTITY),
+AVG(L_TAX) FROM LINEITEM WHERE EXTRACT(MONTH FROM L_SHIPDATE) =
+4;]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>EXPLAIN VERBOSE SELECT SUM(L_QUANTITY), AVG(L_TAX) FROM LINEITEM WHERE
+EXTRACT(MONTH FROM L_SHIPDATE) = 4;</p>
+<p>QUERY VERBOSE PLAN:</p>
+<p>Node 1.</p>
+<p><strong>[SPU Sequential Scan mview \"_MTHINLINEITEM\"</strong>
+{(LINEITEM.L_ORDERKEY)}]</p>
+<p>-- Estimated Rows = 60012, Width = 16, <strong>Cost = 0.0 .. 1841.9</strong>, Conf =
+80.0</p>
+<p>Restrictions:</p>
+<p>(DATE_PART(\'MONTH\'::\"VARCHAR\", LINEITEM.L_SHIPDATE) = 4)</p>
+<p>Projections:</p>
+<p>1:LINEITEM.L_QUANTITY 2:LINEITEM.L_TAX</p>
+<p>Node 2.</p>
+<p>[SPU Aggregate]</p>
+<p>-- Estimated Rows = 1, Width = 32, Cost = 1856.0 .. 1856.0, Conf = 0.0</p>
+<p>Projections:</p>
+<p>1:SUM(LINEITEM.L_QUANTITY)</p>
+<p>2:(SUM(LINEITEM.L_TAX) / \"NUMERIC\"(COUNT(LINEITEM.L_TAX)))</p>
+<p>[SPU Return]</p>
+<p>[HOST Merge Aggs]</p>
+<p>[Host Return]</p>
+<p>..\&lt; Removed Plan Text >..</p>
+<blockquote>
+<p>Notice that the Netezza Performance Server Optimizer has automatically
+replaced the LINEITEM table with the view THINLINEITEM. We didn't need
+to make any changes to the query. Also notice that the expected cost
+has been reduced from 6900 to 1800, which is 4 times less!</p>
+</blockquote>
+<p>In cases where you have wide database tables where queries only use a
+subset of the columns, a materialized view of the hot columns can
+significantly increase performance for these queries. And without any
+rewriting of the queries.</p>
+<h2 id="lookup-of-small-set-of-rows">Lookup of small set of rows</h2>
+<p>Materialized views not only reduce the width of tables, they can also be
+used in a similar way to indexes to increase the speed of queries that
+only access a very limited set of rows.</p>
+<ol>
+<li>First, we drop the view we used in the last chapter with the
+    following command:</li>
+</ol>
+<p>LABDB.ADMIN(LABADMIN)=> [DROP VIEW THINLINEITEM;]{.mark}</p>
+<p>DROP VIEW</p>
+<ol start="2">
+<li>The following command returns the number of returned shipments vs.
+    total shipments for a specific shipping day. Execute the following
+    command:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(LABADMIN)=> [SELECT SUM(CASE WHEN L_RETURNFLAG \&lt;> \'N\'
+THEN 1 ELSE 0 END) AS RET, COUNT(*) AS TOTAL FROM LINEITEM WHERE
+L_SHIPDATE=\'1995-06-15\';]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>RET | TOTAL</p>
+<p>-----+-------</p>
+<p>176 | 2550</p>
+<p>(1 row)</p>
+<blockquote>
+<p>You can see that on the 15^th^ June of 1995 there have been 176
+returned shipments out of a total of 2550. Notice the use of the CASE
+statement to change the L_RETURNFLAG column into a Boolean 0-1 value,
+which is easily countable.</p>
+</blockquote>
+<ol start="3">
+<li>
+<p>We will now look at the underlying data distribution of the LINEITEM
+    table and its zone map values. To do this exit the nzsql console by
+    executing the \q command.</p>
+</li>
+<li>
+<p>In our VM image we installed the Netezza Performance Server support
+    tools. You can find them as an installation package in
+    /nz/support/bin. One of these tools is the nz_zonemap tool that
+    returns detailed information about the zone map values associated
+    with a given database table. First let's have a look at the zone
+    mappable columns of the LINEITEM table. Execute the following
+    command:</p>
+</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>[nz@localhost optimizationObjects]\$ cd \~/labs/optimizationObjects</p>
+<p>[nz@localhost optimizationObjects]\$ /nz/support/bin/[nz_zonemap LABDB
+LINEITEM]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>Database: LABDB</p>
+<p>Object Name: LINEITEM</p>
+<p>Object Type: TABLE</p>
+<p>Object ID : 201277</p>
+<p>The zone-mapped columns are:</p>
+<p>Column # | Column Name | Data Type</p>
+<p>----------+---------------+-----------</p>
+<p>1 | L_ORDERKEY | INTEGER</p>
+<p>2 | L_PARTKEY | INTEGER</p>
+<p>3 | L_SUPPKEY | INTEGER</p>
+<p>4 | L_LINENUMBER | INTEGER</p>
+<p>11 | L_SHIPDATE | DATE</p>
+<p>12 | L_COMMITDATE | DATE</p>
+<p>13 | L_RECEIPTDATE | DATE</p>
+<p>(7 rows)</p>
+<blockquote>
+<p>This command returns an overview of the zone-mappable columns of the
+LINEITEM table in the LABDB database. Seven of the sixteen columns
+have zone maps created for them. Zone-mappable columns include integer
+and date data types. We see that the L_SHIPDATE column we have in the
+WHERE condition of the customer query is zone-mappable.</p>
+</blockquote>
+<ol start="5">
+<li>Now we will have a look at the zone map values for the L_SHIPDATE
+    column. Execute the following command:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>[nz@localhost optimizationObjects]\$ [nz_zonemap LABDB LINEITEM
+L_SHIPDATE]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>Database: LABDB</p>
+<p>Object Name: LINEITEM</p>
+<p>Object Type: TABLE</p>
+<p>Object ID : 201277</p>
+<p>Data Slice: 1</p>
+<p>Column 1: L_SHIPDATE (DATE)</p>
+<p>Extent # | gap | L_SHIPDATE(min) | L_SHIPDATE(max) | Sort</p>
+<p>----------+-----+-----------------+-----------------+------</p>
+<p>1 | | 1992-01-04 | 1998-11-29 |</p>
+<p>2 | | 1992-01-06 | 1998-11-30 |</p>
+<p>3 | | 1992-01-03 | 1998-11-28 |</p>
+<p>4 | | 1992-01-02 | 1998-11-29 |</p>
+<p>5 | | 1992-01-04 | 1998-11-29 |</p>
+<p>6 | | 1992-01-03 | 1998-11-28 |</p>
+<p>7 | | 1992-01-04 | 1998-11-29 |</p>
+<p>8 | | 1992-01-04 | 1998-11-30 |</p>
+<p>9 | | 1992-01-07 | 1998-12-01 |</p>
+<p>10 | | 1992-01-03 | 1998-11-28 |</p>
+<p>11 | | 1992-01-05 | 1998-11-27 |</p>
+<p>12 | | 1992-01-03 | 1998-12-01 |</p>
+<p>13 | | 1992-01-03 | 1998-11-30 |</p>
+<p>14 | | 1992-01-04 | 1998-11-30 |</p>
+<p>15 | | 1992-01-06 | 1998-11-27 |</p>
+<p>16 | | 1992-01-03 | 1998-11-30 |</p>
+<p>17 | | 1992-01-02 | 1998-11-29 |</p>
+<p>18 | | 1992-01-07 | 1998-11-29 |</p>
+<p>19 | | 1992-01-04 | 1998-11-30 |</p>
+<p>20 | | 1992-01-04 | 1998-11-30 |</p>
+<p>21 | | 1992-01-03 | 1998-11-30 |</p>
+<p>22 | | 1992-01-04 | 1998-11-29 |</p>
+<p>(22 rows)</p>
+<blockquote>
+<p>This command returns a list of all extents that make up the LINEITEM
+table and the minimum and maximum values of the data in the L_SHIPDATE
+column for each extent.</p>
+<p>You can see that the LINEITEM table consists of 22 extents of data
+(3MB chunks on each data slice). We can also see the minimum and
+maximum values for the L_SHIPDATE column in each extent. These values
+are stored in the zone map and automatically updated when rows are
+inserted, updated or deleted. If a query has a where condition on the
+L_SHIPDATE column that falls outside of the data range of an extent,
+the whole extent can be discarded by Netezza Performance Server
+without scanning it.</p>
+<p>In this case the data has been equally distributed on all extents.
+This means that our query which has a WHERE condition on the 15^th^
+June of 1995 (1995-06-15) doesn't profit from the zone maps and
+requires a full table scan. Not a single extent could be safely ruled
+out.</p>
+</blockquote>
+<ol start="6">
+<li>Enter the NZSQL console again by entering the nzsql labdb labadmin
+    command.</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>[nz@localhost optimizationObjects]\$ [nzsql labdb labadmin]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>Welcome to nzsql, the IBM Netezza SQL interactive terminal.</p>
+<p>Type: \h for help with SQL commands</p>
+<p>\? for help on internal slash commands</p>
+<p>\g or terminate with semicolon to execute query</p>
+<p>\q to quit</p>
+<p>LABDB.ADMIN(LABADMIN)=></p>
+<ol start="7">
+<li>We will now create a materialized view that is ordered on the
+    L_SHIPDATE column. Execute the following command:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(LABADMIN)=> [CREATE MATERIALIZED VIEW SHIPLINEITEM AS
+SELECT L_SHIPDATE FROM LINEITEM ORDER BY L_SHIPDATE;]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>CREATE MATERIALIZED VIEW</p>
+<blockquote>
+<p>Note that our customer query has a WHERE condition on the L_SHIPDATE
+column but aggregates the L_RETURNFLAG column. However, we didn't add
+the L_RETURNFLAG column to the materialized view. We could have done
+it to enhance the performance of our specific query even more. But in
+this case we assume that there are lots of customer queries which are
+restricted on the ship date and access different columns of the
+LINEITEM table. A materialized view retains the information about the
+location of a parent row in the base table and can be used for lookups
+even if columns of the parent table are accessed in the SELECT clause.</p>
+<p>You can specify more than one order column. In this case the rows are
+first ordered by column one. For rows where column one has the same
+value the next column is used to order rows, and so on. In general,
+only the first order column provides a significant impact on
+performance.</p>
+</blockquote>
+<ol start="8">
+<li>
+<p>Let's have a look at the zone map of the newly created view. Leave
+    the nzsql console again with the \q command.</p>
+</li>
+<li>
+<p>Display the zone map values of the materialized view SHIPLINEITEM
+    with the following command:</p>
+</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>[nz@localhost optimizationObjects]\$ [/nz/support/bin/nz_zonemap LABDB
+SHIPLINEITEM L_SHIPDATE]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>Database: LABDB</p>
+<p>Object Name: SHIPLINEITEM</p>
+<p>Object Type: MATERIALIZED VIEW</p>
+<p>Object ID : 201320</p>
+<p>Data Slice: 1</p>
+<p>Column 1: L_SHIPDATE (DATE)</p>
+<p>Extent # | gap | L_SHIPDATE(min) | L_SHIPDATE(max) | Sort</p>
+<p>----------+-----+-----------------+-----------------+------</p>
+<p>1 | | 1992-01-02 | 1993-04-12 |</p>
+<p>2 | | 1993-04-12 | 1994-05-28 | true</p>
+<p>3 | | 1994-05-28 | 1995-07-08 | true</p>
+<p>4 | | 1995-07-08 | 1996-08-20 | true</p>
+<p>5 | | 1996-08-20 | 1997-10-01 | true</p>
+<p>(5 rows)</p>
+<blockquote>
+<p>We can make a couple of observations here. First the materialized view
+is significantly smaller than the base table, since it only contains
+one column. We can also see that the data values in the extent are
+ordered on the L_SHIPDATE column. This means that for our query, which
+is accessing data from the 15^th^ June of 1995, only extent 3 needs to
+be accessed at all, since only this extent has a data range that
+contains this date value.</p>
+</blockquote>
+<ol start="10">
+<li>Now let's verify that our materialized view is indeed used for this
+    query. Enter the nzsql console by entering the following command:
+    [nzsql labdb labadmin]{.mark}</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>[nz@localhost optimizationObjects]\$ [nzsql labdb labadmin]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>Welcome to nzsql, the IBM Netezza SQL interactive terminal.</p>
+<p>Type: \h for help with SQL commands</p>
+<p>\? for help on internal slash commands</p>
+<p>\g or terminate with semicolon to execute query</p>
+<p>\q to quit</p>
+<p>LABDB.ADMIN(LABADMIN)=></p>
+<ol start="11">
+<li>Use the EXPLAIN command again to verify that our materialized view
+    is used by the Optimizer:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(LABADMIN)=> [EXPLAIN VERBOSE SELECT SUM(CASE WHEN
+L_RETURNFLAG \&lt;> \'N\' THEN 1 ELSE 0 END) AS RET, COUNT(*) AS TOTAL
+FROM LINEITEM WHERE L_SHIPDATE=\'1995-06-15\';]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>EXPLAIN VERBOSE SELECT SUM(CASE WHEN L_RETURNFLAG \&lt;> \'N\' THEN 1 ELSE
+0 END) AS RET, COUNT(*) AS TOTAL FROM LINEITEM WHERE
+L_SHIPDATE=\'1995-06-15\';</p>
+<p>QUERY VERBOSE PLAN:</p>
+<p>Node 1.</p>
+<p><strong>[SPU Sequential Scan mview index \"_MSHIPLINEITEM\"</strong>
+{(LINEITEM.L_ORDERKEY)}]</p>
+<p>-- Estimated Rows = 2359, Width = 1, Cost = <strong>0.0 .. 3.2</strong>, Conf = 80.0</p>
+<p>Restrictions:</p>
+<p>(LINEITEM.L_SHIPDATE = \'1995-06-15\'::DATE)</p>
+<p>Projections:</p>
+<p>1:LINEITEM.L_RETURNFLAG</p>
+<p>Node 2.</p>
+<p>[SPU Aggregate]</p>
+<p>-- Estimated Rows = 1, Width = 24, Cost = 3.5 .. 3.5, Conf = 0.0</p>
+<p>Projections:</p>
+<p>1:SUM(CASE WHEN (LINEITEM.L_RETURNFLAG \&lt;> \'N\'::BPCHAR) THEN 1 ELSE 0
+END)</p>
+<p>2:COUNT(*)</p>
+<p>[SPU Return]</p>
+<p>[HOST Merge Aggs]</p>
+<p>[Host Return]</p>
+<p>..\&lt; Removed Plan Text >..</p>
+<blockquote>
+<p>Notice that the Optimizer has automatically changed the table scan to
+a scan of the view SHIPLINEITEM we just created. This is possible even
+though the projection is taking place on column L_RETURNFLAG of the
+base table.</p>
+</blockquote>
+<ol start="12">
+<li>In some cases, you might want to disable or suspend an associated
+    materialized view. For troubleshooting or administrative tasks on
+    the base table. For these cases use the following command to suspend
+    the view:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(LABADMIN)=> [ALTER VIEW SHIPLINEITEM MATERIALIZE
+SUSPEND;]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>NOTICE: MATERIALIZE SUSPEND: SHIPLINEITEM</p>
+<p>ALTER VIEW</p>
+<ol start="13">
+<li>We want to make sure that the view is not used anymore during query
+    execution. Execute the EXPLAIN command for our query again:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(LABADMIN)=> [EXPLAIN VERBOSE SELECT SUM(CASE WHEN
+L_RETURNFLAG \&lt;> \'N\' THEN 1 ELSE 0 END) AS RET, COUNT(*) AS TOTAL
+FROM LINEITEM WHERE L_SHIPDATE=\'1995-06-15\';]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>EXPLAIN VERBOSE SELECT SUM(CASE WHEN L_RETURNFLAG \&lt;> \'N\' THEN 1 ELSE
+0 END) AS RET, COUNT(*) AS TOTAL FROM LINEITEM WHERE
+L_SHIPDATE=\'1995-06-15\';</p>
+<p>QUERY VERBOSE PLAN:</p>
+<p>Node 1.</p>
+<p><strong>[SPU Sequential Scan table \"LINEITEM\"</strong> {(LINEITEM.L_ORDERKEY)}]</p>
+<p>-- Estimated Rows = 2359, Width = 1, Cost = <strong>0.0 .. 6907.1</strong>, Conf =
+80.0</p>
+<p>Restrictions:</p>
+<p>(LINEITEM.L_SHIPDATE = \'1995-06-15\'::DATE)</p>
+<p>Projections:</p>
+<p>1:LINEITEM.L_RETURNFLAG</p>
+<p>Node 2.</p>
+<p>[SPU Aggregate]</p>
+<p>-- Estimated Rows = 1, Width = 24, Cost = 6907.5 .. 6907.5, Conf = 0.0</p>
+<p>Projections:</p>
+<p>1:SUM(CASE WHEN (LINEITEM.L_RETURNFLAG \&lt;> \'N\'::BPCHAR) THEN 1 ELSE 0
+END)</p>
+<p>2:COUNT(*)</p>
+<p>[SPU Return]</p>
+<p>[HOST Merge Aggs]</p>
+<p>[Host Return]</p>
+<p>..\&lt; Removed Plan Text >..</p>
+<blockquote>
+<p>Scroll up till you see your explain query. With the view suspended we
+can see that the optimizer again scans the original table LINEITEM.
+And the cost has increased significantly.</p>
+</blockquote>
+<ol start="14">
+<li>Note that we have only suspended our view not dropped it. We will
+    now reactivate it with the following refresh command:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(LABADMIN)=> [ALTER VIEW SHIPLINEITEM MATERIALIZE
+REFRESH;]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>NOTICE: MATERIALIZE REFRESH: SHIPLINEITEM</p>
+<p>ALTER VIEW</p>
+<blockquote>
+<p>This command can also be used to reorder materialized views in case
+the base table has been changed. While INSERTs, UPDATEs and DELETEs
+into the base table are automatically reflected in associated
+materialized views, the view is not reordered for every change.
+Therefore, it is advisable to refresh them periodically -- especially
+after major changes to the base table.</p>
+</blockquote>
+<ol start="15">
+<li>To check that the Optimizer again uses the materialized view for
+    query execution, execute the following command:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(LABADMIN)=> [EXPLAIN VERBOSE SELECT SUM(CASE WHEN
+L_RETURNFLAG \&lt;> \'N\' THEN 1 ELSE 0 END) AS RET, COUNT(*) AS TOTAL
+FROM LINEITEM WHERE L_SHIPDATE=\'1995-06-15\';]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>EXPLAIN VERBOSE SELECT SUM(CASE WHEN L_RETURNFLAG \&lt;> \'N\' THEN 1 ELSE
+0 END) AS RET, COUNT(*) AS TOTAL FROM LINEITEM WHERE
+L_SHIPDATE=\'1995-06-15\';</p>
+<p>QUERY VERBOSE PLAN:</p>
+<p>Node 1.</p>
+<p><strong>[SPU Sequential Scan mview index \"_MSHIPLINEITEM\"</strong>
+{(LINEITEM.L_ORDERKEY)}]</p>
+<p>-- Estimated Rows = 2359, Width = 1, <strong>Cost = 0.0 .. 3.2</strong>, Conf = 80.0</p>
+<p>Restrictions:</p>
+<p>(LINEITEM.L_SHIPDATE = \'1995-06-15\'::DATE)</p>
+<p>Projections:</p>
+<p>1:LINEITEM.L_RETURNFLAG</p>
+<p>Node 2.</p>
+<p>[SPU Aggregate]</p>
+<p>-- Estimated Rows = 1, Width = 24, Cost = 3.5 .. 3.5, Conf = 0.0</p>
+<p>Projections:</p>
+<p>1:SUM(CASE WHEN (LINEITEM.L_RETURNFLAG \&lt;> \'N\'::BPCHAR) THEN 1 ELSE 0
+END)</p>
+<p>2:COUNT(*)</p>
+<p>[SPU Return]</p>
+<p>[HOST Merge Aggs]</p>
+<p>[Host Return]</p>
+<p>..\&lt; Removed Plan Text >..</p>
+<blockquote>
+<p>Make sure that the Optimizer again uses the materialized view for its
+first scan operation. The output should again look like before you
+suspended the view.</p>
+</blockquote>
+<ol start="16">
+<li>If you execute the query again you should get the same results as
+    you got before creating the materialized view.</li>
+</ol>
+<blockquote>
+<p>Execute the query again:</p>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(LABADMIN)=> [SELECT SUM(CASE WHEN L_RETURNFLAG \&lt;> \'N\'
+THEN 1 ELSE 0 END) AS RET, COUNT(*) AS TOTAL FROM LINEITEM WHERE
+L_SHIPDATE=\'1995-06-15\';]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>RET | TOTAL</p>
+<p>-----+-------</p>
+<p>176 | 2550</p>
+<p>(1 row)</p>
+<p>You have just created a materialized view to speed up queries that
+lookup small numbers of rows. A materialized view can provide a
+significant performance improvement and is transparent to end users and
+applications accessing the database. But it also creates additional
+overhead during INSERTs, UPDATEs and DELETEs, requires additional disc
+space, and it may require regular maintenance. Therefore, materialized
+views should be used sparingly. In the next chapter we will discuss an
+alternative approach to speed up scan speeds on a database table.</p>
+<h1 id="cluster-based-tables-cbt">Cluster Based Tables (CBT)</h1>
+<p>We have received a set of new customer queries on the ORDERS table that
+not only restricts the table by order date, but also restricts orders to
+a specified price range. These queries make up a significant part of the
+system workload and we will look at ways to increase the performance for
+them. The following query is a template for the queries in question. It
+returns the aggregated total price of all orders by order priority for a
+given year (in this case 1996) and price range (in this case between
+150000 and 180000).</p>
+<p>SELECT O_ORDERPRIORITY, SUM(O_TOTALPRICE) FROM ORDERS</p>
+<p>WHERE EXTRACT(YEAR FROM O_ORDERDATE) = 1996 AND</p>
+<p>O_TOTALPRICE > 150000 AND</p>
+<p>O_TOTALPRICE \&lt;= 180000 GROUP BY O_ORDERPRIORITY;</p>
+<p>In this example we have a very restrictive WHERE condition on two
+columns: O_ORDERDATE and O_TOTALPRICE. This can help us to increase
+performance. The ORDERS table has around 220,000 rows with an order date
+of 1996 and 160,000 rows with the specified price range. But it only has
+20,000 columns that satisfy both conditions. Materialized views provide
+their main performance improvements on one column. Also, INSERTs to the
+ORDERS table are frequent and time critical, so we would prefer not to
+use materialized views. Instead, we investigate the use of cluster based
+tables in this chapter.</p>
+<p>Cluster based tables are Netezza Performance Server tables that are
+created with an ORGANIZE ON keyword. They use a special space filling
+algorithm to organize a table by up to 4 columns. Zone maps for a
+Cluster Based Table (CBT) will provide approximately the same
+performance increases for all organization columns. This is useful if
+your query restricts a table on more than one column or if your workload
+consists of multiple queries hitting the same table but using different
+columns in WHERE conditions. In contrast to materialized views no
+additional disc space is needed, since the base table itself is
+reordered to maximize the effectiveness of zone maps.</p>
+<h2 id="31-cluster-based-table-usage">3.1 Cluster Based Table Usage</h2>
+<p>Cluster based tables are created like normal Netezza Performance Server
+database tables. They need to be flagged as a CBT during table creation
+by specifying up to four organization columns. An Netezza Performance
+Server table can be altered at any time to become a Cluster Based Table
+as well.</p>
+<ol>
+<li>
+<p>We are going to change the create table command for ORDERS to create
+    a Cluster Based Table. We will create a new CBT called ORDERS_CBT.
+    Exit the nzsql console by executing the [\q]{.mark} command.</p>
+</li>
+<li>
+<p>Switch to the optimization lab directory by executing the following
+    command: cd \~/labs/optimizationObjects</p>
+</li>
+<li>
+<p>We have supplied a the script for the creation of the ORDERS_CBT
+    table but we need to add the ORGANIZE ON (O_ORDERDATE, O_TOTALPRICE)
+    clause to create the table as a cluster based table organized on the
+    O_ORDERDATE and O_TOTALPRICE columns. To change the CREATE statement
+    open the orders_cbt.sql script in the vi editor with the following
+    command:</p>
+</li>
+</ol>
+<blockquote>
+<p>[vi orders_cbt.sql]{.mark}</p>
+</blockquote>
+<ol start="4">
+<li>
+<p>Enter the insert mode by pressing "i", the editor should now show an
+    "---INSERT MODE---" statement in the bottom line.</p>
+</li>
+<li>
+<p>Navigate the cursor on the semicolon ending the statement. Press
+    enter to move it into a new line. Enter the line "organize on
+    (o_orderdate, o_totalprice)" before it. Your screen should now look
+    like the following.</p>
+</li>
+</ol>
+<p>create table orders_cbt</p>
+<p>(</p>
+<p>o_orderkey integer not null ,</p>
+<p>o_custkey integer not null ,</p>
+<p>o_orderstatus char(1) not null ,</p>
+<p>o_totalprice decimal(15,2) not null ,</p>
+<p>o_orderdate date not null ,</p>
+<p>o_orderpriority char(15) not null ,</p>
+<p>o_clerk char(15) not null ,</p>
+<p>o_shippriority integer not null ,</p>
+<p>o_comment varchar(79) not null</p>
+<p>)</p>
+<p>distribute on (o_orderkey)</p>
+<p>organize on (o_orderdate, o_totalprice);</p>
+<p>-- INSERT --</p>
+<ol start="6">
+<li>
+<p>Exit the insert mode by pressing Esc.</p>
+</li>
+<li>
+<p>Enter [:wq!]{.mark} In the command line and press Enter to save and
+    exit without questions.</p>
+</li>
+<li>
+<p>Create and load the ORDERS_CBT table by executing the following
+    script:</p>
+</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>[nz@localhost optimizationObjects]\$ [./create_orders_test.sh]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>ERROR: relation does not exist LABDB.ADMIN.ORDERS_CBT</p>
+<p>CREATE TABLE</p>
+<p>Load session of table \'ORDERS_CBT\' completed successfully</p>
+<blockquote>
+<p>This may take a couple minutes because of our virtualized environment.
+You may see an error message that the table ORDERS_CBT does not exist.
+This is expected since the script first tries to clean up an existing
+ORDERS_CBT table.</p>
+</blockquote>
+<ol start="9">
+<li>We will now have a look at how Netezza has organized the data in
+    this table. For this we use the nz_zonemap utility again. Execute
+    the following command:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>[nz@localhost optimizationObjects]\$ [/nz/support/bin/nz_zonemap labdb
+orders_cbt]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>Database: LABDB</p>
+<p>Object Name: ORDERS_CBT</p>
+<p>Object Type: TABLE</p>
+<p>Object ID : 201883</p>
+<p>The zone-mapped columns are:</p>
+<p>Column # | Column Name | Data Type</p>
+<p>----------+----------------+---------------</p>
+<p>1 | O_ORDERKEY | INTEGER</p>
+<p>2 | O_CUSTKEY | INTEGER</p>
+<p>4 | O_TOTALPRICE | NUMERIC(15,2)</p>
+<p>5 | O_ORDERDATE | DATE</p>
+<p>8 | O_SHIPPRIORITY | INTEGER</p>
+<p>(5 rows)</p>
+<blockquote>
+<p>This command shows you the zone mappable columns of the ORDERS_CBT
+table. If you compare it with the output of the nz_zonemap tool for
+the ORDERS table, you will see that it contains the additional column
+O_TOTALPRICE. Numeric columns are not zone mapped per default for
+performance reasons, but zone maps are created for them if they are
+part of the organization columns.</p>
+</blockquote>
+<ol start="10">
+<li>Execute the following command to see the zone map values of the
+    O_ORDERDATE column:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>[nz@localhost optimizationObjects]\$ [/nz/support/bin/nz_zonemap labdb
+orders_cbt o_orderdate]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>Database: LABDB</p>
+<p>Object Name: ORDERS_CBT</p>
+<p>Object Type: TABLE</p>
+<p>Object ID : 201883</p>
+<p>Data Slice: 1</p>
+<p>Column 1: O_ORDERDATE (DATE)</p>
+<p>Extent # | gap | O_ORDERDATE(min) | O_ORDERDATE(max) | Sort</p>
+<p>----------+-----+------------------+------------------+------</p>
+<p>1 | | 1992-01-01 | 1998-08-02 |</p>
+<p>2 | | 1992-01-01 | 1998-08-02 |</p>
+<p>3 | | 1992-01-01 | 1998-08-02 |</p>
+<p>4 | | 1992-01-01 | 1998-08-02 |</p>
+<p>5 | | 1992-01-01 | 1998-08-02 |</p>
+<p>6 | | 1992-01-01 | 1998-08-02 |</p>
+<p>(6 rows)</p>
+<blockquote>
+<p>This is unexpected. Since we used O_ORDERDATE as an organization
+column we would have expected an ordering in the data values. But they
+are again distributed equally over all extents.</p>
+<p>The reason for this is that the organization process takes place
+during a command called GROOM, not during a nzload of the table.
+Instead of creating a new table we could also have altered the
+existing ORDERS table to become a Cluster Based Table. Creating or
+altering a table to become a CBT doesn't change the physical table
+layout until the groom command has been used.</p>
+<p>This command will be covered in detail in the following presentation
+and lab. But we will use it in the next chapter to reorganize the
+table.</p>
+</blockquote>
+<h2 id="cluster-based-table-maintenance">Cluster Based Table Maintenance</h2>
+<p>When a table is created as a CBT in Netezza the data isn't organized
+during load time. Similar to ordered materialized views, a Cluster Based
+Table can become partially unordered due to INSERTs, UPDATEs and
+DELETEs. A threshold is defined for reorganization and the groom command
+can be used at any time to reorganize a CBT, based on its organization
+keys.</p>
+<ol>
+<li>To organize the table you created in the last chapter you need to
+    switch to the nzsql console again. Execute the following command:
+    [nzsql labdb labadmin]{.mark}</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>[nz@localhost optimizationObjects]\$ [nzsql labdb labadmin]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>Welcome to nzsql, the IBM Netezza SQL interactive terminal.</p>
+<p>Type: \h for help with SQL commands</p>
+<p>\? for help on internal slash commands</p>
+<p>\g or terminate with semicolon to execute query</p>
+<p>\q to quit</p>
+<p>LABDB.ADMIN(LABADMIN)=></p>
+<ol start="2">
+<li>Execute the following command to groom your cluster-based table:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(LABADMIN)=> [groom table orders_cbt;]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>NOTICE: Groom will not purge records deleted by transactions that
+started after 2021-04-01 05:56:33.</p>
+<p>NOTICE: Groom processed 588 pages; purged 0 records; scan size grew by
+32 pages; table size unchanged.</p>
+<p>GROOM ORGANIZE READY</p>
+<blockquote>
+<p>This command does a variety of things which will be covered in a
+further presentation and lab. In this case it organizes the CBT based
+on its organization keys.</p>
+<p><img alt="" src="../nz-images/nz-08-Optimization-Objects/media/image4.jpg" />{width="0.4166666666666667in"
+height="0.4166666666666667in"}This command requires a lot of RAM on
+the SPUs to operate. Our VMWare systems have been tuned so the command
+should be able to finish. Since the whole table is reordered it may
+take a couple of minutes to finish but should you get the impression
+that the system is stuck please inform the lecturer.</p>
+</blockquote>
+<ol start="3">
+<li>
+<p>Let's have a look at the data organization in the table. To do this
+    quit the nzsql console with the [\q]{.mark} command.</p>
+</li>
+<li>
+<p>Review the zone maps of the two organization columns by executing
+    the following command:</p>
+</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>[nz@localhost optimizationObjects]\$ [/nz/support/bin/nz_zonemap labdb
+orders_cbt o_orderdate o_totalprice]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>Database: LABDB</p>
+<p>Object Name: ORDERS_CBT</p>
+<p>Object Type: TABLE</p>
+<p>Object ID : 201883</p>
+<p>Data Slice: 1</p>
+<p>Column 1: O_ORDERDATE (DATE)</p>
+<p>Column 2: O_TOTALPRICE (NUMERIC(15,2))</p>
+<p>Extent # | gap | O_ORDERDATE(min) | O_ORDERDATE(max) |
+O_TOTALPRICE(min) | O_TOTALPRICE(max)</p>
+<p>----------+-----+------------------+------------------+--------------------+--------------------</p>
+<p>1 | | 1992-01-01 | 1995-04-18 | 875.52 | 111093.84</p>
+<p>2 | | 1992-01-01 | 1995-04-18 | 77984.34 | 215553.23</p>
+<p>3 | | 1992-01-01 | 1995-04-18 | 178526.74 | 555285.16</p>
+<p>4 | | 1993-08-27 | 1996-12-08 | 144451.84 | 487405.74</p>
+<p>5 | | 1996-06-22 | 1998-08-02 | 77992.67 | 530604.44</p>
+<p>6 | | 1995-04-18 | 1998-03-05 | 945.99 | 144446.76</p>
+<p>(6 rows)</p>
+<blockquote>
+<p>Your results should look like the above (we removed the "SORT" columns
+from the results to make it more readable)</p>
+<p>You can see that both columns have some form of order now. Our query
+is restricting rows in two ranges</p>
+<p>Condition 1: O_ORDERDATE = 1996</p>
+<p>AND</p>
+<p>Condition 2: 150000 \&lt; O_TOTALPRICE \&lt;= 180000</p>
+</blockquote>
+<p>Below we have summarized the Extents on the full extent level of 3MB
+from our above result. ~~You now see 24 more extents and it would be
+hard to see any order in so many extents.~~</p>
+<p>+---------+---------+---------+---------+---------+---------+---------+
+| &gt;       | &gt;       | &gt;       | &gt;       | &gt;       | &gt;       | &gt;       |
+|  <strong>Min( |  </strong>Max( | <strong>Min(P | </strong>Max(P |  <strong>Cond |  </strong>Cond |  <strong>Both |
+| Date)</strong> | Date)<strong> | rice)</strong> | rice)<strong> | &gt; 1</strong>   | &gt; 2<strong>   | &gt;       |
+|         |         |         |         |         |         |  Cond</strong> |
++:=======:+:=======:+:=======:+:=======:+:=======:+:=======:+:=======:+
+| &gt;       | <strong>1995- | &gt; </strong>8   | &gt;       |         |         |         |
+| <strong>1992- | 04-18</strong> | 75.52<strong> |  </strong>1110 |         |         |         |
+| 01-01<strong> |         |         | 93.84</strong> |         |         |         |
++---------+---------+---------+---------+---------+---------+---------+
+| &gt;       | &gt;       | <strong>779   | &gt;       |         | &gt; </strong>X<strong> |         |
+| </strong>1992- | <strong>1995- | 84.34</strong> |  <strong>2155 |         |         |         |
+| 01-01</strong> | 04-18<strong> |         | 53.23</strong> |         |         |         |
++---------+---------+---------+---------+---------+---------+---------+
+| &gt;       | <strong>1995- | </strong>1785  | &gt;       |         | &gt; <strong>X</strong> |         |
+| <strong>1992- | 04-18</strong> | 26.74<strong> |  </strong>5552 |         |         |         |
+| 01-01<strong> |         |         | 85.16</strong> |         |         |         |
++---------+---------+---------+---------+---------+---------+---------+
+| &gt;       | <strong>1996- | </strong>1444  | &gt;       | &gt; <strong>X</strong> | &gt; <strong>X</strong> | &gt; <strong>X</strong> |
+| <strong>1993- | 12-08</strong> | 51.84<strong> |  </strong>4874 |         |         |         |
+| 08-27<strong> |         |         | 05.74</strong> |         |         |         |
++---------+---------+---------+---------+---------+---------+---------+
+| &gt;       | <strong>1998- | </strong>779   | &gt;       | &gt; <strong>X</strong> | &gt; <strong>X</strong> | &gt; <strong>X</strong> |
+| <strong>1996- | 08-02</strong> | 92.67<strong> |  </strong>5306 |         |         |         |
+| 06-22<strong> |         |         | 04.44</strong> |         |         |         |
++---------+---------+---------+---------+---------+---------+---------+
+| &gt;       | <strong>1998- | </strong>9     | &gt;       | &gt; <strong>X</strong> |         |         |
+| <strong>1995- | 03-05</strong> | 45.99<strong> |  </strong>1444 |         |         |         |
+| 04-18<strong> |         |         | 46.76</strong> |         |         |         |
++---------+---------+---------+---------+---------+---------+---------+</p>
+<blockquote>
+<p>As you can see there are now 3 extents that have rows from 1996 in
+them and 4 extents that contain rows in the price range from 150000 to
+180000. But we have only two extents that contains rows that satisfy
+both conditions and needs to be scanned during query execution.</p>
+<p>The above shows the zone map ranges at the extent boundaries of 3MB.
+But Netezza Performance Server zone maps are even kept at the more
+granular level of pages. Netezza page size is 128K, and so there are
+24 pages in one extent. You can look at the more granular zone map
+ranges for pages using the "-page" option of the nz_zonemap command:</p>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>[nz@localhost optimizationObjects]\$ [/nz/support/bin/nz_zonemap labdb
+orders_cbt o_orderdate o_totalprice -page]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>Database: LABDB</p>
+<p>Object Name: ORDERS_CBT</p>
+<p>Object Type: TABLE</p>
+<p>Object ID : 201883</p>
+<p>Data Slice: 1</p>
+<p>Column 1: O_ORDERDATE (DATE)</p>
+<p>Column 2: O_TOTALPRICE (NUMERIC(15,2))</p>
+<p>Extent # | <strong>Page</strong> # | O_ORDERDATE(min) | O_ORDERDATE(max) |
+O_TOTALPRICE(min) | O_TOTALPRICE(max)</p>
+<p>----------+--------+------------------+------------------+--------------------+-------------
+------+</p>
+<p><strong>1 | extent</strong> | 1992-01-01 | 1995-04-18 | 875.52 | 111091.08 |</p>
+<p>1 | 1 | 1992-01-01 | 1992-10-28 | 912.10 | 26749.39 |</p>
+<p>1 | 2 | 1992-03-17 | 1992-10-28 | 15080.65 | 45906.12 |</p>
+<p>1 | 3 | 1992-01-01 | 1992-05-31 | 26812.15 | 65825.06 |</p>
+<p>1 | 4 | 1992-01-01 | 1992-10-27 | 61941.14 | 77977.57 |</p>
+<p>1 | 5 | 1992-05-31 | 1993-03-28 | 45915.67 | 71760.90 |</p>
+<p>1 | 6 | 1992-10-28 | 1993-04-25 | 49997.93 | 77978.41 |</p>
+<p>1 | 7 | 1993-03-28 | 1993-08-27 | 45922.72 | 77973.85 |</p>
+<p>1 | 8 | 1992-10-29 | 1993-08-27 | 26801.08 | 54004.34 |</p>
+<p>1 | 9 | 1992-10-28 | 1993-06-12 | 961.54 | 41500.41 |</p>
+<p>1 | 10 | 1993-03-28 | 1994-01-25 | 875.52 | 26798.03 |</p>
+<p>1 | 11 | 1993-08-27 | 1994-04-09 | 15020.44 | 45905.64 |</p>
+<p>1 | 12 | 1994-01-25 | 1994-07-29 | 947.81 | 45779.43 |</p>
+<p>1 | 13 | 1994-06-22 | 1995-04-18 | 1004.66 | 26775.18 |</p>
+<p>1 | 14 | 1994-09-06 | 1995-04-18 | 15087.48 | 45906.49 |</p>
+<p>1 | 15 | 1994-06-23 | 1994-11-19 | 26821.38 | 61934.12 |</p>
+<p>1 | 16 | 1994-10-01 | 1995-04-18 | 45916.16 | 73765.70 |</p>
+<p>1 | 17 | 1994-04-09 | 1995-04-17 | 61957.24 | 77974.31 |</p>
+<p>1 | 18 | 1994-01-25 | 1994-06-22 | 45917.62 | 77944.43 |</p>
+<p>1 | 19 | 1993-08-27 | 1994-04-09 | 45926.79 | 73846.86 |</p>
+<p>1 | 20 | 1993-08-27 | 1994-01-25 | 69917.85 | 102685.89 |</p>
+<p>1 | 21 | 1993-08-27 | 1994-06-22 | 94343.90 | 111089.11 |</p>
+<p>1 | 22 | 1994-01-25 | 1994-10-02 | 77986.61 | 100585.11 |</p>
+<p>1 | 23 | 1994-09-06 | 1995-04-18 | 77983.23 | 102725.22 |</p>
+<p>1 | <strong>24</strong> | 1994-06-22 | 1995-04-18 | 94331.09 | 111091.08 |</p>
+<p><strong>2 | extent</strong> | 1992-01-01 | 1995-04-18 | 77984.34 | 215553.23 |</p>
+<p>2 | 1 | 1994-06-22 | 1995-04-18 | 106892.35 | 127708.22 |</p>
+<p>2 | 2 | 1994-09-05 | 1995-04-17 | 119478.05 | 144451.22 |</p>
+<p>.....</p>
+<p>(161 rows)</p>
+<blockquote>
+<p>There are 161 zone map ranges where reading the page can potentially
+be eliminated, not just 6 ranges on the extent boundaries. Of the 161
+pages, the number that satisfy the conditions and need to be read are:</p>
+</blockquote>
+<ul>
+<li>
+<p>43 pages that might have O_ORDERDATE in 1996</p>
+</li>
+<li>
+<p>54 pages that might have O_TOTALPRICE between 150000 and 180000</p>
+</li>
+<li>
+<p>9 pages for which both conditions apply</p>
+</li>
+</ul>
+<blockquote>
+<p>This means by using CBTs in Netezza Performance Server architecture we
+can restrict the amount of data that needs to be queried by a factor
+of 16. This is 3-4 times less than would need to be read if the table
+is only ordered on a single column.</p>
+</blockquote>
+<p>Congratulations, you have finished the Optimization Objects lab. In this
+lab you have created materialized views to speedup scans of wide tables
+and queries that only look up small numbers of rows. Finally, you
+created a Cluster Based Table and used the groom command to organize it.
+Throughout the lab you have used the nz_zonemap tool to see zone maps
+and get a better idea on how data is stored in the Netezza appliance.</p>
+
+              
+            </article>
+            
+          </div>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+    <nav class="md-footer__inner md-grid" aria-label="Footer" >
+      
+        
+        <a href="../nz-07-Query-Optimization/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Query Optimization" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Query Optimization
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../nz-09-Groom/" class="md-footer__link md-footer__link--next" aria-label="Next: Grooming Data" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Grooming Data
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2024 IBM
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.b97dbffb.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.6c7ad80a.min.js"></script>
+      
+    
+  </body>
+</html>

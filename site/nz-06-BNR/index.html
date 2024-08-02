@@ -1,0 +1,2056 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.3.1, mkdocs-material-8.3.9">
+    
+    
+      
+        <title>Backup and Restore - Netezza Performance Server Lab</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.1d29e8d0.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.cbb835fc.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#000000">
+        
+      
+      
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:300,300i,400,400i,700,700i%7CIBM+Plex+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"IBM Plex Sans";--md-code-font:"IBM Plex Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="black">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#backup-and-restore" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Netezza Performance Server Lab" class="md-header__button md-logo" aria-label="Netezza Performance Server Lab" data-md-component="logo">
+      
+  <img src="../nz-images/IBM_logo®_rev_RGB.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Netezza Performance Server Lab
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Backup and Restore
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Netezza Performance Server Lab" class="md-nav__button md-logo" aria-label="Netezza Performance Server Lab" data-md-component="logo">
+      
+  <img src="../nz-images/IBM_logo®_rev_RGB.png" alt="logo">
+
+    </a>
+    Netezza Performance Server Lab
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-01-NPS-CLI/" class="md-nav__link">
+        Command Line Interface
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-02-WebConsole/" class="md-nav__link">
+        Web Console
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-03-Data-Distribution/" class="md-nav__link">
+        Data Distribution
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-04-Database-Admin/" class="md-nav__link">
+        Database Administration
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-05-Loading-and-Unloading-Data/" class="md-nav__link">
+        Loading and Unloading Data
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Backup and Restore
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Backup and Restore
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objectives" class="md-nav__link">
+    Objectives
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-07-Query-Optimization/" class="md-nav__link">
+        Query Optimization
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-08-Optimization-Objects/" class="md-nav__link">
+        Optimization Objects
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-09-Groom/" class="md-nav__link">
+        Grooming Data
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-10-Stored-Proc/" class="md-nav__link">
+        Stored Procedures
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_11" type="checkbox" id="__nav_11" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_11">
+          Appendix
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Appendix" data-md-level="1">
+        <label class="md-nav__title" for="__nav_11">
+          <span class="md-nav__icon md-icon"></span>
+          Appendix
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-disclaimer/" class="md-nav__link">
+        Disclaimer
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-acknowledgements/" class="md-nav__link">
+        Acknowledgements
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objectives" class="md-nav__link">
+    Objectives
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+
+
+<h1 id="backup-and-restore">Backup and Restore</h1>
+<p>Regular backups of your user databases and system catalogs should be
+taken as part of any data warehouse continuity strategy. One reason to
+take backups is for disaster recovery, for example in case of a fire in
+the data center. Another reason is to undo changes such as accidental
+deletes.</p>
+<p>For disaster recovery, backups should be stored in a different physical
+location than the data center that hosts the data warehouse. IBM Netezza
+Performance Server provides several backup and restore methods to cover
+your various requirements.</p>
+<p>The Netezza Performance Server backup and restore operations can use
+network file system locations and several third-party solutions such as
+IBM Spectrum Protect (formerly Tivoli® Storage Manager), Veritas
+NetBackup, and EMC NetWorker as destinations.</p>
+<h2 id="objectives">Objectives</h2>
+<p>In the previous labs we created our LABDB database and loaded the data
+into it. In this lab we will set up a QA database that contains a subset
+of the tables and data of the full database. To create the tables, we
+will use Cross-Database-Access from our QA database to the LABDB
+production database.</p>
+<p>Next we will use the schema-only function of [nzbackup]{.mark} to create
+a test database that contains the same tables and data objects as the QA
+database, but no data. Test data will later be added specifically for
+testing needs. After that we will do a multistep backup of our QA
+database and test the restore functionality. Testing backups by
+restoring them is generally a good idea and should be done during the
+development phase and also at regular intervals. After all, you are
+never fully sure what a backup contains until you restore it.</p>
+<p>Finally, we will backup the system user data and the host data. While a
+database backup saves all users and groups that are involved in that
+database, a full user backup may be needed to get the full picture, for
+example to archive users and groups that are no longer used in any
+database. Host data should be backed up regularly so you can restore the
+Performance Server data directory from the host backup without the
+additional time to restore all of the databases.</p>
+<h1 id="lab-virtual-machine"><strong>Lab Virtual Machine</strong></h1>
+<p>This lab system will be a virtual machine running on Virtual Box. Please
+see the document on how to install the IPS Virtual Machine for your
+workstation (Windows or Mac OS).</p>
+<h1 id="creating-a-qa-database">Creating a QA Database</h1>
+<p>In this lab we will create a QA database called LABDBQA, which contains
+a subset of the tables. It will contain all of the data from the NATION
+and REGION tables, along with a subset of the data from the CUSTOMER
+table. We will create our QA database, connect to it and use CTAS
+(Create Table As) tables to create the table copies. We will use
+cross-database access to create our CTAS tables from the LABDB database.
+This is possible since Netezza Performance Server allows read-only cross
+database access if fully qualified names are used.</p>
+<p>In this lab we will regularly switch between the operating system prompt
+and the NZSQL console. The operating system prompt will be used to
+execute the backup and restore commands and review the created files.
+The NZSQL console will be used to create the tables and further review
+the changes made to the user data using the restore commands.</p>
+<p>To make this easier you should open two Terminal sessions (Terminal 1
+and Terminal 2), the first one will be used to execute the operating
+system commands and it will be referred to as the OS session, in the
+second session we will start the NZSQL console. It will be referred to
+as the NZSQL session. You can also see which session to use from the
+command prompt in the screenshots.</p>
+<p><strong>Figure 2</strong> The two terminal sessions for this lab, OS session 1
+(Terminal 1) on the left, nzsql session 2 (Terminal 2) on the right</p>
+<p><img alt="A screenshot of a social media post Description automatically
+generated" src="../nz-images/nz-06-BNR/media/image5.png" />{width="7.5in"
+height="3.2159722222222222in"}</p>
+<ol>
+<li>
+<p>Open the first Terminal session. Login to \&lt;your-nps-vm-ip-address>
+    as user nz with password nz. (\&lt;your-nps-vm-ip-address> is the
+    default IP address for a local VM, the IP may be different for your
+    Bootcamp)</p>
+</li>
+<li>
+<p>Access the lab directory for this lab with the following command:</p>
+</li>
+</ol>
+<blockquote>
+<p><strong>Input [Terminal 1]:</strong></p>
+</blockquote>
+<p>[nz@localhost labs]\$ [cd \~/labs/backupRestore/setupLab]{.mark}</p>
+<p>[nz@localhost setupLab]\$ [./setupLab.sh]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>﻿DROP DATABASE</p>
+<p>ERROR: DROP DATABASE: object LABDBQA does not exist.</p>
+<p>ERROR: DROP DATABASE: object LABDBTEST does not exist.</p>
+<p>CREATE DATABASE</p>
+<p>ERROR: CREATE USER: object LABADMIN already exists as a USER.</p>
+<p>ALTER USER</p>
+<p>ALTER DATABASE</p>
+<p>CREATE TABLE</p>
+<p>CREATE TABLE</p>
+<p>CREATE TABLE</p>
+<p>CREATE TABLE</p>
+<p>CREATE TABLE</p>
+<p>CREATE TABLE</p>
+<p>CREATE TABLE</p>
+<p>CREATE TABLE</p>
+<p>Load session of table \'NATION\' completed successfully</p>
+<p>Load session of table \'REGION\' completed successfully</p>
+<p>Load session of table \'CUSTOMER\' completed successfully</p>
+<p>Load session of table \'SUPPLIER\' completed successfully</p>
+<p>Load session of table \'PART\' completed successfully</p>
+<p>Load session of table \'PARTSUPP\' completed successfully</p>
+<p>Load session of table \'ORDERS\' completed successfully</p>
+<p>Load session of table \'LINEITEM\' completed successfully</p>
+<ol start="3">
+<li>
+<p>Open the second Terminal session. Login to
+    \&lt;your-nps-vm-ip-address> as user nz with password nz.
+    (\&lt;your-nps-vm-ip-address> is the default IP address for a local
+    VM, the IP may be different for your Bootcamp)</p>
+</li>
+<li>
+<p>Access the lab directory for this lab with the same change directory
+    command:</p>
+</li>
+</ol>
+<blockquote>
+<p><strong>Input [Terminal 2]:</strong></p>
+</blockquote>
+<p>[nz@localhost \~]\$ [cd \~/labs/backupRestore/]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>[nz@localhost backupRestore]\$</p>
+<ol start="5">
+<li>Start the nzsql console using the nzsql command:</li>
+</ol>
+<blockquote>
+<p><strong>Input [Terminal 2]:</strong></p>
+</blockquote>
+<p>[nz@localhost backupRestore]\$ [nzsql]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>Welcome to nzsql, the IBM Netezza SQL interactive terminal.</p>
+<p>Type: \h for help with SQL commands</p>
+<p>\? for help on internal slash commands</p>
+<p>\g or terminate with semicolon to execute query</p>
+<p>\q to quit</p>
+<p>SYSTEM.ADMIN(ADMIN)=></p>
+<ul>
+<li>
+<p><img alt="" src="../nz-images/nz-06-BNR/media/image6.jpeg" />{width="0.3645833333333333in"
+    height="0.375in"}This will connect you to the SYSTEM database with
+    the ADMIN user. These are the default settings stored in the
+    environment variables of the NZ user.</p>
+<ol>
+<li>Create the empty QA database using the CREATE DATABASE command:</li>
+</ol>
+</li>
+</ul>
+<blockquote>
+<p><strong>Input [Terminal 2]:</strong></p>
+</blockquote>
+<p>SYSTEM.ADMIN(ADMIN)=> [create database LABDBQA;]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>CREATE DATABASE</p>
+<ol start="2">
+<li>Connect to the QA database using the \c command.</li>
+</ol>
+<blockquote>
+<p><strong>Input [Terminal 2]:</strong></p>
+</blockquote>
+<p>SYSTEM.ADMIN(ADMIN)=> [\c LABDBQA]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>You are now connected to database LABDBQA.</p>
+<ol start="3">
+<li>Create a full copy of the REGION table from the LABDB database:</li>
+</ol>
+<blockquote>
+<p><strong>Input [Terminal 2]:</strong></p>
+</blockquote>
+<p>LABDBQA.ADMIN(ADMIN)=> [create table region as select * from
+labdb.admin.region;]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>INSERT 0 4</p>
+<p>With the CTAS statement, we created a local REGION table in the
+currently connected LABDBQA database with the same definition and
+content as the REGION table from the LABDB database. The [CREATE TABLE
+AS]{.mark} statement is one of the most flexible administrative tools
+for an IBM Netezza Performance Server administrator.</p>
+<p>We can easily access tables of databases we are currently not connected
+to, but only for read operations. We cannot insert data into a database
+we are not connected to.</p>
+<ol start="4">
+<li>Verify that the content has been copied over correctly. View the
+    original data in the LABDB database:</li>
+</ol>
+<blockquote>
+<p><strong>Input [Terminal 2]:</strong></p>
+</blockquote>
+<p>LABDBQA.ADMIN(ADMIN)=> [select * from labdb.admin.region order by
+1;]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>﻿R_REGIONKEY | R_NAME | R_COMMENT</p>
+<p>-------------+---------------------------+-----------------------------</p>
+<p>1 | na | north america</p>
+<p>2 | sa | south america</p>
+<p>3 | emea | europe, middle east, africa</p>
+<p>4 | ap | asia pacific</p>
+<p>(4 rows)</p>
+<p>You should see four rows in the result set.</p>
+<p>To access a table from a foreign database, we need to have the fully
+qualified name. Notice that we include the schema name between the two
+dots. Schemas are fully supported in Performance Server and since each
+table name needs to be unique in a given database it should be included.</p>
+<ol start="5">
+<li>Now let's compare that to our local REGION table using the SELECT
+    statement:</li>
+</ol>
+<blockquote>
+<p><strong>Input [Terminal 2]:</strong></p>
+</blockquote>
+<p>LABDBQA.ADMIN(ADMIN)=> [select * from labdbqa.admin.region order by
+1;]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>﻿R_REGIONKEY | R_NAME | R_COMMENT</p>
+<p>-------------+---------------------------+-----------------------------</p>
+<p>1 | na | north america</p>
+<p>2 | sa | south america</p>
+<p>3 | emea | europe, middle east, africa</p>
+<p>4 | ap | asia pacific</p>
+<p>(4 rows)</p>
+<p>You should see the same rows as before.</p>
+<ol start="6">
+<li>Now copy over the NATION table:</li>
+</ol>
+<blockquote>
+<p><strong>Input [Terminal 2]:</strong></p>
+</blockquote>
+<p>LABDBQA.ADMIN(ADMIN)=> [create table nation as select * from
+labdb.admin.nation;]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>INSERT 0 14</p>
+<ol start="7">
+<li>Finally, we will copy over a subset of our CUSTOMER table, copying
+    only the rows from the automobile market segment into the QA
+    database:</li>
+</ol>
+<blockquote>
+<p><strong>Input [Terminal 2]:</strong></p>
+</blockquote>
+<p>LABDBQA.ADMIN(ADMIN)=> [create table customer as select * from
+labdb.admin.customer where c_mktsegment = \'AUTOMOBILE\';]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>INSERT 0 29752</p>
+<p>Notice that this inserts 29,752 rows into the QA customer table, roughly
+a fifth of the original table.</p>
+<ol start="8">
+<li>Next create a view NATIONSBYREGION which returns a list of nation
+    names with their corresponding region names. This is used in a
+    couple of applications:</li>
+</ol>
+<blockquote>
+<p><strong>Input [Terminal 2]:</strong></p>
+</blockquote>
+<p>LABDBQA.ADMIN(ADMIN)=> [create view nationsbyregions as select r_name,
+n_name from nation, region where r_regionkey = n_regionkey;]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>CREATE VIEW</p>
+<ol start="9">
+<li>Let's have a look at what the view returns:</li>
+</ol>
+<blockquote>
+<p><strong>Input [Terminal 2]:</strong></p>
+</blockquote>
+<p>LABDBQA.ADMIN(ADMIN)=> [select * from nationsbyregions order by
+1;]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p><strong>﻿</strong> R_NAME | N_NAME</p>
+<p>---------------------------+---------------------------</p>
+<p>ap | australia</p>
+<p>ap | macau</p>
+<p>ap | japan</p>
+<p>ap | hong kong</p>
+<p>ap | new zealand</p>
+<p>emea | united arab emirates</p>
+<p>emea | portugal</p>
+<p>emea | united kingdom</p>
+<p>emea | south africa</p>
+<p>na | united states</p>
+<p>na | canada</p>
+<p>sa | brazil</p>
+<p>sa | guyana</p>
+<p>sa | venezuela</p>
+<p>(14 rows)</p>
+<p>You should get a list of all nations and their corresponding region
+name.</p>
+<p>Views are a very convenient way to hide SQL complexity. They can also be
+used to implement column level security by creating views of tables that
+only contain a subset of columns. They are fully supported by Netezza
+Performance Server.</p>
+<ol start="10">
+<li>Verify the created tables with the display tables command:</li>
+</ol>
+<blockquote>
+<p><strong>Input [Terminal 2]:</strong></p>
+</blockquote>
+<p>LABDBQA.ADMIN(ADMIN)-> [\dt]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>List of relations</p>
+<p>Schema | Name | Type | Owner</p>
+<p>--------+----------+-------+-------</p>
+<p>ADMIN | CUSTOMER | TABLE | ADMIN</p>
+<p>ADMIN | NATION | TABLE | ADMIN</p>
+<p>ADMIN | REGION | TABLE | ADMIN</p>
+<p>(3 rows)</p>
+<p>Notice that the QA database only contains the three tables we just
+created.</p>
+<p>Next create a QA user and make them owner of the database.</p>
+<ol start="11">
+<li>Create a user qauser:</li>
+</ol>
+<blockquote>
+<p><strong>Input [Terminal 2]:</strong></p>
+</blockquote>
+<p>LABDBQA.ADMIN(ADMIN)=> [create user qauser;]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>CREATE USER</p>
+<ol start="12">
+<li>Make the id qauser owner of the QA database called labdbqa:</li>
+</ol>
+<blockquote>
+<p><strong>Input [Terminal 2]:</strong></p>
+</blockquote>
+<p>LABDBQA.ADMIN(ADMIN)=> [alter database labdbqa owner to qauser;]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>ALTER DATABASE</p>
+<p>We have successfully created our QA database using cross access database
+CTAS statements. Our QA database contains three tables and a view, and
+we have a user that is the owner of this database. In the next section
+we will use backup and restore to create an empty copy of the QA
+database for the test database.</p>
+<h1 id="creating-the-test-database">Creating the Test Database</h1>
+<p>In this section, we will use schema-only backup and restore to create an
+empty copy of the QA database as test database. This will not contain
+any data since the developers will fill it with test-specific data.
+Schema only backup is a convenient way to recreate databases without
+user data.</p>
+<p>We need to specify three parameters to the [nzbackup]{.mark} command,
+the database we want to backup, the file system location where we want
+to save the backup files to and the [--schema-only]{.mark} parameter to
+specify that user data shouldn't be backed up.</p>
+<ul>
+<li>
+<p><img alt="" src="../nz-images/nz-06-BNR/media/image7.png" />{width="0.34375in"
+    height="0.3020833333333333in"}Normally backups should be saved on a
+    remote network file server, not on the host hard disks. Not only is
+    this essential for disaster recovery, but the host hard disks are
+    small, optimized for speed and not intended to hold large amount of
+    data. They are strictly intended for Netezza Performance Server
+    software and operational data.</p>
+<ol>
+<li>Switch to the OS session and create the schema only backup of
+    our QA database:</li>
+</ol>
+</li>
+</ul>
+<blockquote>
+<p><strong>Input [Terminal 1]:</strong></p>
+</blockquote>
+<p>[nz@localhost setupLab]\$ [nzbackup -schema-only -db labdbqa -dir
+/tmp/bkschema]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>Backup of schema for database labdbqa completed successfully.</p>
+<p>Later in this Lab we will have a deeper look at the files and the logs
+the backup command created.</p>
+<p>We can restore a database to a different database name. We simply need
+to specify the new name in the [--db]{.mark} parameter and the old name
+in the [--sourcedb]{.mark} parameter.</p>
+<ol start="2">
+<li>Now we will restore the test database from this backup:</li>
+</ol>
+<blockquote>
+<p><strong>Input [Terminal 1]:</strong></p>
+</blockquote>
+<p>[nz@localhost setupLab]\$ [nzrestore -dir /tmp/bkschema -db labdbtest
+-sourcedb labdbqa -schema-only]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>Restore of schema for database labdbtest completed successfully.</p>
+<ol start="3">
+<li>In the nzsql session we will verify that we successfully created an
+    empty copy of our database. See all available databases with the
+    following command: \l</li>
+</ol>
+<blockquote>
+<p><strong>Input [Terminal 2]:</strong></p>
+</blockquote>
+<p>LABDBQA.ADMIN(ADMIN)=> [\l]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>List of databases</p>
+<p>DATABASE | OWNER</p>
+<p>-----------+----------</p>
+<p>LABDB | LABADMIN</p>
+<p>LABDBQA | QAUSER</p>
+<p>LABDBTEST | QAUSER</p>
+<p>SYSTEM | ADMIN</p>
+<p>(4 rows)</p>
+<p>Notice that the LABDBTEST database was successfully created and the
+privilege information has been copied as well, the owner is QAUSER,
+which is the same as the owner of the LABDBQA database.</p>
+<ol start="4">
+<li>We do not want the QA user being the owner of the test database,
+    change the owner to ADMIN for now:</li>
+</ol>
+<blockquote>
+<p><strong>Input [Terminal 2]:</strong></p>
+</blockquote>
+<p>LABDBQA.ADMIN(ADMIN)=> [alter database labdbtest owner to
+admin;]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>ALTER DATABASE</p>
+<ol start="5">
+<li>Now let's check the contents of the test database. First connect to
+    the database with the \c command, and then display the database
+    objects with the \d command</li>
+</ol>
+<blockquote>
+<p><strong>Input [Terminal 2]:</strong></p>
+</blockquote>
+<p>LABDBQA.ADMIN(ADMIN)=> [\c labdbtest]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>You are now connected to database labdbtest.</p>
+<ol start="6">
+<li>Verify the test database contains all the objects of the QA
+    database: [\d]{.mark}</li>
+</ol>
+<blockquote>
+<p><strong>Input [Terminal 2]:</strong></p>
+</blockquote>
+<p>LABDBTEST.ADMIN(ADMIN)-> [\d]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>List of relations</p>
+<p>Schema | Name | Type | Owner</p>
+<p>--------+------------------+-------+-------</p>
+<p>ADMIN | CUSTOMER | TABLE | ADMIN</p>
+<p>ADMIN | NATION | TABLE | ADMIN</p>
+<p>ADMIN | NATIONSBYREGIONS | VIEW | ADMIN</p>
+<p>ADMIN | REGION | TABLE | ADMIN</p>
+<p>(4 rows)</p>
+<p>You will see the three tables and the view we created.</p>
+<p>Performance Server Backup saves all database objects including views,
+stored procedures, and more. It also includes all users, groups and
+privileges that refer to the database included in the backup.</p>
+<ol start="7">
+<li>Since we used the [--schema-only]{.mark} option we have not copied
+    any data. Verify this for the NATION table using the [SELECT]{.mark}
+    command:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDBTEST.ADMIN(ADMIN)=> [select * from nation;]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>N_NATIONKEY | N_NAME | N_REGIONKEY | N_COMMENT</p>
+<p>-------------+--------+-------------+-----------</p>
+<p>(0 rows)</p>
+<p>Notice the result set is empty as expected. The schema-only backup
+option is a convenient way to save your database schema and to create
+empty copies of your database. It will create a full 1:1 copy of the
+original database without the user data. You could also restore the
+database to a different Netezza Performance Server. This would only
+require that the backup server location is accessible from both Netezza
+Performance Servers. The target server can be another Netezza
+Performance Server, which can be a different model type or have a later
+software release.</p>
+<h1 id="backing-up-and-restoring-a-database">Backing up and Restoring a Database</h1>
+<p>Netezza Performance Server's user data backup will create a backup of
+the complete database, including all database objects and user data.
+Even global objects like users and privileges that are used in the
+database are backed up. This makes backup and restore a very easy and
+straightforward process.</p>
+<p>Since Netezza Performance Server doesn't have a transaction log, point
+in time restore is not possible. Therefore, frequent backups are
+advisable. NPS supports full, differential and cumulative backups that
+allow easy and fast regular data backups. An example backup strategy
+would be monthly full backups, weekly cumulative backups and daily
+differentials.</p>
+<p>Netezza Performance Server is not intended to be used nor has been
+designed as an OLTP database, therefore this should provide enough
+backup flexibility for most situations. For example, run differential
+backups after the daily ETL processes that feed the warehouse.</p>
+<p><strong>Figure 3 A typical backup strategy</strong></p>
+<p>In this section we will create a backup of our QA database. We will then
+do a differential backup and then do a restore.</p>
+<p><img alt="" src="../nz-images/nz-06-BNR/media/image9.png" />{width="0.3645833333333333in"
+height="0.3020833333333333in"}Our VMWare environment has some specific
+restrictions that only allow the restoration of up to 2 increments. The
+labs will work correctly but don't be surprised if you encounter errors
+during restore operations of more than 2 increments.</p>
+<h2 id="backing-up-the-database">Backing up the Database</h2>
+<p>Netezza Performance Server's backup is organized in so called backup
+sets. Every new full backup creates a new backup set. Differential and
+cumulative backups are added to the last backup set by default. They can
+also be added to a different backup set as well. In this section we will
+switch between the two Terminal sessions.</p>
+<ol>
+<li>In the OS session execute the following command to create a full
+    backup of the QA database:</li>
+</ol>
+<blockquote>
+<p><strong>Input [Terminal 1]:</strong></p>
+</blockquote>
+<p>[nz@localhost setupLab]\$ [nzbackup -db labdbqa -dir /tmp/bk1
+/tmp/bk2]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>﻿Backup of database labdbqa to backupset ﻿ ﻿20210331133512 completed
+successfully.</p>
+<p>This command will create a full user data backup of the LABDBQA
+database.</p>
+<p>Each backup set has a unique id that can be later used to access it. By
+default, the last active backup set is used for restore and differential
+backups.</p>
+<blockquote>
+<p><img alt="" src="../nz-images/nz-06-BNR/media/image6.jpeg" />{width="0.3645833333333333in"
+height="0.375in"}In this lab we split up the backup between two file
+system locations. You can specify up to 16 file system locations after
+the [--dir]{.mark} parameter. Alternatively, you could use a directory
+list file as well with the [--dirfile]{.mark} option. Splitting up the
+backup between different file servers will result in higher backup
+performance.</p>
+</blockquote>
+<ol start="2">
+<li>In the NZSQL session we will now add a new row to the REGION table.
+    First connect to the QA database using the [\c]{.mark} command:</li>
+</ol>
+<blockquote>
+<p><strong>Input [Terminal 2]:</strong></p>
+</blockquote>
+<p>LABDBTEST.ADMIN(ADMIN)=> [\c labdbqa]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>You are now connected to database labdbqa.</p>
+<ol start="3">
+<li>Now add a new entry for the north pole to the REGION table:</li>
+</ol>
+<blockquote>
+<p><strong>Input [Terminal 2]:</strong></p>
+</blockquote>
+<p>LABDBQA.ADMIN(ADMIN)=> [insert into region values (5, \'np\', \'north
+pole\');]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>INSERT 0 1</p>
+<p>Now create a differential backup with the [--differential]{.mark}
+option. This will create a new entry to the backup set we created
+previously only containing the differences since the full backup.</p>
+<ol start="4">
+<li>In the OS session create a differential backup:</li>
+</ol>
+<blockquote>
+<p><strong>Input [Terminal 1]:</strong></p>
+</blockquote>
+<p>[nz@localhost setupLab]\$ [nzbackup -db labdbqa -dir /tmp/bk1 /tmp/bk2
+-differential]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>﻿Backup of database labdbqa to backupset ﻿20210331133512 completed
+successfully.</p>
+<p>Notice that the backup set id hasn't changed.</p>
+<ol start="5">
+<li>In the NZSQL session add the south pole to the REGION table:</li>
+</ol>
+<blockquote>
+<p><strong>Input [Terminal 2]:</strong></p>
+</blockquote>
+<p>LABDBQA.ADMIN(ADMIN)=> [insert into region values (6, \'sp\', \'south
+pole\');]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>INSERT 0 1</p>
+<p>You have now one full backup with the original 4 rows in the REGION
+table, a differential backup that has additionally the north pole entry
+and a current state that has in addition to that the south pole region.</p>
+<h2 id="verifying-the-backups">Verifying the Backups</h2>
+<p>In this section we will have a closer look at the files and logs that
+are created during the Netezza Performance Server Backup process.</p>
+<ol>
+<li>In the OS session display the backup history of your Netezza
+    Performance Server.</li>
+</ol>
+<blockquote>
+<p><strong>Input [Terminal 1]:</strong></p>
+</blockquote>
+<p>[nz@localhost setupLab]\$ [nzbackup -history]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p><strong>﻿</strong> ﻿Database Backupset Seq # OpType Status Date Log File</p>
+<p>-------- -------------- ----- -------
+--------- -------------------
+------------------------------</p>
+<p>LABDBQA 20210331133344 1 NO DATA COMPLETED 2021-03-31 06:33:44
+backupsvr.30436.2021-03-31.log</p>
+<p>LABDBQA 20210331133512 1 FULL COMPLETED 2021-03-31 06:35:12
+backupsvr.30648.2021-03-31.log</p>
+<p>LABDBQA 20210331133512 2 DIFF COMPLETED 2021-03-31 06:36:00
+backupsvr.30859.2021-03-31.log</p>
+<p>Netezza Performance Server keeps track of all backups and saves them in
+the system catalog. This is used for differential backups and it is also
+integrated with the Groom process. Since Performance Server doesn't use
+transaction logs it needs logically deleted rows for differential
+backups. By default, Groom doesn't remove a logically deleted row that
+has not been backed up yet. Therefore, the Groom process is integrated
+with the backup history. We will explain this in more detail in the
+Transaction and Groom Labs.</p>
+<p>We have done three backups on our server. One backup set contains the
+schema only backup, two backups for the second backup set, one full
+backup and one differential. Let's have a closer look at the log that
+has been generated for the last differential backup.</p>
+<ol start="2">
+<li>In the OS session, switch to the log directory of the backupsrv
+    process, which is the process responsible for backing up data:</li>
+</ol>
+<blockquote>
+<p><strong>Input [Terminal 1]:</strong></p>
+</blockquote>
+<p>[nz@localhost backupRestore]\$ [cd /nz/kit/log/backupsvr]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>[nz@localhost backupsvr]\$</p>
+<p><img alt="" src="../nz-images/nz-06-BNR/media/image6.jpeg" />{width="0.3645833333333333in"
+height="0.375in"} The /nz/kit/log directory contains the log directories
+for all Performance Server processes.</p>
+<ol start="3">
+<li>Display the end of the log for the last differential backup process.
+    You will need to replace the XXX values with the actual values of
+    your log. You can cut and paste the log name from the history output
+    above. We are interested in the last differential backup process:</li>
+</ol>
+<blockquote>
+<p><strong>Input [Terminal 1]:</strong></p>
+</blockquote>
+<p>[nz@netezza backupsvr]\$ [tail backupsvr.xxxxx.xxxx-xx-xx.log]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>﻿﻿2021-03-31 06:36:04.879861 PDT (30859) Info: [30882] Postgres client
+pid: 30884, session: 16111</p>
+<p>2021-03-31 06:36:04.883271 PDT (30859) Info: [30883] Postgres client
+pid: 30885, session: 16112</p>
+<p>2021-03-31 06:36:04.892053 PDT (30859) Info: Capturing deleted rows</p>
+<p>2021-03-31 06:36:04.892145 PDT (30859) Info: Backing up table
+ADMIN.REGION</p>
+<p>2021-03-31 06:36:06.115265 PDT (30859) Info: Wrote 5569 bytes of
+metadata and udx files in less than a second</p>
+<p>2021-03-31 06:36:06.115362 PDT (30859) Info: Operation committed</p>
+<p>2021-03-31 06:36:06.115381 PDT (30859) Info: Wrote 72 bytes in less than
+one second to location 1</p>
+<p>2021-03-31 06:36:06.115384 PDT (30859) Info: Wrote 193 bytes in less
+than one second to location 2</p>
+<p>2021-03-31 06:36:06.115434 PDT (30859) Info: Backup of database labdbqa
+to backupset 20210331133512 completed successfully.</p>
+<p>2021-03-31 06:36:06.123928 PDT (30859) Info: NZ-00023: --- program
+\'backupsvr\' (30859) exiting on host \'localhost.localdomain\' ...</p>
+<p>You can see that the process backed up the three tables REGION, NATION
+and CUSTOMER and wrote the result to two different locations. You also
+see the amount of data written to these locations. Since we only added a
+single row the amount of data is tiny. If you look at the log of the
+full backup you will see a lot more data being written.</p>
+<ol start="4">
+<li>Now let's have a look at the files that are created during the
+    backup process, enter the first backup location:</li>
+</ol>
+<blockquote>
+<p><strong>Input [Terminal 1]:</strong></p>
+</blockquote>
+<p>[nz@netezza backupsvr]\$ [cd /tmp/bk1]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>[nz@localhost bk1]\$</p>
+<ol start="5">
+<li>Display the contents of the directory using [ls -l]{.mark}.</li>
+</ol>
+<blockquote>
+<p><strong>Input [Terminal 1]:</strong></p>
+</blockquote>
+<p>[nz@localhost bk1]\$ [ls -l]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>﻿drwxrwxrwx. 3 nz nz 35 Mar 31 04:43 Netezza</p>
+<p>The directory contains all backup sets for all Performance Servers that
+use this backup location. If you need to move the backup you always have
+to move the complete folder.</p>
+<ol start="6">
+<li>Change directories into the Netezza folder, with cd Netezza, and
+    display the contents with [ls -l]{.mark}.</li>
+</ol>
+<blockquote>
+<p><strong>Input [Terminal 1]:</strong></p>
+</blockquote>
+<p>[nz@localhost bk1]\$ [cd Netezza]{.mark}</p>
+<blockquote>
+<p><strong>Input [Terminal 1]:</strong></p>
+</blockquote>
+<p>[nz@localhost Netezza]\$ [ls -l]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>total 0</p>
+<p>﻿drwxrwxrwx. 3 nz nz 21 Mar 31 04:43 localhost.localdomain</p>
+<p>Under the main Netezza folder you will find sub folders for each Netezza
+host that is backed up to this location. In our case we only have one
+Netezza host called "netezza". But if your company had multiple Netezza
+hosts you would find them here.</p>
+<ol start="7">
+<li>Change directories to the localhost.localdomain folder with the
+    [cd]{.mark} command and display the contents with [ll]{.mark}:</li>
+</ol>
+<blockquote>
+<p><strong>Input [Terminal 1]:</strong></p>
+</blockquote>
+<p>[nz@localhost Netezza]\$ [cd localhost.localdomain]{.mark}</p>
+<blockquote>
+<p><strong>Input [Terminal 1]:</strong></p>
+</blockquote>
+<p>[nz@localhost localhost.localdomain]\$ [ls -l]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>drwxrwxrwx. 3 nz nz 28 Mar 31 04:43 LABDBQA</p>
+<ol start="8">
+<li>Change directories to the LABDBQA folder with [cd]{.mark} and
+    display the contents with [ls -l]{.mark}:</li>
+</ol>
+<blockquote>
+<p><strong>Input [Terminal 1]:</strong></p>
+</blockquote>
+<p>[nz@localhost localhost.localdomain]\$ [cd LABDBQA/]{.mark}</p>
+<blockquote>
+<p><strong>Input [Terminal 1]:</strong></p>
+</blockquote>
+<p>[nz@localhost LABDBQA]\$ [ls -l]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>total 0</p>
+<p>drwxrwxrwx. 4 nz nz 24 Apr 5 11:44 ﻿20210331133512</p>
+<p>You will find all the databases of the host that have been backed up to
+this location, in our case the QA database.</p>
+<p>In this folder you can see all the backup sets that have been saved for
+this database. Each backup set corresponds to one full backup plus an
+optional set of differential and cumulative backups. Note that we backed
+up the schema to a different location, so we only have one backup set in
+here.</p>
+<ol start="9">
+<li>Change directories to the backup set folder with [cd]{.mark} \&lt;your
+    backupset id> and display the contents with [ll]{.mark}:</li>
+</ol>
+<blockquote>
+<p><strong>Input [Terminal 1]:</strong></p>
+</blockquote>
+<p>[nz@localhost LABDBQA]\$ [cd]{.mark} ﻿[20210331133512 /]{.mark}</p>
+<blockquote>
+<p><strong>Input [Terminal 1]:</strong></p>
+</blockquote>
+<p>[nz@localhost ﻿20210331133512]\$ [ls -l]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>total 0</p>
+<p>drwxrwxrwx. 3 nz nz 18 Mar 31 06:35 1</p>
+<p>drwxrwxrwx. 3 nz nz 18 Mar 31 04:36 2</p>
+<p>Under the backup set are folders for each backup that has been added to
+that backup set. "1" is always the full backup followed by additional
+differential or cumulative backups. We will later use these numbers to
+restore our database to a specific backup of the backup set.</p>
+<ol start="10">
+<li>
+<p>Change directories to the full backup with [cd]{.mark} and display
+    the contents with [ll]{.mark}:</p>
+</li>
+<li>
+<p><strong>Input [Terminal 1]:</strong></p>
+</li>
+</ol>
+<p>[nz@localhost ﻿20210331133512]\$ [cd 1]{.mark}</p>
+<blockquote>
+<p><strong>Input [Terminal 1]:</strong></p>
+</blockquote>
+<p>[nz@localhost 1]\$ [ls -l]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>total 0</p>
+<p>drwxrwxrwx. 4 nz nz 28 Mar 31 06:43 FULL</p>
+<p>As expected, it's a full backup.</p>
+<ol start="12">
+<li>Change directories to the [FULL]{.mark} folder with cd and display
+    the contents with [ls -l:]{.mark}</li>
+</ol>
+<blockquote>
+<p><strong>Input [Terminal 1]:</strong></p>
+</blockquote>
+<p>[nz@localhost FULL]\$ [cd FULL]{.mark}</p>
+<p>[nz@localhost FULL]\$ [ls -l]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>total 0</p>
+<p>﻿drwxrwxrwx. 2 nz nz 94 Mar 31 06:35 data</p>
+<p>drwxrwxrwx. 3 nz nz 92 Mar 31 06:35 md</p>
+<p>The data folder contains the user data, the md folder contains metadata
+including the schema definition of the database.</p>
+<ol start="13">
+<li>Change directories to the data folder with the [cd]{.mark} command
+    and display detailed information with [ll]{.mark}:</li>
+</ol>
+<blockquote>
+<p><strong>Input [Terminal 1]:</strong></p>
+</blockquote>
+<p>[nz@localhost FULL]\$ [cd data]{.mark}</p>
+<blockquote>
+<p><strong>Input [Terminal 1]:</strong></p>
+</blockquote>
+<p>[nz@localhost data]\$ [ls -l]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>total 8</p>
+<p>﻿total 1128</p>
+<p>-rw-------. 1 nz nz 337 Mar 31 04:43 202287.full.2.1</p>
+<p>-rw-------. 1 nz nz 449 Mar 31 04:43 202289.full.2.1</p>
+<p>-rw-------. 1 nz nz 1140681 Mar 31 04:43 202291.full.2.1</p>
+<p>-rw-------. 1 nz nz 1 Mar 31 04:43 data.marker</p>
+<ol start="14">
+<li>Now switch to the md folder using [cd ../md]{.mark} and display the
+    contents with [ll]{.mark}:</li>
+</ol>
+<blockquote>
+<p><strong>Input [Terminal 1]:</strong></p>
+</blockquote>
+<p>[nz@localhost data]\$ [cd ../md]{.mark}</p>
+<blockquote>
+<p><strong>Input [Terminal 1]:</strong></p>
+</blockquote>
+<p>[nz@localhost md]\$ [ls -l]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>﻿﻿total 1120</p>
+<p>-rw-------. 1 nz nz 338 Mar 31 06:35 200580.full.2.1</p>
+<p>-rw-------. 1 nz nz 451 Mar 31 06:35 200582.full.2.1</p>
+<p>-rw-------. 1 nz nz 1132441 Mar 31 06:35 200584.full.1.1</p>
+<p>-rw-------. 1 nz nz 1 Mar 31 06:35 data.marker</p>
+<p>This folder contains information about the files that contribute to the
+backup and the schema definition of the database in the schema.xml</p>
+<ol start="15">
+<li>Let's have a quick look inside the schema.xml file:</li>
+</ol>
+<blockquote>
+<p><strong>Input [Terminal 1]:</strong></p>
+</blockquote>
+<p>[nz@localhost md]\$ [more schema.xml]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>\&lt;ARCHIVE archive_major=\"4\" archive_minor=\"0\" archive_subminor=\"1\"
+product_ver=\"Release 11.0.3.1 [Build 0]\" catalog_ver=\"3.1792\"
+hostname=\"localhost.localdomain\" dataslices=\"1\"</p>
+<p>createtime=\"2020-04-05 18:42:23\" lowercase=\"f\" objidcycle=\"0\"
+hpfrel=\"3.2\" model=\"sim\" family=\"sim\" platform=\"sim\"></p>
+<p>\&lt;OPERATION backupset=\"20200405184220\" increment=\"1\"
+predecessor=\"0\" optype=\"0\" dbname=\"LABDBQA\"/></p>
+<p>\&lt;DATABASE name=\"LABDBQA\" schema=\"\" owner=\"QAUSER\" oidhi=\"0\"
+oid=\"200820\" classhi=\"0\" class=\"0\" delimited=\"f\" sdelim=\"f\"
+odelim=\"f\" charset=\"LATIN9\" collation=\"BINARY\" collecth</p>
+<p>ist=\"t\" replcsn=\"0\" replsrcid=\"0\" repldbid=\"0\" replsetid=\"0\"
+defschema=\"ADMIN\" defschemadelim=\"f\" dbtrackchanges=\"1\"></p>
+<p>\&lt;SCHEMA name=\"ADMIN\" schema=\"\" owner=\"ADMIN\" oidhi=\"0\"
+oid=\"200819\" classhi=\"0\" class=\"0\" delimited=\"f\" sdelim=\"f\"
+odelim=\"f\" path=\"\"/></p>
+<p>\&lt;STATISTICS column_count=\"15\"/></p>
+<p>\&lt;TABLE ver=\"2\" name=\"REGION\" schema=\"ADMIN\" owner=\"ADMIN\"
+oidhi=\"0\" oid=\"200821\" classhi=\"0\" class=\"4905\" delimited=\"f\"
+sdelim=\"f\" odelim=\"f\" rowsecurity=\"f\" origoidhi=\"0\" ori</p>
+<p>goid=\"200821\" excludebackup=\"0\"></p>
+<p>\&lt;COLUMN name=\"R_REGIONKEY\" schema=\"\" owner=\"\" oidhi=\"0\"
+oid=\"203501\" classhi=\"0\" class=\"0\" delimited=\"f\" sdelim=\"t\"
+odelim=\"t\" seq=\"1\" type=\"INTEGER\" typeno=\"23\" typemod=\"-1\"</p>
+<p>notnull=\"t\"/></p>
+<p>\&lt;COLUMN name=\"R_NAME\" schema=\"\" owner=\"\" oidhi=\"0\"
+oid=\"203502\" classhi=\"0\" class=\"0\" delimited=\"f\" sdelim=\"t\"
+odelim=\"t\" seq=\"2\" type=\"CHARACTER(25)\" typeno=\"1042\"
+typemod=\"4</p>
+<p>1\" notnull=\"t\"/></p>
+<p>\&lt;COLUMN name=\"R_COMMENT\" schema=\"\" owner=\"\" oidhi=\"0\"
+oid=\"203503\" classhi=\"0\" class=\"0\" delimited=\"f\" sdelim=\"t\"
+odelim=\"t\" seq=\"3\" type=\"CHARACTER VARYING(152)\" typeno=\"1043</p>
+<p>\" typemod=\"168\" notnull=\"f\"/></p>
+<p>\&lt;DISTRIBUTION seq=\"1\" attnum=\"1\"/></p>
+<p>\&lt;/TABLE></p>
+<p>\&lt;TABLE ver=\"2\" name=\"NATION\" schema=\"ADMIN\" owner=\"ADMIN\"
+oidhi=\"0\" oid=\"200823\" classhi=\"0\" class=\"4905\" delimited=\"f\"
+sdelim=\"f\" odelim=\"f\" rowsecurity=\"f\" origoidhi=\"0\" ori</p>
+<p>goid=\"200823\" excludebackup=\"0\"></p>
+<p>\&lt;COLUMN name=\"N_NATIONKEY\" schema=\"\" owner=\"\" oidhi=\"0\"
+oid=\"203510\" classhi=\"0\" class=\"0\" delimited=\"f\" sdelim=\"t\"
+odelim=\"t\" seq=\"1\" type=\"INTEGER\" typeno=\"23\" typemod=\"-1\"</p>
+<p>notnull=\"t\"/></p>
+<p>\&lt;COLUMN name=\"N_NAME\" schema=\"\" owner=\"\" oidhi=\"0\"
+oid=\"203511\" classhi=\"0\" class=\"0\" delimited=\"f\" sdelim=\"t\"
+odelim=\"t\" seq=\"2\" type=\"CHARACTER(25)\" typeno=\"1042\"
+typemod=\"4</p>
+<p>1\" notnull=\"t\"/></p>
+<p>\&lt;COLUMN name=\"N_REGIONKEY\" schema=\"\" owner=\"\" oidhi=\"0\"
+oid=\"203512\" classhi=\"0\" class=\"0\" delimited=\"f\" sdelim=\"t\"
+odelim=\"t\" seq=\"3\" type=\"INTEGER\" typeno=\"23\" typemod=\"-1\"</p>
+<p>notnull=\"t\"/></p>
+<p>\&lt;COLUMN name=\"N_COMMENT\" schema=\"\" owner=\"\" oidhi=\"0\"
+oid=\"203513\" classhi=\"0\" class=\"0\" delimited=\"f\" sdelim=\"t\"
+odelim=\"t\" seq=\"4\" type=\"CHARACTER VARYING(152)\" typeno=\"1043</p>
+<p>\" typemod=\"168\" notnull=\"f\"/></p>
+<p>\&lt;DISTRIBUTION seq=\"1\" attnum=\"1\"/></p>
+<p>\&lt;/TABLE></p>
+<p>\&lt;TABLE ver=\"2\" name=\"CUSTOMER\" schema=\"ADMIN\" owner=\"ADMIN\"
+oidhi=\"0\" oid=\"200825\" classhi=\"0\" class=\"4905\" delimited=\"f\"
+sdelim=\"f\" odelim=\"f\" rowsecurity=\"f\" origoidhi=\"0\" o</p>
+<p>rigoid=\"200825\" excludebackup=\"0\"></p>
+<p>\&lt;COLUMN name=\"C_CUSTKEY\" schema=\"\" owner=\"\" oidhi=\"0\"
+oid=\"203520\" classhi=\"0\" class=\"0\" delimited=\"f\" sdelim=\"t\"
+odelim=\"t\" seq=\"1\" type=\"INTEGER\" typeno=\"23\" typemod=\"-1\" no</p>
+<p>tnull=\"t\"/></p>
+<p>\&lt;COLUMN name=\"C_NAME\" schema=\"\" owner=\"\" oidhi=\"0\"
+oid=\"203521\" classhi=\"0\" class=\"0\" delimited=\"f\" sdelim=\"t\"
+odelim=\"t\" seq=\"2\" type=\"CHARACTER VARYING(25)\" typeno=\"1043\" ty</p>
+<p>pemod=\"41\" notnull=\"t\"/></p>
+<p>\&lt;COLUMN name=\"C_ADDRESS\" schema=\"\" owner=\"\" oidhi=\"0\"
+oid=\"203522\" classhi=\"0\" class=\"0\" delimited=\"f\" sdelim=\"t\"
+odelim=\"t\" seq=\"3\" type=\"CHARACTER VARYING(40)\" typeno=\"1043\"</p>
+<p>typemod=\"56\" notnull=\"t\"/></p>
+<p>\&lt;COLUMN name=\"C_NATIONKEY\" schema=\"\" owner=\"\" oidhi=\"0\"
+oid=\"203523\" classhi=\"0\" class=\"0\" delimited=\"f\" sdelim=\"t\"
+odelim=\"t\" seq=\"4\" type=\"INTEGER\" typeno=\"23\" typemod=\"-1\"</p>
+<p>notnull=\"t\"/></p>
+<p>\&lt;COLUMN name=\"C_PHONE\" schema=\"\" owner=\"\" oidhi=\"0\"
+oid=\"203524\" classhi=\"0\" class=\"0\" delimited=\"f\" sdelim=\"t\"
+odelim=\"t\" seq=\"5\" type=\"CHARACTER(15)\" typeno=\"1042\" typemod=\"</p>
+<p>31\" notnull=\"t\"/></p>
+<p>\&lt;COLUMN name=\"C_ACCTBAL\" schema=\"\" owner=\"\" oidhi=\"0\"
+oid=\"203525\" classhi=\"0\" class=\"0\" delimited=\"f\" sdelim=\"t\"
+odelim=\"t\" seq=\"6\" type=\"NUMERIC(15,2)\" typeno=\"1700\" typemod</p>
+<p>=\"983058\" notnull=\"t\"/></p>
+<p>\&lt;COLUMN name=\"C_MKTSEGMENT\" schema=\"\" owner=\"\" oidhi=\"0\"
+oid=\"203526\" classhi=\"0\" class=\"0\" delimited=\"f\" sdelim=\"t\"
+odelim=\"t\" seq=\"7\" type=\"CHARACTER(10)\" typeno=\"1042\" type</p>
+<p>mod=\"26\" notnull=\"t\"/></p>
+<p>\&lt;COLUMN name=\"C_COMMENT\" schema=\"\" owner=\"\" oidhi=\"0\"
+oid=\"203527\" classhi=\"0\" class=\"0\" delimited=\"f\" sdelim=\"t\"
+odelim=\"t\" seq=\"8\" type=\"CHARACTER VARYING(117)\" typeno=\"1043</p>
+<p>\" typemod=\"133\" notnull=\"t\"/></p>
+<p>\&lt;DISTRIBUTION seq=\"1\" attnum=\"1\"/></p>
+<p>\&lt;/TABLE></p>
+<p>\&lt;VIEW name=\"NATIONSBYREGIONS\" schema=\"ADMIN\" owner=\"ADMIN\"
+oidhi=\"0\" oid=\"200827\" classhi=\"0\" class=\"0\" delimited=\"f\"
+sdelim=\"f\" odelim=\"f\" definition=\"SELECT REGION.R_NAME, N</p>
+<p>ATION.N_NAME FROM ADMIN.NATION, ADMIN.REGION WHERE (REGION.R_REGIONKEY =
+NATION.N_REGIONKEY);\"/></p>
+<p>\&lt;USER name=\"QAUSER\" schema=\"\" owner=\"ADMIN\" oidhi=\"0\"
+oid=\"200829\" classhi=\"0\" class=\"0\" delimited=\"f\" sdelim=\"f\"
+odelim=\"f\" pwd=\"\" rowsetlimit=\"0\" validuntil=\"\" sesstimeout=\"</p>
+<p>0\" qrytimeout=\"0\" defp=\"NONE\" maxp=\"NONE\" pwdinv=\"f\"
+pwdlastchged=\"\" resrcgrpid=\"4901\" crossjoin=\"NULL\"
+collecthist=\"0\" accesstime=\"0\" concursess=\"0\"
+seclabel=\"PUBLIC::\" audit</p>
+<p>cat=\"NONE\" useauth=\"0\"></p>
+<p>\&lt;/USER></p>
+<p>\&lt;RSG username=\"QAUSER\" userdelim=\"f\" groupname=\"PUBLIC\"
+groupdelim=\"f\"/></p>
+<p>\&lt;/DATABASE></p>
+<p>\&lt;/ARCHIVE></p>
+<p>As you see this file contains a full XML description of your database,
+including table definition, views, users etc.</p>
+<ol start="16">
+<li>Switch back to the lab folder:</li>
+</ol>
+<blockquote>
+<p><strong>Input [Terminal 1]:</strong></p>
+</blockquote>
+<p>[nz@localhost md]\$ [cd \~/labs/backupRestore/]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>[nz@localhost backupRestore]\$</p>
+<p>You should now have a pretty good understanding of the Performance
+Server Backup process. In the next section we will demonstrate the
+restore functionality.</p>
+<h2 id="restoring-the-database">Restoring the Database</h2>
+<p>In this section, we will restore our database to the first increment and
+then we will upgrade our database to the next increment.</p>
+<p>Performance Server allows you to return a database to a specific
+increment in your backup set. If you want to do an incremental restore,
+the database must be locked. Tables can be queried but not changed until
+the database is in the desired state and unlocked.</p>
+<ol>
+<li>In the NZSQL session we will drop the QA database and the QA user.
+    First connect to the SYSTEM database:</li>
+</ol>
+<blockquote>
+<p><strong>Input [Terminal 2]:</strong></p>
+</blockquote>
+<p>LABDBQA.ADMIN(ADMIN)=> [\c SYSTEM]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>You are now connected to database SYSTEM.</p>
+<p>SYSTEM.ADMIN(ADMIN)=></p>
+<ol start="2">
+<li>Now drop the QA database:</li>
+</ol>
+<blockquote>
+<p><strong>Input [Terminal 2]:</strong></p>
+</blockquote>
+<p>SYSTEM.ADMIN(ADMIN)=> [DROP DATABASE LABDBQA;]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>DROP DATABASE</p>
+<ol start="3">
+<li>Now drop the QA User:</li>
+</ol>
+<blockquote>
+<p><strong>Input [Terminal 2]:</strong></p>
+</blockquote>
+<p>SYSTEM.ADMIN(ADMIN)=> [DROP USER QAUSER;]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>DROP USER</p>
+<ol start="4">
+<li>Verify that the QA database has been deleted by displaying the
+    databases using the [\l]{.mark} command. You will see that the
+    LABDBQA database has been removed:</li>
+</ol>
+<blockquote>
+<p><strong>Input [Terminal 2]:</strong></p>
+</blockquote>
+<p>SYSTEM.ADMIN(ADMIN)=> [\l]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>List of databases</p>
+<p>DATABASE | OWNER</p>
+<p>-----------+----------</p>
+<p>LABDB | LABADMIN</p>
+<p>LABDBTEST | ADMIN</p>
+<p>SYSTEM | ADMIN</p>
+<p>(3 rows)</p>
+<ol start="5">
+<li>In the OS session, restore the database to the first increment:</li>
+</ol>
+<blockquote>
+<p><strong>Input [Terminal 1]:</strong></p>
+</blockquote>
+<p>[nz@localhost backupRestore]\$ [nzrestore -db labdbqa -dir /tmp/bk1
+/tmp/bk2 -increment 1 -lockdb true]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>﻿Restore of increment 1 from backupset ﻿20210331133512 to database
+\'labdbqa\' committed.</p>
+<p>Notice that we have specified the increment with the
+[--increment]{.mark} option. In our case this is the first full backup
+in our backup set. We did not have to specify a backup set, by default
+the most recent one is used. Since we are not sure which increment we
+want to restore the database to, we have to lock the database with the
+[-lockdb]{.mark} option. This allows only read-only access until the
+desired increment has been restored.</p>
+<ol start="6">
+<li>In the NZSQL session, verify that the database has been recreated
+    with [\l]{.mark}</li>
+</ol>
+<blockquote>
+<p><strong>Input [Terminal 2]:</strong></p>
+</blockquote>
+<p>SYSTEM.ADMIN(ADMIN)-> [\l]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>List of databases</p>
+<p>DATABASE | OWNER</p>
+<p>-----------+----------</p>
+<p>LABDB | LABADMIN</p>
+<p>LABDBQA | QAUSER</p>
+<p>LABDBTEST | ADMIN</p>
+<p>SYSTEM | ADMIN</p>
+<p>(4 rows)</p>
+<p>Notice the LABDBQA database is there. You can also see that the owner
+QAUSER has been recreated and is again the database owner.</p>
+<ol start="7">
+<li>Connect to the LABDBQA database with the [\c]{.mark} command</li>
+</ol>
+<blockquote>
+<p><strong>Input [Terminal 2]:</strong></p>
+</blockquote>
+<p>SYSTEM.ADMIN(ADMIN)-> [\c labdbqa]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>NOTICE: Database \'LABDBQA\' is available for read-only</p>
+<p>You are now connected to database labdbqa.</p>
+<p>Notice that LABDBQA database is currently in read-only mode.</p>
+<ol start="8">
+<li>Verify the contents of the REGION table from the LABDBQA database:</li>
+</ol>
+<blockquote>
+<p><strong>Input [Terminal 2]:</strong></p>
+</blockquote>
+<p>LABDBQA.ADMIN(ADMIN)=> [select * from region order by 1;]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>﻿R_REGIONKEY | R_NAME | R_COMMENT</p>
+<p>-------------+---------------------------+-----------------------------</p>
+<p>1 | na | north america</p>
+<p>2 | sa | south america</p>
+<p>3 | emea | europe, middle east, africa</p>
+<p>4 | ap | asia pacific</p>
+<p>(4 rows)</p>
+<p>Notice that we have returned the database to the point in time after the
+first full backup. There is no north or south pole in the R_COMMENT
+column.</p>
+<ol start="9">
+<li>Try to insert a row to verify the read only mode:</li>
+</ol>
+<blockquote>
+<p><strong>Input [Terminal 2]:</strong></p>
+</blockquote>
+<p>LABDBQA.ADMIN(ADMIN)=> [insert into region values (5, \'np\', \'north
+pole\');]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>ERROR: Database \'LABDBQA\' is available for read-only (command ignored)</p>
+<p>As expected, this is prohibited until we unlock the database.</p>
+<ol start="10">
+<li>In the OS session, apply the next increment to the database</li>
+</ol>
+<blockquote>
+<p><strong>Input [Terminal 1]:</strong></p>
+</blockquote>
+<p>[nz@localhost backupRestore]\$ [nzrestore -db labdbqa -dir /tmp/bk1
+/tmp/bk2 -increment next -lockdb true]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>﻿Restore of increment 2 from backupset ﻿20210331133512 to database
+\'labdbqa\' committed.</p>
+<p>Notice that we now apply the second increment to the database.</p>
+<ol start="11">
+<li>Since we do not need to load any more increments, we can now unlock
+    the database:</li>
+</ol>
+<blockquote>
+<p><strong>Input [Terminal 1]:</strong></p>
+</blockquote>
+<p>[nz@localhost backupRestore]\$ [nzrestore -db labdbqa -dir /tmp/bk1
+/tmp/bk2 -unlockdb]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>[nz@localhost backupRestore]\$</p>
+<p>After the database unlock, we cannot apply any further increments to
+this database. To jump to a different increment, we would need to start
+from the beginning.</p>
+<ol start="12">
+<li>In the nzsql session we will look at the REGION table again:</li>
+</ol>
+<blockquote>
+<p><strong>Input [Terminal 2]:</strong></p>
+</blockquote>
+<p>LABDBQA.ADMIN(ADMIN)=> [select * from region order by 1;]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>﻿R_REGIONKEY | R_NAME | R_COMMENT</p>
+<p>-------------+---------------------------+-----------------------------</p>
+<p>1 | na | north america</p>
+<p>2 | sa | south america</p>
+<p>3 | emea | europe, middle east, africa</p>
+<p>4 | ap | asia pacific</p>
+<p>5 | np | north pole</p>
+<p>(5 rows)</p>
+<p>Notice that we have added the north pole region, which was created
+before the first differential backup.</p>
+<ol start="13">
+<li>Verify that the database is unlocked and ready for use again by
+    adding a new set of customers to the CUSTOMER table. In addition to
+    the Automobile users we want to add the machinery users from the
+    main database:</li>
+</ol>
+<blockquote>
+<p><strong>Input [Terminal 2]:</strong></p>
+</blockquote>
+<p>LABDBQA.ADMIN(ADMIN)=> [insert into customer select * from
+labdb.admin.customer where c_mktsegment = \'MACHINERY\';]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>INSERT 0 29949</p>
+<p>Notice that we now can use the database in a normal fashion again.</p>
+<ol start="14">
+<li>We had around 30000 customers before, verify that the new user set
+    has been added successfully:</li>
+</ol>
+<blockquote>
+<p><strong>Input [Terminal 2]:</strong></p>
+</blockquote>
+<p>LABDBQA.ADMIN(ADMIN)=> [select count(*) from customer;]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>COUNT</p>
+<p>-------</p>
+<p>59701</p>
+<p>(1 row)</p>
+<p>You will see that we now have around 60000 rows in the CUSTOMER table.</p>
+<p>You have now done a full restore cycle for the database and applied a
+full and incremental backup to your database. In the next section we
+will demonstrate single table restore and the ability to restore from
+any backup set.</p>
+<h2 id="single-table-restore">Single Table Restore</h2>
+<p>In this chapter we will demonstrate the targeted restore of a subset of
+tables from a backup set. We will also demonstrate how to restore from a
+specific older backup set.</p>
+<ol>
+<li>First, we will create a second backup set with the new customer
+    data. In the OS session execute the following command:</li>
+</ol>
+<blockquote>
+<p><strong>Input [Terminal 1]:</strong></p>
+</blockquote>
+<p>[nz@localhost backupRestore]\$ [nzbackup -db labdbqa -dir /tmp/bk1
+/tmp/bk2]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>﻿Backup of database labdbqa to backupset ﻿20210331134349 completed
+successfully.</p>
+<p>Notice that this is a full database backup because we took the defaults.
+In this case Netezza Performance Server automatically creates a new
+backup set.</p>
+<ol start="2">
+<li>We want to return the CUSTOMER table to the previous condition. But
+    we do not want to change the REGION or the NATION tables. To do this
+    we need to know the backup set id of the previous backup set. To do
+    this execute the history command again:</li>
+</ol>
+<blockquote>
+<p><strong>Input [Terminal 1]:</strong></p>
+</blockquote>
+<p>[nz@localhost backupRestore]\$ [nzbackup -history]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>﻿﻿Database Backupset Seq # OpType Status Date Log File</p>
+<p>--------- -------------- ----- -------
+--------- -------------------
+------------------------------</p>
+<p>(LABDBQA) 20210331133344 1 NO DATA COMPLETED 2021-03-31 06:33:44
+backupsvr.30436.2021-03-31.log</p>
+<p>(LABDBQA) 20210331133512 1 FULL COMPLETED 2021-03-31 06:35:12
+backupsvr.30648.2021-03-31.log</p>
+<p>(LABDBQA) 20210331133512 2 DIFF COMPLETED 2021-03-31 06:36:00
+backupsvr.30859.2021-03-31.log</p>
+<p>LABDBQA 20210331134349 1 FULL COMPLETED 2021-03-31 06:43:49
+backupsvr.31972.2021-03-31.log</p>
+<p>We now see three different backup sets, the schema only backup, the two
+step backupset and the new full backupset. Remember the backup set id of
+the two step backupset.</p>
+<ol start="3">
+<li>To return only the CUSTOMER table to its condition of the second
+    backup set, we can do a table level restore with the following
+    command:</li>
+</ol>
+<blockquote>
+<p><strong>Input [Terminal 1]:</strong></p>
+</blockquote>
+<p>[nz@localhost backupRestore]\$ [nzrestore -db labdbqa -dir /tmp/bk1
+/tmp/bk2 -backupset ﻿20210331133512 -tables CUSTOMER]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>Error: Specify -droptables to force drop of tables in the -tables list.</p>
+<p>This command will only restore the tables in the --tables option. If you
+want to restore multiple tables, you can simply write them in a list
+after the option.</p>
+<p>We use the --backupset option to specify a specific backup set. Remember
+to replace the id with the value you retrieved with the history command.</p>
+<blockquote>
+<p><img alt="" src="../nz-images/nz-06-BNR/media/image6.jpeg" />{width="0.3645833333333333in"
+height="0.375in"} Notice that the table name needs to be case
+sensitive. This is in contrast to the database name. You will get the
+error "Performance Server cannot restore a table that exists in the
+target database. You can either drop the table before restoring it or
+use the [--droptables]{.mark} option."</p>
+</blockquote>
+<ol start="4">
+<li>Repeat the previous command with the added --droptables option:</li>
+</ol>
+<blockquote>
+<p><strong>Input [Terminal 1]:</strong></p>
+</blockquote>
+<p>[nz@localhost backupRestore]\$ [nzrestore -db labdbqa -dir /tmp/bk1
+/tmp/bk2 -backupset 20210331133512 -tables CUSTOMER -droptables]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>﻿[Restore Server] : Dropping TABLE \'CUSTOMER\'</p>
+<p>Restore of increment 1 from backupset 20210331133512 to database
+\'labdbqa\' committed.</p>
+<p>Restore of increment 2 from backupset 20210331133512 to database
+\'labdbqa\' committed.</p>
+<p>Notice that the target table was dropped before the restore happened and
+the specified backup set was used. Since we didn't stipulate a specific
+increment, the full backup set has been applied with all increments.
+Also, the table is automatically unlocked after the restore process
+finishes.</p>
+<ol start="5">
+<li>Finally let's verify that the restore worked as expected, in the
+    NZSQL console count the rows of the customer table again:</li>
+</ol>
+<blockquote>
+<p><strong>Input [Terminal 2]:</strong></p>
+</blockquote>
+<p>LABDBQA.ADMIN(ADMIN)=> [select count(*) from customer;]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>COUNT</p>
+<p>-------</p>
+<p>29752</p>
+<p>(1 row)</p>
+<p>You will see that we are back to approximately 30000 rows. This means
+that we have backed out the most recent changes.</p>
+<p>In this chapter you executed a single table restore and you did a
+restore from a specific backup set.</p>
+<h1 id="backing-up-user-data-and-host-data">Backing up User Data and Host Data</h1>
+<p>In the previous chapters you have learned to backup Performance Server
+databases. This backs up all the database objects that are used in the
+database and the user data. These are the most critical components to
+back up in a Performance Server. They will allow you to recreate your
+databases even if you switch to a completely new Netezza Performance
+Server.</p>
+<p>There are two other things that should be backed up:</p>
+<ul>
+<li>
+<p>The global user information.</p>
+</li>
+<li>
+<p>The host data</p>
+</li>
+</ul>
+<p>In this chapter you will do a backup of these components, so you would
+be able to revert your IBM Netezza Performance Server to the exact
+condition it was in before the backup.</p>
+<h2 id="user-data-backup">User Data Backup</h2>
+<p>Users, groups, and privileges that are not used in databases will not be
+backed up by the user data backup. To be able to revert a Performance
+Server completely to its original condition you need to have a backup of
+the global user information as well, to capture for example
+administrative users that are not part of any database.</p>
+<p>This is done with the [--users]{.mark} option of the [nzbackup]{.mark}
+command:</p>
+<ol>
+<li>In the OS session execute the following command.</li>
+</ol>
+<blockquote>
+<p><strong>Input [Terminal 2]:</strong></p>
+</blockquote>
+<p>[nz@localhost backupRestore]\$ [nzbackup -dir /tmp/bk1 /tmp/bk2
+-users]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>Backup of global objects completed successfully.</p>
+<p>This will create a backup of all Users, Groups and Privileges. Restoring
+it will not delete any users, instead it will only add missing Users,
+Groups and Privileges, so it doesn't need to be fully synchronized with
+the user data backup. You can even restore an older user backup without
+fear of destroying information.</p>
+<h2 id="host-data-backup">Host Data Backup</h2>
+<p>Until now we have always backed up database content. This is essentially
+catalog and user data that can be applied to a new Performance Server.
+Performance Server also provides the functionality to backup and restore
+host data. This is essentially the data in the /nz/data and /export/nz
+directories of the host server.</p>
+<p>There are two reasons for regularly backing up host data. The first is a
+host crash. If the data on your system is intact but the host file
+system has been destroyed, you can recreate all databases from the user
+backup. In very large systems this might take a long time. It is much
+easier to just restore the host information and reconnect to the
+undamaged user tables.</p>
+<p>The second reason is that the host data contains configuration
+information, log and plan files etc. that are not saved by the user
+backup. If you changed the system configuration that information would
+be lost. Therefore, it is advisable to regularly backup host data.</p>
+<ol>
+<li>To backup the host data execute the following command in the OS
+    session:</li>
+</ol>
+<blockquote>
+<p><strong>Input [Terminal 2]:</strong></p>
+</blockquote>
+<p>[nz@localhost backupRestore]\$ [nzhostbackup /tmp/hostbackup]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>Starting host backup. System state is \'online\'.</p>
+<p>Pausing the system ...</p>
+<p>Checkpointing host catalog ...</p>
+<p>Archiving system catalog ...</p>
+<p>Resuming the system ...</p>
+<p>Host backup completed successfully. System state is \'online\'.</p>
+<p>As you can see, the system was paused for the duration of the host
+backup but is automatically resumed after the backup is successful. Also
+notice that the host backup is done with the nzhostbackup command
+instead of the standard nzbackup command.</p>
+<ol start="2">
+<li>Let's have a look at the created file:</li>
+</ol>
+<blockquote>
+<p><strong>Input [Terminal 2]:</strong></p>
+</blockquote>
+<p>[nz@localhost backupRestore]\$ [ls -l /tmp]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>total 389308</p>
+<p>drwxrwxrwx. 3 nz nz 21 Apr 5 11:42 bk1</p>
+<p>drwxrwxrwx. 3 nz nz 21 Apr 5 11:42 bk2</p>
+<p>drwxrwxrwx. 3 nz nz 21 Apr 5 11:37 bkschema</p>
+<p>-rw-r--r--. 1 root root 36730 Apr 6 03:54 cyclops_run.log</p>
+<p>-rw-------. 1 nz nz 398447694 Apr 6 03:52 hostbackup</p>
+<p>...</p>
+<p>Notice that a backup file has been created. It's a compressed file
+containing the system catalog and Performance Server host information.
+If possible, host backups should be done regularly. If an old host
+backup is restored, there might be some orphaned tables. Orphan tables
+are tables that were created after the host backup and consume disk
+space but are not registered in the system catalog anymore. During host
+restore, Performance Server will create a script to clean up these
+orphaned tables.</p>
+<p>Congratulations you have finished the Backup &amp; Restore lab and you have
+had a chance to see all components of a successful Performance Server
+backup strategy. In this lab, we used the file system backup. In a real
+Performance Server backup and restore operation, we would most likely
+use third-party solutions such as IBM Spectrum Protect (formerly Tivoli®
+Storage Manager), Veritas NetBackup, and EMC NetWorker as destinations.</p>
+<p>For further information regarding the setup steps please refer to the
+IBM Knowledge Center for Netezza Performance Server.</p>
+
+              
+            </article>
+            
+          </div>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+    <nav class="md-footer__inner md-grid" aria-label="Footer" >
+      
+        
+        <a href="../nz-05-Loading-and-Unloading-Data/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Loading and Unloading Data" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Loading and Unloading Data
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../nz-07-Query-Optimization/" class="md-footer__link md-footer__link--next" aria-label="Next: Query Optimization" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Query Optimization
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2024 IBM
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.b97dbffb.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.6c7ad80a.min.js"></script>
+      
+    
+  </body>
+</html>

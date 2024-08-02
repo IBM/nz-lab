@@ -1,0 +1,1851 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.3.1, mkdocs-material-8.3.9">
+    
+    
+      
+        <title>Grooming Data - Netezza Performance Server Lab</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.1d29e8d0.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.cbb835fc.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#000000">
+        
+      
+      
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:300,300i,400,400i,700,700i%7CIBM+Plex+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"IBM Plex Sans";--md-code-font:"IBM Plex Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="black">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#data-grooming" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Netezza Performance Server Lab" class="md-header__button md-logo" aria-label="Netezza Performance Server Lab" data-md-component="logo">
+      
+  <img src="../nz-images/IBM_logo®_rev_RGB.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Netezza Performance Server Lab
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Grooming Data
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Netezza Performance Server Lab" class="md-nav__button md-logo" aria-label="Netezza Performance Server Lab" data-md-component="logo">
+      
+  <img src="../nz-images/IBM_logo®_rev_RGB.png" alt="logo">
+
+    </a>
+    Netezza Performance Server Lab
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-01-NPS-CLI/" class="md-nav__link">
+        Command Line Interface
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-02-WebConsole/" class="md-nav__link">
+        Web Console
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-03-Data-Distribution/" class="md-nav__link">
+        Data Distribution
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-04-Database-Admin/" class="md-nav__link">
+        Database Administration
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-05-Loading-and-Unloading-Data/" class="md-nav__link">
+        Loading and Unloading Data
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-06-BNR/" class="md-nav__link">
+        Backup and Restore
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-07-Query-Optimization/" class="md-nav__link">
+        Query Optimization
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-08-Optimization-Objects/" class="md-nav__link">
+        Optimization Objects
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Grooming Data
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Grooming Data
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objectives" class="md-nav__link">
+    Objectives
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-10-Stored-Proc/" class="md-nav__link">
+        Stored Procedures
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_11" type="checkbox" id="__nav_11" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_11">
+          Appendix
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Appendix" data-md-level="1">
+        <label class="md-nav__title" for="__nav_11">
+          <span class="md-nav__icon md-icon"></span>
+          Appendix
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-disclaimer/" class="md-nav__link">
+        Disclaimer
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-acknowledgements/" class="md-nav__link">
+        Acknowledgements
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objectives" class="md-nav__link">
+    Objectives
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+
+
+<h1 id="data-grooming">Data Grooming</h1>
+<p>As part of your routine database maintenance activities, you should plan
+to recover disk space occupied by outdated or deleted rows. In normal
+Netezza Performance Server operation, an UPDATE or DELETE of a table row
+does not remove the physical row on the hard disc. Instead the old row
+is marked as deleted together with a transaction id of the deleting
+transaction and in case of update a new row is created. This approach is
+called multiversioning. Rows that could potentially be visible to other
+transactions with an older transaction id are still accessible. Over
+time however, the outdated or deleted rows are of no interest to any
+transaction anymore and need to be removed to free up hard disc space
+and improve performance. After the rows have been captured in a backup,
+you can reclaim the space they occupy using the SQL GROOM TABLE command.
+The GROOM TABLE command does not lock a table while it is running; you
+can continue to SELECT, UPDATE, and INSERT into the table while the
+table is being groomed.</p>
+<h2 id="objectives">Objectives</h2>
+<p>In this lab we will use the GROOM command to prepare our tables for the
+customer. During the course of the POC we have deleted and update a
+number of rows. At the end of a POC it is sensible to clean up the
+system. Use Groom on the created tables, Generate Statistics, and other
+cleanup tasks.</p>
+<h1 id="lab-setup">Lab Setup</h1>
+<p>This lab uses an initial setup script to make sure the correct user and
+database exist for the remainder of the lab. Follow the instructions
+below to run the setup script.</p>
+<ol>
+<li>
+<p>Login to NPS Command Line using one of these two methods.</p>
+<p>a.  Login to the VM directly and use the terminal application
+    available inside the VM.</p>
+<p>b.  Connect to your Netezza Performance Server image using putty</p>
+</li>
+</ol>
+<!-- -->
+
+<ol>
+<li>
+<p>If you are continuing from the previous lab and are already
+    connected to NZSQL quit the NZSQL console with the [\q]{.mark}
+    command.</p>
+</li>
+<li>
+<p>Prepare for this lab by running the setup script. To do this use the
+    following two commands:</p>
+</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>[nz@localhost labs]\$ [cd \~/labs/groom/setupLab]{.mark}</p>
+<p>[nz@localhost setupLab]\$ [./setupLab.sh]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>DROP DATABASE</p>
+<p>CREATE DATABASE</p>
+<p>ERROR: CREATE USER: object LABADMIN already exists as a USER.</p>
+<p>ALTER USER</p>
+<p>ALTER DATABASE</p>
+<p>CREATE TABLE</p>
+<p>CREATE TABLE</p>
+<p>CREATE TABLE</p>
+<p>CREATE TABLE</p>
+<p>CREATE TABLE</p>
+<p>CREATE TABLE</p>
+<p>CREATE TABLE</p>
+<p>CREATE TABLE</p>
+<p>Load session of table \'NATION\' completed successfully</p>
+<p>Load session of table \'REGION\' completed successfully</p>
+<p>Load session of table \'CUSTOMER\' completed successfully</p>
+<p>Load session of table \'SUPPLIER\' completed successfully</p>
+<p>Load session of table \'PART\' completed successfully</p>
+<p>Load session of table \'PARTSUPP\' completed successfully</p>
+<p>Load session of table \'ORDERS\' completed successfully</p>
+<p>Load session of table \'LINEITEM\' completed successfully</p>
+<blockquote>
+<p>There may be error message at the beginning of the output since the
+script tries to clean up existing databases and users.</p>
+</blockquote>
+<h1 id="transactions">Transactions</h1>
+<p>In this section we will show how transactions can leave logically
+deleted rows in a table which later as an administrative task need to be
+removed with the groom command. We will go through the different
+transaction types and show you what happens under the covers in an
+Netezza Performance Server Appliance.</p>
+<h2 id="insert-transaction">Insert Transaction</h2>
+<p>In this chapter we will add a new row to the regions table and review
+the hidden fields that are saved in the database. As you remember from
+the Transactions presentation, Netezza Performance Server uses a concept
+called multi-versioning for transactions. Each transaction has its own
+image of the table and doesn't influence other transactions. This is
+done by adding a number of hidden fields to the Netezza Performance
+Server table. The most important ones are the CREATEXID and the
+DELETEXID. Each Netezza Performance Server transaction has a unique
+transaction id that is increasing with each new transaction.</p>
+<p>In this subsection we will add a new row to the REGION table.</p>
+<ol>
+<li>
+<p>Connect to your NPS system using a terminal application (i.e.: PuTTY
+    or Terminal). Login to \&lt;ip-provided-by-your-instructor> as user nz
+    with password nz. (\&lt;ip-provided-by-your-instructor> is the default
+    IP address for a lab system).</p>
+</li>
+<li>
+<p>Start nzsql from the Linux command line as following:</p>
+</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>[nz@localhost \~]\$ [nzsql]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>Welcome to nzsql, the IBM Netezza SQL interactive terminal.</p>
+<p>Type: \h for help with SQL commands</p>
+<p>\? for help on internal slash commands</p>
+<p>\g or terminate with semicolon to execute query</p>
+<p>\q to quit</p>
+<p>SYSTEM.ADMIN(ADMIN)=></p>
+<blockquote>
+<p>You will be entered into the nzsql interactive terminal.</p>
+</blockquote>
+<ol start="3">
+<li>Connect to the database LABDB as user LABADMIN by typing the
+    following command:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>SYSTEM.ADMIN(ADMIN)=> [\c LABDB LABADMIN]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>You are now connected to database LABDB as user LABADMIN.</p>
+<p>LABDB.ADMIN(LABADMIN)=></p>
+<blockquote>
+<p>Notice the prompt has changed to show the new connection information:</p>
+</blockquote>
+<ol start="4">
+<li>Select all rows from the REGION table:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(LABADMIN)=> [SELECT * FROM REGION;]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>R_REGIONKEY | R_NAME | R_COMMENT</p>
+<p>-------------+---------------------------+-----------------------------</p>
+<p>3 | emea | europe, middle east, africa</p>
+<p>1 | na | north america</p>
+<p>2 | sa | south america</p>
+<p>4 | ap | asia pacific</p>
+<p>(4 rows)</p>
+<blockquote>
+<p>You should see the following output with 4 existing regions:</p>
+</blockquote>
+<ol start="5">
+<li>Insert a new row into the REGIONS table for the region Australia
+    with the following SQL command</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(LABADMIN)=> [INSERT INTO REGION VALUES (5, \'as\',
+\'australia\');]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>INSERTED 0 1</p>
+<ol start="6">
+<li>Now we will again do a select on the REGION table. But this time we
+    will also query the hidden fields CREATEXID, DELETEXID and ROWID:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(LABADMIN)=> [SELECT CREATEXID, DELETEXID, ROWID,* FROM
+REGION;]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>CREATEXID | DELETEXID | ROWID | R_REGIONKEY | R_NAME | R_COMMENT</p>
+<p>-----------+-----------+----------+-------------+---------------------------+-----------------------------</p>
+<p>17498 | 0 | 28765000 | 3 | emea | europe, middle east, africa</p>
+<p>17498 | 0 | 28765001 | 1 | na | north america</p>
+<p>17498 | 0 | 28765002 | 2 | sa | south america</p>
+<p>17498 | 0 | 28765003 | 4 | ap | asia pacific</p>
+<p>17514 | 0 | 37428000 | 5 | as | australia</p>
+<p>(5 rows)</p>
+<blockquote>
+<p>As you can see, we now have five rows in the REGION table. The new row
+for Australia has the ID of the last transaction as CREATEXID and 0 as
+DELETEXID since it has not yet been deleted. Other transactions with a
+lower transaction ID that might still be running will not be able to
+see this new row. Note also that each row has a unique ROWID. ROWIDs
+do not need to be consecutive, but they are unique across all data
+slices for one table.</p>
+</blockquote>
+<h2 id="update-and-delete-transactions">Update and Delete Transactions</h2>
+<p>Delete transactions in Netezza Performance Server do not physically
+remove rows but update the DELETEXID field of a row to mark it as
+logically deleted. These logically deleted rows need to be removed
+regularly with the administrative GROOM command.</p>
+<p>Update transactions in Netezza Performance Server consist of a logical
+delete of the old row and an insert of a new row with the updated
+fields. To show this effectively we will need to change a system
+parameter in Netezza Performance Server that allows us to switch off the
+invisibility lists in Netezza Performance Server. Note that the
+parameter we will be using is dangerous and shouldn't be used in a real
+Netezza Performance Server environment. There is also a safer
+environment variable, but this has some restrictions.</p>
+<p>To see deleted rows without changing the system registry parameters do
+the following:</p>
+<p>[nz@localhost \~]\$ nzsql labdb labadmin password</p>
+<p>LABDB.ADMIN(LABADMIN)=> set show_deleted_records = true;</p>
+<p>LABDB.ADMIN(LABADMIN)=> select * from table_with_deleted_rows;</p>
+<p>LABDB.ADMIN(LABADMIN)=> set show_deleted_records = false;</p>
+<blockquote>
+<p>The above method is not used in this lab, please follow the steps
+below.</p>
+</blockquote>
+<ol>
+<li>First, we will change the system variable that allows us to see
+    deleted rows in the system, to do this exit the console with \q</li>
+</ol>
+<!-- -->
+
+<ol start="7">
+<li>Check the Netezza Performance Server system registry for the
+    parameters host.fpgaAllowXIDOverride and system.useFpgaPrep, each
+    should be set to yes:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>[nz@localhost \~]\$ [nzsystem showregistry | grep -iE
+\'fpgaAllowXIDOverride|useFpgaPrep\']{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>host.fpgaAllowXIDOverride = no</p>
+<p>system.useFpgaPrep = yes</p>
+<ol start="8">
+<li>To change these system parameters, first pause the system with the
+    following command:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>[nz@netezza \~]\$ [nzsystem pause]{.mark}</p>
+<p>Are you sure you want to pause the system (y|n)? [n] [y]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<ol start="9">
+<li>Next, update the system parameters with the following command:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>[nz@localhost \~]\$ [nzsystem set -arg
+host.fpgaAllowXIDOverride=yes]{.mark}</p>
+<p>Are you sure you want to change the system configuration (y|n)? [n]
+[y]{.mark}</p>
+<blockquote>
+<p>Ensure both parameters host.fpgaAllowXIDOverride and
+system.useFpgaPrep are set to yes.</p>
+</blockquote>
+<ol start="10">
+<li>Resume the system with the following command:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>[nz@localhost \~]\$ [nzsystem resume]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<ol start="11">
+<li>Re-check the Netezza Performance Server system registry for the
+    parameters host.fpgaAllowXIDOverride and system.useFpgaPrep, each
+    should be set to yes:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>[nz@localhost \~]\$ [nzsystem showregistry | grep -iE
+\'fpgaAllowXIDOverride|useFpgaPrep\']{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>host.fpgaAllowXIDOverride = yes</p>
+<p>system.useFpgaPrep = yes</p>
+<ol start="12">
+<li>Start nzsql from the Linux command line as following:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>[nz@localhost \~]\$ [nzsql labdb labadmin password]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<ol start="13">
+<li>Now we will update the row we inserted in the last chapter to the
+    REGION table:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB(LABADMIN)=> [UPDATE REGION SET R_COMMENT=\'Australia\' WHERE
+R_REGIONKEY=5;]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<ol start="14">
+<li>Do a SELECT on the REGION table again:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(LABADMIN)=> SELECT CREATEXID, DELETEXID, ROWID,* FROM
+REGION;</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>CREATEXID | DELETEXID | ROWID | R_REGIONKEY | R_NAME | R_COMMENT</p>
+<p>-----------+-----------+----------+-------------+---------------------------+-----------------------------</p>
+<p>17498 | 0 | 28765000 | 3 | emea | europe, middle east, africa</p>
+<p>17498 | 0 | 28765001 | 1 | na | north america</p>
+<p>17498 | 0 | 28765002 | 2 | sa | south america</p>
+<p>17498 | 0 | 28765003 | 4 | ap | asia pacific</p>
+<p><strong>17514 | 21506 | 37428000 | 5 | as | australia</strong></p>
+<p><strong>21506 | 0 | 37428000 | 5 | as | Australia</strong></p>
+<p>(6 rows)</p>
+<blockquote>
+<p>Normally you would now see 5 rows with the update value. But since we
+disabled the invisibility lists you now see 6 rows in the REGION
+table. Our transaction that updated the row had the transaction id
+369666. You can see that the original row with the lowercase australia
+in the comment column is still there and now has a DELETXID field that
+contains the transaction id of the transaction that deleted it.
+Transactions with a higher transaction id will not see a row with a
+DELETEXID that indicates that it has been logically deleted before the
+transaction is run.</p>
+<p>We also see a newly inserted row with the new comment value Australia.
+It has the same ROWID as the deleted row and the same CREATEXID as the
+transaction that did the insert.</p>
+</blockquote>
+<ol start="15">
+<li>Finally let\'s clean up the table again by deleting the Australia
+    row:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(LABADMIN)=> [DELETE FROM REGION WHERE
+R_REGIONKEY=5;]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>DELETE 1</p>
+<ol start="16">
+<li>Do a SELECT on the REGION table again:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(LABADMIN)=> [SELECT CREATEXID, DELETEXID, ROWID,* FROM
+REGION;]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(LABADMIN)=> SELECT CREATEXID, DELETEXID, ROWID,* FROM
+REGION;</p>
+<p>CREATEXID | DELETEXID | ROWID | R_REGIONKEY | R_NAME | R_COMMENT</p>
+<p>-----------+-----------+----------+-------------+---------------------------+-----------------------------</p>
+<p>17498 | 0 | 28765000 | 3 | emea | europe, middle east, africa</p>
+<p>17498 | 0 | 28765001 | 1 | na | north america</p>
+<p>17498 | 0 | 28765002 | 2 | sa | south america</p>
+<p>17498 | 0 | 28765003 | 4 | ap | asia pacific</p>
+<p><strong>17514 | 21506 | 37428000 | 5 | as | australia</strong></p>
+<p><strong>21506 | 21510 | 37428000 | 5 | as | Australia</strong></p>
+<p>(6 rows)</p>
+<blockquote>
+<p>We can now see that we have logically deleted our updated row as well.
+It has now a DELETEXID field with the value of the new transaction.
+New transactions will see the original table from the start of this
+lab again.</p>
+<p>If you do a SELECT, the FPGA will filter out all rows that:</p>
+</blockquote>
+<ul>
+<li>
+<p>have a CREATEXID which is bigger than the current transaction id.</p>
+</li>
+<li>
+<p>have a CREATEXID of an uncommitted transaction.</p>
+</li>
+<li>
+<p>have a DELETENXID which is smaller than the current transaction, but
+    only if the transaction of the DELETEXID field is committed.</p>
+</li>
+<li>
+<p>have a DELETEXID of 1 which means that the insert has been aborted.</p>
+</li>
+</ul>
+<h2 id="aborting-transactions">Aborting Transactions</h2>
+<p>Netezza Performance Server never deletes a row during transactions even
+if transactions are rolled back. In this section we will show what
+happens if a transaction is rolled back. Since an update transaction
+consists of a DELETE and INSERT transaction, we will demonstrate the
+behavior for all tree transaction types with this.</p>
+<ol>
+<li>To start a transaction that we can later rollback we need to use the
+    BEGIN keyword.</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(LABADMIN)=> [BEGIN;]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>BEGIN</p>
+<blockquote>
+<p>Per default all SQL statements entered into the nzsql console are
+auto-committed. To start a multi command transaction the BEGIN keyword
+needs to be used. All SQL statements that are executed after it will
+belong to a single transaction. To end the transaction two keywords
+can be used COMMIT to commit the transaction or ROLLBACK to rollback
+the transaction and all changes since the BEGIN statement was
+executed.</p>
+</blockquote>
+<ol start="17">
+<li>Update the row for the AP region:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(LABADMIN)=> [UPDATE REGION SET R_COMMENT=\'AP\' WHERE
+R_REGIONKEY=4;]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>UPDATE 1</p>
+<ol start="18">
+<li>Do a SELECT on the REGION table again:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(LABADMIN)=> SELECT CREATEXID, DELETEXID, ROWID,* FROM
+REGION;</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>CREATEXID | DELETEXID | ROWID | R_REGIONKEY | R_NAME | R_COMMENT</p>
+<p>-----------+-----------+----------+-------------+---------------------------+-----------------------------</p>
+<p>17498 | 0 | 28765000 | 3 | emea | europe, middle east, africa</p>
+<p>17498 | 0 | 28765001 | 1 | na | north america</p>
+<p>17498 | 0 | 28765002 | 2 | sa | south america</p>
+<p><strong>17498 | 21514 | 28765003 | 4 | ap | asia pacific</strong></p>
+<p>17514 | 21506 | 37428000 | 5 | as | australia</p>
+<p>21506 | 21510 | 37428000 | 5 | as | Australia</p>
+<p><strong>21514 | 0 | 28765003 | 4 | ap | AP</strong></p>
+<p>(7 rows)</p>
+<blockquote>
+<p>Note: we have the same results as in the last chapter, the original
+row for the AP region was logically deleted by updating its DELETEXID
+field, and a new row with the updated comment and new ROWID has been
+added. Note that its CREATEXID is the same as the DELETEXID of the old
+row, since they were updated by the same transaction.</p>
+</blockquote>
+<ol start="19">
+<li>Now let\'s rollback the transaction:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(LABADMIN)=> [ROLLBACK;]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>ROLLBACK</p>
+<ol start="20">
+<li>Do a SELECT on the REGION table again:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(LABADMIN)=> [SELECT CREATEXID, DELETEXID, ROWID,* FROM
+REGION;]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>CREATEXID | DELETEXID | ROWID | R_REGIONKEY | R_NAME | R_COMMENT</p>
+<p>-----------+-----------+----------+-------------+---------------------------+-----------------------------</p>
+<p>17498 | 0 | 28765000 | 3 | emea | europe, middle east, africa</p>
+<p>17498 | 0 | 28765001 | 1 | na | north america</p>
+<p>17498 | 0 | 28765002 | 2 | sa | south america</p>
+<p><strong>17498 | 0 | 28765003 | 4 | ap | asia pacific</strong></p>
+<p>17514 | 21506 | 37428000 | 5 | as | australia</p>
+<p>21506 | 21510 | 37428000 | 5 | as | Australia</p>
+<p><strong>21514 | 1 | 28765003 | 4 | ap | AP</strong></p>
+<p>(7 rows)</p>
+<blockquote>
+<p>We can see that the transaction has been rolled back. The DELETEXID of
+the old version of the row has been reset to 0, which means that it is
+a valid row that can be seen by other transactions, and the DELETEXID
+of the new row has been set to 1 which marks it as aborted.</p>
+</blockquote>
+<h2 id="cleaning-up">Cleaning up</h2>
+<p>In this section we will use the GROOM command to remove the logically
+deleted rows we have entered, and we will remove the system parameter
+from the configuration file. The Groom command will be used in more
+detail in the next chapter. It is the main maintenance command in
+Netezza Performance Server, and we have already used it in the
+Cluster-based Table labs to reorder a CBT. It also removes all logically
+deleted rows from a table and frees up the space on the machine again.</p>
+<ol>
+<li>Execute the GROOM command on the REGION table:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(LABADMIN)=> [GROOM TABLE REGION;]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>NOTICE: Groom will not purge records deleted by transactions that
+started after 2020-04-02 19:18:49.</p>
+<p>NOTICE: Groom processed 1 pages; purged 3 records; scan size unchanged;
+table size unchanged.</p>
+<p>GROOM RECORDS ALL</p>
+<blockquote>
+<p>You can see that the GROOM command purged 3 rows, exactly the number
+of aborted and logically deleted rows we have generated in the
+previous chapter.</p>
+</blockquote>
+<ol start="21">
+<li>Now select the rows from the REGION table again.</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(LABADMIN)=> [SELECT CREATEXID, DELETEXID, ROWID,* FROM
+REGION;]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>CREATEXID | DELETEXID | ROWID | R_REGIONKEY | R_NAME | R_COMMENT</p>
+<p>-----------+-----------+----------+-------------+---------------------------+-----------------------------</p>
+<p>17498 | 0 | 28765000 | 3 | emea | europe, middle east, africa</p>
+<p>17498 | 0 | 28765001 | 1 | na | north america</p>
+<p>17498 | 0 | 28765002 | 2 | sa | south america</p>
+<p>17498 | 0 | 28765003 | 4 | ap | asia pacific</p>
+<p>(4 rows)</p>
+<blockquote>
+<p>You can see that the GROOM command has removed all logically deleted
+rows from the table. Remember that we still have the parameter
+switched on that allows us to see any logically deleted rows.
+Especially in tables that are heavily changed with lots and updates
+and deletes running the groom command will free up hard drive space
+and increase performance.</p>
+</blockquote>
+<ol start="2">
+<li>Finally, we will change the system variables back to the original
+    settings, to do this exit the console with \q</li>
+</ol>
+<!-- -->
+
+<ol start="22">
+<li>To change these system parameters, first pause the system with the
+    following command:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>[nz@netezza \~]\$ [nzsystem pause]{.mark}</p>
+<p>Are you sure you want to pause the system (y|n)? [n] [y]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<ol start="23">
+<li>Next, update the system parameters with the following command:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>[nz@localhost \~]\$ [nzsystem set -arg
+host.fpgaAllowXIDOverride=]{.mark}no</p>
+<p>Are you sure you want to change the system configuration (y|n)? [n]
+[y]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+<p>Ensure both parameters host.fpgaAllowXIDOverride=no and
+system.useFpgaPrep=yes.</p>
+</blockquote>
+<ol start="24">
+<li>Resume the system with the following command:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>[nz@localhost \~]\$ [nzsystem resume]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<ol start="25">
+<li>Re-check the Netezza Performance Server system registry for the
+    parameters host.fpgaAllowXIDOverride and system.useFpgaPrep, each
+    should be set to yes:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>[nz@localhost \~]\$ [nzsystem showregistry | grep -iE
+\'fpgaAllowXIDOverride|useFpgaPrep\']{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>host.fpgaAllowXIDOverride = no</p>
+<p>system.useFpgaPrep = yes</p>
+<h1 id="grooming-logically-deleted-rows">Grooming Logically Deleted Rows</h1>
+<p>In this section we will delete rows and determine that they have not
+really been deleted from the disk. Then using GROOM we will physically
+delete the rows.</p>
+<ol>
+<li>First determine the physical size on disk of the table ORDERS using
+    the following command:</li>
+</ol>
+<blockquote>
+<p>You should see the following results:</p>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>[nz@localhost \~]\$ [/nz/support/bin/nz_db_size LABDB]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>Object | Name | Bytes | KB | MB | GB | TB</p>
+<p>-----------+----------------------------------+----------------------+------------------+--------------+------------+--------</p>
+<p>Appliance | localhost | 452,984,832 | 442,368 | 432 | .4 | .0</p>
+<p>Database | LABDB | 452,984,832 | 442,368 | 432 | .4 | .0</p>
+<p>.schema | ADMIN | 452,984,832 | 442,368 | 432 | .4 | .0</p>
+<p>Table | CUSTOMER | 13,107,200 | 12,800 | 13 | .0 | .0</p>
+<p>Table | LINEITEM | 284,688,384 | 278,016 | 272 | .3 | .0</p>
+<p>Table | NATION | 131,072 | 128 | 0 | .0 | .0</p>
+<p><strong>Table | ORDERS | 76,283,904 | 74,496 | 73 | .1 | .0</strong></p>
+<p>Table | PART | 11,534,336 | 11,264 | 11 | .0 | .0</p>
+<p>Table | PARTSUPP | 66,322,432 | 64,768 | 63 | .1 | .0</p>
+<p>Table | REGION | 131,072 | 128 | 0 | .0 | .0</p>
+<p>Table | SUPPLIER | 786,432 | 768 | 1 | .0 | .0</p>
+<blockquote>
+<p>Notice that the ORDERS table is 75 MB in size.</p>
+</blockquote>
+<ol start="26">
+<li>Now we are going to delete some rows from ORDERS table. Delete all
+    rows where the ORDERSTATUS is marked as F for finished using the
+    following command:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>[nz@localhost \~]\$ [nzsql LABDB LABADMIN password]{.mark}</p>
+<p>LABDB.ADMIN(LABADMIN)=> [DELETE FROM ORDERS WHERE
+O_ORDERSTATUS=\'F\';]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>DELETE 729413</p>
+<ol start="27">
+<li>Now check the physical table size for ORDERS and see if the size
+    decreased using the same command as before. You must first exit
+    nzsql to shell using \q.</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(LABADMIN)=> [\q]{.mark}</p>
+<p>[nz@localhost \~]\$ [/nz/support/bin/nz_db_size LABDB]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>Object | Name | Bytes | KB | MB | GB | TB</p>
+<p>-----------+----------------------------------+----------------------+------------------+--------------+------------+--------</p>
+<p>Appliance | localhost | 452,984,832 | 442,368 | 432 | .4 | .0</p>
+<p>Database | LABDB | 452,984,832 | 442,368 | 432 | .4 | .0</p>
+<p>.schema | ADMIN | 452,984,832 | 442,368 | 432 | .4 | .0</p>
+<p>Table | CUSTOMER | 13,107,200 | 12,800 | 13 | .0 | .0</p>
+<p>Table | LINEITEM | 284,688,384 | 278,016 | 272 | .3 | .0</p>
+<p>Table | NATION | 131,072 | 128 | 0 | .0 | .0</p>
+<p><strong>Table | ORDERS | 76,283,904 | 74,496 | 73 | .1 | .0</strong></p>
+<p>Table | PART | 11,534,336 | 11,264 | 11 | .0 | .0</p>
+<p>Table | PARTSUPP | 66,322,432 | 64,768 | 63 | .1 | .0</p>
+<p>Table | REGION | 131,072 | 128 | 0 | .0 | .0</p>
+<p>Table | SUPPLIER | 786,432 | 768 | 1 | .0 | .0</p>
+<blockquote>
+<p>The output should be the same as above showing that the ORDERS table
+did not change in size and is still 75 MB. This is because the deleted
+rows were logically deleted but are still left on disk. The rows will
+still accessible to transactions that started before the DELETE
+statement which we just executed. (i.e. have a lower transaction id)</p>
+</blockquote>
+<ol start="28">
+<li>Next let's physically delete what we just logically deleted using
+    the GROOM TABLE command and specifying table ORDERS. When you run
+    the GROOM TABLE command, it removes outdated and deleted records
+    from tables.</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>[nz@localhost \~]\$ [nzsql LABDB LABADMIN password]{.mark}</p>
+<p>LABDB.ADMIN(LABADMIN)=> [GROOM TABLE ORDERS;]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>NOTICE: Groom will not purge records deleted by transactions that
+started after 2020-04-02 19:56:57.</p>
+<p>NOTICE: Groom processed 582 pages; purged 729413 records; scan size
+shrunk by 280 pages; table size shrunk by 12 extents.</p>
+<p>GROOM RECORDS ALL</p>
+<blockquote>
+<p>You can see that 729413 rows were removed from disk resulting in the
+table size shrinking by 12 extents. Notice that this is the same
+number of rows we deleted in the previous step.</p>
+</blockquote>
+<ol start="29">
+<li>Check if the ORDERS table size on disk has shrunk using the
+    nz_db_size command. You must first exit nzsql to shell using \q.</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(LABADMIN)=> [\q]{.mark}</p>
+<p>[nz@localhost \~]\$ [/nz/support/bin/nz_db_size LABDB]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>Object | Name | Bytes | KB | MB | GB | TB</p>
+<p>-----------+----------------------------------+----------------------+------------------+--------------+------------+--------</p>
+<p>Appliance | localhost | 416,284,672 | 406,528 | 397 | .4 | .0</p>
+<p>Database | LABDB | 416,284,672 | 406,528 | 397 | .4 | .0</p>
+<p>.schema | ADMIN | 416,284,672 | 406,528 | 397 | .4 | .0</p>
+<p>Table | CUSTOMER | 13,107,200 | 12,800 | 13 | .0 | .0</p>
+<p>Table | LINEITEM | 284,688,384 | 278,016 | 272 | .3 | .0</p>
+<p>Table | NATION | 131,072 | 128 | 0 | .0 | .0</p>
+<p><strong>Table | ORDERS | 39,583,744 | 38,656 | 38 | .0 | .0</strong></p>
+<p>Table | PART | 11,534,336 | 11,264 | 11 | .0 | .0</p>
+<p>Table | PARTSUPP | 66,322,432 | 64,768 | 63 | .1 | .0</p>
+<p>Table | REGION | 131,072 | 128 | 0 | .0 | .0</p>
+<p>Table | SUPPLIER | 786,432 | 768 | 1 | .0 | .0</p>
+<blockquote>
+<p>Notice the reduced size of the ORDERS table. We can see that GROOM did
+purge the deleted rows from disk. GROOM reported that the table size
+was reduced by 12 extents and we can confirm this because we can see
+that the size of the table reduced by 36MB which is the correct size
+for 12 extents. (1 extent's size is 3 MB).</p>
+</blockquote>
+<h1 id="performance-benefits-of-groom">Performance Benefits of GROOM</h1>
+<p>In this section we will show that grooming a table can also result in a
+performance benefit because the amount of data that needs to be scanned
+is smaller. Outdated rows are still present on the hard disc. They can
+be dismissed by the FPGA but the system still needs to read them from
+disc. In this example we need for accounting reasons increase the order
+price of all columns. This means that we need to update every row in the
+ORDERS table. We will measure query performance before and after
+Grooming the table.</p>
+<ol>
+<li>Update the ORDERS table so that the price of everything is increased
+    by \$1. Do this using the following command:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>[nz@localhost \~]\$ [nzsql LABDB LABADMIN password]{.mark}</p>
+<p>LABDB.ADMIN(LABADMIN)=> [UPDATE ORDERS SET O_TOTALPRICE =
+O_TOTALPRICE+1;]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>UPDATE 770587</p>
+<blockquote>
+<p>All rows will be affected by the update resulting in a doubled number
+of physical rows in the table. This is because the UPDATE operation
+leaves a copy of the rows before the UPDATE occurred in case a
+transaction is still operating on the rows. New rows are created, and
+the results of the UPDATE are put in these rows. The old rows that are
+left on disk are marked as logically deleted.</p>
+</blockquote>
+<ol start="30">
+<li>To measure the performance of our test query, we can configure the
+    nzsql console to show the elapsed execution time using the following
+    command:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(LABADMIN)=> [\time]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>Query time printout on</p>
+<ol start="31">
+<li>Run our given test query and note the performance:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(LABADMIN)=> [SELECT COUNT(*) FROM ORDERS;]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>COUNT</p>
+<p>--------</p>
+<p>770587</p>
+<p>(1 row)</p>
+<p>Elapsed time: 0m0.641s</p>
+<ol start="32">
+<li>Please rerun the query once or twice more to see roughly what a
+    consistent query time is on your machine.</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(LABADMIN)=> [SELECT COUNT(*) FROM ORDERS;]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<ol start="33">
+<li>Now run the GROOM TABLE command on the ORDER table again:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(LABADMIN)=> [GROOM TABLE ORDERS;]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>NOTICE: Groom will not purge records deleted by transactions that
+started after 2020-04-02 20:12:07.</p>
+<p>NOTICE: Groom processed 604 pages; purged 770587 records; scan size
+shrunk by 302 pages; table size shrunk by 13 extents.</p>
+<p>GROOM RECORDS ALL</p>
+<p>Elapsed time: 0m2.026s</p>
+<blockquote>
+<p>Can you tell how much disk space this saved? (It's the number of
+extents times 3MB)</p>
+</blockquote>
+<ol start="34">
+<li>Now run our chosen test query again and you should see a difference
+    in performance:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(LABADMIN)=> [SELECT COUNT(*) FROM ORDERS;]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>COUNT</p>
+<p>--------</p>
+<p>770587</p>
+<p>(1 row)</p>
+<p>Elapsed time: 0m0.082s</p>
+<blockquote>
+<p>You should see that the query ran faster than before. This is because
+GROOM reduced the number of rows that must be scanned to complete the
+query. The COUNT(*) command on the table will return the same number
+of rows before and after the GROOM command was run since it can only
+see the current version of the table, which means all rows that have
+not been deleted by a lower transaction id. Since our UPDATE command
+hasn't changed the number of logical rows this will not change.</p>
+<p>Nevertheless, the outdated rows, which have been logically deleted by
+our UPDATE command, are still present on disk. The COUNT(*) query
+cannot access these rows but they do take up space on disk and need to
+be scanned. GROOM is used to purge these logically deleted rows from
+disk which increase disk usage and scan distance. You should GROOM
+tables that receive frequent updates or deletes more often than tables
+that are seldom updated. You might want to schedule tasks that
+routinely GROOM the frequently updated tables or run a GROOM command
+as part of you ETL process.</p>
+</blockquote>
+<h1 id="changing-the-data-type-of-a-column">Changing the Data Type of a Column</h1>
+<p>In some situations, you will realize that the initially used data types
+are not suitable for long-term use, for example because new entries
+exceed the range of an initially picked integer value. You cannot
+directly change the data type by using the ALTER statement but there are
+two approaches that allow you to do it without loading and unloading the
+data.</p>
+<p>The first approach is to:</p>
+<ul>
+<li>
+<p>Create a CTAS table from the old table with a CAST to the new
+    datatype for the column you want to change</p>
+</li>
+<li>
+<p>Drop the old table</p>
+</li>
+<li>
+<p>Rename the new table to the name of the old table</p>
+</li>
+</ul>
+<p>In general, this is a good approach because it lets you keep the order
+of the columns. But in this example, we will use a second approach to
+highlight the groom command and its role during ADD and DROP column
+commands. Its disadvantages are that the order of the columns will
+change, which may result in difficulties for third party applications
+that access columns by their order.</p>
+<p>In this chapter we will:</p>
+<ul>
+<li>
+<p>Add a new column to the table with the new datatype</p>
+</li>
+<li>
+<p>Copy over all values from the old row to the new one with an UPDATE
+    command</p>
+</li>
+<li>
+<p>Drop the old column</p>
+</li>
+<li>
+<p>Rename the new column to the name of the old one</p>
+</li>
+<li>
+<p>Use the groom command to materialize the results of our table
+    changes</p>
+</li>
+</ul>
+<p>For our example we find out that we have a new Region we want to add to
+our REGIONS table which has a name that exceeds the limits of the
+CHAR(25) field R_NAME. \"Australia, New Zealand, and Tasmania\". And we
+decide to increase the R_NAME field to a CHAR(40) field.</p>
+<ol>
+<li>Add a new column to the region table with name R_NAME_TEMP and data
+    type CHAR(40)</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(LABADMIN)=> [\time]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>Query time printout on</p>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(LABADMIN)=> [ALTER TABLE REGION ADD COLUMN R_NAME_TEMP
+CHAR(40);]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>ALTER TABLE</p>
+<blockquote>
+<p>Notice that the ALTER command is practically instantaneous. This even
+holds true for huge tables. Under the cover the system will create a
+new empty version of the table. It will not lock and change the whole
+table.</p>
+</blockquote>
+<ol start="35">
+<li>Let\'s insert a row into the table using the new name column</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(LABADMIN)=> [INSERT INTO REGION VALUES]{.mark}</p>
+<p>LABDB.ADMIN(LABADMIN)-> [(5,\'\', \'South Pacific Region\',]{.mark}</p>
+<p>LABDB.ADMIN(LABADMIN)-> [\'Australia, New Zealand, and
+Tasmania\');]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>INSERT 0 1</p>
+<ol start="36">
+<li>Now do a select on the table:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(LABADMIN)=> [SELECT * FROM REGION;]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>R_REGIONKEY | R_NAME | R_COMMENT | R_NAME_TEMP</p>
+<p>-------------+---------------------------+-----------------------------+------------------------------------------</p>
+<p>3 | emea | europe, middle east, africa |</p>
+<p>1 | na | north america |</p>
+<p>2 | sa | south america |</p>
+<p>4 | ap | asia pacific |</p>
+<p>5 | | South Pacific Region | Australia, New Zealand, and Tasmania</p>
+<p>(5 rows)</p>
+<blockquote>
+<p>You can see that the results are exactly as you would expect them to
+be, but how does the system actually achieve this. Remember inside the
+Netezza Performance Server appliances we have two versions of the
+table, one containing the old columns and rows and one containing the
+new row column.</p>
+</blockquote>
+<ol start="37">
+<li>Let's do an EXPLAIN on the SELECT query</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(LABADMIN)=> [EXPLAIN VERBOSE SELECT * FROM REGION;]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>NOTICE: QUERY PLAN:</p>
+<p>QUERY SQL:</p>
+<p>EXPLAIN VERBOSE SELECT * FROM REGION;</p>
+<p>QUERY VERBOSE PLAN:</p>
+<p>Node 1.</p>
+<p>[SPU Sequential Scan table \"\"<strong>_TV_203063_2</strong>\"\"
+{(\"_TV_203063_2\".R_REGIONKEY)}]</p>
+<p>-- Estimated Rows = 1, Width = 221, Cost = 0.0 .. 0.0, Conf = 100.0</p>
+<p>User table: REGION version 2</p>
+<p>Projections:</p>
+<p>1:\"_TV_203063_2\".R_REGIONKEY 2:\"_TV_203063_2\".R_NAME</p>
+<p>3:\"_TV_203063_2\".R_COMMENT 4:\"_TV_203063_2\".R_NAME_TEMP</p>
+<p>Node 2.</p>
+<p>[SPU Sub-query Scan table \"*SELECT* 1\" Node \"1\" {(0.\"1\")}]</p>
+<p>-- Estimated Rows = 1, Width = 221, Cost = 0.0 .. 0.0, Conf = 0.0</p>
+<p>Projections:</p>
+<p>1:0.\"1\" 2:0.\"2\" 3:0.\"3\" 4:0.\"4\"</p>
+<p>Node 3.</p>
+<p>[SPU Sequential Scan table \"\"<strong>_TV_203063_1</strong>\"\"
+{(\"_TV_203063_1\".R_REGIONKEY)}]</p>
+<p>-- Estimated Rows = 4, Width = 221, Cost = 0.0 .. 0.0, Conf = 100.0</p>
+<p>User table: REGION version 1</p>
+<p>Projections:</p>
+<p>1:\"_TV_203063_1\".R_REGIONKEY 2:\"_TV_203063_1\".R_NAME</p>
+<p>3:\"_TV_203063_1\".R_COMMENT <strong>4:(NULL::BPCHAR)::CHAR(40)</strong></p>
+<p>Node 4.</p>
+<p>[SPU Sub-query Scan table \"*SELECT* 2\" Node \"3\" {(0.\"1\")}]</p>
+<p>-- Estimated Rows = 4, Width = 221, Cost = 0.0 .. 0.0, Conf = 0.0</p>
+<p>Projections:</p>
+<p>1:0.\"1\" 2:0.\"2\" 3:0.\"3\" 4:0.\"4\"</p>
+<p><strong>Node 5.</strong></p>
+<p><strong>[SPU Append Nodes: , \"2\", \"4 (stream)\" {(0.\"1\")}]</strong></p>
+<p><strong>-- Estimated Rows = 5, Width = 221, Cost = 0.0 .. 0.0, Conf = 0.0</strong></p>
+<p><strong>Projections:</strong></p>
+<p><strong>1:0.\"1\" 2:0.\"2\" 3:0.\"3\" 4:0.\"4\"</strong></p>
+<p>Node 6.</p>
+<p>[SPU Sub-query Scan table \"_BV_203063\" Node \"5\"
+{(\"_BV_203063\".R_REGIONKEY)}]</p>
+<p>-- Estimated Rows = 5, Width = 221, Cost = 0.0 .. 0.0, Conf = 100.0</p>
+<p>Projections:</p>
+<p>1:\"_BV_203063\".R_REGIONKEY 2:\"_BV_203063\".R_NAME
+3:\"_BV_203063\".R_COMMENT</p>
+<p>4:\"_BV_203063\".R_NAME_TEMP</p>
+<p>[SPU Return]</p>
+<p>[Host Return]</p>
+<p>QUERY PLANTEXT:</p>
+<p>Sub-query Scan table \"_BV_203063\" (cost=0.0..0.0 rows=5 width=221
+conf=100) {(\"_BV_203063\".R_REGIONKEY)}</p>
+<p>(xpath_none, locus=spu subject=self)</p>
+<p>(xpath_none, locus=spu subject=self)</p>
+<p>(xpath_none, locus=spu subject=self)</p>
+<p>(spu_send, locus=host subject=self)</p>
+<p>(host_return, locus=host subject=self)</p>
+<p>l: Append (cost=0.0..0.0 rows=5 width=221 conf=0) {(0.\"1\")}</p>
+<p>(xpath_none, locus=spu subject=self)</p>
+<p>(xpath_none, locus=spu subject=self)</p>
+<p>a: Sub-query Scan table \"*SELECT* 1\" (cost=0.0..0.0 rows=1 width=221
+conf=0) {(0.\"1\")}</p>
+<p>(xpath_none, locus=spu subject=self)</p>
+<p>l: Sequential Scan table \"\"_TV_203063_2\"\" (cost=0.0..0.0 rows=1
+width=221 conf=100) {(\"_TV_203063_2\".R_REGIONKEY)}</p>
+<p>(User table: REGION version 2)</p>
+<p>(xpath_none, locus=spu subject=self)</p>
+<p>a: Sub-query Scan table \"*SELECT* 2\" (cost=0.0..0.0 rows=4 width=221
+conf=0) {(0.\"1\")}</p>
+<p>(xpath_none, locus=spu subject=self)</p>
+<p>l: Sequential Scan table \"\"_TV_203063_1\"\" (cost=0.0..0.0 rows=4
+width=221 conf=100) {(\"_TV_203063_1\".R_REGIONKEY)}</p>
+<p>(User table: REGION version 1)</p>
+<p>(xpath_none, locus=spu subject=self)</p>
+<p>EXPLAIN</p>
+<blockquote>
+<p>Normally the query would result in a single table scan node. But now
+we see a more complicated query plan. The Optimizer automatically
+translates the simple SELECT into a UNION of two tables. The two
+tables are internal and are called <strong>_TV_203063_2</strong>, which is the old
+version of the table before the ALTER statement. And
+<strong>_TV_203063_2</strong>, which is the new version of the table after the
+table statement containing the new column R_NAME_TEMP.</p>
+<p>Notice that in the old table a 4^th^ column of CHAR(40) with default
+value NULL is added. This is necessary for the UNION to succeed. The
+merger of those tables is done in Node 5, which takes both result sets
+and appends them.</p>
+<p>But let\'s proceed with our data type change operation.</p>
+</blockquote>
+<ol start="38">
+<li>Let\'s remove the new row again.</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(LABADMIN)=> [DELETE FROM REGION WHERE R_REGIONKEY >
+4;]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>DELETE 1</p>
+<ol start="39">
+<li>Now we will move all values of the R_NAME column to the R_NAME_TEMP
+    column by updating them</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(LABADMIN)=> [UPDATE REGION SET R_NAME_TEMP =
+R_NAME;]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>UPDATE 4</p>
+<ol start="40">
+<li>Let\'s have a look at the table again:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(LABADMIN)=> [SELECT * FROM REGION;]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(LABADMIN)=> SELECT * FROM REGION;</p>
+<p>R_REGIONKEY | R_NAME | R_COMMENT | R_NAME_TEMP</p>
+<p>-------------+---------------------------+-----------------------------+------------------------------------------</p>
+<p>3 | emea | europe, middle east, africa | emea</p>
+<p>1 | na | north america | na</p>
+<p>2 | sa | south america | sa</p>
+<p>4 | ap | asia pacific | ap</p>
+<p>(4 rows)</p>
+<ol start="41">
+<li>Now let\'s remove the old column:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(LABADMIN)=> [ALTER TABLE REGION DROP COLUMN R_NAME
+RESTRICT;]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>ALTER TABLE</p>
+<ol start="42">
+<li>Rename the column name R_NAME_TEMP to R_NAME</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(LABADMIN)=> [ALTER TABLE REGION RENAME COLUMN R_NAME_TEMP
+TO R_NAME;]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>ALTER TABLE</p>
+<ol start="43">
+<li>Let\'s have a look at the table again:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(LABADMIN)=> [SELECT * FROM REGION;]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>R_REGIONKEY | R_COMMENT | R_NAME</p>
+<p>-------------+-----------------------------+------------------------------------------</p>
+<p>3 | europe, middle east, africa | emea</p>
+<p>1 | north america | na</p>
+<p>2 | south america | sa</p>
+<p>4 | asia pacific | ap</p>
+<p>(4 rows)</p>
+<blockquote>
+<p>We have achieved to change the data type of the R_NAME column. The
+column order has changed but our R_NAME column has the same values as
+before and now supports longer region names.</p>
+<p>But we have one last step to do. Under the cover the system now has
+three different versions of the table which are merged for each call
+against the REGION table. This not only uses up space it is also bad
+for the query performance. So, we have to materialize these table
+changes with the GROOM command.</p>
+</blockquote>
+<ol start="44">
+<li>GROOM the REGION table with the VERSIONS keyword to merge table
+    versions:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(LABADMIN)=> [GROOM TABLE REGION VERSIONS;]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>NOTICE: Groom will not purge records deleted by transactions that
+started after 2020-04-03 04:04:56.</p>
+<p>NOTICE: If this process is interrupted please either repeat GROOM
+VERSIONS or issue \'GENERATE STATISTICS ON \"REGION\"\'</p>
+<p>NOTICE: Groom processed 2 pages; purged 5 records; scan size shrunk by 1
+pages; table size shrunk by 1 extents.</p>
+<p>GROOM VERSIONS</p>
+<ol start="45">
+<li>Finally, we will look at the EXPLAIN output again:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(LABADMIN)=> [EXPLAIN VERBOSE SELECT * FROM REGION;]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>NOTICE: QUERY PLAN:</p>
+<p>QUERY SQL:</p>
+<p>EXPLAIN VERBOSE SELECT * FROM REGION;</p>
+<p>QUERY VERBOSE PLAN:</p>
+<p>Node 1.</p>
+<p>[SPU Sequential Scan table \"REGION\" {(REGION.R_REGIONKEY)}]</p>
+<p>-- Estimated Rows = 4, Width = 196, Cost = 0.0 .. 0.0, Conf = 100.0</p>
+<p>Projections:</p>
+<p>1:REGION.R_REGIONKEY 2:REGION.R_COMMENT 3:REGION.R_NAME</p>
+<p>[SPU Return]</p>
+<p>[Host Return]</p>
+<p>QUERY PLANTEXT:</p>
+<p>Sequential Scan table \"REGION\" (cost=0.0..0.0 rows=4 width=196
+conf=100) {(REGION.R_REGIONKEY)}</p>
+<p>(xpath_none, locus=spu subject=self)</p>
+<p>(spu_send, locus=host subject=self)</p>
+<p>(host_return, locus=host subject=self)</p>
+<p>EXPLAIN</p>
+<blockquote>
+<p>Now this is much nicer. As we would expect we only have a single table
+scan snippet in the query plan and a single version of the REGION
+table.</p>
+</blockquote>
+<ol start="46">
+<li>Finally, we will return the REGION table to the old column ordering
+    to not interfere with future labs, to do this we will use a CTAS
+    statement</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(LABADMIN)=> [CREATE TABLE REGION_NEW AS]{.mark}</p>
+<p>LABDB.ADMIN(LABADMIN)-> [SELECT R.R_REGIONKEY, R.R_NAME,
+R.R_COMMENT]{.mark}</p>
+<p>LABDB.ADMIN(LABADMIN)-> [FROM REGION R;]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>INSERT 0 4</p>
+<ol start="47">
+<li>Now drop the REGION table:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(LABADMIN)=> [DROP TABLE REGION;]{.mark}</p>
+<p>DROP TABLE</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>DROP TABLE</p>
+<ol start="48">
+<li>Finally, rename the REGION_NEW table to make the transformation
+    complete:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(LABADMIN)=> [ALTER TABLE REGION_NEW RENAME TO
+REGION;]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>ALTER TABLE</p>
+<blockquote>
+<p>If a table can be inaccessible for a short period of time using CTAS
+tables can be the better solution to change data types than using an
+ALTER TABLE statement.</p>
+</blockquote>
+<p>In this lab you have looked behind the scenes of the Netezza Performance
+Server appliances. You have seen how transactions are implemented and we
+have shown different reasons for using the groom command. It not only
+removes logically deleted rows from INSERT and UPDATE operations,
+aborted INSERTS and Loads, it also materializes table changes and
+reorders cluster-based tables.</p>
+
+              
+            </article>
+            
+          </div>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+    <nav class="md-footer__inner md-grid" aria-label="Footer" >
+      
+        
+        <a href="../nz-08-Optimization-Objects/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Optimization Objects" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Optimization Objects
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../nz-10-Stored-Proc/" class="md-footer__link md-footer__link--next" aria-label="Next: Stored Procedures" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Stored Procedures
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2024 IBM
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.b97dbffb.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.6c7ad80a.min.js"></script>
+      
+    
+  </body>
+</html>

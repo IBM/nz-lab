@@ -3,19 +3,16 @@ site_name: Netezza Performance Server Lab
 #   name: material
 nav:
   # - Introduction: "wxd-intro.md"
-  - Command Line Interface: "nz-01-cli.md"
-  #- "nz-02-web-console.md"
-  #- "nz-03-data-distribution.md"
-  #- "nz-04-database-administration.md"
-  #- "nz-05-loading-and-unloading.md"
-  #- "nz-06-bnr.md"
-  #- "nz-07-query-optimization.md"
-  #- "nz-08-groom.md"
-  #- "nz-09-optimization-of-objects.md"
-  #- "nz-10-stored-procedures.md"
-  #- "nz-12-jupyter-notebook.md"
-  #- "nz-13-inza.md"
-  #- "nz-14-lakehouse.md"
+  - Command Line Interface: "nz-01-NPS-CLI.md"           
+  - Web Console: "nz-02-WebConsole.md"         
+  - Data Distribution: "nz-03-Data-Distribution.md"         
+  - Database Administration: "nz-04-Database-Admin.md"            
+  - Loading and Unloading Data: "nz-05-Loading-and-Unloading-Data.md"
+  - Backup and Restore: "nz-06-BNR.md"
+  - Query Optimization: "nz-07-Query-Optimization.md"        
+  - Optimization Objects: "nz-08-Optimization-Objects.md"      
+  - Grooming Data: "nz-09-Groom.md"  
+  - Stored Procedures: "nz-10-Stored-Proc.md"
 
   - Appendix: 
     - Disclaimer: "nz-disclaimer.md"
@@ -39,6 +36,7 @@ markdown_extensions:
   - admonition
   - pymdownx.details
   - pymdownx.superfences    
+  - sane_lists
 
 extra_css:
   - stylesheets/extra.css

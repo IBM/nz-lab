@@ -1,0 +1,2139 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.3.1, mkdocs-material-8.3.9">
+    
+    
+      
+        <title>Database Administration - Netezza Performance Server Lab</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.1d29e8d0.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.cbb835fc.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#000000">
+        
+      
+      
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:300,300i,400,400i,700,700i%7CIBM+Plex+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"IBM Plex Sans";--md-code-font:"IBM Plex Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="black">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#database-administration" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Netezza Performance Server Lab" class="md-header__button md-logo" aria-label="Netezza Performance Server Lab" data-md-component="logo">
+      
+  <img src="../nz-images/IBM_logo®_rev_RGB.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Netezza Performance Server Lab
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Database Administration
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Netezza Performance Server Lab" class="md-nav__button md-logo" aria-label="Netezza Performance Server Lab" data-md-component="logo">
+      
+  <img src="../nz-images/IBM_logo®_rev_RGB.png" alt="logo">
+
+    </a>
+    Netezza Performance Server Lab
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-01-NPS-CLI/" class="md-nav__link">
+        Command Line Interface
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-02-WebConsole/" class="md-nav__link">
+        Web Console
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-03-Data-Distribution/" class="md-nav__link">
+        Data Distribution
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Database Administration
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Database Administration
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objectives" class="md-nav__link">
+    Objectives
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lab-setup" class="md-nav__link">
+    Lab Setup
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-05-Loading-and-Unloading-Data/" class="md-nav__link">
+        Loading and Unloading Data
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-06-BNR/" class="md-nav__link">
+        Backup and Restore
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-07-Query-Optimization/" class="md-nav__link">
+        Query Optimization
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-08-Optimization-Objects/" class="md-nav__link">
+        Optimization Objects
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-09-Groom/" class="md-nav__link">
+        Grooming Data
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-10-Stored-Proc/" class="md-nav__link">
+        Stored Procedures
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_11" type="checkbox" id="__nav_11" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_11">
+          Appendix
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Appendix" data-md-level="1">
+        <label class="md-nav__title" for="__nav_11">
+          <span class="md-nav__icon md-icon"></span>
+          Appendix
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-disclaimer/" class="md-nav__link">
+        Disclaimer
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-acknowledgements/" class="md-nav__link">
+        Acknowledgements
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objectives" class="md-nav__link">
+    Objectives
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lab-setup" class="md-nav__link">
+    Lab Setup
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+
+
+<h1 id="database-administration">Database Administration</h1>
+<p>A factory-configured and installed IBM Netezza Performance Server will
+include some of the following components:</p>
+<ul>
+<li>
+<p>An IBM Netezza Performance Server warehouse appliance with
+    pre-installed IBM Netezza Performance Server software</p>
+</li>
+<li>
+<p>A preconfigured Linux operating system (with IBM Netezza Performance
+    Server modifications).</p>
+</li>
+<li>
+<p>Several preconfigured Linux users and groups:</p>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>User</th>
+<th>Password</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>nz</td>
+<td>nz</td>
+<td>Linux user with login permission to the IBM       Netezza Performance Server host container. nz has ownership of various IPS files in the installation directory.</td>
+</tr>
+<tr>
+<td>root</td>
+<td>netezza</td>
+<td>Linux superuser with login permission to the IBM   Netezza Performance Server host container. Has ownership of various kernel and operating system files.</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>An IBM Netezza Performance Server database user named ADMIN is the
+    database super-user, and has full access to all system functions and
+    objects</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>User</th>
+<th>Password</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>admin</td>
+<td>password</td>
+<td>IPS database superuser, with full access to all    database administration privileges and objects</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>A preconfigured database group named PUBLIC. All database users are
+    automatically placed in the group PUBLIC and therefore inherit all
+    of its privileges</li>
+</ul>
+<p>The IBM Netezza Performance Server warehouse appliance includes a highly
+optimized SQL dialect called IBM Netezza Performance Server Structured
+Query Language (SQL). You can use SQL commands to create and manage your
+IBM Netezza Performance Server databases, user access, and permissions
+for the databases, as well as to query and modify the contents of the
+databases</p>
+<p>On a new IBM Netezza Performance Server system, there is typically one
+main database, SYSTEM, and a database template, MASTER_DB. IBM Netezza
+Performance Server uses the MASTER_DB as a template for all other user
+databases that are created on the system. Initially, only the ADMIN user
+can create new databases, but the ADMIN user can grant other users\'
+permission to create databases as well. The ADMIN user can also make
+another user the owner of a database, which gives that user ADMIN-like
+control over that database and its contents. The database creator
+becomes the default owner of the database. The owner can remove the
+database and all its objects, even if other users own objects within the
+database. Within a database, permitted users can create tables and
+populate them with data and query its contents.</p>
+<h2 id="objectives">Objectives</h2>
+<p>This lab will guide you through the typical steps to create and manage
+new IBM Netezza Performance Server users and groups after an IBM Netezza
+Performance Server has been delivered and configured. This will include
+creating a new database and assigning the appropriate privileges. The
+users and the database that you create in this lab will be used as a
+basis for the remaining labs in this bootcamp. After this lab you will
+have a basic understanding on how to plan and create an IBM Netezza
+Performance Server database environment.</p>
+<ul>
+<li>
+<p>The first part of this lab will examine creating IBM Netezza
+    Performance Server users and groups</p>
+</li>
+<li>
+<p>The second part of this lab will explore creating and using a
+    database and tables. The table schema to be used within this
+    bootcamp will be explained in the Data Distribution lab.</p>
+</li>
+</ul>
+<h2 id="lab-setup">Lab Setup</h2>
+<ul>
+<li>Prepare for this lab by running the setup script. To do this use the
+    following two commands:</li>
+</ul>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>[nz@localhost labs]\$ [cd
+\~/labs/databaseAdministration/setupLab]{.mark}</p>
+<p>[nz@localhost setupLab]\$ [./setupLab.sh]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>drop database labdb;</p>
+<p>DROP DATABASE</p>
+<p>drop user labadmin;</p>
+<p>DROP USER</p>
+<p>drop user labuser;</p>
+<p>nzsql:drop/drop_users:2: ERROR: DROP USER: object LABUSER does not
+exist.</p>
+<p>drop user dbuser;</p>
+<p>nzsql:drop/drop_users:3: ERROR: DROP USER: object DBUSER does not exist.</p>
+<p>drop group lagrp;</p>
+<p>nzsql:drop/drop_groups:1: ERROR: DROP GROUP: object LAGRP does not
+exist.</p>
+<p>drop group lugrp;</p>
+<p>nzsql:drop/drop_groups:2: ERROR: DROP GROUP: object LUGRP does not
+exist.</p>
+<p>Errors are expected if this is the first time running this lab on this
+virtual machine.</p>
+<ul>
+<li>Connect to the system database as the IBM Netezza Performance Server
+    database super-user, ADMIN, using the nzsql interface:</li>
+</ul>
+<blockquote>
+<p><strong>Input:</strong></p>
+<p>[nz@netezza \~]\$ [nzsql]{.mark}</p>
+<p>or,</p>
+<p><strong>Input:</strong></p>
+<p>[nz@netezza \~]\$ [nzsql -d system -u admin -pw password]{.mark}</p>
+</blockquote>
+<p>There are different options you can use with the nzsql interface. Here
+we present two options, where the first option uses information set in
+the NZ environment variables, NZ_DATABASE, NZ_USER, and NZ_PASSWORD. You
+can add these the environment variables (set in .bashrc) as follows:</p>
+<blockquote>
+<p>export NZ_DATATASE=system</p>
+<p>export NZ_USER=admin</p>
+<p>export NZ_PASSWORD=password</p>
+</blockquote>
+<p>Now you do not need to specify the database name or the user. In the
+second option the information is explicitly stated using the -d, -u, and
+-pw options, which specifies the database name, the user, and the user's
+password, respectively. This option is useful when you want to connect
+to a different database or use a different user than specified in the NZ
+environment variables.</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+<p>Welcome to nzsql, the Netezza SQL interactive terminal.</p>
+<p>Type: \h for help with SQL commands</p>
+<p>\? for help on internal slash commands</p>
+<p>\g or terminate with semicolon to execute query</p>
+<p>\q to quit</p>
+<p>SYSTEM(ADMIN)=></p>
+</blockquote>
+<h1 id="creating-ibm-performance-serer-users-and-groups">Creating IBM Performance serer Users and Groups</h1>
+<p>The initial task after an IBM Netezza Performance Server has been set up
+is to create the database environment. This typically begins by creating
+a new set of database users and user groups before creating the
+database. You will use the ADMIN user to start creating additional
+database users and user groups. Then you will assign the appropriate
+authorities after the database has been created in the next section. The
+ADMIN user should only be used to perform administrative tasks within
+the IBM Netezza Performance Server and is not recommended for regular
+use. Also, it is highly advisable to develop a security access model to
+control user access against the database and the database objects in an
+IBM Netezza Performance Server. This will involve creating separate
+users to perform certain tasks.</p>
+<p>The security access model for this bootcamp environment will use three
+IBM Netezza Performance Server database users and two groups:</p>
+<blockquote>
+<p>Users:</p>
+</blockquote>
+<ul>
+<li>
+<p>LABADMIN</p>
+</li>
+<li>
+<p>LABUSER</p>
+</li>
+<li>
+<p>DBUSER</p>
+</li>
+</ul>
+<blockquote>
+<p>Groups:</p>
+</blockquote>
+<ul>
+<li>
+<p>LAGRP</p>
+</li>
+<li>
+<p>LUGRP</p>
+</li>
+<li>
+<p>Connect to the Netezza image using PuTTy or another terminal
+    program. Login to \&lt;VM-IP-ADDRESS> as user nz with password nz.
+    (192.168.9.2)</p>
+</li>
+</ul>
+<h2 id="creating-new-ibm-netezza-performance-server-users-and-groups">Creating New IBM Netezza Performance Server Users and Groups</h2>
+<p>The three new IBM Netezza Performance Server database users will be
+initially created using the ADMIN user. The LABADMIN user will be the
+full owner of the bootcamp database. The LABUSER user will be allowed to
+perform data manipulation language (DML) operations (INSERT, UPDATE,
+DELETE) against all of the tables in the database, but they will not be
+allowed to create new objects like tables in the database. And lastly,
+the DBUSER user will only be allowed to read tables in the database,
+that is, they will only have LIST and SELECT privilege against tables in
+the database.</p>
+<p>The basic syntax to create a user is:</p>
+<p>CREATE USER username WITH PASSWORD \'string\';</p>
+<ol>
+<li>As the IBM Netezza Performance Server database super-user, ADMIN,
+    you can now start to create the first user, LABADMIN, which will be
+    the administrator of the database: (Note user and group names are
+    not case sensitive) unless surrounded by quotes.</li>
+</ol>
+<blockquote>
+<p>Note: The default case is Upper case, meaning all objects created will
+be created as upper case unless quoted, in which case the case will be
+maintained. The IPS system could be reinit with Lower case as the
+default.</p>
+<p>Creating New IBM Netezza Performance Server Users:</p>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>SYSTEM.ADMIN(ADMIN)=> [create user labadmin with password
+\'password\';]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>CREATE USER</p>
+<blockquote>
+<p>Later in this lab you will assign administrative ownership of the lab
+database to this user.</p>
+</blockquote>
+<ol start="2">
+<li>Now you will create two additional IBM Netezza Performance Server
+    database users that will have restricted access to the database.</li>
+</ol>
+<blockquote>
+<p>The first user, LABUSER, will have full DML access to the data in the
+tables, but will not be able to create or alter tables.</p>
+<p>For now, you will just create the user. We will set the privileges
+after the database is created:</p>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>SYSTEM.ADMIN(ADMIN)=> [create user labuser with password
+\'password\';]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>CREATE USER</p>
+<ol start="3">
+<li>Finally, we create the user DBUSER. This user will have even more
+    limited access to the database since it will only be allowed to
+    select data from the tables within the database. Again, you will set
+    the privileges after the database is created:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>SYSTEM.ADMIN(ADMIN)=> [create user dbuser with password
+\'password\';]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>CREATE USER</p>
+<ol start="4">
+<li>To list the existing database users in the environment, use the \du
+    internal slash option:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>SYSTEM.ADMIN(ADMIN)=> [\du]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>SYSTEM.ADMIN(ADMIN)=> \du</p>
+<p>List of Users</p>
+<p>USERNAME | VALIDUNTIL | ROWLIMIT | SESSIONTIMEOUT | QUERYTIMEOUT |
+DEF_PRIORITY | MAX_PRIORITY | USERESOURCEGRPID | USERESOURCEGRPNAME
+| CROSS_JOINS_ALLOWED</p>
+<p>----------+------------+----------+----------------+--------------+--------------+--------------+------------------+--------------------+---------------------</p>
+<p>ADMIN | | | 0 | 0 | NONE | NONE | | _ADMIN_ | NULL</p>
+<p>DBUSER | | 0 | 0 | 0 | NONE | NONE | 4901 | PUBLIC | NULL</p>
+<p>LABADMIN | | 0 | 0 | 0 | NONE | NONE | 4901 | PUBLIC | NULL</p>
+<p>LABUSER | | 0 | 0 | 0 | NONE | NONE | 4901 | PUBLIC | NULL</p>
+<p>(4 rows)</p>
+<blockquote>
+<p>The other columns are explained in the WLM presentation.</p>
+</blockquote>
+<h2 id="creating-new-ibm-netezza-performance-server-groups">Creating New IBM Netezza Performance Server Groups</h2>
+<p>IBM Netezza Performance Server database user groups are useful for
+organizing and managing database users. By default, IBM Netezza
+Performance Server contains one group with the name PUBLIC. All users
+are members in the PUBLIC group when they are created. Users can be
+members of other groups as well. In this section we will create two new
+IBM Netezza Performance Server database user groups. They will be
+initially created by the ADMIN user.</p>
+<p>We will create an administrative group LAGRP which is short for Lab
+Admin Group. This group will contain the LABADMIN user. The second group
+we create will be the LUGRP or Lab User Group. This group will contain
+the users LABUSER and DBUSER.</p>
+<p>Two different methods will be used to add the existing users to the
+newly created groups. Alternatively, the groups could be created first
+and then the users. The basic command to create a group is:</p>
+<p>CREATE GROUP groupname;</p>
+<ol>
+<li>As the IBM Netezza Performance Server database super-user, ADMIN,
+    you will now create the first group, LAGRP, which will be the
+    administrative group for the LABADMIN user:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>SYSTEM,ADMIN(ADMIN)=> [create group lagrp;]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>CREATE GROUP</p>
+<ol start="2">
+<li>After the LAGRP group is created you will now add the LABADMIN user
+    to this group. This is accomplished by using the ALTER statement.
+    You can either ALTER the user or the group, for this task you will
+    ALTER the group to add the LABADMIN user to the LAGRP group:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>SYSTEM.ADMIN(ADMIN)=> [alter group lagrp with add user
+labadmin;]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>ALTER GROUP</p>
+<p>To ALTER the user, you would use the following command:</p>
+<blockquote>
+<p>SYSTEM(ADMIN)=> alter user LABADMIN with in group LAGRP;</p>
+</blockquote>
+<ol start="3">
+<li>Now you will create the second group, LUGRP, which will be the user
+    group for both the LABUSER and DBUSER users. You can specify the
+    users to be included in the group when creating the group:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>SYSTEM.ADMIN(ADMIN)=> [create group lugrp with add user labuser,
+dbuser;]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>CREATE GROUP</p>
+<ol start="4">
+<li>To list the existing IBM Netezza Performance Server groups in the
+    environment, use the \dg internal slash option:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>SYSTEM.ADMIN(ADMIN)=> [\dg]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>SYSTEM.ADMIN(ADMIN)=> \dg</p>
+<p>List of Groups</p>
+<p>GROUPNAME | ROWLIMIT | SESSIONTIMEOUT | QUERYTIMEOUT | DEF_PRIORITY
+| MAX_PRIORITY | GRORSGPERCENT | RSGMAXPERCENT | JOBMAX |
+CROSS_JOINS_ALLOWED</p>
+<p>-----------+----------+----------------+--------------+--------------+--------------+---------------+---------------+--------+---------------------</p>
+<p>LAGRP | 0 | 0 | 0 | NONE | NONE | 0 | 100 | 0 | NULL</p>
+<p>LUGRP | 0 | 0 | 0 | NONE | NONE | 0 | 100 | 0 | NULL</p>
+<p>PUBLIC | 0 | 0 | 0 | NONE | NONE | 20 | 100 | 0 | NULL</p>
+<p>(3 rows)</p>
+<blockquote>
+<p>The default database group is PUBLIC. The other columns are explained
+in the WLM presentation.</p>
+</blockquote>
+<ol start="5">
+<li>To list the users in a group you can use one of the two internal
+    slash options, \dG, or \dU. The internal slash option \dG will
+    list the groups with the associated users:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>SYSTEM.ADMIN(ADMIN)=> [\dG]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>List of Users in a Group</p>
+<p>GROUPNAME | USERNAME</p>
+<p>-----------+----------</p>
+<p>LAGRP | LABADMIN</p>
+<p>LUGRP | DBUSER</p>
+<p>LUGRP | LABUSER</p>
+<p>PUBLIC | DBUSER</p>
+<p>PUBLIC | LABADMIN</p>
+<p>PUBLIC | LABUSER</p>
+<p>(6 rows)</p>
+<ol start="5">
+<li>The internal slash option \dU will list the users with the
+    associated group:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>SYSTEM.ADMIN(ADMIN)=> [\dU]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>List of Groups a User is a member</p>
+<p>USERNAME | GROUPNAME</p>
+<p>----------+-----------</p>
+<p>DBUSER | LUGRP</p>
+<p>DBUSER | PUBLIC</p>
+<p>LABADMIN | LAGRP</p>
+<p>LABADMIN | PUBLIC</p>
+<p>LABUSER | LUGRP</p>
+<p>LABUSER | PUBLIC</p>
+<p>(6 rows)</p>
+<h1 id="creating-an-ibm-netezza-performance-server-database">Creating an IBM Netezza Performance Server Database</h1>
+<p>The next step after the Netezza Performance Server database users and
+user groups have been created is to create the lab database. You will
+continue to use the ADMIN user to create the lab database then assign
+the appropriate authorities and privileges to the users created in the
+previous sections. The ADMIN user can also be used to create tables
+within the new database. However, the ADMIN user should only be used to
+perform administrative tasks. After the appropriate privileges have been
+assigned by the ADMIN user, the database can be handed over to the
+end-users to start creating and populating the tables in the database.</p>
+<h2 id="creating-a-database-and-transferring-ownership">Creating a Database and Transferring Ownership</h2>
+<p>The lab database that will be created will be named LABDB. It will be
+initially created by the ADMIN user and then ownership of the database
+will be transferred to the LABADMIN user. The LABADMIN user will have
+full administrative privileges against the LABDB database. The basic
+syntax to create a database is:</p>
+<p>CREATE DATABASE database_name;</p>
+<ol>
+<li>As the Netezza Performance Server database super-user, ADMIN, you
+    will create the first database, LABDB, using the CREATE DATABASE
+    command:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>SYSTEM.ADMIN(ADMIN)=> [create database labdb;]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>CREATE DATABASE</p>
+<blockquote>
+<p>The database LABDB has been created.</p>
+</blockquote>
+<ol start="6">
+<li>To view the existing databases use the internal slash option \l :</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>SYSTEM.ADMIN(ADMIN)=> [\l]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>List of databases</p>
+<p>DATABASE | OWNER</p>
+<p>----------+-------</p>
+<p>LABDB | ADMIN</p>
+<p>SYSTEM | ADMIN</p>
+<p>(2 rows)</p>
+<blockquote>
+<p>The owner of the newly created LABDB database is the ADMIN user. The
+other databases are the default database SYSTEM and the template
+database MASTER_DB.</p>
+</blockquote>
+<ol start="7">
+<li>At this point you could continue by creating new tables as the ADMIN
+    user. However, the ADMIN user should only be used to create users,
+    groups, and databases, and to assign authorities and privileges.
+    Therefore, we will transfer ownership of the LABDB database from the
+    ADMIN user to the LABADMIN user we created previously. The ALTER
+    DATABASE command is used to transfer ownership of an existing
+    database:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>SYSTEM.ADMIN(ADMIN)=> [alter database labdb owner to labadmin;]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>ALTER DATABASE</p>
+<blockquote>
+<p>This is the only method to transfer ownership of a database to an
+existing user. The CREATE DATABASE command does not include this
+option.</p>
+</blockquote>
+<ol start="8">
+<li>Check that the owner of the LABDB database is now the LABADMIN user:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>SYSTEM.ADMIN(ADMIN)=> [\l]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>List of databases</p>
+<p>DATABASE | OWNER</p>
+<p>----------+----------</p>
+<p>LABDB | LABADMIN</p>
+<p>SYSTEM | ADMIN</p>
+<p>(2 rows)</p>
+<blockquote>
+<p>The owner of the LABDB database is now the LABADMIN user.</p>
+</blockquote>
+<p>The LABDB database is now created and the LABADMIN user has full
+privileges on the LABDB database. The user can create and alter objects
+within the database. You could now continue and start creating tables as
+the LABADMIN user. However, we will first finish assigning privileges to
+the two remaining database users that were created in the previous
+section.</p>
+<h2 id="assigning-authorities-and-privileges">Assigning Authorities and Privileges</h2>
+<p>One last task for the ADMIN user is to assign the privileges to the two
+users we created earlier, LABUSER and DBUSER. LABUSER user will have
+full DML rights against all tables in the LABDB database. It will not be
+allowed to create or alter tables within the database. User DBUSER will
+have more restricted access in the database and will only be allowed to
+read data from the tables in the database. The privileges will be
+controlled by a combination of setting the privileges at the group and
+user level.</p>
+<p>The LUGRP user group will be granted LIST and SELECT privileges against
+the database and tables within the database. So any member of the LUGRP
+will have these privileges. The full data manipulation privileges will
+be granted individually to the LABUSER user.</p>
+<p>The GRANT command that is used to assign object privileges has the
+following syntax:</p>
+<p>GRANT object_privilege [, ...] ON object [, ...]</p>
+<p>TO { PUBLIC | GROUP group | username } [ WITH GRANT OPTION ]</p>
+<p>GRANT admin_privilege [, ...] [ IN { [database_name.]schema_name
+| database_name.ALL | ALL.ALL } ]</p>
+<p>TO { PUBLIC | GROUP group | username } [ WITH GRANT OPTION ]</p>
+<p>object_privilege</p>
+<p>ALL, ABORT, ALTER, DELETE, DROP, EXECUTE, EXECUTE AS,</p>
+<p>GENSTATS, GROOM, INSERT, LABEL ACCESS, LABEL RESTRICT, LABEL EXPAND,</p>
+<p>LIST, SELECT, TRUNCATE, UPDATE</p>
+<p>admin_privilege</p>
+<p>ALL ADMIN, BACKUP, [ CREATE ] DATABASE, [ CREATE ] GROUP,</p>
+<p>[ CREATE ] INDEX, [ CREATE ] SCHEMA, [ CREATE ] SEQUENCE, [
+CREATE ] SYNONYM,</p>
+<p>[ CREATE ] TABLE, [ CREATE ] EXTERNAL TABLE, [ CREATE ] TEMP
+TABLE,</p>
+<p>[ CREATE ] FUNCTION, [ CREATE ] AGGREGATE, [ CREATE ] USER,</p>
+<p>[ CREATE ] VIEW, [ CREATE ] MATERIALIZED VIEW, [CREATE] PROCEDURE,</p>
+<p>[ CREATE ] LIBRARY, [ CREATE ] SCHEDULER RULE, [ MANAGE ]
+HARDWARE,</p>
+<p>[ MANAGE ] SYSTEM, [ MANAGE ] SECURITY, RESTORE, UNFENCE, VACUUM</p>
+<ol>
+<li>As the Netezza Performance Server database super-user, ADMIN,
+    connect to the LABDB database using the internal slash option \c</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>SYSTEM.ADMIN(ADMIN)=> [\c labdb admin password]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>You are now connected to database labdb as user admin.</p>
+<blockquote>
+<p>You will notice that the database name in command prompt has changed
+from SYSTEM to LABDB.</p>
+</blockquote>
+<ol start="9">
+<li>First you will grant LIST privilege on the LABDB database to the
+    group LUGRP. This will allow members of the LUGRP to view and
+    connect to the LABDB database :</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>SYSTEM.ADMIN(ADMIN)=> [grant list on labdb to lugrp;]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>GRANT</p>
+<ol start="10">
+<li>To list the object permissions for a group use the following
+    internal slash option, \dpg :</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(ADMIN)=> [\dpg lugrp]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>Group object permissions for group \'LUGRP\'</p>
+<p>Database Name | Schema Name | Object Name | L S I U D T L A D B L G O
+E C R X A | D G U S T E X Q Y V M I B R C S H F A L P N S R</p>
+<p>---------------+-------------+-------------+-------------------------------------+-------------------------------------------------</p>
+<p>GLOBAL | GLOBAL | LABDB | X |</p>
+<p>(1 rows)</p>
+<p>Object Privileges</p>
+<p>(L)ist (S)elect (I)nsert (U)pdate (D)elete (T)runcate (L)ock</p>
+<p>(A)lter (D)rop a(B)ort (L)oad (G)enstats Gr(O)om (E)xecute</p>
+<p>Label-A(C)cess Label-(R)estrict Label-E(X)pand Execute-(A)s</p>
+<p>Administration Privilege</p>
+<p>(D)atabase (G)roup (U)ser (S)chema (T)able T(E)mp E(X)ternal</p>
+<p>Se(Q)uence S(Y)nonym (V)iew (M)aterialized View (I)ndex (B)ackup</p>
+<p>(R)estore va(C)uum (S)ystem (H)ardware (F)unction (A)ggregate</p>
+<p>(L)ibrary (P)rocedure U(N)fence (S)ecurity Scheduler (R)ule</p>
+<blockquote>
+<p>The X in the L column of the list denotes that the LUGRP group has
+LIST object privileges on the LABDB global object.</p>
+</blockquote>
+<ol start="11">
+<li>With the current privileges set for the LABUSER and DBUSER, they can
+    now view and connect to the LABDB database as members of the LUGRP
+    group. But these two users have no privileges to access any of the
+    objects within the database. So you will grant LIST and SELECT
+    privilege to the tables within the LABDB database to the members of
+    the LUGRP :</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(ADMIN)=> [grant list, select on table to lugrp;]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>GRANT</p>
+<ol start="12">
+<li>View the object permissions for the LUGRP group :</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(ADMIN)=> [\dpg lugrp]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>Group object permissions for group \'LUGRP\'</p>
+<p>Database Name | Schema Name | Object Name | L S I U D T L A D B L G O
+E C R X A | D G U S T E X Q Y V M I B R C S H F A L P N S R</p>
+<p>---------------+-------------+-------------+-------------------------------------+-------------------------------------------------</p>
+<p>GLOBAL | GLOBAL | LABDB | X |</p>
+<p>LABDB | ADMIN | TABLE | X X |</p>
+<p>(2 rows)</p>
+<p>Object Privileges</p>
+<p>(L)ist (S)elect (I)nsert (U)pdate (D)elete (T)runcate (L)ock</p>
+<p>(A)lter (D)rop a(B)ort (L)oad (G)enstats Gr(O)om (E)xecute</p>
+<p>Label-A(C)cess Label-(R)estrict Label-E(X)pand Execute-(A)s</p>
+<p>Administration Privilege</p>
+<p>(D)atabase (G)roup (U)ser (S)chema (T)able T(E)mp E(X)ternal</p>
+<p>Se(Q)uence S(Y)nonym (V)iew (M)aterialized View (I)ndex (B)ackup</p>
+<p>(R)estore va(C)uum (S)ystem (H)ardware (F)unction (A)ggregate</p>
+<p>(L)ibrary (P)rocedure U(N)fence (S)ecurity Scheduler (R)ule</p>
+<blockquote>
+<p>The X in the L and S column denotes that the LUGRP group has both LIST
+and SELECT privileges on all of the tables in the LABDB database. (The
+LIST privilege is used to allow users to view the tables using the
+internal slash opton \d.)</p>
+</blockquote>
+<ol start="13">
+<li>The current privileges satisfy the DBUSER user requirements, which
+    is to allow access to the LABDB database and SELECT access to all
+    the tables in the database. But these privileges do not satisfy the
+    requirements for the LABUSER user. The LABUSER user is to have full
+    DML access to all the tables in the database. So you will grant
+    SELECT, INSERT, UPDATE, DELETE, LIST, and TRUNCATE privileges on
+    tables in the LABDB database to the LABUSER user:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(ADMIN)=> [grant select, insert, update, delete, list,
+truncate on table to labuser;]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>GRANT</p>
+<ol start="14">
+<li>To list the object permissions for a user use the \dpu \&lt;user
+    name> internal slash option,:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(ADMIN)=> [\dpu labuser]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>User object permissions for user \'LABUSER\'</p>
+<p>Database Name | Schema Name | Object Name | L S I U D T L A D B L G O
+E C R X A | D G U S T E X Q Y V M I B R C S H F A L P N S R</p>
+<p>---------------+-------------+-------------+-------------------------------------+-------------------------------------------------</p>
+<p>LABDB | ADMIN | TABLE | X X X X X X |</p>
+<p>(1 rows)</p>
+<p>Object Privileges</p>
+<p>(L)ist (S)elect (I)nsert (U)pdate (D)elete (T)runcate (L)ock</p>
+<p>(A)lter (D)rop a(B)ort (L)oad (G)enstats Gr(O)om (E)xecute</p>
+<p>Label-A(C)cess Label-(R)estrict Label-E(X)pand Execute-(A)s</p>
+<p>Administration Privilege</p>
+<p>(D)atabase (G)roup (U)ser (S)chema (T)able T(E)mp E(X)ternal</p>
+<p>Se(Q)uence S(Y)nonym (V)iew (M)aterialized View (I)ndex (B)ackup</p>
+<p>(R)estore va(C)uum (S)ystem (H)ardware (F)unction (A)ggregate</p>
+<p>(L)ibrary (P)rocedure U(N)fence (S)ecurity Scheduler (R)ule</p>
+<blockquote>
+<p>The X under the L, S, I, U, D, T columns indicates that the LABUSER
+user has LIST, SELECT, INSERT, UPDATE, DELETE, and TRUNCATE privileges
+on all of the tables in the LABDB database.</p>
+</blockquote>
+<p>Now that all of the privileges have been set by the ADMIN user the LABDB
+database can be handed over to the end-users. The end-users can use the
+LABADMIN user to create objects, which include tables, in the database
+and also maintain the database.</p>
+<h1 id="creating-tables">Creating Tables</h1>
+<p>The LABADMIN user will be used to create tables in the LABDB database
+instead of the ADMIN user. Two tables will be created in this lab. The
+remaining tables for the LABDB database schema will be created in the
+Data Distribution lab. Data Distribution is an important aspect that
+should be considered when creating tables. This concept is not covered
+in this lab since it is discussed separately in the Data Distribution
+presentation. The two tables that will be created are the REGION and
+NATION tables. These two tables will be populated with data in the next
+section using LABUSER user. Two methods will be utilized to create these
+tables. The basic syntax to create a table is:</p>
+<blockquote>
+<p><strong>General syntax:</strong></p>
+</blockquote>
+<p>CREATE [ TEMPORARY | TEMP ] TABLE [IF NOT EXISTS] \&lt;table></p>
+<p>( \&lt;col> \&lt;type> [\&lt;col_constraint>][,\&lt;col> \&lt;type>
+[\&lt;col_constraint>]...]</p>
+<p>[\&lt;table_constraint>[,\&lt;table_constraint>... ] )</p>
+<p>[ DISTRIBUTE ON { RANDOM | [HASH] (\&lt;col>[,\&lt;col>...]) } ]</p>
+<p>[ ORGANIZE ON { (\&lt;col>) | NONE } ]</p>
+<p>[ ROW SECURITY ]</p>
+<blockquote>
+<p><strong>Where \&lt;col_constraint> represents:</strong></p>
+</blockquote>
+<p>[ CONSTRAINT \&lt;constraint_name> ]</p>
+<p>{NOT NULL | NULL | UNIQUE | PRIMARY KEY | DEFAULT \&lt;value> |
+\&lt;ref>}</p>
+<p>[ [ [ NOT ] DEFERRABLE ] { INITIALLY DEFERRED | INITIALLY
+IMMEDIATE } |</p>
+<p>[ INITIALLY DEFERRED | INITIALLY IMMEDIATE ] [ NOT ] DEFERRABLE ]</p>
+<blockquote>
+<p><strong>Where \&lt;table_constraint> represents:</strong></p>
+</blockquote>
+<p>[ CONSTRAINT \&lt;constraint_name> ]</p>
+<p>{UNIQUE (\&lt;col>[,\&lt;col>...] ) |</p>
+<p>PRIMARY KEY (\&lt;pkcol_name>[,\&lt;pkcol_name>...] ) |</p>
+<p>FOREIGN KEY (\&lt;fkcol_name>[,\&lt;fkcol_name>...] ) \&lt;ref>}</p>
+<p>[ [ [ NOT ] DEFERRABLE ] { INITIALLY DEFERRED | INITIALLY
+IMMEDIATE } |</p>
+<p>[ INITIALLY DEFERRED | INITIALLY IMMEDIATE ] [ NOT ] DEFERRABLE ]</p>
+<blockquote>
+<p><strong>Where \&lt;ref> represents:</strong></p>
+</blockquote>
+<p>REFERENCES \&lt;reftable> [ (\&lt;refcol_name>[,\&lt;refcol_name>...] ) ]</p>
+<p>[ MATCH FULL ]</p>
+<p>[ ON UPDATE {CASCADE | RESTRICT | SET NULL | SET DEFAULT | NO
+ACTION} ]</p>
+<p>[ ON DELETE {CASCADE | RESTRICT | SET NULL | SET DEFAULT | NO
+ACTION} ]</p>
+<ol>
+<li>Connect to the LABDB database as the LABADMIN user using the
+    internal slash option \c:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(ADMIN)=> [\c labdb labadmin password]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>You are now connected to database labdb as user labadmin.</p>
+<blockquote>
+<p>You will notice that the username in the command prompt has changed
+from ADMIN to LABADMIN. Since you already had an opened session, you
+could use the internal slash option \c to connect to the database.
+However, if you had handed over this environment to the end user they
+would need to initiate a new connection using the nzsql interface.</p>
+<p>To use the nzsql interface to connect to the LABDB database as the
+LABADMIN user you could use the following options (no need to run
+these command, informational):</p>
+</blockquote>
+<p>[nz@localhost \~]\$ nzsql -d labdb -u labadmin -pw password</p>
+<blockquote>
+<p>or with the short form, omitting the options:</p>
+</blockquote>
+<p>[nz@localhost \~]\$ nzsql labdb labadmin password</p>
+<blockquote>
+<p>or you could set the environment variables to the following values and
+issue nzsql without options.</p>
+</blockquote>
+<p>[nz@localhost \~]\$ export NZ_DATABASE=LABDB</p>
+<p>[nz@localhost \~]\$ export NZ_USER=LABADMIN</p>
+<p>[nz@localhost \~]\$ export NZ_PASSWORD=password</p>
+<blockquote>
+<p>In further labs we will often leave out the password parameter since
+it has been set to the same value "password" for all users.</p>
+</blockquote>
+<ol start="15">
+<li>Now you can create the first table in the LABDB database. The first
+    table you will create is the REGION table with the following columns
+    and datatypes :</li>
+</ol>
+<p>+---------------------------+------------------------------------------+
+| <strong>Column Name</strong>           | <strong>Data Type</strong>                            |
++===========================+==========================================+
+| R_REGIONKEY               | INTEGER                                  |
+|                           |                                          |
+| R_NAME                    | CHAR(25)                                 |
+|                           |                                          |
+| R_COMMENT                 | VARCHAR(152)                             |
++---------------------------+------------------------------------------+</p>
+<blockquote>
+<p>To create the above table execute the following command:</p>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(LABADMIN)=> [create table region (r_regionkey integer,
+r_name char(25), r_comment varchar(152));]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>CREATE TABLE</p>
+<ol start="16">
+<li>To list the tables in the LABDB database use the \dt internal slash
+    option:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(LABADMIN)=> [\dt]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>List of relations</p>
+<p>Schema | Name | Type | Owner</p>
+<p>--------+--------+-------+----------</p>
+<p>ADMIN | REGION | TABLE | LABADMIN</p>
+<p>(1 row)</p>
+<ol start="17">
+<li>To describe a table you can use the internal slash option \d
+    \&lt;table name>:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(LABADMIN)=> [\d region]{.mark}</p>
+<p>Table \"REGION\"</p>
+<p>Attribute | Type | Modifier | Default Value</p>
+<p>-------------+------------------------+----------+---------------</p>
+<p>R_REGIONKEY | INTEGER | |</p>
+<p>R_NAME | CHARACTER(25) | |</p>
+<p>R_COMMENT | CHARACTER VARYING(152) | |</p>
+<p>Distributed on hash: \"R_REGIONKEY\"</p>
+<blockquote>
+<p>The Distributed on hash clause is the distribution method used by the
+table. If you do not explicitly specify a distribution method, a
+default distribution is used. In our system this is hash distributed
+on the first column R_REGIONKEY. This concept is discussed in the Data
+Distribution presentation and lab.</p>
+<p>Note: the default distribution can be change to RANDOM. This might be
+a preferred default distribution when the Netezza environment is
+supporting ad-hoc user table creation. In the event a user forgets to
+add a distribution key, RANDOM would at a minimum guarantee even
+distribution. However, you table if joined to other tables would
+require data movement to perform the join.</p>
+</blockquote>
+<ol start="18">
+<li>Instead of typing out the entire create table statement at the nzsql
+    command line you can read and execute commands from a file. You'll
+    use this method to create the NATION table in the LABDB database
+    with the following columns and data types:</li>
+</ol>
+<hr />
+<p>Column Name                Data Type                   Constraint</p>
+<hr />
+<p>N_NATIONKEY                INTEGER                     NOT NULL</p>
+<p>N_NAME                     CHAR(25)                    NOT NULL</p>
+<p>N_REGIONKEY                INTEGER                     NOT NULL</p>
+<p>N_COMMENT                  VARCHAR(152)                ---</p>
+<hr />
+<blockquote>
+<p>The full create table statement for the NATION table:</p>
+</blockquote>
+<p>create table nation (</p>
+<p>n_nationkey integer not null,</p>
+<p>n_name char(25) not null,</p>
+<p>n_regionkey integer not null,</p>
+<p>n_comment varchar(152)</p>
+<p>)</p>
+<p>distribute on random;</p>
+<ol start="19">
+<li>The statement can be found in the nation.ddl file under the
+    /home/nz/labs/databaseAdministration directory. To read and execute
+    commands from a file use the \i \&lt;<em>file</em>> internal slash option:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(LABADMIN)=> [\i
+/home/nz/labs/databaseAdministration/nation.ddl]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>CREATE TABLE</p>
+<ol start="20">
+<li>You can run Linux commands while in the nzsql console. For example:
+    list the nation.ddl file</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(LABADMIN)=> [\! ls -l
+/home/nz/labs/databaseAdministration/nation.ddl]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>-rwxr-xr-x. 1 nz nz 176 May 13 2020
+/home/nz/labs/databaseAdministration/nation.ddl</p>
+<ol start="21">
+<li>List all the tables in the LABDB database:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(LABADMIN)=> [\dt]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>List of relations</p>
+<p>Schema | Name | Type | Owner</p>
+<p>--------+--------+-------+----------</p>
+<p>ADMIN | NATION | TABLE | LABADMIN</p>
+<p>ADMIN | REGION | TABLE | LABADMIN</p>
+<p>(2 rows)</p>
+<ol start="22">
+<li>Describe the NATION table :</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(LABADMIN)=> [\d nation]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>Table \"NATION\"</p>
+<p>Attribute | Type | Modifier | Default Value</p>
+<p>-------------+------------------------+----------+---------------</p>
+<p>N_NATIONKEY | INTEGER | NOT NULL |</p>
+<p>N_NAME | CHARACTER(25) | NOT NULL |</p>
+<p>N_REGIONKEY | INTEGER | NOT NULL |</p>
+<p>N_COMMENT | CHARACTER VARYING(152) | |</p>
+<p>Distributed on random: (round-robin)</p>
+<blockquote>
+<p>The distributed on random is the distribution method used, in this
+case the rows in the NATION table are distributed in round-robin
+fashion. This concept will be discussed separately in the Data
+Distribution presentation and lab.</p>
+</blockquote>
+<p>It is possible to continue to use LABADMIN user to perform DML queries
+since it is the owner of the database and holds all privileges on all of
+the objects in the databases. However, the LABUSER and DBUSER users will
+be used to perform DML queries against the tables in the database.</p>
+<h1 id="using-dml-queries">Using DML Queries</h1>
+<p>We will now use the LABUSER user to populate data into both the REGION
+and NATION tables. This user has full data manipulation language (DML)
+privileges in the database, but no data definition language (DDL)
+privileges. Only the LABADMIN has full DDL privileges in the database.
+Later in this course more efficient methods to populate tables with data
+are discussed. The DBUSER will also be used to read data from the
+tables, but it can not insert data into the tables since it has limited
+DML privileges in the database.</p>
+<ol>
+<li>Connect to the LABDB database as the LABUSER user using the internal
+    slash option, \c:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(ADMIN)=> [\c labdb labuser password]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>You are now connected to database LABDB as user labuser.</p>
+<p>LABDB.ADMIN(LABUSER)=></p>
+<blockquote>
+<p>You will notice that the user name in the command prompt has changed
+from LABADMIN to LABUSER.</p>
+</blockquote>
+<ol start="23">
+<li>First check which tables exist in the LABDB database using the \dt
+    internal slash option:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(ADMIN)=> [\dt]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>List of relations</p>
+<p>Schema | Name | Type | Owner</p>
+<p>--------+--------+-------+----------</p>
+<p>ADMIN | NATION | TABLE | LABADMIN</p>
+<p>ADMIN | REGION | TABLE | LABADMIN</p>
+<p>(2 rows)</p>
+<blockquote>
+<p>Remember that the LABUSER user is a member of the LUGRP group which
+was granted LIST privileges on the tables in the LABDB database. This
+is the reason why it can list and view the tables in the LABDB
+database. If it did not have this privilege, it would not be able to
+see any of the tables in the LABDB database.</p>
+</blockquote>
+<ol start="24">
+<li>The LABUSER user was created to perform DML operations against the
+    tables in the LABDB database. However, it was restricted on
+    performing DDL operations against the database. Let's see what
+    happens when you try create a new table, t1, with one column, C1,
+    using the INTEGER data type:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(ADMIN)=> [create table t1 (c1 integer);]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>ERROR: CREATE TABLE: permission denied.</p>
+<blockquote>
+<p>As expected, the create table statement is not allowed since LABUSER
+user does not have the privilege to create tables in the LABDB
+database.</p>
+</blockquote>
+<ol start="25">
+<li>Let's continue by performing DML operations that the LABUSER user is
+    allowed to perform against the tables in the LABDB database. Insert
+    a new row into the REGION table:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(LABUSER)=> [insert into region values (1, \'NA\', \'north
+america\');]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>INSERT 0 1</p>
+<blockquote>
+<p>As expected, this operation is successful. The output of the INSERT
+gives feedback about the number of successfully inserted rows.</p>
+</blockquote>
+<ol start="26">
+<li>Issue the SELECT statement against the REGION table to check the new
+    row you just added to the table:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(LABUSER)=> [select * from region;]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>R_REGIONKEY | R_NAME | R_COMMENT</p>
+<p>-------------+---------------------------+---------------</p>
+<p>1 | NA | north america</p>
+<p>(1 row)</p>
+<ol start="27">
+<li>Instead of typing DML statements at the nzsql command line, you can
+    read and execute statements from a file. You will use this method to
+    add the following three rows to the REGION table:</li>
+</ol>
+<p>+------------------+----------------+----------------------------------+
+| R_REGIONKEY      | R_NAME         | R_COMMENT                        |
++==================+================+==================================+
+| 2                | SA             | South America                    |
+|                  |                |                                  |
+| 3                | EMEA           | Europe, Middle East, Africa      |
+|                  |                |                                  |
+| 4                | AP             | Asia Pacific                     |
++------------------+----------------+----------------------------------+</p>
+<blockquote>
+<p>This is done with a SQL script containing the following commands:</p>
+</blockquote>
+<p>insert into region values (2, \'sa\', \'south america\');</p>
+<p>insert into region values (3, \'emea\', \'europe, middle east,
+africa\'); insert into region values (4, \'ap\', \'asia pacific\');</p>
+<blockquote>
+<p>It can be found in the region.dml file under the
+/home/nz/labs/databaseAdministration directory. To read and execute
+commands from a file use the \i \&lt;<em>file</em>> internal slash option:</p>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(LABUSER)=> [\i
+/home/nz/labs/databaseAdministration/region.dml]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>INSERT 0 1</p>
+<p>INSERT 0 1</p>
+<p>INSERT 0 1</p>
+<blockquote>
+<p>You can see from the output that the SQL script contained three INSERT
+statements.</p>
+</blockquote>
+<ol start="28">
+<li>You will load data into the NATION table using an external table
+    with the following command:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(LABUSER)=> [insert into nation select * from external
+\'/home/nz/labs/databaseAdministration/nation.del\';]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>INSERT 0 14</p>
+<blockquote>
+<p>You loaded 14 rows into the table.</p>
+<p>Loading data into a table is covered in the Loading and Unloading Data
+presentation and lab.</p>
+</blockquote>
+<ol start="29">
+<li>Now you will switch over to the DBUSER user, who only has SELECT
+    privilege on the tables in the LABDB database. This privilege is
+    granted to this user since he is a member of the LUGRP group. Use
+    the internal slash option, \c \&lt;database name> \&lt;user>
+    \&lt;password> to connect to the LABDB database as the DBUSER user:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(LABUSER)=> [\c labdb dbuser password]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>You are now connected to database labdb as user dbuser.</p>
+<blockquote>
+<p>You will notice that the username in the command prompt changes from
+LABUSER to DBUSER.</p>
+</blockquote>
+<ol start="30">
+<li>Before trying to view rows from tables in the LABDB database, try to
+    add a new row to the REGION table:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(DBUSER)=> [insert into region values (5, \'NP\', \'north
+pole\');]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>ERROR: Permission denied on \"REGION\".</p>
+<blockquote>
+<p>As expected, the INSERT statement is not allowed since the DBUSER does
+not have the privilege to add rows to any tables in the LABDB
+database.</p>
+</blockquote>
+<ol start="31">
+<li>Now select all rows from the REGION table:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(DBUSER)=> [select * from region;]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>R_REGIONKEY | R_NAME | R_COMMENT</p>
+<p>-------------+---------------------------+-----------------------------</p>
+<p>1 | NA | north america</p>
+<p>2 | sa | south america</p>
+<p>3 | emea | europe, middle east, africa</p>
+<p>4 | ap | asia pacific</p>
+<p>(4 rows)</p>
+<ol start="32">
+<li>Finally let\'s run a slightly more complex query. We want to return
+    all nation names in Asia Pacific, together with their region name.
+    To do this you need to execute a simple join using the NATION and
+    REGION tables. The join key will be the region key, and to restrict
+    results on the AP region you need to add a WHERE condition:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(DBUSER)=> [select n_name, r_name from nation, region where
+n_regionkey = r_regionkey and r_name = \'ap\';]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>N_NAME | R_NAME</p>
+<p>---------------------------+---------------------------</p>
+<p>australia | ap</p>
+<p>japan | ap</p>
+<p>macau | ap</p>
+<p>hong kong | ap</p>
+<p>new zealand | ap</p>
+<p>(5 rows)</p>
+<blockquote>
+<p>This should return the following results, containing all countries
+from the ap region.</p>
+</blockquote>
+<h1 id="roles">Roles</h1>
+<p>IBM Netezza Performance Server introduced a new object called role. A
+role is a potential grantee or grantor of privileges and of other roles.
+Similar to a user, a role can own schemas and other objects. Roles can
+own database objects such as tables or functions.</p>
+<p>By using roles, you can also assign privileges. You can create roles
+that are available across all databases on the IBM Netezza Performance
+Server system. Similar to group objects, roles are also <strong>[global
+objects]{.underline}</strong>.</p>
+<p>A user or group can be grant permission to a role. A session can then be
+set to run under a ROLE\'s authorization. Once a session is set to a
+ROLE the permissions used are from that ROLE\'s authorization and/or
+privileges, not a user or group permissions. This allows a
+user/application to isolate a database session to execute with a ROLE\'s
+permission.</p>
+<p>In this section of the lab we will create roles to demonstrate how roles
+can be used.</p>
+<ol>
+<li><strong>Creating role</strong></li>
+</ol>
+<p>Roles are create using the following syntax:</p>
+<p>CREATE ROLE role name</p>
+<p>[ WITH ADMIN owner name ]</p>
+<p>[ AS ADMIN ]</p>
+<ol>
+<li>Login to the NPS command line as the nz user.</li>
+</ol>
+<p>See the section: <a href="#_Login_to_the">Login to the NPS Command Line</a> for
+details on how to access the command line for your given lab system.</p>
+<ol start="33">
+<li>As the NPS database super-user, ADMIN, use nzsql to create the first
+    role, LAROLE, which will be the administrator of the system: (Note:
+    roles are not case sensitive)</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>SYSTEM(ADMIN)=> [create role DBAROLE AS ADMIN;]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>CREATE ROLE</p>
+<p>This role will act as the super-user ADMIN and have all permissions on
+the database system. This is a simple way to give ADMIN rights to a user
+through the use of a role.</p>
+<ol>
+<li><strong>Display roles</strong></li>
+</ol>
+<!-- -->
+
+<ol start="34">
+<li>Display the newly created role with the following command:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>SYSTEM.ADMIN(ADMIN)=> [show role;]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>ROLENAME | ROLEGRANTOR | ASADMIN</p>
+<p>----------+-------------+---------</p>
+<p>DBAROLE | ADMIN | t</p>
+<p>(1 row)</p>
+<ol>
+<li><strong>Create a new user without any permissions</strong></li>
+</ol>
+<!-- -->
+
+<ol start="35">
+<li>Create a new DBA user without any permissions.</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>SYSTEM.ADMIN(ADMIN)=> [create user DBAUSER password
+\'password\';]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>CREATE USER</p>
+<ol start="36">
+<li>Connect to the system database as DBAUSER and CREATE a database:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>SYSTEM.ADMIN(ADMIN)=> [\c system dbauser password]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>You are now connected to database system as user dbauser.</p>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>SYSTEM.ADMIN(ADMIN)=> [create database testdb;]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>ERROR: CREATE DATABASE: permission denied.</p>
+<p>Notice that DBUSER cannot create a database as is expected since we
+didn\'t grant DATABASE permission to the DBUSER.</p>
+<ol start="37">
+<li>Connect to the system database as ADMIN:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>SYSTEM.ADMIN(ADMIN)=> [\c system]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>You are now connected to database system.</p>
+<ol>
+<li><strong>Grant permission to use a role</strong></li>
+</ol>
+<!-- -->
+
+<ol start="38">
+<li>Grant LIST on DBAROLE to DBAUSER:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>SYSTEM.ADMIN(ADMIN)=> grant list on dbarole to DBAUSER;</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>GRANT</p>
+<p>This gives the DBAUSER permission to use the role DBAROLE which has
+ADMIN rights.</p>
+<ol start="39">
+<li>Connect to the system database as DBAUSER:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>SYSTEM.ADMIN(ADMIN)=> \c system dbauser password</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>You are now connected to database system as user dbauser.</p>
+<ol start="40">
+<li>List the roles as DBUSER:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>SYSTEM.ADMIN(DBAUSER)=> show role;</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>ROLENAME | ROLEGRANTOR | ASADMIN</p>
+<p>----------+-------------+---------</p>
+<p>DBAROLE | ADMIN | t</p>
+<p>(1 row)</p>
+<p>The LIST permission gives the DBAUSER the ability to show and set roles.</p>
+<ol start="41">
+<li>As the DBUSER set the session to the role DBAROLE:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>SYSTEM.ADMIN(DBAUSER)=> set role dbarole;</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>SET ROLE</p>
+<p>All commands will run with ADMIN rights, thus, full control over the
+database system.</p>
+<ol start="42">
+<li>Create a database with the DBAROLE set:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>SYSTEM.ADMIN(DBAUSER)=> create database testdb;</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>CREATE DATABASE</p>
+<ol start="43">
+<li>List the database with the slash: option \l:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>SYSTEM.ADMIN(DBAUSER)=> \l</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>List of databases</p>
+<p>DATABASE | OWNER</p>
+<p>----------+-------</p>
+<p>LABDB | ADMIN</p>
+<p>SYSTEM | ADMIN</p>
+<p>TESTDB | ADMIN</p>
+<p>(3 rows)</p>
+<p>Notice the owner of the TESTDB database is ADMIN. This is because the
+role DBAROLE (current session set to DBAROLE) was created with the AS
+ADMIN option.</p>
+<ol start="44">
+<li>Drop the database TESTDB:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>SYSTEM.ADMIN(DBAUSER)=> drop database testdb;</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>DROP DATABASE</p>
+<ol>
+<li><strong>Reset session from a role</strong></li>
+</ol>
+<!-- -->
+
+<ol start="45">
+<li>Return your nzsql session to the current user with the following
+    command:</li>
+</ol>
+<p>SYSTEM.ADMIN(DBAUSER)=> set role none;</p>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>SYSTEM.ADMIN(DBAUSER)=> set role none;</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>SET ROLE</p>
+<ol start="46">
+<li>You are now back to using the permission of DBAUSER. Try creating
+    the TESTDB database again and see what happens:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>SYSTEM.ADMIN(DBAUSER)=> create database testdb;</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>ERROR: CREATE DATABASE: permission denied.</p>
+<p>The command was run with the DBAUSER privileges and the DBAUSER doesn\'t
+have permissions to create a database.</p>
+<ol>
+<li><strong>Create a second user</strong></li>
+</ol>
+<!-- -->
+
+<ol start="47">
+<li>Connect to the system database as ADMIN:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>SYSTEM.ADMIN(ADMIN)=> \c system</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>You are now connected to database system.</p>
+<ol start="48">
+<li>Create a second user called DBOPS:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>SYSTEM.ADMIN(ADMIN)=> create user dbops with password \'password\';</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>CREATE USER</p>
+<ol>
+<li><strong>Create a new role without permissions</strong></li>
+</ol>
+<!-- -->
+
+<ol start="49">
+<li>Create a new role called DBOPSROLE:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>SYSTEM.ADMIN(ADMIN)=> create role dbopsrole with admin dbops;</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>CREATE ROLE</p>
+<ol start="50">
+<li>Connect to the system database as the LABADMIN user:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>SYSTEM.ADMIN(ADMIN)=> \c system dbops password</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>You are now connected to database system as user dbops.</p>
+<ol start="51">
+<li>Show the role:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>SYSTEM.ADMIN(ADMIN)=> show role;</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>ROLENAME | ROLEGRANTOR | ASADMIN</p>
+<p>-----------+-------------+---------</p>
+<p>DBOPSROLE | DBOPS | f</p>
+<p>(1 row)</p>
+<p>DBOPS can see the DBOPSROLE because the role was created with DBOPS user
+as the admin. DBOPS user is the GRANTOR for the role.</p>
+<ol start="52">
+<li>Set the session role to DBOPSROLE as the DBOPS user:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>SYSTEM.ADMIN(ADMIN)=> set role dbopsrole;</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>SET ROLE</p>
+<ol start="53">
+<li>Create a database called TESTDB:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>SYSTEM.ADMIN(DBOPS)=> create database testdb;</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>ERROR: CREATE DATABASE: permission denied.</p>
+<p>The CREATE DATABASE failed because the DBOPS user does not have any
+permissions on the database system other than the ADMIN of the role
+DBOPSROLE (i.e.: drop).</p>
+<p>After creating a role that is not defined with the AS ADMIN option you
+will need to GRANT the appropriate permissions similar to how you grant
+permissions to users and groups.</p>
+<p>You completed the section on Users, Groups and Roles. You should now
+understand how Users, Groups and Roles are all related and used.</p>
+<p>Congratulations you have completed the lab. You have successfully
+created the lab database, 2 tables, and database users, groups and roles
+with various privileges. You also ran a couple of simple queries.</p>
+
+              
+            </article>
+            
+          </div>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+    <nav class="md-footer__inner md-grid" aria-label="Footer" >
+      
+        
+        <a href="../nz-03-Data-Distribution/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Data Distribution" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Data Distribution
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../nz-05-Loading-and-Unloading-Data/" class="md-footer__link md-footer__link--next" aria-label="Next: Loading and Unloading Data" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Loading and Unloading Data
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2024 IBM
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.b97dbffb.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.6c7ad80a.min.js"></script>
+      
+    
+  </body>
+</html>

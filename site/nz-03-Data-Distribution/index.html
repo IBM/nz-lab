@@ -1,0 +1,2152 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.3.1, mkdocs-material-8.3.9">
+    
+    
+      
+        <title>Data Distribution - Netezza Performance Server Lab</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.1d29e8d0.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.cbb835fc.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#000000">
+        
+      
+      
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:300,300i,400,400i,700,700i%7CIBM+Plex+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"IBM Plex Sans";--md-code-font:"IBM Plex Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="black">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#data-distribution" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Netezza Performance Server Lab" class="md-header__button md-logo" aria-label="Netezza Performance Server Lab" data-md-component="logo">
+      
+  <img src="../nz-images/IBM_logo®_rev_RGB.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Netezza Performance Server Lab
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Data Distribution
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Netezza Performance Server Lab" class="md-nav__button md-logo" aria-label="Netezza Performance Server Lab" data-md-component="logo">
+      
+  <img src="../nz-images/IBM_logo®_rev_RGB.png" alt="logo">
+
+    </a>
+    Netezza Performance Server Lab
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-01-NPS-CLI/" class="md-nav__link">
+        Command Line Interface
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-02-WebConsole/" class="md-nav__link">
+        Web Console
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Data Distribution
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Data Distribution
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objectives" class="md-nav__link">
+    Objectives
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#check-the-number-of-data-slices" class="md-nav__link">
+    Check the Number of Data Slices
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lab-setup" class="md-nav__link">
+    Lab Setup
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#skew" class="md-nav__link">
+    Skew
+  </a>
+  
+    <nav class="md-nav" aria-label="Skew">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#data-skew" class="md-nav__link">
+    Data Skew
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#processing-skew" class="md-nav__link">
+    Processing Skew
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#co-location" class="md-nav__link">
+    Co-Location
+  </a>
+  
+    <nav class="md-nav" aria-label="Co-Location">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#investigation" class="md-nav__link">
+    Investigation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#co-located-joins" class="md-nav__link">
+    Co-Located Joins
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#schema-creation" class="md-nav__link">
+    Schema Creation
+  </a>
+  
+    <nav class="md-nav" aria-label="Schema Creation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#investigation_1" class="md-nav__link">
+    Investigation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#solution" class="md-nav__link">
+    Solution
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-04-Database-Admin/" class="md-nav__link">
+        Database Administration
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-05-Loading-and-Unloading-Data/" class="md-nav__link">
+        Loading and Unloading Data
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-06-BNR/" class="md-nav__link">
+        Backup and Restore
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-07-Query-Optimization/" class="md-nav__link">
+        Query Optimization
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-08-Optimization-Objects/" class="md-nav__link">
+        Optimization Objects
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-09-Groom/" class="md-nav__link">
+        Grooming Data
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-10-Stored-Proc/" class="md-nav__link">
+        Stored Procedures
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_11" type="checkbox" id="__nav_11" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_11">
+          Appendix
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Appendix" data-md-level="1">
+        <label class="md-nav__title" for="__nav_11">
+          <span class="md-nav__icon md-icon"></span>
+          Appendix
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-disclaimer/" class="md-nav__link">
+        Disclaimer
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-acknowledgements/" class="md-nav__link">
+        Acknowledgements
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objectives" class="md-nav__link">
+    Objectives
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#check-the-number-of-data-slices" class="md-nav__link">
+    Check the Number of Data Slices
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lab-setup" class="md-nav__link">
+    Lab Setup
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#skew" class="md-nav__link">
+    Skew
+  </a>
+  
+    <nav class="md-nav" aria-label="Skew">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#data-skew" class="md-nav__link">
+    Data Skew
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#processing-skew" class="md-nav__link">
+    Processing Skew
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#co-location" class="md-nav__link">
+    Co-Location
+  </a>
+  
+    <nav class="md-nav" aria-label="Co-Location">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#investigation" class="md-nav__link">
+    Investigation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#co-located-joins" class="md-nav__link">
+    Co-Located Joins
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#schema-creation" class="md-nav__link">
+    Schema Creation
+  </a>
+  
+    <nav class="md-nav" aria-label="Schema Creation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#investigation_1" class="md-nav__link">
+    Investigation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#solution" class="md-nav__link">
+    Solution
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+
+
+<h1 id="data-distribution">Data Distribution</h1>
+<p>Netezza Performance Server is a family of data-warehousing appliances
+that combine high performance with low administrative effort. Due to the
+unique data warehousing centric architecture of Netezza Performance
+Server, most performance tuning tasks are either not necessary or
+automated. Unlike normal data warehousing solutions, no tablespaces need
+to be created or tuned, there are also no indexes, buffer pools or
+partitions.</p>
+<p>Since Netezza Performance Server is built on a massively parallel
+architecture that distributes data and workloads over many processing
+and data nodes, the single most important tuning factor is picking the
+right distribution key. The distribution key governs which data rows of
+a table are distributed to which data slice and it is very important to
+pick an optimal distribution key to avoid data skew, processing skew and
+to make joins co-located whenever possible.</p>
+<h2 id="objectives">Objectives</h2>
+<p>In this lab we will cover a typical scenario in a POC or customer
+engagement which involves an existing data warehouse for customer
+transactions.</p>
+<p><img alt="A close up of a map Description automatically
+generated" src="../nz-images/nz-03-Data-Distribution/media/image5.png" /></p>
+<p><strong><em>Figure 1. LABDB database</em></strong></p>
+<p>Figure 1 shows a visualization of the tables in the data warehouse and
+the relationships between the tables. The warehouse contains the
+customers of the company, their orders, and the line items that are part
+of the order. The warehouse also has a list of suppliers, providing the
+parts that are part of the shipped line items.</p>
+<p>For this lab we already have the DDLs for creation of the tables and
+load files containing the warehouse data. Both are already in a format
+usable by the Netezza Performance Server System. In this lab we will
+define the distribution keys for these tables.</p>
+<p>In addition to the data and the DDLs we also have received a couple of
+queries from the customer that are usually run against the warehouse.
+Those are important input as well for picking optimal distribution keys.</p>
+<h2 id="check-the-number-of-data-slices">Check the Number of Data Slices</h2>
+<p>By default, the NPS VirtualBox virtual machine only comes with 1 data
+slice. To perform the steps in this lab and the other performance
+related labs you will need 4 data slices. It is not recommended to run
+more than 4 data slices.</p>
+<p>If you did not configure your virtual machine for 4 data slices, go back
+to the lab called:
+<strong>01-Setup-NPS-Virtual-Machine-Setup-Lab-Guide-Win10-OSX-Final</strong> and
+follow the section called: "<strong>Increase the Number of Data Slices</strong>".</p>
+<ol>
+<li>
+<p>To check your data slices, login to NPS Command Line using one of
+    these two methods.</p>
+<p>a.  Login to the VM directly and use the terminal application
+    available inside the VM.</p>
+<p>b.  Connect to your Netezza Performance Server image using a
+    terminal application (Windows PowerShell, PuTTY, Mac OSX
+    Terminal)</p>
+</li>
+<li>
+<p>If you are continuing from the previous lab and are already
+    connected to nzsql, quit the nzsql console with the <code>\q</code>
+    command.</p>
+</li>
+</ol>
+<div class="admonition abstract">
+<p class="admonition-title">Input</p>
+<div class="highlight"><pre><span></span><code>nzstate<span class="w"> </span><span class="c1"># if NPS is offline, run nzstart</span>
+nzhw
+nzds
+</code></pre></div>
+</div>
+<div class="admonition abstract">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code><span class="o">[</span>nz@localhost<span class="w"> </span>labs<span class="o">]</span>$<span class="w"> </span>nzstate
+System<span class="w"> </span>state<span class="w"> </span>is<span class="w"> </span><span class="s1">&#39;Online&#39;</span>.
+<span class="o">[</span>nz@localhost<span class="w"> </span>labs<span class="o">]</span>$<span class="w"> </span>nzhw
+Description<span class="w"> </span>HW<span class="w"> </span>ID<span class="w"> </span>Location<span class="w"> </span>Role<span class="w"> </span>State<span class="w"> </span>Security
+-----------<span class="w"> </span>-----<span class="w"> </span>----------<span class="w"> </span>------<span class="w"> </span>------<span class="w"> </span>--------
+Rack<span class="w"> </span><span class="m">1001</span><span class="w"> </span>rack1<span class="w"> </span>Active<span class="w"> </span>Ok<span class="w"> </span>N/A
+SPA<span class="w"> </span><span class="m">1002</span><span class="w"> </span>spa1<span class="w"> </span>Active<span class="w"> </span>Ok<span class="w"> </span>N/A
+SPU<span class="w"> </span><span class="m">1003</span><span class="w"> </span>spa1.spu1<span class="w"> </span>Active<span class="w"> </span>Online<span class="w"> </span>N/A
+Disk<span class="w"> </span><span class="m">1004</span><span class="w"> </span>spa1.disk1<span class="w"> </span>Active<span class="w"> </span>Ok<span class="w"> </span>N/A
+Disk<span class="w"> </span><span class="m">1005</span><span class="w"> </span>spa1.disk2<span class="w"> </span>Active<span class="w"> </span>Ok<span class="w"> </span>N/A
+Disk<span class="w"> </span><span class="m">1006</span><span class="w"> </span>spa1.disk3<span class="w"> </span>Active<span class="w"> </span>Ok<span class="w"> </span>N/A
+Disk<span class="w"> </span><span class="m">1007</span><span class="w"> </span>spa1.disk4<span class="w"> </span>Active<span class="w"> </span>Ok<span class="w"> </span>N/A
+
+<span class="o">[</span>nz@localhost<span class="w"> </span>labs<span class="o">]</span>$<span class="w"> </span>nzds
+Data<span class="w"> </span>Slice<span class="w"> </span>Status<span class="w">  </span>SPU<span class="w">  </span>Partition<span class="w"> </span>Size<span class="w"> </span><span class="o">(</span>GiB<span class="o">)</span><span class="w"> </span>%<span class="w"> </span>Used<span class="w"> </span>Supporting<span class="w"> </span>Disks
+----------<span class="w"> </span>-------<span class="w"> </span>----<span class="w"> </span>---------<span class="w"> </span>----------<span class="w"> </span>------<span class="w"> </span>----------------
+<span class="m">1</span><span class="w">          </span>Unknown<span class="w"> </span><span class="m">1003</span><span class="w"> </span><span class="m">0</span><span class="w">         </span><span class="m">16</span><span class="w">         </span><span class="m">0</span>.84<span class="w">   </span><span class="m">1004</span>
+<span class="m">2</span><span class="w">          </span>Unknown<span class="w"> </span><span class="m">1003</span><span class="w"> </span><span class="m">1</span><span class="w">         </span><span class="m">16</span><span class="w">         </span><span class="m">0</span>.84<span class="w">   </span><span class="m">1005</span>
+<span class="m">3</span><span class="w">          </span>Unknown<span class="w"> </span><span class="m">1003</span><span class="w"> </span><span class="m">2</span><span class="w">         </span><span class="m">16</span><span class="w">         </span><span class="m">0</span>.84<span class="w">   </span><span class="m">1006</span>
+<span class="m">4</span><span class="w">          </span>Unknown<span class="w"> </span><span class="m">1003</span><span class="w"> </span><span class="m">3</span><span class="w">         </span><span class="m">16</span><span class="w">         </span><span class="m">0</span>.84<span class="w">   </span><span class="m">1007</span>
+</code></pre></div>
+</div>
+<p>With the proper data slices continue to the next section.</p>
+<h2 id="lab-setup">Lab Setup</h2>
+<p>This lab uses an initial setup script to make sure the correct user and
+database exist for the remainder of the lab. Follow the instructions
+below to run the setup script.</p>
+<ol start="3">
+<li>
+<p>Login to NPS Command Line using one of these two methods.</p>
+<p>a.  Login to the VM directly and use the terminal application
+    available inside the VM.</p>
+<p>b.  Connect to your Netezza Performance Server image using a
+    terminal application (Windows PowerShell, PuTTY, Mac OSX
+    Terminal)</p>
+</li>
+<li>
+<p>If you are continuing from the previous lab and are already
+    connected to nzsql quit the nzsql console with the [\q
+    command.</p>
+</li>
+<li>
+<p>Prepare for this lab by running the setup script. To do this use the
+    following two commands:</p>
+</li>
+</ol>
+<div class="admonition abstract">
+<p class="admonition-title">Input</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>~/labs/dataDistribution/setupLab
+./setupLab.sh
+</code></pre></div>
+</div>
+<div class="admonition abstract">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code>ERROR:<span class="w"> </span>DROP<span class="w"> </span>DATABASE:<span class="w"> </span>object<span class="w"> </span>LABDB<span class="w"> </span>does<span class="w"> </span>not<span class="w"> </span>exist.
+CREATE<span class="w"> </span>DATABASE
+ERROR:<span class="w"> </span>CREATE<span class="w"> </span>USER:<span class="w"> </span>object<span class="w"> </span>LABADMIN<span class="w"> </span>already<span class="w"> </span>exists<span class="w"> </span>as<span class="w"> </span>a<span class="w"> </span>USER.
+ALTER<span class="w"> </span>USER
+ALTER<span class="w"> </span>DATABASE
+</code></pre></div>
+</div>
+<p>The error message at the beginning is expected since the script tries to clean up existing <code>LINEITEM</code> tables.</p>
+<p>This lab is now setup to use for the remainder of the sections.</p>
+<h2 id="skew">Skew</h2>
+<p>Tables in Netezza Performance Server are distributed across data slices
+based on the distribution method and key. If a bad data distribution
+method has been picked, it will result in skewed tables or processing
+skew. Data skew occurs when the distribution method puts significantly
+more records of a table on one data slice than on other data slices.
+Apart from bad performance this also results in a situation where the
+Netezza Performance Server can hold significantly less data than
+expected.</p>
+<p>Processing skew occurs if processing of queries is mainly taking place
+on some data slices for example because queries only apply to data on
+those data slices. Both types of skew result in suboptimal performance
+since in a parallel system the slowest node defines the total execution
+time.</p>
+<h3 id="data-skew">Data Skew</h3>
+<p>The first table we will create is <code>LINEITEM</code>, the main fact table of the
+schema. It contains roughly 6 million rows.</p>
+<ol>
+<li>To create the <code>LINEITEM</code> table, switch to the lab directory
+    <code>~/labs/dataDistribution</code>. To do this use the following command:
+    (Notice that you can use bash auto complete by using the Tab key to
+    complete folder and files names)</li>
+</ol>
+<div class="admonition abstract">
+<p class="admonition-title">Input</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>~/labs/dataDistribution
+ls<span class="w"> </span>-l
+</code></pre></div>
+</div>
+<div class="admonition abstract">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code><span class="o">[</span>nz@localhost<span class="w"> </span>dataDistribution<span class="o">]</span>$<span class="w"> </span>ls<span class="w"> </span>-l
+total<span class="w"> </span><span class="m">24</span>
+-rwxr-xr-x.<span class="w"> </span><span class="m">1</span><span class="w"> </span>nz<span class="w"> </span>nz<span class="w"> </span><span class="m">177</span><span class="w"> </span>Apr<span class="w"> </span><span class="m">20</span><span class="w"> </span><span class="m">2020</span><span class="w"> </span>create_lineitem_1.sh
+-rwxr-xr-x.<span class="w"> </span><span class="m">1</span><span class="w"> </span>nz<span class="w"> </span>nz<span class="w"> </span><span class="m">170</span><span class="w"> </span>Dec<span class="w"> </span><span class="m">9</span><span class="w"> </span><span class="m">2015</span><span class="w"> </span>create_orders_1.sh
+-rwxr-xr-x.<span class="w"> </span><span class="m">1</span><span class="w"> </span>nz<span class="w"> </span>nz<span class="w"> </span><span class="m">612</span><span class="w"> </span>Dec<span class="w"> </span><span class="m">9</span><span class="w"> </span><span class="m">2015</span><span class="w"> </span>create_remaining.sh
+-rwxr-xr-x.<span class="w"> </span><span class="m">1</span><span class="w"> </span>nz<span class="w"> </span>nz<span class="w"> </span><span class="m">656</span><span class="w"> </span>Mar<span class="w"> </span><span class="m">29</span><span class="w"> </span><span class="m">13</span>:44<span class="w"> </span>lineitem.sql
+-rwxr-xr-x.<span class="w"> </span><span class="m">1</span><span class="w"> </span>nz<span class="w"> </span>nz<span class="w"> </span><span class="m">374</span><span class="w"> </span>Mar<span class="w"> </span><span class="m">29</span><span class="w"> </span><span class="m">13</span>:44<span class="w"> </span>orders.sql
+-rwxr-xr-x.<span class="w"> </span><span class="m">1</span><span class="w"> </span>nz<span class="w"> </span>nz<span class="w"> </span><span class="m">1660</span><span class="w"> </span>Mar<span class="w"> </span><span class="m">29</span><span class="w"> </span><span class="m">13</span>:44<span class="w"> </span>remaining_tables.sql
+drwxr-xr-x.<span class="w"> </span><span class="m">2</span><span class="w"> </span>nz<span class="w"> </span>nz<span class="w"> </span><span class="m">91</span><span class="w"> </span>Mar<span class="w"> </span><span class="m">29</span><span class="w"> </span><span class="m">2020</span><span class="w"> </span>setupLab
+</code></pre></div>
+</div>
+<p>The command line prompt changes to reflect the directory you are in
+(<code>dataDistribution</code>).</p>
+<ol start="2">
+<li>Create the <code>LINEITEM</code> table by using the following script. Since the
+    fact table is quite large this can take several minutes.</li>
+</ol>
+<div class="admonition abstract">
+<p class="admonition-title">Input</p>
+<div class="highlight"><pre><span></span><code>./create_lineitem_1.sh
+</code></pre></div>
+</div>
+<div class="admonition abstract">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code>ERROR:<span class="w"> </span>relation<span class="w"> </span>does<span class="w"> </span>not<span class="w"> </span>exist<span class="w"> </span>LABDB.ADMIN.LINEITEM
+CREATE<span class="w"> </span>TABLE
+Load<span class="w"> </span>session<span class="w"> </span>of<span class="w"> </span>table<span class="w"> </span><span class="s1">&#39;LINEITEM&#39;</span><span class="w"> </span>completed<span class="w"> </span>successfully
+</code></pre></div>
+</div>
+<p>The error message at the beginning is expected since the script tries
+to clean up existing <code>LINEITEM</code> tables. Also note that a load log file
+has been created in the <code>~/labs/dataDistribution</code> directory named
+<code>LINEITEM.ADMIN.LABDB.nzlog</code>. (<code>ls \*.nzlog</code>) Review the load
+logfile as time and interest permits.</p>
+<p>This load will take some time, if you want to see the status of the
+load run the following SQL from another terminal session.</p>
+<div class="admonition abstract">
+<p class="admonition-title">Input</p>
+<div class="highlight"><pre><span></span><code>nzsql<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;select * from _v_load_status;&quot;</span>
+</code></pre></div>
+</div>
+<div class="admonition abstract">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code>PLANID<span class="w"> </span><span class="p">|</span><span class="w"> </span>DATABASENAME<span class="w"> </span><span class="p">|</span><span class="w"> </span>TABLENAME<span class="w"> </span><span class="p">|</span><span class="w"> </span>SCHEMANAME<span class="w"> </span><span class="p">|</span><span class="w"> </span>USERNAME<span class="w"> </span><span class="p">|</span><span class="w"> </span>BYTESPROCESSED<span class="w"> </span><span class="p">|</span><span class="w"> </span>ROWSINSERTED<span class="w"> </span><span class="p">|</span><span class="w"> </span>ROWSREJECTED<span class="w"> </span><span class="p">|</span><span class="w"> </span>BYTESDOWNLOADED
+-------+--------------+-----------+------------+----------+----------------+--------------+--------------+-----------------
+<span class="m">592</span><span class="w">    </span><span class="p">|</span><span class="w"> </span>LABDB<span class="w">        </span><span class="p">|</span><span class="w"> </span>LINEITEM<span class="w">  </span><span class="p">|</span><span class="w"> </span>ADMIN<span class="w">      </span><span class="p">|</span><span class="w"> </span>LABADMIN<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">704643063</span><span class="w">      </span><span class="p">|</span><span class="w"> </span><span class="m">5522182</span><span class="w">      </span><span class="p">|</span><span class="w"> </span><span class="m">0</span><span class="w">            </span><span class="p">|</span><span class="w"> </span><span class="m">718896512</span>
+<span class="o">(</span><span class="m">1</span><span class="w"> </span>row<span class="o">)</span>
+</code></pre></div>
+</div>
+<ol start="3">
+<li>Now let's have a look at the created table, open the nzsql console
+    by entering the command:</li>
+</ol>
+<div class="admonition abstract">
+<p class="admonition-title">Input</p>
+<div class="highlight"><pre><span></span><code>nzsql
+</code></pre></div>
+</div>
+<div class="admonition abstract">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code>Welcome<span class="w"> </span>to<span class="w"> </span>nzsql,<span class="w"> </span>the<span class="w"> </span>IBM<span class="w"> </span>Netezza<span class="w"> </span>SQL<span class="w"> </span>interactive<span class="w"> </span>terminal.
+
+Type:<span class="w"> </span><span class="se">\h</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="nb">help</span><span class="w"> </span>with<span class="w"> </span>SQL<span class="w"> </span>commands
+<span class="se">\?</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="nb">help</span><span class="w"> </span>on<span class="w"> </span>internal<span class="w"> </span>slash<span class="w"> </span>commands
+<span class="se">\g</span><span class="w"> </span>or<span class="w"> </span>terminate<span class="w"> </span>with<span class="w"> </span>semicolon<span class="w"> </span>to<span class="w"> </span>execute<span class="w"> </span>query
+<span class="se">\q</span><span class="w"> </span>to<span class="w"> </span>quit
+
+SYSTEM.ADMIN<span class="o">(</span>ADMIN<span class="o">)=</span>&gt;
+</code></pre></div>
+</div>
+<ol start="4">
+<li>Connect to the database <code>LABDB</code> as user <code>LABADMIN</code> by typing the
+    following command:</li>
+</ol>
+<div class="admonition abstract">
+<p class="admonition-title">Input</p>
+<div class="highlight"><pre><span></span><code><span class="se">\c</span><span class="w"> </span>LABDB<span class="w"> </span>LABADMIN
+</code></pre></div>
+</div>
+<div class="admonition abstract">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code>You<span class="w"> </span>are<span class="w"> </span>now<span class="w"> </span>connected<span class="w"> </span>to<span class="w"> </span>database<span class="w"> </span>LABDB<span class="w"> </span>as<span class="w"> </span>user<span class="w"> </span>LABADMIM
+LABDB.ADMIN<span class="o">(</span>LABADMIN<span class="o">)=</span>&gt;
+</code></pre></div>
+</div>
+<p>You should now be connected to the <code>LABDB</code> database as the <code>LABADMIN</code> user.</p>
+<ol start="5">
+<li>Let's have a look at the table we just created. First, we want to
+    see a description of its columns and distribution key. Use the <code>NZSQL</code>
+    describe command <code>\d LINEITEM</code> to get a description of the table.</li>
+</ol>
+<div class="admonition abstract">
+<p class="admonition-title">Input</p>
+<div class="highlight"><pre><span></span><code><span class="se">\d</span><span class="w"> </span>LINEITEM
+</code></pre></div>
+</div>
+<div class="admonition abstract">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code><span class="w">                        </span>Table<span class="w"> </span><span class="s2">&quot;LINEITEM&quot;</span>
+<span class="w">    </span>Attribute<span class="w">    </span><span class="p">|</span><span class="w">         </span>Type<span class="w">          </span><span class="p">|</span><span class="w"> </span>Modifier<span class="w"> </span><span class="p">|</span><span class="w"> </span>Default<span class="w"> </span>Value
+-----------------+-----------------------+----------+---------------
+<span class="w"> </span>L_ORDERKEY<span class="w">      </span><span class="p">|</span><span class="w"> </span>INTEGER<span class="w">               </span><span class="p">|</span><span class="w"> </span>NOT<span class="w"> </span>NULL<span class="w"> </span><span class="p">|</span>
+<span class="w"> </span>L_PARTKEY<span class="w">       </span><span class="p">|</span><span class="w"> </span>INTEGER<span class="w">               </span><span class="p">|</span><span class="w"> </span>NOT<span class="w"> </span>NULL<span class="w"> </span><span class="p">|</span>
+<span class="w"> </span>L_SUPPKEY<span class="w">       </span><span class="p">|</span><span class="w"> </span>INTEGER<span class="w">               </span><span class="p">|</span><span class="w"> </span>NOT<span class="w"> </span>NULL<span class="w"> </span><span class="p">|</span>
+<span class="w"> </span>L_LINENUMBER<span class="w">    </span><span class="p">|</span><span class="w"> </span>INTEGER<span class="w">               </span><span class="p">|</span><span class="w"> </span>NOT<span class="w"> </span>NULL<span class="w"> </span><span class="p">|</span>
+<span class="w"> </span>L_QUANTITY<span class="w">      </span><span class="p">|</span><span class="w"> </span>NUMERIC<span class="o">(</span><span class="m">15</span>,2<span class="o">)</span><span class="w">         </span><span class="p">|</span><span class="w"> </span>NOT<span class="w"> </span>NULL<span class="w"> </span><span class="p">|</span>
+<span class="w"> </span>L_EXTENDEDPRICE<span class="w"> </span><span class="p">|</span><span class="w"> </span>NUMERIC<span class="o">(</span><span class="m">15</span>,2<span class="o">)</span><span class="w">         </span><span class="p">|</span><span class="w"> </span>NOT<span class="w"> </span>NULL<span class="w"> </span><span class="p">|</span>
+<span class="w"> </span>L_DISCOUNT<span class="w">      </span><span class="p">|</span><span class="w"> </span>NUMERIC<span class="o">(</span><span class="m">15</span>,2<span class="o">)</span><span class="w">         </span><span class="p">|</span><span class="w"> </span>NOT<span class="w"> </span>NULL<span class="w"> </span><span class="p">|</span>
+<span class="w"> </span>L_TAX<span class="w">           </span><span class="p">|</span><span class="w"> </span>NUMERIC<span class="o">(</span><span class="m">15</span>,2<span class="o">)</span><span class="w">         </span><span class="p">|</span><span class="w"> </span>NOT<span class="w"> </span>NULL<span class="w"> </span><span class="p">|</span>
+<span class="w"> </span>L_RETURNFLAG<span class="w">    </span><span class="p">|</span><span class="w"> </span>CHARACTER<span class="o">(</span><span class="m">1</span><span class="o">)</span><span class="w">          </span><span class="p">|</span><span class="w"> </span>NOT<span class="w"> </span>NULL<span class="w"> </span><span class="p">|</span>
+<span class="w"> </span>L_LINESTATUS<span class="w">    </span><span class="p">|</span><span class="w"> </span>CHARACTER<span class="o">(</span><span class="m">1</span><span class="o">)</span><span class="w">          </span><span class="p">|</span><span class="w"> </span>NOT<span class="w"> </span>NULL<span class="w"> </span><span class="p">|</span>
+<span class="w"> </span>L_SHIPDATE<span class="w">      </span><span class="p">|</span><span class="w"> </span>DATE<span class="w">                  </span><span class="p">|</span><span class="w"> </span>NOT<span class="w"> </span>NULL<span class="w"> </span><span class="p">|</span>
+<span class="w"> </span>L_COMMITDATE<span class="w">    </span><span class="p">|</span><span class="w"> </span>DATE<span class="w">                  </span><span class="p">|</span><span class="w"> </span>NOT<span class="w"> </span>NULL<span class="w"> </span><span class="p">|</span>
+<span class="w"> </span>L_RECEIPTDATE<span class="w">   </span><span class="p">|</span><span class="w"> </span>DATE<span class="w">                  </span><span class="p">|</span><span class="w"> </span>NOT<span class="w"> </span>NULL<span class="w"> </span><span class="p">|</span>
+<span class="w"> </span>L_SHIPINSTRUCT<span class="w">  </span><span class="p">|</span><span class="w"> </span>CHARACTER<span class="o">(</span><span class="m">25</span><span class="o">)</span><span class="w">         </span><span class="p">|</span><span class="w"> </span>NOT<span class="w"> </span>NULL<span class="w"> </span><span class="p">|</span>
+<span class="w"> </span>L_SHIPMODE<span class="w">      </span><span class="p">|</span><span class="w"> </span>CHARACTER<span class="o">(</span><span class="m">10</span><span class="o">)</span><span class="w">         </span><span class="p">|</span><span class="w"> </span>NOT<span class="w"> </span>NULL<span class="w"> </span><span class="p">|</span>
+<span class="w"> </span>L_COMMENT<span class="w">       </span><span class="p">|</span><span class="w"> </span>CHARACTER<span class="w"> </span>VARYING<span class="o">(</span><span class="m">44</span><span class="o">)</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>NOT<span class="w"> </span>NULL<span class="w"> </span><span class="p">|</span>
+Distributed<span class="w"> </span>on<span class="w"> </span>hash:<span class="w"> </span><span class="s2">&quot;L_LINESTATUS&quot;</span>
+</code></pre></div>
+</div>
+<p>We can see that the <code>LINEITEM</code> table has 16 columns with different data
+types. Some of the columns have a "key" suffix and substrings
+containing the names of other tables and are most likely foreign keys
+of dimension tables. The distribution key is <code>L_LINESTATUS</code>, which is of
+a CHAR(1) data type.</p>
+<ol start="6">
+<li>Now let's have a look at the data in the table. To return a limited
+    number of rows you can use the limit keyword in your select queries.
+    Execute the following select command to return 10 rows of the
+    <code>LINEITEM</code> table. For readability we only select a couple of columns
+    including the order key (<code>L_ORDERKEY</code>), the ship date (<code>L_SHIPDATE</code>)
+    and the line status (<code>L_LINESTATUS</code>) distribution key:</li>
+</ol>
+<div class="admonition abstract">
+<p class="admonition-title">Input</p>
+<div class="highlight"><pre><span></span><code>SELECT<span class="w"> </span>L_ORDERKEY,<span class="w"> </span>L_QUANTITY,<span class="w"> </span>L_SHIPDATE,<span class="w"> </span>L_LINESTATUS<span class="w"> </span>FROM<span class="w"> </span>LINEITEM<span class="w"> </span>LIMIT<span class="w"> </span><span class="m">10</span><span class="p">;</span>
+</code></pre></div>
+</div>
+<div class="admonition abstract">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code>L_ORDERKEY<span class="w"> </span><span class="p">|</span><span class="w"> </span>L_QUANTITY<span class="w"> </span><span class="p">|</span><span class="w"> </span>L_SHIPDATE<span class="w"> </span><span class="p">|</span><span class="w"> </span>L_LINESTATUS
+------------+------------+------------+--------------
+<span class="w">          </span><span class="m">3</span><span class="w"> </span><span class="p">|</span><span class="w">      </span><span class="m">45</span>.00<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">1994</span>-02-02<span class="w"> </span><span class="p">|</span><span class="w"> </span>F
+<span class="w">          </span><span class="m">3</span><span class="w"> </span><span class="p">|</span><span class="w">      </span><span class="m">49</span>.00<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">1993</span>-11-09<span class="w"> </span><span class="p">|</span><span class="w"> </span>F
+<span class="w">          </span><span class="m">3</span><span class="w"> </span><span class="p">|</span><span class="w">      </span><span class="m">27</span>.00<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">1994</span>-01-16<span class="w"> </span><span class="p">|</span><span class="w"> </span>F
+<span class="w">          </span><span class="m">3</span><span class="w"> </span><span class="p">|</span><span class="w">       </span><span class="m">2</span>.00<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">1993</span>-12-04<span class="w"> </span><span class="p">|</span><span class="w"> </span>F
+<span class="w">          </span><span class="m">3</span><span class="w"> </span><span class="p">|</span><span class="w">      </span><span class="m">28</span>.00<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">1993</span>-12-14<span class="w"> </span><span class="p">|</span><span class="w"> </span>F
+<span class="w">          </span><span class="m">3</span><span class="w"> </span><span class="p">|</span><span class="w">      </span><span class="m">26</span>.00<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">1993</span>-10-29<span class="w"> </span><span class="p">|</span><span class="w"> </span>F
+<span class="w">          </span><span class="m">5</span><span class="w"> </span><span class="p">|</span><span class="w">      </span><span class="m">15</span>.00<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">1994</span>-10-31<span class="w"> </span><span class="p">|</span><span class="w"> </span>F
+<span class="w">          </span><span class="m">5</span><span class="w"> </span><span class="p">|</span><span class="w">      </span><span class="m">26</span>.00<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">1994</span>-10-16<span class="w"> </span><span class="p">|</span><span class="w"> </span>F
+<span class="w">          </span><span class="m">5</span><span class="w"> </span><span class="p">|</span><span class="w">      </span><span class="m">50</span>.00<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">1994</span>-08-08<span class="w"> </span><span class="p">|</span><span class="w"> </span>F
+<span class="w">          </span><span class="m">6</span><span class="w"> </span><span class="p">|</span><span class="w">      </span><span class="m">37</span>.00<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">1992</span>-04-27<span class="w"> </span><span class="p">|</span><span class="w"> </span>F
+<span class="o">(</span><span class="m">10</span><span class="w"> </span>rows<span class="o">)</span>
+</code></pre></div>
+</div>
+<p>From this limited sample we cannot make any definite judgement, but we
+can make a couple of assumptions. While the <code>L_ORDERKEY</code> column is not
+unique, it seems to have a lot of distinct values. The <code>L_SHIPDATE</code>
+column also appears to have a lot of distinct shipping date values. On
+the other hand, our current distribution key <code>L_LINESTATUS</code> has only two
+values, which may make it a bad distribution key. It is possible that
+you get different results. Since a database table is an unordered set,
+it is probable that you get different results. For example, only O or
+F values may be in the <code>L_LINESTATUS</code> column.</p>
+<ol start="7">
+<li>We will now verify the number of distinct values in the <code>L_LINESTATUS</code>
+    column with a <code>SELECT DISTINCT</code> statement. To return a list of all
+    distinct values that are in the <code>L_LINESTATUS</code> column execute the
+    following SQL command:</li>
+</ol>
+<div class="admonition abstract">
+<p class="admonition-title">Input</p>
+<div class="highlight"><pre><span></span><code>SELECT<span class="w"> </span>DISTINCT<span class="w"> </span>L_LINESTATUS<span class="w"> </span>FROM<span class="w"> </span>LINEITEM<span class="p">;</span>
+</code></pre></div>
+</div>
+<div class="admonition abstract">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code>L_LINESTATUS
+--------------
+<span class="w"> </span>O
+<span class="w"> </span>F
+<span class="o">(</span><span class="m">2</span><span class="w"> </span>rows<span class="o">)</span>
+</code></pre></div>
+</div>
+<p>We can see that the <code>L_LINESTATUS</code> column only contains two distinct
+values. As a distribution key, this will result in a table that is
+only distributed to two of the available data slices.</p>
+<ol start="8">
+<li>We verify this by executing the following SQL call, which will
+    return a list of all data slices which contain rows of the <code>LINEITEM</code>
+    table, and the corresponding number of rows stored in them:</li>
+</ol>
+<div class="admonition abstract">
+<p class="admonition-title">Input</p>
+<div class="highlight"><pre><span></span><code>SELECT<span class="w"> </span>DATASLICEID,<span class="w"> </span>COUNT<span class="o">(</span>*<span class="o">)</span><span class="w"> </span>FROM<span class="w"> </span>LINEITEM
+GROUP<span class="w"> </span>BY<span class="w"> </span>DATASLICEID<span class="p">;</span>
+</code></pre></div>
+</div>
+<div class="admonition abstract">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code>DATASLICEID<span class="w"> </span><span class="p">|</span><span class="w">  </span>COUNT
+-------------+---------
+<span class="w">           </span><span class="m">4</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">2996217</span>
+<span class="w">           </span><span class="m">1</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">3004998</span>
+<span class="o">(</span><span class="m">2</span><span class="w"> </span>rows<span class="o">)</span>
+</code></pre></div>
+</div>
+<p>Every Netezza Performance Server table has a hidden column
+<code>DATASLICEID</code>, which contains the id of the data slice the selected row
+is being stored in. By executing a SQL query that does a GROUP BY on
+this column and counts the number of rows for each <code>DATASLICEID</code>, data
+skew can be detected.</p>
+<p>In this case the table has been distributed to only two of the available
+four data slices. This means that only half of the available space and
+compute is used, which will result in low performance during most query
+executions. In general, a good distribution key should have many unique
+values, with an even distribution of rows in the data slices. Columns
+with few unique values, especially boolean columns or date columns,
+should not be considered as distribution keys.</p>
+<h2 id="processing-skew">Processing Skew</h2>
+<p>Even in tables that are distributed evenly across data slices, data
+processing for queries can be concentrated or skewed to a limited number
+of data slices. One way for processing skew to occur for a query is if
+there is a predicate (<code>WHERE</code> condition) on the distribution key, and the
+distribution key has few unique values. Using a DATE columns for a
+distribution key is notorious for causing processing skew, and usually
+should be avoided. The next section of the lab will show this effect.</p>
+<ol>
+<li>First, we will pick a new distribution key. As we have seen it
+    should have many unique (distinct) values. One of the columns that
+    did fit this description was the <code>L_SHIPDATE</code> column. Check the number
+    of distinct values in the <code>L_SHIPDATE</code> column with the <code>COUNT(DISTINCT
+    )</code> statement:</li>
+</ol>
+<div class="admonition abstract">
+<p class="admonition-title">Input</p>
+<div class="highlight"><pre><span></span><code>SELECT<span class="w"> </span>COUNT<span class="o">(</span>DISTINCT<span class="w"> </span>L_SHIPDATE<span class="o">)</span><span class="w"> </span>FROM<span class="w"> </span>LINEITEM<span class="p">;</span>
+</code></pre></div>
+</div>
+<div class="admonition abstract">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code>COUNT
+-------
+<span class="w">  </span><span class="m">2526</span>
+<span class="o">(</span><span class="m">1</span><span class="w"> </span>row<span class="o">)</span>
+</code></pre></div>
+</div>
+<p>The column has over 2500 distinct values and therefore has more than
+enough unique values to guarantee a good data distribution on 4 data
+slices.</p>
+<ol start="2">
+<li>
+<p>Now let's reload the <code>LINEITEM</code> table with the new distribution key.
+    For this we need to change the SQL of the load script we executed at
+    the beginning of the lab. Exit the nzsql console by entering:
+    <code>\q</code>.</p>
+</li>
+<li>
+<p>You should now be in the lab directory <code>~/labs/dataDistribution</code>. The
+    table creation statement is in the lineitem.sql file. We will need
+    to make changes to the file with a text editor. Open the file with
+    the default Linux text editor vi. To do this enter the following
+    command:</p>
+</li>
+</ol>
+<div class="admonition abstract">
+<div class="highlight"><pre><span></span><code>vi<span class="w"> </span>lineitem.sql
+</code></pre></div>
+</div>
+<ol start="4">
+<li>The vi editor has two modes, a command mode used to save files, quit
+    the editor etc. and an insert mode. Initially you will be in the
+    command mode. To change the lineitem.sql file you need to switch to
+    the insert mode by pressing "i". The editor will show an <code>-- INSERT
+    --</code> at the bottom of the screen. Use the delete key to remove
+    <strong>l_linestatus</strong> and type <strong>l_shipdate</strong>.</li>
+</ol>
+<p><strong>Note:</strong> if you are comfortable with vi you can used <code>gedit</code> from the
+virtual machine desktop.</p>
+<div class="admonition abstract">
+<div class="highlight"><pre><span></span><code>gedit<span class="w"> </span>lineitem.sql
+</code></pre></div>
+</div>
+<ol start="5">
+<li>You can now use the cursor keys to navigate to the DISTRIBUTE ON
+    clause at the bottom of the create command. Change the distribution
+    key to "L_SHIPDATE". The editor should now look like the following:</li>
+</ol>
+<div class="admonition abstract">
+<div class="highlight"><pre><span></span><code>create<span class="w"> </span>table<span class="w"> </span>lineitem
+<span class="w">  </span><span class="o">(</span>
+<span class="w">    </span>l_orderkey<span class="w"> </span>integer<span class="w"> </span>not<span class="w"> </span>null<span class="w"> </span>,
+<span class="w">    </span>l_partkey<span class="w"> </span>integer<span class="w"> </span>not<span class="w"> </span>null<span class="w"> </span>,
+<span class="w">    </span>l_suppkey<span class="w"> </span>integer<span class="w"> </span>not<span class="w"> </span>null<span class="w"> </span>,
+<span class="w">    </span>l_linenumber<span class="w"> </span>integer<span class="w"> </span>not<span class="w"> </span>null<span class="w"> </span>,
+<span class="w">    </span>l_quantity<span class="w"> </span>decimal<span class="o">(</span><span class="m">15</span>,2<span class="o">)</span><span class="w"> </span>not<span class="w"> </span>null<span class="w"> </span>,
+<span class="w">    </span>l_extendedprice<span class="w"> </span>decimal<span class="o">(</span><span class="m">15</span>,2<span class="o">)</span><span class="w"> </span>not<span class="w"> </span>null<span class="w"> </span>,
+<span class="w">    </span>l_discount<span class="w"> </span>decimal<span class="o">(</span><span class="m">15</span>,2<span class="o">)</span><span class="w"> </span>not<span class="w"> </span>null<span class="w"> </span>,
+<span class="w">    </span>l_tax<span class="w"> </span>decimal<span class="o">(</span><span class="m">15</span>,2<span class="o">)</span><span class="w"> </span>not<span class="w"> </span>null<span class="w"> </span>,
+<span class="w">    </span>l_returnflag<span class="w"> </span>char<span class="o">(</span><span class="m">1</span><span class="o">)</span><span class="w"> </span>not<span class="w"> </span>null<span class="w"> </span>,
+<span class="w">    </span>l_linestatus<span class="w"> </span>char<span class="o">(</span><span class="m">1</span><span class="o">)</span><span class="w"> </span>not<span class="w"> </span>null<span class="w"> </span>,
+<span class="w">    </span>l_shipdate<span class="w"> </span>date<span class="w"> </span>not<span class="w"> </span>null<span class="w"> </span>,
+<span class="w">    </span>l_commitdate<span class="w"> </span>date<span class="w"> </span>not<span class="w"> </span>null<span class="w"> </span>,
+<span class="w">    </span>l_receiptdate<span class="w"> </span>date<span class="w"> </span>not<span class="w"> </span>null<span class="w"> </span>,
+<span class="w">    </span>l_shipinstruct<span class="w"> </span>char<span class="o">(</span><span class="m">25</span><span class="o">)</span><span class="w"> </span>not<span class="w"> </span>null<span class="w"> </span>,
+<span class="w">    </span>l_shipmode<span class="w"> </span>char<span class="o">(</span><span class="m">10</span><span class="o">)</span><span class="w"> </span>not<span class="w"> </span>null<span class="w"> </span>,
+<span class="w">    </span>l_comment<span class="w"> </span>varchar<span class="o">(</span><span class="m">44</span><span class="o">)</span><span class="w"> </span>not<span class="w"> </span>null
+<span class="w">  </span><span class="o">)</span>
+DISTRIBUTE<span class="w"> </span>ON<span class="w"> </span><span class="o">(</span>l_shipdate<span class="o">)</span><span class="p">;</span>
+~
+~
+--<span class="w"> </span>INSERT<span class="w"> </span>--<span class="w">   </span>
+</code></pre></div>
+</div>
+<ol start="6">
+<li>
+<p>We will now save our changes. Press "Esc" to switch back
+    into command mode. You should see that the <code>---INSERT---</code> string at
+    the bottom of the screen vanishes. Enter <code>:wq!</code> and press
+    enter to write the file, and quit the editor without any questions.
+    If you made a mistake editing and would like to undo it press "Esc"
+    then enter <code>:q!</code> and go back to step 3.</p>
+</li>
+<li>
+<p>Now repeat steps 3-5 of section 2.1 Data Skew:</p>
+<p>a.  Recreate and load the <code>LINEITEM</code> table with your new distribution
+    key by executing the <code>./create_lineitem_1.sh</code> command</p>
+<p>b.  Use the <code>nzsql</code> command to enter the command console</p>
+<p>c.  Switch to the <code>LABDB</code> database by using the <code>\c LABDB
+    LABADMIN</code> command.</p>
+<p>d.  Validate the distribution key is <code>L_SHIPDATE</code> using the <code>\d
+    LINEITEM</code> command.</p>
+</li>
+<li>
+<p>Now we verify that the new distribution key results in a good data
+    distribution. For this we will repeat the query, which returns the
+    number of rows for each datasliceid of the <code>LINEITEM</code> table. Execute
+    the following command:</p>
+</li>
+</ol>
+<div class="admonition abstract">
+<p class="admonition-title">Input</p>
+<div class="highlight"><pre><span></span><code>SELECT<span class="w"> </span>DATASLICEID,<span class="w"> </span>COUNT<span class="o">(</span>*<span class="o">)</span><span class="w"> </span>FROM<span class="w"> </span>LINEITEM<span class="w"> </span>GROUP<span class="w"> </span>BY<span class="w"> </span>DATASLICEID<span class="w"> </span>ORDER<span class="w"> </span>BY<span class="w"> </span><span class="m">1</span><span class="p">;</span>
+</code></pre></div>
+</div>
+<div class="admonition abstract">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code>DATASLICEID<span class="w"> </span><span class="p">|</span><span class="w">  </span>COUNT
+-------------+---------
+<span class="w">           </span><span class="m">1</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">1499990</span>
+<span class="w">           </span><span class="m">2</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">1497649</span>
+<span class="w">           </span><span class="m">3</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">1501760</span>
+<span class="w">           </span><span class="m">4</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">1501816</span>
+<span class="o">(</span><span class="m">4</span><span class="w"> </span>rows<span class="o">)</span>
+</code></pre></div>
+</div>
+<p>We can see that the data distribution is much better now. All four
+data slices have a roughly equal number of rows.</p>
+<ol start="9">
+<li>Now that we have a database table with a good data distribution
+    let's look at a couple of queries. The following query is executed
+    regularly by the end user. It returns the average quantity shipped
+    on a given day grouped by the shipping mode. Execute the following
+    query:</li>
+</ol>
+<div class="admonition abstract">
+<p class="admonition-title">Input</p>
+<div class="highlight"><pre><span></span><code>SELECT<span class="w"> </span>AVG<span class="o">(</span>L_QUANTITY<span class="o">)</span><span class="w"> </span>AS<span class="w"> </span>AVG_Q,<span class="w"> </span>L_SHIPMODE<span class="w"> </span>
+FROM<span class="w"> </span>LINEITEM<span class="w"> </span>WHERE<span class="w"> </span><span class="nv">L_SHIPDATE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;1996-03-29&#39;</span><span class="w"> </span>
+GROUP<span class="w"> </span>BY<span class="w"> </span>L_SHIPMODE<span class="p">;</span>
+</code></pre></div>
+</div>
+<div class="admonition abstract">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code><span class="w">   </span>AVG_Q<span class="w">   </span><span class="p">|</span><span class="w"> </span>L_SHIPMODE
+-----------+------------
+<span class="w"> </span><span class="m">26</span>.045455<span class="w"> </span><span class="p">|</span><span class="w"> </span>MAIL
+<span class="w"> </span><span class="m">24</span>.494186<span class="w"> </span><span class="p">|</span><span class="w"> </span>REG<span class="w"> </span>AIR
+<span class="w"> </span><span class="m">25</span>.562500<span class="w"> </span><span class="p">|</span><span class="w"> </span>SHIP
+<span class="w"> </span><span class="m">24</span>.780282<span class="w"> </span><span class="p">|</span><span class="w"> </span>RAIL
+<span class="w"> </span><span class="m">27</span>.147826<span class="w"> </span><span class="p">|</span><span class="w"> </span>TRUCK
+<span class="w"> </span><span class="m">25</span>.708556<span class="w"> </span><span class="p">|</span><span class="w"> </span>AIR
+<span class="w"> </span><span class="m">26</span>.038567<span class="w"> </span><span class="p">|</span><span class="w"> </span>FOB
+<span class="o">(</span><span class="m">7</span><span class="w"> </span>rows<span class="o">)</span>
+</code></pre></div>
+</div>
+<p>This query will take all rows from the 29th March of 1996 and compute
+the average value of the <code>L_QUANTITY</code> column for each <code>L_SHIPMODE</code> value. It
+is a typical warehousing query insofar as a date column is used to
+restrict the row set that is taken as input for computation.</p>
+<p>In this example most rows of the <code>LINEITEM</code> table will be filtered away,
+only rows that have the specified date will be used as input for
+computation of the AVG aggregation.</p>
+<p>Execute the following SQL statement to see on which data slice we can
+find the rows from the 29th March of 1996:</p>
+<div class="admonition abstract">
+<p class="admonition-title">Input</p>
+<div class="highlight"><pre><span></span><code>SELECT<span class="w"> </span>COUNT<span class="o">(</span><span class="se">\*</span><span class="o">)</span>,<span class="w"> </span>DATASLICEID<span class="w"> </span>
+FROM<span class="w"> </span>LINEITEM
+WHERE<span class="w"> </span><span class="nv">L_SHIPDATE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;1996-03-29&#39;</span><span class="w"> </span>
+GROUP<span class="w"> </span>BY<span class="w"> </span>DATASLICEID<span class="p">;</span>
+</code></pre></div>
+</div>
+<div class="admonition abstract">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code>COUNT<span class="w"> </span><span class="p">|</span><span class="w"> </span>DATASLICEID
+-------+-------------
+<span class="w">  </span><span class="m">2501</span><span class="w"> </span><span class="p">|</span><span class="w">           </span><span class="m">2</span>
+<span class="o">(</span><span class="m">1</span><span class="w"> </span>row<span class="o">)</span>
+</code></pre></div>
+</div>
+<p>Since we used the shipping date column as a distribution key, all rows
+from a specific date can be found on one data slice and therefore also
+one SPU. This means that for our previous query all rows on other data
+slices are unused and the computation takes place only on one data
+slice and SPU. This is known as processing skew. While this one SPU is
+working the other SPUs will be idle.</p>
+<p>Columns that are often used in WHERE conditions should not be used as
+distribution keys, since this can easily result in processing skew. In
+warehousing environments this is especially true for DATE columns.</p>
+<p>Good distribution keys are key columns (join columns); they have lots of
+unique values and rarely result in processing skew. In our example we
+have a couple of distribution keys to choose from: <code>L_SUPPKEY</code>,
+<code>L_ORDERKEY</code>, <code>L_PARTKEY</code>. All columns have many distinct values.</p>
+<h2 id="co-location">Co-Location</h2>
+<p>The most basic warehouse schema consists of a fact table containing a
+list of all business transactions and a set of dimension tables that
+contain the different actors, objects, locations and time points that
+have taken part in these transactions. This means that most queries will
+not only access one database table but will require joins between many
+tables.</p>
+<p>In Netezza Performance Server tables are distributed over a large
+numbers of data slices on different SPUs. This means that during a join
+of two tables there are two possibilities.</p>
+<ul>
+<li>
+<p>Rows of the two tables that are joined together are on the same data
+    slice, which means the rows are co-located and can be joined
+    locally.</p>
+</li>
+<li>
+<p>Rows of the two tables that are joined together are on different
+    data slices, which means that rows need to be redistributed (moved)
+    so that rows being joined are on the same data slice.</p>
+</li>
+</ul>
+<h3 id="investigation">Investigation</h3>
+<p>Co-location has big performance advantages. In the following section we
+will demonstrate this by introducing a second table called ORDERS.</p>
+<ol>
+<li>
+<p>Switch to the Linux command line, if you are in the NZSQL console.
+    Do this with the [\q command.</p>
+</li>
+<li>
+<p>Switch to the data distribution lab directory with the [cd
+    ~/labs/dataDistribution. command, create and load the
+    ORDERS table by executing the ./create_orders_1.sh script</p>
+</li>
+</ol>
+<div class="admonition abstract">
+<p class="admonition-title">Input</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>~/labs/dataDistribution/
+./create_orders_1.sh
+</code></pre></div>
+</div>
+<div class="admonition abstract">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code>ERROR:<span class="w">  </span>relation<span class="w"> </span>does<span class="w"> </span>not<span class="w"> </span>exist<span class="w"> </span>LABDB.ADMIN.ORDERS
+CREATE<span class="w"> </span>TABLE
+Load<span class="w"> </span>session<span class="w"> </span>of<span class="w"> </span>table<span class="w"> </span><span class="s1">&#39;ORDERS&#39;</span><span class="w"> </span>completed<span class="w"> </span>successfully
+</code></pre></div>
+</div>
+<ol start="3">
+<li>Enter the NZSQL console with the [nzsql labdb labadmin
+    command and take a look at the ORDERS table with the [\d
+    orders command.</li>
+</ol>
+<div class="admonition abstract">
+<p class="admonition-title">Input</p>
+<div class="highlight"><pre><span></span><code>nzsql<span class="w"> </span>labdb
+LABDB.ADMIN<span class="o">(</span>LABADMIN<span class="o">)=</span>&gt;<span class="w"> </span><span class="se">\d</span><span class="w"> </span>orders
+</code></pre></div>
+</div>
+<div class="admonition abstract">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code><span class="w">                           </span>Table<span class="w"> </span><span class="s2">&quot;ORDERS&quot;</span>
+<span class="w">    </span>Attribute<span class="w">    </span><span class="p">|</span><span class="w">         </span>Type<span class="w">          </span><span class="p">|</span><span class="w"> </span>Modifier<span class="w"> </span><span class="p">|</span><span class="w"> </span>Default<span class="w"> </span>Value
+-----------------+-----------------------+----------+---------------
+<span class="w"> </span>O_ORDERKEY<span class="w">      </span><span class="p">|</span><span class="w"> </span>INTEGER<span class="w">               </span><span class="p">|</span><span class="w"> </span>NOT<span class="w"> </span>NULL<span class="w"> </span><span class="p">|</span>
+<span class="w"> </span>O_CUSTKEY<span class="w">       </span><span class="p">|</span><span class="w"> </span>INTEGER<span class="w">               </span><span class="p">|</span><span class="w"> </span>NOT<span class="w"> </span>NULL<span class="w"> </span><span class="p">|</span>
+<span class="w"> </span>O_ORDERSTATUS<span class="w">   </span><span class="p">|</span><span class="w"> </span>CHARACTER<span class="o">(</span><span class="m">1</span><span class="o">)</span><span class="w">          </span><span class="p">|</span><span class="w"> </span>NOT<span class="w"> </span>NULL<span class="w"> </span><span class="p">|</span>
+<span class="w"> </span>O_TOTALPRICE<span class="w">    </span><span class="p">|</span><span class="w"> </span>NUMERIC<span class="o">(</span><span class="m">15</span>,2<span class="o">)</span><span class="w">         </span><span class="p">|</span><span class="w"> </span>NOT<span class="w"> </span>NULL<span class="w"> </span><span class="p">|</span>
+<span class="w"> </span>O_ORDERDATE<span class="w">     </span><span class="p">|</span><span class="w"> </span>DATE<span class="w">                  </span><span class="p">|</span><span class="w"> </span>NOT<span class="w"> </span>NULL<span class="w"> </span><span class="p">|</span>
+<span class="w"> </span>O_ORDERPRIORITY<span class="w"> </span><span class="p">|</span><span class="w"> </span>CHARACTER<span class="o">(</span><span class="m">15</span><span class="o">)</span><span class="w">         </span><span class="p">|</span><span class="w"> </span>NOT<span class="w"> </span>NULL<span class="w"> </span><span class="p">|</span>
+<span class="w"> </span>O_CLERK<span class="w">         </span><span class="p">|</span><span class="w"> </span>CHARACTER<span class="o">(</span><span class="m">15</span><span class="o">)</span><span class="w">         </span><span class="p">|</span><span class="w"> </span>NOT<span class="w"> </span>NULL<span class="w"> </span><span class="p">|</span>
+<span class="w"> </span>O_SHIPPRIORITY<span class="w">  </span><span class="p">|</span><span class="w"> </span>INTEGER<span class="w">               </span><span class="p">|</span><span class="w"> </span>NOT<span class="w"> </span>NULL<span class="w"> </span><span class="p">|</span>
+<span class="w"> </span>O_COMMENT<span class="w">       </span><span class="p">|</span><span class="w"> </span>CHARACTER<span class="w"> </span>VARYING<span class="o">(</span><span class="m">79</span><span class="o">)</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>NOT<span class="w"> </span>NULL<span class="w"> </span><span class="p">|</span>
+Distributed<span class="w"> </span>on<span class="w"> </span>random:<span class="w"> </span><span class="o">(</span>round-robin<span class="o">)</span>
+</code></pre></div>
+</div>
+<p>The <code>ORDERS</code> table has a key column <code>O_ORDERKEY</code> that is the primary key of
+the table. The <code>ORDERS</code> table contains information on the order value,
+priority and date, and has been distributed on random. This means that
+Netezza Performance Server doesn't use a hash-based algorithm to
+distribute the data. Instead, rows are distributed randomly on the
+available data slices in a round-robin fashion.</p>
+<ol start="4">
+<li>You can check the data distribution of the table, using the methods
+    we have used before for the LINEITEM table. The data distribution
+    will be perfect. For example, try the following:</li>
+</ol>
+<div class="admonition abstract">
+<p class="admonition-title">Input</p>
+<div class="highlight"><pre><span></span><code>SELECT<span class="w"> </span>COUNT<span class="o">(</span>*<span class="o">)</span>,<span class="w"> </span>DATASLICEID<span class="w"> </span>
+FROM<span class="w"> </span>ORDERS
+GROUP<span class="w"> </span>BY<span class="w"> </span>DATASLICEID<span class="w"> </span>
+ORDER<span class="w"> </span>BY<span class="w"> </span><span class="m">1</span><span class="p">;</span>
+</code></pre></div>
+</div>
+<div class="admonition abstract">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code>COUNT<span class="w">  </span><span class="p">|</span><span class="w"> </span>DATASLICEID
+--------+-------------
+<span class="w"> </span><span class="m">374393</span><span class="w"> </span><span class="p">|</span><span class="w">           </span><span class="m">3</span>
+<span class="w"> </span><span class="m">374518</span><span class="w"> </span><span class="p">|</span><span class="w">           </span><span class="m">1</span>
+<span class="w"> </span><span class="m">375517</span><span class="w"> </span><span class="p">|</span><span class="w">           </span><span class="m">2</span>
+<span class="w"> </span><span class="m">375572</span><span class="w"> </span><span class="p">|</span><span class="w">           </span><span class="m">4</span>
+<span class="o">(</span><span class="m">4</span><span class="w"> </span>rows<span class="o">)</span>
+</code></pre></div>
+</div>
+<p>There will also not be any processing skew for queries on the single
+table, since in a random distribution there can be no correlation
+between any WHERE condition and the distribution key.</p>
+<ol start="5">
+<li>We have received another typical query from our customer. It returns
+    the average total price and item quantity of all orders grouped by
+    the shipping priority. This query has to join together the <code>LINEITEM</code>
+    and ORDERS tables to get the total order cost from the orders table
+    and the quantity for each shipped item from the <code>LINEITEM</code> table. The
+    tables are joined with an inner join on the <code>L_ORDERKEY</code> column.
+    Execute the following query and note the approximate execution time:</li>
+</ol>
+<div class="admonition abstract">
+<p class="admonition-title">Input</p>
+<div class="highlight"><pre><span></span><code><span class="se">\t</span>ime
+SELECT<span class="w"> </span>AVG<span class="o">(</span>O.O_TOTALPRICE<span class="o">)</span><span class="w"> </span>AS<span class="w"> </span>PRICE,
+<span class="w">       </span>AVG<span class="o">(</span>L.L_QUANTITY<span class="o">)</span><span class="w"> </span>AS<span class="w"> </span>QUANTITY,<span class="w"> </span>
+<span class="w">       </span>O.O_ORDERPRIORITY<span class="w"> </span>
+FROM<span class="w"> </span>ORDERS<span class="w"> </span>AS<span class="w"> </span>O,<span class="w"> </span>LINEITEM<span class="w"> </span>AS<span class="w"> </span>L<span class="w"> </span>
+WHERE<span class="w"> </span>L.L_ORDERKEY<span class="o">=</span>O.O_ORDERKEY<span class="w"> </span>
+GROUP<span class="w"> </span>BY<span class="w"> </span>O_ORDERPRIORITY<span class="p">;</span>
+</code></pre></div>
+</div>
+<div class="admonition abstract">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code><span class="w">     </span>PRICE<span class="w">     </span><span class="p">|</span><span class="w"> </span>QUANTITY<span class="w">  </span><span class="p">|</span><span class="w"> </span>O_ORDERPRIORITY
+---------------+-----------+-----------------
+<span class="w"> </span><span class="m">189219</span>.594349<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">25</span>.532474<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">5</span>-LOW
+<span class="w"> </span><span class="m">189285</span>.029553<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">25</span>.526186<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">2</span>-HIGH
+<span class="w"> </span><span class="m">188546</span>.457203<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">25</span>.472923<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">4</span>-NOT<span class="w"> </span>SPECIFIED
+<span class="w"> </span><span class="m">189026</span>.093657<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">25</span>.494518<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">3</span>-MEDIUM
+<span class="w"> </span><span class="m">189093</span>.608965<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">25</span>.513563<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">1</span>-URGENT
+<span class="o">(</span><span class="m">5</span><span class="w"> </span>rows<span class="o">)</span>
+
+Elapsed<span class="w"> </span>time:<span class="w"> </span>0m4.293s
+</code></pre></div>
+</div>
+<p>Notice that the query takes about 4 seconds to complete on our
+machine. The actual execution times on your machine will be different.</p>
+<ol start="6">
+<li>Remember that the <code>ORDERS</code> table was distributed randomly and the
+    <code>LINEITEM</code> table is still distributed by the <code>L_SHIPDATE</code> column. The
+    join on the other hand is taking place on the <code>L_ORDERKEY</code> and
+    <code>O_ORDERKEY</code> columns. We will now have a quick look at what is
+    happening inside the Netezza Performance Server system in this
+    scenario. To do this we use the Netezza Performance Server EXPLAIN
+    function. This will be more thoroughly covered in the Optimization
+    lab.</li>
+</ol>
+<p>Execute the following command:</p>
+<div class="admonition abstract">
+<p class="admonition-title">Input</p>
+<div class="highlight"><pre><span></span><code>EXPLAIN<span class="w"> </span>VERBOSE<span class="w"> </span>
+SELECT<span class="w"> </span>AVG<span class="o">(</span>O.O_TOTALPRICE<span class="o">)</span><span class="w"> </span>AS<span class="w"> </span>PRICE,
+<span class="w">       </span>AVG<span class="o">(</span>L.L_QUANTITY<span class="o">)</span><span class="w"> </span>AS<span class="w"> </span>QUANTITY,<span class="w"> </span>
+<span class="w">       </span>O.O_ORDERPRIORITY<span class="w"> </span>
+FROM<span class="w"> </span>ORDERS<span class="w"> </span>AS<span class="w"> </span>O,<span class="w"> </span>LINEITEM<span class="w"> </span>AS<span class="w"> </span>L<span class="w"> </span>
+WHERE<span class="w"> </span>L.L_ORDERKEY<span class="o">=</span>O.O_ORDERKEY<span class="w"> </span>
+GROUP<span class="w"> </span>BY<span class="w"> </span>O_ORDERPRIORITY<span class="p">;</span><span class="w">    </span>
+</code></pre></div>
+</div>
+<p>You will get a long output. Scroll up until you see your command in the
+text window. The start of the EXPLAIN output should look like the
+following:</p>
+<div class="admonition abstract">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code>EXPLAIN<span class="w"> </span>VERBOSE<span class="w"> </span>SELECT<span class="w"> </span>AVG<span class="o">(</span>O.O_TOTALPRICE<span class="o">)</span><span class="w"> </span>AS<span class="w"> </span>PRICE,<span class="w"> </span>AVG<span class="o">(</span>L.L_QUANTITY<span class="o">)</span><span class="w"> </span>AS<span class="w">   </span>QUANTITY,<span class="w"> </span>O_ORDERPRIORITY<span class="w"> </span>FROM<span class="w"> </span>ORDERS<span class="w"> </span>AS<span class="w"> </span>O,<span class="w"> </span>LINEITEM<span class="w"> </span>AS<span class="w"> </span>L<span class="w"> </span>WHERE<span class="w"> </span>L.L_ORDERKEY<span class="o">=</span>O.<span class="w">   </span>O_ORDERKEY<span class="w"> </span>GROUP<span class="w"> </span>BY<span class="w"> </span>O_ORDERPRIORITY<span class="p">;</span>
+
+QUERY<span class="w"> </span>VERBOSE<span class="w"> </span>PLAN:
+
+Node<span class="w"> </span><span class="m">1</span>.
+<span class="w">  </span><span class="o">[</span>SPU<span class="w"> </span>Sequential<span class="w"> </span>Scan<span class="w"> </span>table<span class="w"> </span><span class="s2">&quot;ORDERS&quot;</span><span class="w"> </span>as<span class="w"> </span><span class="s2">&quot;O&quot;</span><span class="w"> </span><span class="o">{}]</span>
+<span class="w">      </span>--<span class="w"> </span>Estimated<span class="w"> </span><span class="nv">Rows</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1500000</span>,<span class="w"> </span><span class="nv">Width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">27</span>,<span class="w"> </span><span class="nv">Cost</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>.0<span class="w"> </span>..<span class="w"> </span><span class="m">1653</span>.2,<span class="w"> </span><span class="nv">Conf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">100</span>.<span class="w">    </span><span class="m">0</span>
+<span class="w">      </span>Projections:
+<span class="w">        </span><span class="m">1</span>:O.O_TOTALPRICE<span class="w">  </span><span class="m">2</span>:O.O_ORDERPRIORITY<span class="w">  </span><span class="m">3</span>:O.O_ORDERKEY
+<span class="w">  </span><span class="o">[</span>SPU<span class="w"> </span>Distribute<span class="w"> </span>on<span class="w"> </span><span class="o">{(</span>O.O_ORDERKEY<span class="o">)}]</span>
+<span class="w">  </span><span class="o">[</span>HashIt<span class="w"> </span><span class="k">for</span><span class="w"> </span>Join<span class="o">]</span>
+Node<span class="w"> </span><span class="m">2</span>.
+<span class="w">  </span><span class="o">[</span>SPU<span class="w"> </span>Sequential<span class="w"> </span>Scan<span class="w"> </span>table<span class="w"> </span><span class="s2">&quot;LINEITEM&quot;</span><span class="w"> </span>as<span class="w"> </span><span class="s2">&quot;L&quot;</span><span class="w"> </span><span class="o">{(</span>L.L_SHIPDATE<span class="o">)}]</span>
+<span class="w">      </span>--<span class="w"> </span>Estimated<span class="w"> </span><span class="nv">Rows</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">6001215</span>,<span class="w"> </span><span class="nv">Width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">12</span>,<span class="w"> </span><span class="nv">Cost</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>.0<span class="w"> </span>..<span class="w"> </span><span class="m">6907</span>.1,<span class="w"> </span><span class="nv">Conf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">100</span>.<span class="w">    </span><span class="m">0</span>
+<span class="w">      </span>Projections:
+<span class="w">        </span><span class="m">1</span>:L.L_QUANTITY<span class="w">  </span><span class="m">2</span>:L.L_ORDERKEY
+<span class="w">  </span><span class="o">[</span>SPU<span class="w"> </span>Distribute<span class="w"> </span>on<span class="w"> </span><span class="o">{(</span>L.L_ORDERKEY<span class="o">)}]</span>
+Node<span class="w"> </span><span class="m">3</span>.
+<span class="w">  </span><span class="o">[</span>SPU<span class="w"> </span>Hash<span class="w"> </span>Join<span class="w"> </span>Stream<span class="w"> </span><span class="s2">&quot;Node 2&quot;</span><span class="w"> </span>with<span class="w"> </span>Temp<span class="w"> </span><span class="s2">&quot;Node 1&quot;</span><span class="w"> </span><span class="o">{(</span>O.O_ORDERKEY,L.<span class="w">   </span>L_ORDERKEY<span class="o">)}]</span>
+<span class="w">      </span>--<span class="w"> </span>Estimated<span class="w"> </span><span class="nv">Rows</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">90018225000</span>,<span class="w"> </span><span class="nv">Width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">31</span>,<span class="w"> </span><span class="nv">Cost</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1653</span>.2<span class="w"> </span>..<span class="w"> </span><span class="m">928769</span>.9,<span class="w">   </span><span class="nv">Conf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">80</span>.0
+<span class="w">      </span>Restrictions:
+<span class="w">        </span><span class="o">(</span>L.L_ORDERKEY<span class="w"> </span><span class="o">=</span><span class="w"> </span>O.O_ORDERKEY<span class="o">)</span>
+<span class="w">      </span>Projections:
+<span class="w">        </span><span class="m">1</span>:O.O_TOTALPRICE<span class="w">  </span><span class="m">2</span>:L.L_QUANTITY<span class="w">  </span><span class="m">3</span>:O.O_ORDERPRIORITY
+<span class="w">  </span><span class="o">[</span>SPU<span class="w"> </span>Fabric<span class="w"> </span>Join<span class="o">]</span>
+
+...&lt;Rest<span class="w"> </span>of<span class="w"> </span>EXPLAIN<span class="w"> </span>Plan&gt;...
+</code></pre></div>
+</div>
+<p>The EXPLAIN functionality will be covered in detail in a following
+chapter, but it is easy to see what is happening here. What's happening
+is the system is redistributing both the ORDERS and LINEITEM tables so
+that the rows can be joined together. This is very bad because both
+tables are of significant size so there is a considerable overhead. This
+inefficient double redistribution occurs because neither of the tables
+are distributed on the join key. In the next section we will fix this.</p>
+<h3 id="co-located-joins">Co-Located Joins</h3>
+<p>In the last section we have seen that a query using joins can result in
+costly data redistribution during join execution when the joined tables
+are not distributed on the join key. In this section we will reload the
+tables based on the mutual join key to enhance performance during joins.</p>
+<ol>
+<li>
+<p>Exit the NZSQL console with the [\q command.</p>
+</li>
+<li>
+<p>If not already in the <code>dataDistribution</code> directory run the command <code>cd
+    ~/labs/dataDistribution</code> to enter the directory.</p>
+</li>
+<li>
+<p>Change the distribution key in the lineitem.sql file to <code>L_ORDERKEY</code>:</p>
+<p>a.  Open the file with the vi editor (or gedit from the VM desktop)
+    by executing the command: <code>vi lineitem.sql</code> (<code>gedit
+    lineitem.sql</code>).</p>
+<p>b.  In vi switch to INSERT mode by pressing "i"</p>
+<p>c.  Navigate with the cursor keys to the <code>DISTRIBUTE ON</code> clause and
+    change it to <code>DISTRIBUTE ON (L_ORDERKEY)</code></p>
+<p>d.  Exit the INSERT mode by pressing ESC</p>
+<p>e.  Enter <code>:wq!</code> In the command line of the vi editor and press enter.
+    Before pressing enter your screen should look like the
+    following:</p>
+</li>
+</ol>
+<div class="admonition abstract">
+<div class="highlight"><pre><span></span><code>create<span class="w"> </span>table<span class="w"> </span>lineitem
+<span class="w">  </span><span class="o">(</span>
+<span class="w">    </span>l_orderkey<span class="w"> </span>integer<span class="w"> </span>not<span class="w"> </span>null<span class="w"> </span>,
+<span class="w">    </span>l_partkey<span class="w"> </span>integer<span class="w"> </span>not<span class="w"> </span>null<span class="w"> </span>,
+<span class="w">    </span>l_suppkey<span class="w"> </span>integer<span class="w"> </span>not<span class="w"> </span>null<span class="w"> </span>,
+<span class="w">    </span>l_linenumber<span class="w"> </span>integer<span class="w"> </span>not<span class="w"> </span>null<span class="w"> </span>,
+<span class="w">    </span>l_quantity<span class="w"> </span>decimal<span class="o">(</span><span class="m">15</span>,2<span class="o">)</span><span class="w"> </span>not<span class="w"> </span>null<span class="w"> </span>,
+<span class="w">    </span>l_extendedprice<span class="w"> </span>decimal<span class="o">(</span><span class="m">15</span>,2<span class="o">)</span><span class="w"> </span>not<span class="w"> </span>null<span class="w"> </span>,
+<span class="w">    </span>l_discount<span class="w"> </span>decimal<span class="o">(</span><span class="m">15</span>,2<span class="o">)</span><span class="w"> </span>not<span class="w"> </span>null<span class="w"> </span>,
+<span class="w">    </span>l_tax<span class="w"> </span>decimal<span class="o">(</span><span class="m">15</span>,2<span class="o">)</span><span class="w"> </span>not<span class="w"> </span>null<span class="w"> </span>,
+<span class="w">    </span>l_returnflag<span class="w"> </span>char<span class="o">(</span><span class="m">1</span><span class="o">)</span><span class="w"> </span>not<span class="w"> </span>null<span class="w"> </span>,
+<span class="w">    </span>l_linestatus<span class="w"> </span>char<span class="o">(</span><span class="m">1</span><span class="o">)</span><span class="w"> </span>not<span class="w"> </span>null<span class="w"> </span>,
+<span class="w">    </span>l_shipdate<span class="w"> </span>date<span class="w"> </span>not<span class="w"> </span>null<span class="w"> </span>,
+<span class="w">    </span>l_commitdate<span class="w"> </span>date<span class="w"> </span>not<span class="w"> </span>null<span class="w"> </span>,
+<span class="w">    </span>l_receiptdate<span class="w"> </span>date<span class="w"> </span>not<span class="w"> </span>null<span class="w"> </span>,
+<span class="w">    </span>l_shipinstruct<span class="w"> </span>char<span class="o">(</span><span class="m">25</span><span class="o">)</span><span class="w"> </span>not<span class="w"> </span>null<span class="w"> </span>,
+<span class="w">    </span>l_shipmode<span class="w"> </span>char<span class="o">(</span><span class="m">10</span><span class="o">)</span><span class="w"> </span>not<span class="w"> </span>null<span class="w"> </span>,
+<span class="w">    </span>l_comment<span class="w"> </span>varchar<span class="o">(</span><span class="m">44</span><span class="o">)</span><span class="w"> </span>not<span class="w"> </span>null
+<span class="w">  </span><span class="o">)</span>
+DISTRIBUTE<span class="w"> </span>ON<span class="w"> </span><span class="o">(</span>l_orderkey<span class="o">)</span><span class="p">;</span>
+</code></pre></div>
+</div>
+<ol start="4">
+<li>
+<p>Change the Distribution key in the <code>orders.sql</code> file to <code>O_ORDERKEY</code>.</p>
+<p>a.  Open the file with the vi editor by executing the command: <code>vi
+    orders.sql</code></p>
+<p>b.  Switch to INSERT mode by pressing "i"</p>
+<p>c.  Navigate with the cursor keys to the <code>DISTRIBUTE ON</code> clause and
+    change it to <code>DISTRIBUTE ON (O_ORDERKEY)</code></p>
+<p>d.  Exit the INSERT mode by pressing ESC</p>
+<p>e.  Enter <code>:wq!</code> In the command line of the VI editor and
+    Press Enter. Before pressing Enter your screen should look like
+    the following:</p>
+</li>
+</ol>
+<div class="admonition abstract">
+<div class="highlight"><pre><span></span><code>create<span class="w"> </span>table<span class="w"> </span>orders
+<span class="w">  </span><span class="o">(</span>
+<span class="w">    </span>o_orderkey<span class="w"> </span>integer<span class="w"> </span>not<span class="w"> </span>null<span class="w"> </span>,
+<span class="w">    </span>o_custkey<span class="w"> </span>integer<span class="w"> </span>not<span class="w"> </span>null<span class="w"> </span>,
+<span class="w">    </span>o_orderstatus<span class="w"> </span>char<span class="o">(</span><span class="m">1</span><span class="o">)</span><span class="w"> </span>not<span class="w"> </span>null<span class="w"> </span>,
+<span class="w">    </span>o_totalprice<span class="w"> </span>decimal<span class="o">(</span><span class="m">15</span>,2<span class="o">)</span><span class="w"> </span>not<span class="w"> </span>null<span class="w"> </span>,
+<span class="w">    </span>o_orderdate<span class="w"> </span>date<span class="w"> </span>not<span class="w"> </span>null<span class="w"> </span>,
+<span class="w">    </span>o_orderpriority<span class="w"> </span>char<span class="o">(</span><span class="m">15</span><span class="o">)</span><span class="w"> </span>not<span class="w"> </span>null<span class="w"> </span>,
+<span class="w">    </span>o_clerk<span class="w"> </span>char<span class="o">(</span><span class="m">15</span><span class="o">)</span><span class="w"> </span>not<span class="w"> </span>null<span class="w"> </span>,
+<span class="w">    </span>o_shippriority<span class="w"> </span>integer<span class="w"> </span>not<span class="w"> </span>null<span class="w"> </span>,
+<span class="w">    </span>o_comment<span class="w"> </span>varchar<span class="o">(</span><span class="m">79</span><span class="o">)</span><span class="w"> </span>not<span class="w"> </span>null
+<span class="w">  </span><span class="o">)</span>
+DISTRIBUTE<span class="w"> </span>ON<span class="w"> </span><span class="o">(</span>O_ORDERKEY<span class="o">)</span><span class="p">;</span>
+</code></pre></div>
+</div>
+<ol start="5">
+<li>Recreate and load the <code>LINEITEM</code> table with the distribution key
+    <code>L_ORDERKEY</code> by executing the <code>./create_lineitem_1.sh</code> script.</li>
+</ol>
+<div class="admonition abstract">
+<p class="admonition-title">Input</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>~/labs/dataDistribution/
+./create_lineitem_1.sh
+</code></pre></div>
+</div>
+<div class="admonition abstract">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code>DROP<span class="w"> </span>TABLE
+CREATE<span class="w"> </span>TABLE
+Load<span class="w"> </span>session<span class="w"> </span>of<span class="w"> </span>table<span class="w"> </span><span class="s1">&#39;LINEITEM&#39;</span><span class="w"> </span>completed<span class="w"> </span>successfully
+</code></pre></div>
+</div>
+<ol start="6">
+<li>Recreate and load the <code>ORDERS</code> table with the distribution key
+    <code>O_ORDERKEY</code> by executing the <code>./create_orders_1.sh</code> script.</li>
+</ol>
+<div class="admonition abstract">
+<p class="admonition-title">Input</p>
+<div class="highlight"><pre><span></span><code>./create_orders_1.sh
+</code></pre></div>
+</div>
+<div class="admonition abstract">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code>DROP<span class="w"> </span>TABLE
+CREATE<span class="w"> </span>TABLE
+Load<span class="w"> </span>session<span class="w"> </span>of<span class="w"> </span>table<span class="w"> </span><span class="s1">&#39;ORDERS&#39;</span><span class="w"> </span>completed<span class="w"> </span>successfully
+</code></pre></div>
+</div>
+<ol start="7">
+<li>Enter the NZSQL console by executing the <code>nzsql labdb
+    labadmin</code> command and check the distribution key using the
+    <code>\d lineitem</code> and <code>\d orders</code> commands.</li>
+</ol>
+<div class="admonition abstract">
+<p class="admonition-title">Input</p>
+<div class="highlight"><pre><span></span><code>nzsql<span class="w"> </span>labdb<span class="w"> </span>labadmin
+<span class="se">\d</span><span class="w"> </span>lineitem
+</code></pre></div>
+</div>
+<div class="admonition abstract">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code><span class="w">                          </span>Table<span class="w"> </span><span class="s2">&quot;LINEITEM&quot;</span>
+<span class="w">    </span>Attribute<span class="w">    </span><span class="p">|</span><span class="w">         </span>Type<span class="w">          </span><span class="p">|</span><span class="w"> </span>Modifier<span class="w"> </span><span class="p">|</span><span class="w"> </span>Default<span class="w"> </span>Value
+-----------------+-----------------------+----------+---------------
+<span class="w"> </span>L_ORDERKEY<span class="w">      </span><span class="p">|</span><span class="w"> </span>INTEGER<span class="w">               </span><span class="p">|</span><span class="w"> </span>NOT<span class="w"> </span>NULL<span class="w"> </span><span class="p">|</span>
+<span class="w"> </span>L_PARTKEY<span class="w">       </span><span class="p">|</span><span class="w"> </span>INTEGER<span class="w">               </span><span class="p">|</span><span class="w"> </span>NOT<span class="w"> </span>NULL<span class="w"> </span><span class="p">|</span>
+<span class="w"> </span>L_SUPPKEY<span class="w">       </span><span class="p">|</span><span class="w"> </span>INTEGER<span class="w">               </span><span class="p">|</span><span class="w"> </span>NOT<span class="w"> </span>NULL<span class="w"> </span><span class="p">|</span>
+<span class="w"> </span>L_LINENUMBER<span class="w">    </span><span class="p">|</span><span class="w"> </span>INTEGER<span class="w">               </span><span class="p">|</span><span class="w"> </span>NOT<span class="w"> </span>NULL<span class="w"> </span><span class="p">|</span>
+<span class="w"> </span>L_QUANTITY<span class="w">      </span><span class="p">|</span><span class="w"> </span>NUMERIC<span class="o">(</span><span class="m">15</span>,2<span class="o">)</span><span class="w">         </span><span class="p">|</span><span class="w"> </span>NOT<span class="w"> </span>NULL<span class="w"> </span><span class="p">|</span>
+<span class="w"> </span>L_EXTENDEDPRICE<span class="w"> </span><span class="p">|</span><span class="w"> </span>NUMERIC<span class="o">(</span><span class="m">15</span>,2<span class="o">)</span><span class="w">         </span><span class="p">|</span><span class="w"> </span>NOT<span class="w"> </span>NULL<span class="w"> </span><span class="p">|</span>
+<span class="w"> </span>L_DISCOUNT<span class="w">      </span><span class="p">|</span><span class="w"> </span>NUMERIC<span class="o">(</span><span class="m">15</span>,2<span class="o">)</span><span class="w">         </span><span class="p">|</span><span class="w"> </span>NOT<span class="w"> </span>NULL<span class="w"> </span><span class="p">|</span>
+<span class="w"> </span>L_TAX<span class="w">           </span><span class="p">|</span><span class="w"> </span>NUMERIC<span class="o">(</span><span class="m">15</span>,2<span class="o">)</span><span class="w">         </span><span class="p">|</span><span class="w"> </span>NOT<span class="w"> </span>NULL<span class="w"> </span><span class="p">|</span>
+<span class="w"> </span>L_RETURNFLAG<span class="w">    </span><span class="p">|</span><span class="w"> </span>CHARACTER<span class="o">(</span><span class="m">1</span><span class="o">)</span><span class="w">          </span><span class="p">|</span><span class="w"> </span>NOT<span class="w"> </span>NULL<span class="w"> </span><span class="p">|</span>
+<span class="w"> </span>L_LINESTATUS<span class="w">    </span><span class="p">|</span><span class="w"> </span>CHARACTER<span class="o">(</span><span class="m">1</span><span class="o">)</span><span class="w">          </span><span class="p">|</span><span class="w"> </span>NOT<span class="w"> </span>NULL<span class="w"> </span><span class="p">|</span>
+<span class="w"> </span>L_SHIPDATE<span class="w">      </span><span class="p">|</span><span class="w"> </span>DATE<span class="w">                  </span><span class="p">|</span><span class="w"> </span>NOT<span class="w"> </span>NULL<span class="w"> </span><span class="p">|</span>
+<span class="w"> </span>L_COMMITDATE<span class="w">    </span><span class="p">|</span><span class="w"> </span>DATE<span class="w">                  </span><span class="p">|</span><span class="w"> </span>NOT<span class="w"> </span>NULL<span class="w"> </span><span class="p">|</span>
+<span class="w"> </span>L_RECEIPTDATE<span class="w">   </span><span class="p">|</span><span class="w"> </span>DATE<span class="w">                  </span><span class="p">|</span><span class="w"> </span>NOT<span class="w"> </span>NULL<span class="w"> </span><span class="p">|</span>
+<span class="w"> </span>L_SHIPINSTRUCT<span class="w">  </span><span class="p">|</span><span class="w"> </span>CHARACTER<span class="o">(</span><span class="m">25</span><span class="o">)</span><span class="w">         </span><span class="p">|</span><span class="w"> </span>NOT<span class="w"> </span>NULL<span class="w"> </span><span class="p">|</span>
+<span class="w"> </span>L_SHIPMODE<span class="w">      </span><span class="p">|</span><span class="w"> </span>CHARACTER<span class="o">(</span><span class="m">10</span><span class="o">)</span><span class="w">         </span><span class="p">|</span><span class="w"> </span>NOT<span class="w"> </span>NULL<span class="w"> </span><span class="p">|</span>
+<span class="w"> </span>L_COMMENT<span class="w">       </span><span class="p">|</span><span class="w"> </span>CHARACTER<span class="w"> </span>VARYING<span class="o">(</span><span class="m">44</span><span class="o">)</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>NOT<span class="w"> </span>NULL<span class="w"> </span><span class="p">|</span>
+Distributed<span class="w"> </span>on<span class="w"> </span>hash:<span class="w"> </span><span class="s2">&quot;L_ORDERKEY&quot;</span>
+</code></pre></div>
+</div>
+<div class="admonition abstract">
+<p class="admonition-title">Input</p>
+<div class="highlight"><pre><span></span><code>nzsql<span class="w"> </span>labdb<span class="w"> </span>labadmin
+<span class="se">\d</span><span class="w"> </span>orders
+</code></pre></div>
+</div>
+<div class="admonition abstract">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code>Table<span class="w"> </span><span class="s2">&quot;ORDERS&quot;</span>
+<span class="w">    </span>Attribute<span class="w">    </span><span class="p">|</span><span class="w">         </span>Type<span class="w">          </span><span class="p">|</span><span class="w"> </span>Modifier<span class="w"> </span><span class="p">|</span><span class="w"> </span>Default<span class="w"> </span>Value
+-----------------+-----------------------+----------+---------------
+<span class="w"> </span>O_ORDERKEY<span class="w">      </span><span class="p">|</span><span class="w"> </span>INTEGER<span class="w">               </span><span class="p">|</span><span class="w"> </span>NOT<span class="w"> </span>NULL<span class="w"> </span><span class="p">|</span>
+<span class="w"> </span>O_CUSTKEY<span class="w">       </span><span class="p">|</span><span class="w"> </span>INTEGER<span class="w">               </span><span class="p">|</span><span class="w"> </span>NOT<span class="w"> </span>NULL<span class="w"> </span><span class="p">|</span>
+<span class="w"> </span>O_ORDERSTATUS<span class="w">   </span><span class="p">|</span><span class="w"> </span>CHARACTER<span class="o">(</span><span class="m">1</span><span class="o">)</span><span class="w">          </span><span class="p">|</span><span class="w"> </span>NOT<span class="w"> </span>NULL<span class="w"> </span><span class="p">|</span>
+<span class="w"> </span>O_TOTALPRICE<span class="w">    </span><span class="p">|</span><span class="w"> </span>NUMERIC<span class="o">(</span><span class="m">15</span>,2<span class="o">)</span><span class="w">         </span><span class="p">|</span><span class="w"> </span>NOT<span class="w"> </span>NULL<span class="w"> </span><span class="p">|</span>
+<span class="w"> </span>O_ORDERDATE<span class="w">     </span><span class="p">|</span><span class="w"> </span>DATE<span class="w">                  </span><span class="p">|</span><span class="w"> </span>NOT<span class="w"> </span>NULL<span class="w"> </span><span class="p">|</span>
+<span class="w"> </span>O_ORDERPRIORITY<span class="w"> </span><span class="p">|</span><span class="w"> </span>CHARACTER<span class="o">(</span><span class="m">15</span><span class="o">)</span><span class="w">         </span><span class="p">|</span><span class="w"> </span>NOT<span class="w"> </span>NULL<span class="w"> </span><span class="p">|</span>
+<span class="w"> </span>O_CLERK<span class="w">         </span><span class="p">|</span><span class="w"> </span>CHARACTER<span class="o">(</span><span class="m">15</span><span class="o">)</span><span class="w">         </span><span class="p">|</span><span class="w"> </span>NOT<span class="w"> </span>NULL<span class="w"> </span><span class="p">|</span>
+<span class="w"> </span>O_SHIPPRIORITY<span class="w">  </span><span class="p">|</span><span class="w"> </span>INTEGER<span class="w">               </span><span class="p">|</span><span class="w"> </span>NOT<span class="w"> </span>NULL<span class="w"> </span><span class="p">|</span>
+<span class="w"> </span>O_COMMENT<span class="w">       </span><span class="p">|</span><span class="w"> </span>CHARACTER<span class="w"> </span>VARYING<span class="o">(</span><span class="m">79</span><span class="o">)</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>NOT<span class="w"> </span>NULL<span class="w"> </span><span class="p">|</span>
+Distributed<span class="w"> </span>on<span class="w"> </span>hash:<span class="w"> </span>“O_ORDERKEY”
+</code></pre></div>
+</div>
+<ol start="8">
+<li>Repeat executing the explain of our join query from the previous
+    section by executing the following command:</li>
+</ol>
+<div class="admonition abstract">
+<p class="admonition-title">Input</p>
+<div class="highlight"><pre><span></span><code>EXPLAIN<span class="w"> </span>VERBOSE<span class="w"> </span>
+SELECT<span class="w"> </span>AVG<span class="o">(</span>O.O_TOTALPRICE<span class="o">)</span><span class="w"> </span>AS<span class="w"> </span>PRICE,<span class="w"> </span>AVG<span class="o">(</span>L.L_QUANTITY<span class="o">)</span><span class="w"> </span>AS<span class="w"> </span>QUANTITY,O_ORDERPRIORITY<span class="w"> </span>
+FROM<span class="w"> </span>ORDERS<span class="w"> </span>AS<span class="w"> </span>O,<span class="w"> </span>LINEITEM<span class="w"> </span>AS<span class="w"> </span>L<span class="w"> </span>
+WHERE<span class="w"> </span>L.L_ORDERKEY<span class="o">=</span>O.O_ORDERKEY<span class="w"> </span>
+GROUP<span class="w"> </span>BY<span class="w"> </span>O_ORDERPRIORITY<span class="p">;</span>
+</code></pre></div>
+</div>
+<div class="admonition abstract">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code>EXPLAIN<span class="w"> </span>VERBOSE<span class="w"> </span>SELECT<span class="w"> </span>AVG<span class="o">(</span>O.O_TOTALPRICE<span class="o">)</span><span class="w"> </span>AS<span class="w"> </span>PRICE,<span class="w"> </span>AVG<span class="o">(</span>L.L_QUANTITY<span class="o">)</span><span class="w"> </span>AS<span class="w">   </span>QUANTITY,<span class="w"> </span>O_ORDERPRIORITY<span class="w"> </span>FROM<span class="w"> </span>ORDERS<span class="w"> </span>AS<span class="w"> </span>O,<span class="w"> </span>LINEITEM<span class="w"> </span>AS<span class="w"> </span>L<span class="w"> </span>WHERE<span class="w"> </span>L.L_ORDERKEY<span class="o">=</span>O.<span class="w">   </span>O_ORDERKEY<span class="w"> </span>GROUP<span class="w"> </span>BY<span class="w"> </span>O_ORDERPRIORITY<span class="p">;</span>
+
+QUERY<span class="w"> </span>VERBOSE<span class="w"> </span>PLAN:
+
+Node<span class="w"> </span><span class="m">1</span>.
+<span class="w">  </span><span class="o">[</span>SPU<span class="w"> </span>Sequential<span class="w"> </span>Scan<span class="w"> </span>table<span class="w"> </span><span class="s2">&quot;ORDERS&quot;</span><span class="w"> </span>as<span class="w"> </span><span class="s2">&quot;O&quot;</span><span class="w"> </span><span class="o">{(</span>O.O_ORDERKEY<span class="o">)}]</span>
+<span class="w">      </span>--<span class="w"> </span>Estimated<span class="w"> </span><span class="nv">Rows</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1500000</span>,<span class="w"> </span><span class="nv">Width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">27</span>,<span class="w"> </span><span class="nv">Cost</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>.0<span class="w"> </span>..<span class="w"> </span><span class="m">1653</span>.2,<span class="w"> </span><span class="nv">Conf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">100</span>.<span class="w">    </span><span class="m">0</span>
+<span class="w">      </span>Projections:
+<span class="w">        </span><span class="m">1</span>:O.O_TOTALPRICE<span class="w">  </span><span class="m">2</span>:O.O_ORDERPRIORITY<span class="w">  </span><span class="m">3</span>:O.O_ORDERKEY
+<span class="w">  </span><span class="o">[</span>HashIt<span class="w"> </span><span class="k">for</span><span class="w"> </span>Join<span class="o">]</span>
+Node<span class="w"> </span><span class="m">2</span>.
+<span class="w">  </span><span class="o">[</span>SPU<span class="w"> </span>Sequential<span class="w"> </span>Scan<span class="w"> </span>table<span class="w"> </span><span class="s2">&quot;LINEITEM&quot;</span><span class="w"> </span>as<span class="w"> </span><span class="s2">&quot;L&quot;</span><span class="w"> </span><span class="o">{(</span>L.L_ORDERKEY<span class="o">)}]</span>
+<span class="w">      </span>--<span class="w"> </span>Estimated<span class="w"> </span><span class="nv">Rows</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">6001215</span>,<span class="w"> </span><span class="nv">Width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">12</span>,<span class="w"> </span><span class="nv">Cost</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>.0<span class="w"> </span>..<span class="w"> </span><span class="m">6907</span>.1,<span class="w"> </span><span class="nv">Conf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">100</span>.<span class="w">    </span><span class="m">0</span>
+<span class="w">      </span>Projections:
+<span class="w">        </span><span class="m">1</span>:L.L_QUANTITY<span class="w">  </span><span class="m">2</span>:L.L_ORDERKEY
+Node<span class="w"> </span><span class="m">3</span>.
+<span class="w">  </span><span class="o">[</span>SPU<span class="w"> </span>Hash<span class="w"> </span>Join<span class="w"> </span>Stream<span class="w"> </span><span class="s2">&quot;Node 2&quot;</span><span class="w"> </span>with<span class="w"> </span>Temp<span class="w"> </span><span class="s2">&quot;Node 1&quot;</span><span class="w"> </span><span class="o">{(</span>O.O_ORDERKEY,L.<span class="w">   </span>L_ORDERKEY<span class="o">)}]</span>
+<span class="w">      </span>--<span class="w"> </span>Estimated<span class="w"> </span><span class="nv">Rows</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">90018225000</span>,<span class="w"> </span><span class="nv">Width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">31</span>,<span class="w"> </span><span class="nv">Cost</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1653</span>.2<span class="w"> </span>..<span class="w"> </span><span class="m">892653</span>.2,<span class="w">   </span><span class="nv">Conf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">80</span>.0
+<span class="w">      </span>Restrictions:
+<span class="w">        </span><span class="o">(</span>L.L_ORDERKEY<span class="w"> </span><span class="o">=</span><span class="w"> </span>O.O_ORDERKEY<span class="o">)</span>
+<span class="w">      </span>Projections:
+<span class="w">        </span><span class="m">1</span>:O.O_TOTALPRICE<span class="w">  </span><span class="m">2</span>:L.L_QUANTITY<span class="w">  </span><span class="m">3</span>:O.O_ORDERPRIORITY
+
+..&lt;Rest<span class="w"> </span>of<span class="w"> </span>EXPLAIN<span class="w"> </span>Plan&gt;..
+</code></pre></div>
+</div>
+<p>The query itself has not been changed. The only changes are in the
+distribution keys of the involved tables. You will again see a long
+output. Scroll up to the start of the output, directly after your
+query.</p>
+<p>Again, we do not want to make a complete analysis of the explain
+output. We will cover that in more detail in later chapters. But if
+you compare the output with the output of the last section you will
+see that the <strong>[SPU Distribute on O.O_ORDERKEY)}]</strong> nodes have
+vanished. The reason is that the join is now co-located because both
+tables are distributed on the join key. All rows to be joined from
+both tables are on the same data slices.</p>
+<p>You may see a distribution node further below during the execution of
+the group by clause, but this is estimated to distribute only one
+hundred rows which has no negative performance influence.</p>
+<ol start="9">
+<li>Finally execute the joined query again:</li>
+</ol>
+<div class="admonition abstract">
+<p class="admonition-title">Input</p>
+<div class="highlight"><pre><span></span><code><span class="se">\t</span>ime
+SELECT<span class="w"> </span>AVG<span class="o">(</span>O.O_TOTALPRICE<span class="o">)</span><span class="w"> </span>AS<span class="w"> </span>PRICE,<span class="w"> </span>AVG<span class="o">(</span>L.L_QUANTITY<span class="o">)</span><span class="w"> </span>AS<span class="w"> </span>QUANTITY,O_ORDERPRIORITY<span class="w"> </span>
+FROM<span class="w"> </span>ORDERS<span class="w"> </span>AS<span class="w"> </span>O,<span class="w"> </span>LINEITEM<span class="w"> </span>AS<span class="w"> </span>L<span class="w"> </span>
+WHERE<span class="w"> </span>L.L_ORDERKEY<span class="o">=</span>O.O_ORDERKEY<span class="w"> </span>
+GROUP<span class="w"> </span>BY<span class="w"> </span>O_ORDERPRIORITY<span class="p">;</span>
+</code></pre></div>
+</div>
+<div class="admonition abstract">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code><span class="w">     </span>PRICE<span class="w">     </span><span class="p">|</span><span class="w"> </span>QUANTITY<span class="w">  </span><span class="p">|</span><span class="w"> </span>O_ORDERPRIORITY
+---------------+-----------+-----------------
+<span class="w"> </span><span class="m">189219</span>.594349<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">25</span>.532474<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">5</span>-LOW
+<span class="w"> </span><span class="m">189285</span>.029553<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">25</span>.526186<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">2</span>-HIGH
+<span class="w"> </span><span class="m">189093</span>.608965<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">25</span>.513563<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">1</span>-URGENT
+<span class="w"> </span><span class="m">189026</span>.093657<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">25</span>.494518<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">3</span>-MEDIUM
+<span class="w"> </span><span class="m">188546</span>.457203<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">25</span>.472923<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">4</span>-NOT<span class="w"> </span>SPECIFIED
+<span class="o">(</span><span class="m">5</span><span class="w"> </span>rows<span class="o">)</span>
+
+Elapsed<span class="w"> </span>time:<span class="w"> </span>0m1.051s
+</code></pre></div>
+</div>
+<p>The query should return the same results as in the previous section
+but run faster even in the VM environment. In a real Netezza
+Performance Server with 8, 16 or more SPUs the difference would be
+much more significant.</p>
+<p>You now have loaded the <code>LINEITEM</code> and <code>ORDERS</code> table into your
+Performance Server appliance using the optimal distribution key for
+these tables for most situations.</p>
+<p>a.  Both tables are distributed evenly across data slices, so there is
+    no data skew.</p>
+<p>b.  The distribution key is highly unlikely to result in processing
+    skew, since most WHERE conditions will restrict a key column evenly</p>
+<p>c.  Since <code>ORDERS</code> is a parent table of <code>LINEITEM</code>, with a foreign key
+    relationship between them, most queries joining them together will
+    utilize the join key. These queries will be co-located.</p>
+<p>Now we will pick the distribution keys of the full schema.</p>
+<h2 id="schema-creation">Schema Creation</h2>
+<p>Now that we have created the <code>ORDERS</code> and <code>LINEITEM</code> tables we need to pick
+the distribution keys for the remaining tables as well.</p>
+<h3 id="investigation_1">Investigation</h3>
+<p><img alt="A close up of a map Description automatically
+generated" src="../nz-images/nz-03-Data-Distribution/media/image5.png" /></p>
+<p><strong><em>Figure 2 LABDB database</em></strong></p>
+<p>You will notice that it is much harder to find optimal distribution keys
+in a more complicated schema like this. In many situations you will be
+forced to choose between enabling co-located joins between one set of
+tables or another one.</p>
+<p>The following provides some details on the remaining tables:</p>
+<table>
+<thead>
+<tr>
+<th><strong>Table</strong></th>
+<th><strong>Number of Rows</strong></th>
+<th><strong>Primary Key</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>REGION</td>
+<td>5</td>
+<td>R_REGIONKEY</td>
+</tr>
+<tr>
+<td>NATION</td>
+<td>25</td>
+<td>N_NATIONKEY</td>
+</tr>
+<tr>
+<td>CUSTOMER</td>
+<td>150000</td>
+<td>C_CUSTKEY</td>
+</tr>
+<tr>
+<td>ORDERS</td>
+<td>1500000</td>
+<td>O_ORDERKEY</td>
+</tr>
+<tr>
+<td>SUPPLIER</td>
+<td>10000</td>
+<td>S_SUPPKEY</td>
+</tr>
+<tr>
+<td>PART</td>
+<td>200000</td>
+<td>P_PARTKEY</td>
+</tr>
+<tr>
+<td>PARTSUPP</td>
+<td>800000</td>
+<td>-</td>
+</tr>
+<tr>
+<td>LINEITEM</td>
+<td>6000000</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<p>And on the involved relationships:</p>
+<table>
+<thead>
+<tr>
+<th><strong>Parent Table</strong></th>
+<th><strong>Child Table</strong></th>
+<th><strong>Parent table Join Column</strong></th>
+<th><strong>Child table Join Column</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>REGION</td>
+<td>NATION</td>
+<td>R_REGIONKEY</td>
+<td>N_REGIONKEY</td>
+</tr>
+<tr>
+<td>NATION</td>
+<td>CUSTOMER</td>
+<td>N_NATIONKEY</td>
+<td>C_NATIONKEY</td>
+</tr>
+<tr>
+<td>NATION</td>
+<td>SUPPLIER</td>
+<td>N_NATIONKEY</td>
+<td>S_NATIONKEY</td>
+</tr>
+<tr>
+<td>CUSTOMER</td>
+<td>ORDERS</td>
+<td>C_CUSTKEY</td>
+<td>O_CUSTKEY</td>
+</tr>
+<tr>
+<td>ORDERS</td>
+<td>LINEITEM</td>
+<td>O_ORDERKEY</td>
+<td>L_ORDERKEY</td>
+</tr>
+<tr>
+<td>SUPPLIER</td>
+<td>LINEITEM</td>
+<td>S_SUPPKEY</td>
+<td>L_SUPPKEY</td>
+</tr>
+<tr>
+<td>SUPPLIER</td>
+<td>PARTSUPP</td>
+<td>S_SUPPKEY</td>
+<td>PS_SUPPKEY</td>
+</tr>
+<tr>
+<td>PART</td>
+<td>LINEITEM</td>
+<td>P_PARTKEY</td>
+<td>L_PARTKEY</td>
+</tr>
+<tr>
+<td>PART</td>
+<td>PARTSUPP</td>
+<td>P_PARTKEY</td>
+<td>PS_PARTKEY</td>
+</tr>
+</tbody>
+</table>
+<p>Given all that you heard in the presentation and lab, try to fill in the
+distribution keys in the chart below. Let's assume that we will not
+change the distribution keys for LINEITEM and ORDERS anymore.</p>
+<table>
+<thead>
+<tr>
+<th><strong>Table</strong></th>
+<th><strong>Distribution Key (up to 4 columns) or Random</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>REGION</td>
+<td></td>
+</tr>
+<tr>
+<td>NATION</td>
+<td></td>
+</tr>
+<tr>
+<td>CUSTOMER</td>
+<td></td>
+</tr>
+<tr>
+<td>SUPPLIER</td>
+<td></td>
+</tr>
+<tr>
+<td>PART</td>
+<td></td>
+</tr>
+<tr>
+<td>PARTSUPP</td>
+<td></td>
+</tr>
+<tr>
+<td>ORDERS</td>
+<td>O_ORDERKEY</td>
+</tr>
+<tr>
+<td>LINEITEM</td>
+<td>L_ORDERKEY</td>
+</tr>
+</tbody>
+</table>
+<h3 id="solution">Solution</h3>
+<p>It is important to note that there is no optimal way to pick
+distribution keys. It always depends on the queries that run against the
+database. Without these queries it is only possible to follow some
+general rules:</p>
+<ul>
+<li>
+<p>Co-Location between big tables (esp. if a fact table is involved) is
+    more important than between small tables.</p>
+</li>
+<li>
+<p>Very small tables can be broadcast by the system with little
+    performance penalty. If one table of a join is broadcast the other
+    will not need to be redistributed.</p>
+</li>
+<li>
+<p>If you suspect that there will be lots of queries joining two big
+    tables but you cannot distribute both of them on the expected join
+    key, distributing one table on the join key is better than nothing,
+    since it will lead to a single redistribute instead of a double
+    redistribute.</p>
+</li>
+</ul>
+<p>If we break down the problem, we can see that <code>PART</code> and <code>PARTSUPP</code> are the
+biggest two of the remaining tables. Recall that we have already
+distributed the <code>LINEITEM</code> and <code>ORDERS</code> tables based on the join key between
+the two tables as seen in available customer queries. So, it might make
+sense to distribute <code>PART</code> and <code>PARTSUPP</code> on the join key between these two
+tables.</p>
+<p><code>CUSTOMER</code> is big as well and has two relationships. The first
+relationship is with the very small NATION table that is easily
+broadcasted by the system. The second relationship is with the <code>ORDERS</code>
+table which is big as well but already distributed by the order key. But
+as mentioned above a single redistribute is better than a double
+redistribute. Therefore, it makes sense to distribute the CUSTOMER table
+on the customer key, which is also the join key of this relationship.</p>
+<p>The situation is very similar for the <code>SUPPLIER</code> table. It has two very
+large child tables <code>PARTSUPP</code> and <code>LINEITEM</code> which are both related to it
+through the supplier key, so it should be distributed on this key.</p>
+<p><code>NATION</code> and <code>REGION</code> are both very small and will most likely be
+broadcasted by the Optimizer. You could distribute those tables
+randomly, on their primary keys, on their join keys. In this case we
+have decided to distribute both on their primary keys but there is no
+definite right or wrong approaches. One possible solution for the
+distribution keys could be the following.</p>
+<table>
+<thead>
+<tr>
+<th><strong>Table</strong></th>
+<th><strong>Distribution Key (up to 4 columns) or Random</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>REGION</td>
+<td>R_REGIONKEY</td>
+</tr>
+<tr>
+<td>NATION</td>
+<td>N_NATIONKEY</td>
+</tr>
+<tr>
+<td>CUSTOMER</td>
+<td>C_CUSTKEY</td>
+</tr>
+<tr>
+<td>SUPPLIER</td>
+<td>S_SUPPKEY</td>
+</tr>
+<tr>
+<td>PART</td>
+<td>P_PARTKEY</td>
+</tr>
+<tr>
+<td>PARTSUPP</td>
+<td>PS_PARTKEY</td>
+</tr>
+<tr>
+<td>ORDERS</td>
+<td>O_ORDERKEY</td>
+</tr>
+<tr>
+<td>LINEITEM</td>
+<td>L_ORDERKEY</td>
+</tr>
+</tbody>
+</table>
+<p>Finally, we will load the remaining tables.</p>
+<ol>
+<li>You should still be connected to the LABDB database. We now need to
+    recreate the NATION and REGION tables with a new distribution key.
+    To drop the old table versions execute the following commands.</li>
+</ol>
+<div class="admonition abstract">
+<p class="admonition-title">Input</p>
+<div class="highlight"><pre><span></span><code>DROP<span class="w"> </span>TABLE<span class="w"> </span>NATION<span class="p">;</span>
+DROP<span class="w"> </span>TABLE<span class="w"> </span>REGION<span class="p">;</span>
+</code></pre></div>
+</div>
+<ol start="2">
+<li>
+<p>Quit the NZSQL console with the <code>\q</code> command.</p>
+</li>
+<li>
+<p>Navigate to the lab folder by executing the <code>cd
+    ~/labs/dataDistribution</code> command.</p>
+</li>
+<li>
+<p>Verify the SQL script creating the remaining 6 tables with the <code>more
+    remaining_tables.sql</code> command.</p>
+</li>
+<li>
+<p>Now create the remaining tables and load the data into it with the
+    following script:</p>
+</li>
+</ol>
+<div class="admonition abstract">
+<p class="admonition-title">Input</p>
+<div class="highlight"><pre><span></span><code>./create_remaining.sh
+</code></pre></div>
+</div>
+<div class="admonition abstract">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code>ERROR:<span class="w">  </span>relation<span class="w"> </span>does<span class="w"> </span>not<span class="w"> </span>exist<span class="w"> </span>LABDB.ADMIN.NATION
+CREATE<span class="w"> </span>TABLE
+CREATE<span class="w"> </span>TABLE
+CREATE<span class="w"> </span>TABLE
+CREATE<span class="w"> </span>TABLE
+CREATE<span class="w"> </span>TABLE
+CREATE<span class="w"> </span>TABLE
+Load<span class="w"> </span>session<span class="w"> </span>of<span class="w"> </span>table<span class="w"> </span><span class="s1">&#39;NATION&#39;</span><span class="w"> </span>completed<span class="w"> </span>successfully
+Load<span class="w"> </span>session<span class="w"> </span>of<span class="w"> </span>table<span class="w"> </span><span class="s1">&#39;REGION&#39;</span><span class="w"> </span>completed<span class="w"> </span>successfully
+Load<span class="w"> </span>session<span class="w"> </span>of<span class="w"> </span>table<span class="w"> </span><span class="s1">&#39;CUSTOMER&#39;</span><span class="w"> </span>completed<span class="w"> </span>successfully
+Load<span class="w"> </span>session<span class="w"> </span>of<span class="w"> </span>table<span class="w"> </span><span class="s1">&#39;SUPPLIER&#39;</span><span class="w"> </span>completed<span class="w"> </span>successfully
+Load<span class="w"> </span>session<span class="w"> </span>of<span class="w"> </span>table<span class="w"> </span><span class="s1">&#39;PART&#39;</span><span class="w"> </span>completed<span class="w"> </span>successfully
+Load<span class="w"> </span>session<span class="w"> </span>of<span class="w"> </span>table<span class="w"> </span><span class="s1">&#39;PARTSUPP&#39;</span><span class="w"> </span>completed<span class="w"> </span>successfully
+</code></pre></div>
+</div>
+<p>The error message at the top is expected since the script tries to
+clean up any old tables of the same name in case a reload is
+necessary. Also note that load logfiles have been created for these
+tables too. (<code>ls *.nzlog</code>). Review the load logfiles as time
+and interest permit.</p>
+<div class="admonition abstract">
+<p class="admonition-title">Input</p>
+<div class="highlight"><pre><span></span><code>ls<span class="w"> </span>-l<span class="w"> </span>*.nzlog
+</code></pre></div>
+</div>
+<div class="admonition abstract">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code>-rw-rw-r--.<span class="w"> </span><span class="m">1</span><span class="w"> </span>nz<span class="w"> </span>nz<span class="w"> </span><span class="m">2315</span><span class="w"> </span>Mar<span class="w"> </span><span class="m">30</span><span class="w"> </span><span class="m">03</span>:55<span class="w"> </span>CUSTOMER.ADMIN.LABDB.4178.nzlog
+-rw-rw-r--.<span class="w"> </span><span class="m">1</span><span class="w"> </span>nz<span class="w"> </span>nz<span class="w"> </span><span class="m">2321</span><span class="w"> </span>Mar<span class="w"> </span><span class="m">29</span><span class="w"> </span><span class="m">13</span>:51<span class="w"> </span>LINEITEM.ADMIN.LABDB.29339.nzlog
+-rw-rw-r--.<span class="w"> </span><span class="m">1</span><span class="w"> </span>nz<span class="w"> </span>nz<span class="w"> </span><span class="m">2320</span><span class="w"> </span>Mar<span class="w"> </span><span class="m">29</span><span class="w"> </span><span class="m">14</span>:05<span class="w"> </span>LINEITEM.ADMIN.LABDB.32336.nzlog
+-rw-rw-r--.<span class="w"> </span><span class="m">1</span><span class="w"> </span>nz<span class="w"> </span>nz<span class="w"> </span><span class="m">2320</span><span class="w"> </span>Mar<span class="w"> </span><span class="m">30</span><span class="w"> </span><span class="m">03</span>:16<span class="w"> </span>LINEITEM.ADMIN.LABDB.370.nzlog
+-rw-rw-r--.<span class="w"> </span><span class="m">1</span><span class="w"> </span>nz<span class="w"> </span>nz<span class="w"> </span><span class="m">2320</span><span class="w"> </span>Mar<span class="w"> </span><span class="m">29</span><span class="w"> </span><span class="m">15</span>:49<span class="w"> </span>LINEITEM.ADMIN.LABDB.9042.nzlog
+-rw-rw-r--.<span class="w"> </span><span class="m">1</span><span class="w"> </span>nz<span class="w"> </span>nz<span class="w"> </span><span class="m">2209</span><span class="w"> </span>Mar<span class="w"> </span><span class="m">30</span><span class="w"> </span><span class="m">03</span>:55<span class="w"> </span>NATION.ADMIN.LABDB.4134.nzlog
+-rw-rw-r--.<span class="w"> </span><span class="m">1</span><span class="w"> </span>nz<span class="w"> </span>nz<span class="w"> </span><span class="m">2317</span><span class="w"> </span>Mar<span class="w"> </span><span class="m">30</span><span class="w"> </span><span class="m">02</span>:58<span class="w"> </span>ORDERS.ADMIN.LABDB.31185.nzlog
+-rw-rw-r--.<span class="w"> </span><span class="m">1</span><span class="w"> </span>nz<span class="w"> </span>nz<span class="w"> </span><span class="m">2317</span><span class="w"> </span>Mar<span class="w"> </span><span class="m">30</span><span class="w"> </span><span class="m">03</span>:18<span class="w"> </span>ORDERS.ADMIN.LABDB.581.nzlog
+-rw-rw-r--.<span class="w"> </span><span class="m">1</span><span class="w"> </span>nz<span class="w"> </span>nz<span class="w"> </span><span class="m">2306</span><span class="w"> </span>Mar<span class="w"> </span><span class="m">30</span><span class="w"> </span><span class="m">03</span>:55<span class="w"> </span>PART.ADMIN.LABDB.4227.nzlog
+-rw-rw-r--.<span class="w"> </span><span class="m">1</span><span class="w"> </span>nz<span class="w"> </span>nz<span class="w"> </span><span class="m">2318</span><span class="w"> </span>Mar<span class="w"> </span><span class="m">30</span><span class="w"> </span><span class="m">03</span>:56<span class="w"> </span>PARTSUPP.ADMIN.LABDB.4254.nzlog
+-rw-rw-r--.<span class="w"> </span><span class="m">1</span><span class="w"> </span>nz<span class="w"> </span>nz<span class="w"> </span><span class="m">2206</span><span class="w"> </span>Mar<span class="w"> </span><span class="m">30</span><span class="w"> </span><span class="m">03</span>:55<span class="w"> </span>REGION.ADMIN.LABDB.4156.nzlog
+-rw-rw-r--.<span class="w"> </span><span class="m">1</span><span class="w"> </span>nz<span class="w"> </span>nz<span class="w"> </span><span class="m">2223</span><span class="w"> </span>Mar<span class="w"> </span><span class="m">30</span><span class="w"> </span><span class="m">03</span>:55<span class="w"> </span>SUPPLIER.ADMIN.LABDB.4205.nzlog
+</code></pre></div>
+</div>
+<p>Congratulations! You just have defined data distribution keys for a
+customer data schema in Netezza Performance Server. You can have a look
+at the created tables and their definitions with the commands you used
+in the previous chapters. We will continue to use the tables we created
+in the following labs.</p>
+
+              
+            </article>
+            
+          </div>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+    <nav class="md-footer__inner md-grid" aria-label="Footer" >
+      
+        
+        <a href="../nz-02-WebConsole/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Web Console" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Web Console
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../nz-04-Database-Admin/" class="md-footer__link md-footer__link--next" aria-label="Next: Database Administration" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Database Administration
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2024 IBM
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.b97dbffb.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.6c7ad80a.min.js"></script>
+      
+    
+  </body>
+</html>
