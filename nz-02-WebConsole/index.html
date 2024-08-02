@@ -1,0 +1,1123 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.3.1, mkdocs-material-8.3.9">
+    
+    
+      
+        <title>Web Console - Netezza Performance Server Lab</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.1d29e8d0.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.cbb835fc.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#000000">
+        
+      
+      
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:300,300i,400,400i,700,700i%7CIBM+Plex+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"IBM Plex Sans";--md-code-font:"IBM Plex Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="black">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#web-console" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Netezza Performance Server Lab" class="md-header__button md-logo" aria-label="Netezza Performance Server Lab" data-md-component="logo">
+      
+  <img src="../nz-images/IBM_logo®_rev_RGB.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Netezza Performance Server Lab
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Web Console
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Netezza Performance Server Lab" class="md-nav__button md-logo" aria-label="Netezza Performance Server Lab" data-md-component="logo">
+      
+  <img src="../nz-images/IBM_logo®_rev_RGB.png" alt="logo">
+
+    </a>
+    Netezza Performance Server Lab
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-01-NPS-CLI/" class="md-nav__link">
+        Command Line Interface
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Web Console
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Web Console
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#lab-setup" class="md-nav__link">
+    Lab Setup
+  </a>
+  
+    <nav class="md-nav" aria-label="Lab Setup">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#starting-nps-web-console" class="md-nav__link">
+    Starting NPS Web Console
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#launch-the-nps-console" class="md-nav__link">
+    Launch the NPS Console
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting-the-web-console" class="md-nav__link">
+    Troubleshooting the Web Console
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#monitor-system-performance" class="md-nav__link">
+    Monitor System Performance
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#retrieve-information-on-nps-configuration" class="md-nav__link">
+    Retrieve Information on NPS Configuration
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#manage-databases" class="md-nav__link">
+    Manage Databases
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#queries" class="md-nav__link">
+    Queries
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#explore" class="md-nav__link">
+    Explore
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-03-Data-Distribution/" class="md-nav__link">
+        Data Distribution
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-04-Database-Admin/" class="md-nav__link">
+        Database Administration
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-05-Loading-and-Unloading-Data/" class="md-nav__link">
+        Loading and Unloading Data
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-06-BNR/" class="md-nav__link">
+        Backup and Restore
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-07-Query-Optimization/" class="md-nav__link">
+        Query Optimization
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-08-Optimization-Objects/" class="md-nav__link">
+        Optimization Objects
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-09-Groom/" class="md-nav__link">
+        Grooming Data
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-10-Stored-Proc/" class="md-nav__link">
+        Stored Procedures
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_11" type="checkbox" id="__nav_11" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_11">
+          Appendix
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Appendix" data-md-level="1">
+        <label class="md-nav__title" for="__nav_11">
+          <span class="md-nav__icon md-icon"></span>
+          Appendix
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-disclaimer/" class="md-nav__link">
+        Disclaimer
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-acknowledgements/" class="md-nav__link">
+        Acknowledgements
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#lab-setup" class="md-nav__link">
+    Lab Setup
+  </a>
+  
+    <nav class="md-nav" aria-label="Lab Setup">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#starting-nps-web-console" class="md-nav__link">
+    Starting NPS Web Console
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#launch-the-nps-console" class="md-nav__link">
+    Launch the NPS Console
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting-the-web-console" class="md-nav__link">
+    Troubleshooting the Web Console
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#monitor-system-performance" class="md-nav__link">
+    Monitor System Performance
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#retrieve-information-on-nps-configuration" class="md-nav__link">
+    Retrieve Information on NPS Configuration
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#manage-databases" class="md-nav__link">
+    Manage Databases
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#queries" class="md-nav__link">
+    Queries
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#explore" class="md-nav__link">
+    Explore
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+
+
+<h1 id="web-console">Web Console</h1>
+<p>In this lab we will explore the features of the IBM Netezza Performance
+Server console. The console is a HTML-based application that allows
+users to manage the system, obtain hardware information and status, and
+manage various aspects of user databases, tables, and objects.</p>
+<p>The VMWare image we are using in the labs differs significantly from a
+normal Netezza Performance Server. Each Netezza Performance Server has
+the Web Console running as an OpenShift containerized application on the
+control plane/master nodes. In this environment, the Web Console is
+running natively on the NPSVB virtual machine.</p>
+<h2 id="lab-setup">Lab Setup</h2>
+<p>This lab uses an initial setup script to make sure the correct users and
+database exist for the remainder of the lab. Follow the instructions
+below to run the setup script.</p>
+<ol>
+<li>
+<p>Login to NPS Command Line using one of these two methods.</p>
+<ol>
+<li>
+<p>Login to the VM directly and use the terminal application
+    available inside the VM.</p>
+</li>
+<li>
+<p>Connect to your Netezza Performance Server image using a
+    terminal command, for example PuTTY (Windows) or Terminal (Mac).</p>
+</li>
+</ol>
+</li>
+</ol>
+<p>See the Setup Lab for more details on accessing the Linux command
+line.</p>
+<ol start="2">
+<li>
+<p>If you are continuing from the previous lab and are already
+    connected to nzsql quit the console with the
+    <code>\q</code> command.</p>
+</li>
+<li>
+<p>Prepare for this lab by running the setup script. To do this use the
+    following commands:</p>
+</li>
+</ol>
+<div class="admonition abstract">
+<p class="admonition-title">Input</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>~/labs/console/setupLab/
+./setupLab.sh
+</code></pre></div>
+</div>
+<div class="admonition abstract">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code>DROP<span class="w"> </span>DATABASE
+CREATE<span class="w"> </span>DATABASE
+ERROR:<span class="w"> </span>CREATE<span class="w"> </span>USER:<span class="w"> </span>object<span class="w"> </span>LABADMIN<span class="w"> </span>does<span class="w"> </span>not<span class="w"> </span>exist.
+ALTER<span class="w"> </span>USER
+ALTER<span class="w"> </span>DATABASE
+CREATE<span class="w"> </span>TABLE
+CREATE<span class="w"> </span>TABLE
+CREATE<span class="w"> </span>TABLE
+CREATE<span class="w"> </span>TABLE
+CREATE<span class="w"> </span>TABLE
+CREATE<span class="w"> </span>TABLE
+CREATE<span class="w"> </span>TABLE
+CREATE<span class="w"> </span>TABLE
+Load<span class="w"> </span>session<span class="w"> </span>of<span class="w"> </span>table<span class="w"> </span><span class="s1">&#39;NATION&#39;</span><span class="w"> </span>completed<span class="w"> </span>successfully
+Load<span class="w"> </span>session<span class="w"> </span>of<span class="w"> </span>table<span class="w"> </span><span class="s1">&#39;REGION&#39;</span><span class="w"> </span>completed<span class="w"> </span>successfully
+Load<span class="w"> </span>session<span class="w"> </span>of<span class="w"> </span>table<span class="w"> </span><span class="s1">&#39;CUSTOMER&#39;</span><span class="w"> </span>completed<span class="w"> </span>successfully
+Load<span class="w"> </span>session<span class="w"> </span>of<span class="w"> </span>table<span class="w"> </span><span class="s1">&#39;SUPPLIER&#39;</span><span class="w"> </span>completed<span class="w"> </span>successfully
+Load<span class="w"> </span>session<span class="w"> </span>of<span class="w"> </span>table<span class="w"> </span><span class="s1">&#39;PART&#39;</span><span class="w"> </span>completed<span class="w"> </span>successfully
+Load<span class="w"> </span>session<span class="w"> </span>of<span class="w"> </span>table<span class="w"> </span><span class="s1">&#39;PARTSUPP&#39;</span><span class="w"> </span>completed<span class="w"> </span>successfully
+Load<span class="w"> </span>session<span class="w"> </span>of<span class="w"> </span>table<span class="w"> </span><span class="s1">&#39;ORDERS&#39;</span><span class="w"> </span>completed<span class="w"> </span>successfully
+Load<span class="w"> </span>session<span class="w"> </span>of<span class="w"> </span>table<span class="w"> </span><span class="s1">&#39;LINEITEM&#39;</span><span class="w"> </span>completed<span class="w"> </span>successfully
+</code></pre></div>
+</div>
+<p>While the setup script is running proceed to the next step.</p>
+<h3 id="starting-nps-web-console">Starting NPS Web Console</h3>
+<p>After booting up the NPSVB virtual machine with Virtual Box follow these
+steps to start the Web Console application inside the VM:</p>
+<ul>
+<li>
+<p>Open a terminal application from the VM Desktop or remotely with
+    PuTTY (Windows) or Terminal (Mac).</p>
+<ul>
+<li><strong>VM Desktop</strong>: open a “Terminal”, right click Desktop and
+    select “Open Terminal”</li>
+</ul>
+</li>
+</ul>
+<p><img alt="Image" src="../nz-images/nz-02-WebConsole/media/image2.png" /></p>
+<ul>
+<li><strong>VM Desktop</strong>: switch to the <code>root</code> user</li>
+</ul>
+<div class="admonition abstract">
+<div class="highlight"><pre><span></span><code>su<span class="w"> </span>–
+password:<span class="w"> </span>netezza
+</code></pre></div>
+</div>
+<ul>
+<li>Remotely via ssh </li>
+</ul>
+<div class="admonition abstract">
+<div class="highlight"><pre><span></span><code>ssh<span class="w"> </span>root@192.168.9.2
+password:<span class="w"> </span>netezza
+</code></pre></div>
+</div>
+<ul>
+<li>Start the service pods</li>
+</ul>
+<div class="admonition abstract">
+<div class="highlight"><pre><span></span><code>start-cyclops.sh
+</code></pre></div>
+</div>
+<ul>
+<li>Check that the two pods are running</li>
+</ul>
+<div class="admonition abstract">
+<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>ps
+</code></pre></div>
+</div>
+<p><img alt="Image" src="../nz-images/nz-02-WebConsole/media/image3.png" /></p>
+<div class="admonition note">
+<p class="admonition-title">To stop the console, run the following command for each container</p>
+<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>stop<span class="w"> </span>&lt;container-id&gt;
+</code></pre></div>
+</div>
+<h3 id="launch-the-nps-console">Launch the NPS Console</h3>
+<p>If you already configured the access to the NPS in the Setup Lab, you
+can skip this chapter.</p>
+<p>Open a browser on your host machine or from the virtual machine, use
+<strong>https://192.168.9.2:8443</strong> as URL.</p>
+<p><img alt="Image" src="../nz-images/nz-02-WebConsole/media/image4.png" /></p>
+<p>Add an the local NPS instance</p>
+<ul>
+<li><strong>Click Add instance</strong></li>
+</ul>
+<p>Enter the following information:</p>
+<ul>
+<li>Name: NPS VM Local</li>
+<li>Host: 192.168.9.2</li>
+<li>Port: 5480</li>
+<li>Admin Username: admin</li>
+<li>Admin Password: password</li>
+</ul>
+<p>Click <strong>Save</strong>.</p>
+<div class="admonition note">
+<p class="admonition-title">If you see the following error on the top right of your browser then Netezza is not active</p>
+</div>
+<p><img alt="Image" src="../nz-images/nz-02-WebConsole/media/image5.png" /></p>
+<p>Go to the VM Linux command line and run <code>nzstart</code> as the <code>nz</code> user.</p>
+<p><img alt="Image" src="../nz-images/nz-02-WebConsole/media/image6.png" /></p>
+<p>Click the three vertical ellipes to right of the newly created
+instance and select <strong>Add credentials</strong>.</p>
+<p><img alt="Image" src="../nz-images/nz-02-WebConsole/media/image7.png" /></p>
+<p>Note: There are four available options:</p>
+<ul>
+<li>Add credentials</li>
+<li>Edit</li>
+<li>Rename</li>
+<li>Remove</li>
+</ul>
+<p>Enter the following values (admin is the default superuser for NPS)</p>
+<ul>
+<li>Username: admin</li>
+<li>Password: password</li>
+</ul>
+<p>Click: <strong>Save</strong></p>
+<p><img alt="Image" src="../nz-images/nz-02-WebConsole/media/image8.png" /></p>
+<div class="admonition note">
+<p class="admonition-title">This is a database user defined inside of NPS by the create user SQL statement.</p>
+</div>
+<p>The instance should now have a hot link for the host URL.</p>
+<p><img alt="Image" src="../nz-images/nz-02-WebConsole/media/image9.png" /></p>
+<p>You can select the three vertical ellipses to reveal the following
+options:</p>
+<ul>
+<li>Add DB user credential</li>
+<li>Edit system credential</li>
+<li>Rename</li>
+<li>Remove</li>
+</ul>
+<p><strong>Click</strong> on the Host URL to gain access to the NPS Console for Instance: <strong>NPS VM Local.</strong></p>
+<p><img alt="Image" src="../nz-images/nz-02-WebConsole/media/image10.png" /></p>
+<p><img alt="Image" src="../nz-images/nz-02-WebConsole/media/image11.png" /></p>
+<ol>
+<li>
+<p><strong>Navigation</strong> <strong>menu</strong> to expose all menu options.</p>
+</li>
+<li>
+<p><strong>Dashboard</strong> – the default view, shows the over system usage over
+    different or custom time horizons (1 hour, 6 hours, 12 hours, 24
+    hours, 3 days, Custom).</p>
+</li>
+<li>
+<p><strong>Query Editor</strong> – Run/review SQL statements of the active Netezza
+    instance, display results and optional display plan graph.</p>
+</li>
+<li>
+<p><strong>Queries</strong> – Recent queries, Encumbrance or Stored Queries</p>
+</li>
+<li>
+<p><strong>Data</strong> – manage database objects</p>
+</li>
+<li>
+<p><strong>Administration</strong> – User Management, Recovery events, Event rules,
+    Schedulre rules, History Configuration</p>
+</li>
+<li>
+<p><strong>Resource consumption</strong> – system resources: Memory, Compute,
+    Storage, Fabric</p>
+</li>
+<li>
+<p><strong>Query throughput</strong> – Number of queries completed over time</p>
+</li>
+<li>
+<p><strong>Query performance</strong> – Average query performance over time</p>
+</li>
+<li>
+<p><strong>Sessions</strong> – number of sessions connections over time</p>
+</li>
+<li>
+<p><strong>Query runtime distribution</strong> – number of queries run for a given
+    time range: 0-2 seconds, 2 second – 1 minute, 1 – 5 minutes, 10 – 30
+    minutes, 30 minutes – 1 hour, 1 hour – 5 hours, &gt; 5 hours</p>
+</li>
+<li>
+<p><strong>Real time resource usage</strong> – Storage, Compute Memory, Memory</p>
+</li>
+<li>
+<p><strong>Running Queries</strong> – Long running query, recent queries</p>
+</li>
+</ol>
+<div class="admonition success">
+<p class="admonition-title">Congratulations you now have access to the NPS Console running inside the NPS VM.</p>
+</div>
+<h2 id="troubleshooting-the-web-console">Troubleshooting the Web Console</h2>
+<p>If you receive this error when attempting to access the NPS Console:
+“This site can’t be reached” follow these steps to resolve the issue.</p>
+<p><strong>Stop active containers:</strong></p>
+<div class="admonition abstract">
+<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>ps
+</code></pre></div>
+</div>
+<p>Take note of the container IDs.</p>
+<p><strong>Stop active containers:</strong></p>
+<div class="admonition abstract">
+<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>stop<span class="w"> </span>&lt;container-ID&gt;
+</code></pre></div>
+</div>
+<p><strong>Remove the inactive containers:</strong></p>
+<div class="admonition abstract">
+<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>ps<span class="w"> </span>-a
+</code></pre></div>
+</div>
+<p>Take note of the container IDs.</p>
+<p><strong>Stop active containers:</strong></p>
+<div class="admonition abstract">
+<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>rm<span class="w"> </span>&lt;container-ID&gt;
+</code></pre></div>
+</div>
+<p><strong>Reinstall NPS Console:</strong></p>
+<div class="admonition abstract">
+<div class="highlight"><pre><span></span><code>/root/cyclops<span class="se">\_</span>dockerrun/standalone-install.sh
+</code></pre></div>
+</div>
+<h2 id="monitor-system-performance">Monitor System Performance</h2>
+<p>At this point you should be connected to the NPS console. The main
+screen after logging on displays information on the system usage and
+throughput. In the main screen you will be able to monitor some of the
+key performance metrics:</p>
+<ul>
+<li>System utilization</li>
+<li>Throughput</li>
+<li>Average query performance</li>
+<li>Number of active queries</li>
+</ul>
+<p><img alt="Image" src="../nz-images/nz-02-WebConsole/media/image12.png" /></p>
+<p>Scroll down to retrieve information on active sessions in the system:</p>
+<p><img alt="Image" src="../nz-images/nz-02-WebConsole/media/image13.png" /></p>
+<p>Use the slider below the "Query throughput" tile to display information
+for the last two hours:</p>
+<p><img alt="Image" src="../nz-images/nz-02-WebConsole/media/image14.png" /></p>
+<p>Notice how the displayed information changes:</p>
+<p><img alt="Image" src="../nz-images/nz-02-WebConsole/media/image15.png" /></p>
+<p>Click this icon to open the Query editor menu option under the
+Navigation menu.<img alt="Image" src="../nz-images/nz-02-WebConsole/media/image16.png" /></p>
+<p><img alt="Image" src="../nz-images/nz-02-WebConsole/media/image17.png" /></p>
+<p>This allows you to execute queries against a database. You can store the
+queries as well. In addition to the result of the query you can also
+look at the explain plan.</p>
+<p>Let’s create a query called <strong>testquery</strong> (1) against database LABDB (2)
+and schema ADMIN (3).</p>
+<p>Enter the following SQL statement (4) and click <strong>Run</strong> (5) to execute
+the query.</p>
+<div class="admonition abstract">
+<div class="highlight"><pre><span></span><code>SELECT<span class="w"> </span>SUM<span class="o">(</span>L_QUANTITY<span class="o">)</span>,<span class="w"> </span>AVG<span class="o">(</span>L_TAX<span class="o">)</span><span class="w"> </span>FROM<span class="w"> </span>LINEITEM<span class="w"> </span>WHERE<span class="w"> </span>EXTRACT<span class="o">(</span>MONTH
+FROM<span class="w"> </span>L_SHIPDATE<span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">4</span>
+</code></pre></div>
+</div>
+<p><img alt="Image" src="../nz-images/nz-02-WebConsole/media/image18.png" /></p>
+<p>Note: Typically you terminate the SQL statement with a semicolon (;). In
+this example omit the semicolon (reason: issue with Plan Graph when
+using a semicolon, next step). The result is displayed on the right side
+of the page:</p>
+<p><img alt="Image" src="../nz-images/nz-02-WebConsole/media/image19.png" /></p>
+<p>Clicking <strong>Plan graph</strong> tab to displays information on the access
+methods used for this statement:</p>
+<p><img alt="Image" src="../nz-images/nz-02-WebConsole/media/image20.png" /></p>
+<p>You can access the different parts of the console through the
+"Navigation" menu in the upper left corner. <img alt="Image" src="../nz-images/nz-02-WebConsole/media/image21.png" /></p>
+<p><img alt="Image" src="../nz-images/nz-02-WebConsole/media/image22.png" /></p>
+<h2 id="retrieve-information-on-nps-configuration">Retrieve Information on NPS Configuration</h2>
+<p>From the Navigation menu select “Dashboard”. Select the Hardware tab to
+access the hardware monitoring portion of the NPS console.</p>
+<p>The Overview tab displays:</p>
+<ul>
+<li>Summary<ul>
+<li>System state</li>
+<li>Authentication</li>
+<li>Version</li>
+<li>Spare disks</li>
+</ul>
+</li>
+<li>SPUs (Snippet Processing Units)<ul>
+<li>Total</li>
+<li>Online</li>
+<li>Active</li>
+</ul>
+</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">This is a Netezza Performance Server VM which only has 1 SPU. A typical Netezza Performance Server will have many SPUs.</p>
+</div>
+<ul>
+<li>System disk status<ul>
+<li>Total disk space</li>
+<li>Used</li>
+<li>Free</li>
+<li>Data slices over 90% disk space</li>
+</ul>
+</li>
+<li>Storage utilization<ul>
+<li>Minimum</li>
+<li>Average</li>
+<li>Maximum</li>
+</ul>
+</li>
+</ul>
+<p>Click <strong>SPU units</strong> to retrieve information on the SPUs defined in the
+VM.</p>
+<p><img alt="Image" src="../nz-images/nz-02-WebConsole/media/image23.png" /></p>
+<p>The one data slices in your system can displayed as well: Click <strong>Data
+Slices</strong></p>
+<p><img alt="Image" src="../nz-images/nz-02-WebConsole/media/image24.png" /></p>
+<h2 id="manage-databases">Manage Databases</h2>
+<p>Click the Navigation menu and select the click <strong>Data</strong> to access the
+Databases screen of the NPS console. The following screen opens:</p>
+<p><img alt="Image" src="../nz-images/nz-02-WebConsole/media/image25.png" /></p>
+<p>You see that the two databases in the system are displayed: The
+<strong>SYSTEM</strong> database and the <strong>LABDB</strong> database that you created earlier.</p>
+<p>Click <strong>LABDB</strong>. An overview of the database object is displayed. In
+total, this database has 11 objects: three schemas and eight tables.</p>
+<p><img alt="Image" src="../nz-images/nz-02-WebConsole/media/image26.png" /></p>
+<p>Click <img alt="Image" src="../nz-images/nz-02-WebConsole/media/image27.png" /> to open the overview of the database tables.</p>
+<p><img alt="Image" src="../nz-images/nz-02-WebConsole/media/image28.png" /></p>
+<p>Use the sort option of the view to find the table with the most rows,
+click <strong>Record count</strong> header.</p>
+<p><img alt="Image" src="../nz-images/nz-02-WebConsole/media/image29.png" /></p>
+<p>As you can see, table LINEITEM has over 6 million rows.</p>
+<p>For the <strong>PART</strong> table select the Kebab (three dots) to the right. This
+allows you to run several operations against the table, like RENAME or
+GROOM.</p>
+<p><img alt="Image" src="../nz-images/nz-02-WebConsole/media/image30.png" /></p>
+<p>Click <strong>Groom</strong>. A new screen opens that allows you define the mode to
+be used by GROOM and if a reclaim backup set should be used.</p>
+<p><img alt="Image" src="../nz-images/nz-02-WebConsole/media/image31.png" /></p>
+<p>Do not start the GROOM, but instead go back to the main page of the
+database menu by clicking Databases from the breadcrumbs.</p>
+<p><img alt="Image" src="../nz-images/nz-02-WebConsole/media/image32.png" /></p>
+<p>Click <strong>Create database</strong> to open a new pane that allows you create a
+new database.</p>
+<p>Create a new database <strong>TESTDB</strong>. Enter <strong>TESTDB</strong> (1) in the name field
+and click <strong>Create</strong> (2)<strong>.</strong></p>
+<p><img alt="Image" src="../nz-images/nz-02-WebConsole/media/image33.png" /></p>
+<p>The console opens a new pane, with information on the database objects
+in the newly created database TESTDB.</p>
+<p><img alt="Image" src="../nz-images/nz-02-WebConsole/media/image34.png" /></p>
+<p>Go to the <strong>Tables</strong> view of this screen.
+<img alt="Image" src="../nz-images/nz-02-WebConsole/media/image35.png" /></p>
+<p>Click <strong>Create table</strong> to add a new table. Choose <strong>ADMIN</strong> (1) as the
+schema and <strong>TESTTABLE</strong> (2) as the table name. Click Create + (3) in
+the columns section to add a column called <strong>C1</strong> (4) of type BIGINT.
+Enter a second column called <strong>D1</strong> (5) as type <strong>DATE</strong>. Select <strong>C1</strong>
+(6) as the distribution column.</p>
+<p><img alt="Image" src="../nz-images/nz-02-WebConsole/media/image36.png" /></p>
+<p>The console shows you the DDL statement that will be used to create the
+table:</p>
+<p>Click <strong>Create</strong> (7) to create the table.</p>
+<p><img alt="Image" src="../nz-images/nz-02-WebConsole/media/image37.png" /></p>
+<p>In the next screen, go back to the database overview: Click
+<strong>Databases</strong></p>
+<p><img alt="Image" src="../nz-images/nz-02-WebConsole/media/image38.png" /></p>
+<p>You can easily administer databases in the console. Let’s delete the new
+database <strong>TESTDB</strong> now. Move your mouse to the end of the line for the
+database <strong>TESTDB</strong>. Click the Kebab menu (1) for the <strong>TESTDB</strong>
+database and select <strong>Drop</strong>. (2)</p>
+<p><img alt="Image" src="../nz-images/nz-02-WebConsole/media/image39.png" /></p>
+<p>Confirm the action in the pop-up menu, click <strong>Drop</strong>.</p>
+<p><img alt="Image" src="../nz-images/nz-02-WebConsole/media/image40.png" /></p>
+<p>Back in the database screen, you see only the two original databases.</p>
+<h2 id="queries">Queries</h2>
+<p>In the Navigation menu of the console go to <strong>Queries</strong> <strong>🡪 Recent
+queries</strong>.</p>
+<p><img alt="Image" src="../nz-images/nz-02-WebConsole/media/image41.png" /></p>
+<p>This opens a screen with information on the last queries that were
+executed in NPS.</p>
+<p><img alt="Image" src="../nz-images/nz-02-WebConsole/media/image42.png" /></p>
+<p>On the left side of the screen, you can filter the result set. Filter to
+all by Status (Running, Success)<strong>, Database, User.</strong></p>
+<p>Select the following filters: Status: Success, Database: LABDB and User:
+ADMIN</p>
+<p><img alt="Image" src="../nz-images/nz-02-WebConsole/media/image43.png" /></p>
+<p>The result set is automatically filtered.</p>
+<p>Select the Metrics tab for one of the queries to receive more details
+about a successful query.</p>
+<p><img alt="Image" src="../nz-images/nz-02-WebConsole/media/image44.png" /></p>
+<p>Select a <strong>Plan ID</strong> for one the queries.</p>
+<p><img alt="Image" src="../nz-images/nz-02-WebConsole/media/image45.png" /></p>
+<p>You are now on the query editor for the selected plan. You can run the
+query and/or get a Plan graph.</p>
+<h2 id="explore">Explore</h2>
+<p>There are many other options available from the Console, please use this
+time to explore. You can connect to the NPS on Cloud instance previously
+added to the instance list to monitor a simulated workload and explore
+the history database.</p>
+<ul>
+<li>Administration<ul>
+<li>User/Group Management</li>
+<li>Recovery events</li>
+<li>Event rules</li>
+<li>Scheduler rules</li>
+<li>History configuration</li>
+</ul>
+</li>
+</ul>
+
+              
+            </article>
+            
+          </div>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+    <nav class="md-footer__inner md-grid" aria-label="Footer" >
+      
+        
+        <a href="../nz-01-NPS-CLI/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Command Line Interface" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Command Line Interface
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../nz-03-Data-Distribution/" class="md-footer__link md-footer__link--next" aria-label="Next: Data Distribution" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Data Distribution
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2024 IBM
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.b97dbffb.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.6c7ad80a.min.js"></script>
+      
+    
+  </body>
+</html>

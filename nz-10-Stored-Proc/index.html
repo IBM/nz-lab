@@ -1,0 +1,1794 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.3.1, mkdocs-material-8.3.9">
+    
+    
+      
+        <title>Stored Procedures - Netezza Performance Server Lab</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.1d29e8d0.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.cbb835fc.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#000000">
+        
+      
+      
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:300,300i,400,400i,700,700i%7CIBM+Plex+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"IBM Plex Sans";--md-code-font:"IBM Plex Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="black">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#stored-procedures" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Netezza Performance Server Lab" class="md-header__button md-logo" aria-label="Netezza Performance Server Lab" data-md-component="logo">
+      
+  <img src="../nz-images/IBM_logo®_rev_RGB.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Netezza Performance Server Lab
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Stored Procedures
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Netezza Performance Server Lab" class="md-nav__button md-logo" aria-label="Netezza Performance Server Lab" data-md-component="logo">
+      
+  <img src="../nz-images/IBM_logo®_rev_RGB.png" alt="logo">
+
+    </a>
+    Netezza Performance Server Lab
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-01-NPS-CLI/" class="md-nav__link">
+        Command Line Interface
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-02-WebConsole/" class="md-nav__link">
+        Web Console
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-03-Data-Distribution/" class="md-nav__link">
+        Data Distribution
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-04-Database-Admin/" class="md-nav__link">
+        Database Administration
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-05-Loading-and-Unloading-Data/" class="md-nav__link">
+        Loading and Unloading Data
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-06-BNR/" class="md-nav__link">
+        Backup and Restore
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-07-Query-Optimization/" class="md-nav__link">
+        Query Optimization
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-08-Optimization-Objects/" class="md-nav__link">
+        Optimization Objects
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-09-Groom/" class="md-nav__link">
+        Grooming Data
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Stored Procedures
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Stored Procedures
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objectives" class="md-nav__link">
+    Objectives
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_11" type="checkbox" id="__nav_11" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_11">
+          Appendix
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Appendix" data-md-level="1">
+        <label class="md-nav__title" for="__nav_11">
+          <span class="md-nav__icon md-icon"></span>
+          Appendix
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-disclaimer/" class="md-nav__link">
+        Disclaimer
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nz-acknowledgements/" class="md-nav__link">
+        Acknowledgements
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objectives" class="md-nav__link">
+    Objectives
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+
+
+<h1 id="stored-procedures">Stored Procedures</h1>
+<p>Stored Procedures are subroutines that are saved in IBM Performance
+Server. They are executed inside the database server and are only
+available by accessing the NPS system. They combine the capabilities of
+SQL to query and manipulate database information with capabilities of
+procedural programming languages, like branching and iterations. This
+makes them an ideal solution for tasks like data validation, writing
+event logs or encrypting data. They are especially suited for repetitive
+tasks that can be easily encapsulated in a sub-routine.</p>
+<h2 id="objectives">Objectives</h2>
+<p>In the last labs we have created our database, loaded the data and we
+have done some optimization and administration tasks. In this lab we
+will enhance the database by a couple of stored procedures. As we
+mentioned in a previous chapter Netezza Performance Serverdoesn't check
+referential or unique constraints. This is normally not critical since
+data loading in a data warehousing environment is a controlled task. In
+our Netezza Performance Serverimplementation we get the requirement to
+allow some non-administrative database users to add new customers to the
+customer table. This happens rarely so there are no performance
+requirements and we have decided to implement this with a stored
+procedure that is accessible for these users and checks the input values
+and referential constraints.</p>
+<p>In a second part we will implement a business logic function as a stored
+procedure returning a result set. TODO describe function.</p>
+<p><img alt="A close up of a map Description automatically
+generated" src="../nz-images/nz-10-Stored-Proc/media/image5.png" />{width="4.248510498687664in"
+height="3.9270833333333335in"}</p>
+<p><em>Figure 1 LABDB database</em></p>
+<h1 id="lab-setup">Lab Setup</h1>
+<p>This lab uses an initial setup script to make sure the correct user and
+database exist for the remainder of the lab. Follow the instructions
+below to run the setup script.</p>
+<ol>
+<li>
+<p>Login to NPS Command Line using one of these two methods.</p>
+<p>a.  Login to the VM directly and use the terminal application
+    available inside the VM.</p>
+<p>b.  Connect to your Netezza Performance Server image using putty</p>
+</li>
+</ol>
+<!-- -->
+
+<ol>
+<li>
+<p>If you are continuing from the previous lab and are already
+    connected to NZSQL quit the NZSQL console with the [\q]{.mark}
+    command.</p>
+</li>
+<li>
+<p>Prepare for this lab by running the setup script. To do this use the
+    following two commands:</p>
+</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>[nz@localhost labs]\$ [cd \~/labs/storedProcedure/setupLab]{.mark}</p>
+<p>[nz@localhost setupLab]\$ [./setupLab.sh]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>DROP DATABASE</p>
+<p>CREATE DATABASE</p>
+<p>ERROR: CREATE USER: object LABADMIN already exists as a USER.</p>
+<p>ALTER USER</p>
+<p>ALTER DATABASE</p>
+<p>CREATE TABLE</p>
+<p>CREATE TABLE</p>
+<p>CREATE TABLE</p>
+<p>CREATE TABLE</p>
+<p>CREATE TABLE</p>
+<p>CREATE TABLE</p>
+<p>CREATE TABLE</p>
+<p>CREATE TABLE</p>
+<p>Load session of table \'NATION\' completed successfully</p>
+<p>Load session of table \'REGION\' completed successfully</p>
+<p>Load session of table \'CUSTOMER\' completed successfully</p>
+<p>Load session of table \'SUPPLIER\' completed successfully</p>
+<p>Load session of table \'PART\' completed successfully</p>
+<p>Load session of table \'PARTSUPP\' completed successfully</p>
+<p>Load session of table \'ORDERS\' completed successfully</p>
+<p>Load session of table \'LINEITEM\' completed successfully</p>
+<blockquote>
+<p>There may be error message at the beginning of the output since the
+script tries to clean up existing databases and users.</p>
+</blockquote>
+<h1 id="implementing-the-addcustomer-stored-procedure">Implementing the addCustomer stored procedure</h1>
+<p>In this chapter we will create a stored procedure to insert data into
+the CUSTOMER table. The information that is added for a new customer
+will be the customer key (C_CUSTKEY), name (C_NAME), phone number
+(C_PHONE) and nation key (C_NATIONKEY), the rest of the information is
+updated through other processes.</p>
+<h1 id="create-insert-stored-procedure">Create Insert Stored Procedure</h1>
+<p>First, review the customer table and define the interface of the insert
+stored procedure.</p>
+<p>Connect to your Netezza image using a terminal application (i.e.: PuTTY
+or Terminal.app). Login to \&lt;ip-provided-by-your-instructor> as user nz
+with password nz.</p>
+<ol>
+<li>Access the lab directory for this lab with the following command,
+    this folder already contains empty files for the stored procedure
+    scripts we will later create. If you want review them with the ls
+    command:</li>
+</ol>
+<p>[nz@localhost \~]\$ [cd labs/storedProcedure/]{.mark}</p>
+<ol start="2">
+<li>Enter nzsql and connect to LABDB as user LABADMIN.</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>[nz@localhost storedProcedure]\$ [nzsql LABDB LABADMIN]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>Welcome to nzsql, the IBM Netezza SQL interactive terminal.</p>
+<p>Type: \h for help with SQL commands</p>
+<p>\? for help on internal slash commands</p>
+<p>\g or terminate with semicolon to execute query</p>
+<p>\q to quit</p>
+<ol start="3">
+<li>Describe the customer table with the following command \d customer
+    You should see the following:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>[nz@localhost storedProcedure]\$ \d customer</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>Welcome to nzsql, the IBM Netezza SQL interactive terminal.</p>
+<p>Type: \h for help with SQL commands</p>
+<p>\? for help on internal slash commands</p>
+<p>\g or terminate with semicolon to execute query</p>
+<p>\q to quit</p>
+<p>We will now create a stored procedure that adds a new customer entry and
+sets the 4 fields: C_CUSTKEY, C_NAME, C_NATIONKEY, and C_PHONE, all
+other fields will be set with an empty value or 0, since the fields are
+flagged as NOT NULL. Exit the nzsql console by executing the \q
+command.</p>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(LABADMIN)=> \q</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>[nz@localhost storedProcedure]\$</p>
+<p>To create a stored procedure we will use the internal vi editor. Open
+the already existing empty file addCustomer.sql with the following
+command:</p>
+<p>[nz@netezza storedProcedure]\$ vi addCustomer.sql</p>
+<p>You are now in the familiar vi interface and you can edit the file.
+Switch to INSERT mode by pressing i.</p>
+<p>We will now create the interface of the stored procedure so we can test
+creating it. We need the 4 input field mentioned above and will return
+an integer return code. Enter the text as seen in the following, then
+exit the insert mode by pressing ESC and enter wq! and enter to save the
+file and quit vi.</p>
+<p>[CREATE OR REPLACE PROCEDURE addCustomer(integer, varchar(25), integer,
+varchar(15))]{.mark}</p>
+<p>[LANGUAGE NZPLSQL RETURNS INT4 AS]{.mark}</p>
+<p>[BEGIN_PROC]{.mark}</p>
+<p>[END_PROC;]{.mark}</p>
+<p>The minimal stored procedure we create here doesn't yet do anything,
+since it has an empty body. We simply create the signature with the
+input and output variables. We use the command CREATE OR REPLACE so we
+can later execute the same command multiple times to update the stored
+procedure with more code.</p>
+<p>The input variables cannot be given names so we only add the datatypes
+for our input parameters key, name, nation and phone. We also return an
+integer return code.</p>
+<p>Note that we have to specify the procedure language even though nzplsql
+is the only available option in Netezza Performance Server system.</p>
+<p>Enter nzsql and connect to LABDB as user LABADMIN.</p>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>[nz@localhost storedProcedure]\$ [nzsql LABDB LABADMIN]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>Welcome to nzsql, the IBM Netezza SQL interactive terminal.</p>
+<p>Type: \h for help with SQL commands</p>
+<p>\? for help on internal slash commands</p>
+<p>\g or terminate with semicolon to execute query</p>
+<p>\q to quit</p>
+<p>Back in the nzsql command line execute the script we just created with
+\i addCustomer.sql You should see, that the procedure has been created
+successfully</p>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(LABADMIN)=> [\i addCustomer.sql]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>CREATE PROCEDURE</p>
+<p>Display all stored procedures in the LABDB database with the following
+command:</p>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(LABADMIN)=> [SHOW PROCEDURE;]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>SCHEMA | RESULT | PROCEDURE | BUILTIN | ARGUMENTS</p>
+<p>--------+---------+-------------+---------+------------------------------------------------------------------</p>
+<p>ADMIN | INTEGER | ADDCUSTOMER | f | (INTEGER, CHARACTER VARYING(25),
+INTEGER, CHARACTER VARYING(15))</p>
+<p>(1 row)</p>
+<p>You can see the procedure ADDCUSTOMER with the arguments we specified.</p>
+<p>Execute the stored procedure with the following dummy input parameters:</p>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(LABADMIN)=> [call addcustomer(1,\'test\', 2,
+\'test\');]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>NOTICE: plpgsql: ERROR during compile of ADDCUSTOMER near line 1</p>
+<p>ERROR: syntax error, unexpected \&lt;EOF>, expecting BEGIN at or near \"\"</p>
+<p>The result shows that we have a syntax error in our stored procedure.
+Every stored procedure needs at least one BEGIN .. END block that
+encapsulates the code that is to be executed. Stored procedures are
+compiled when they are first executed not when they are created,
+therefore errors in the code can only be seen during execution.</p>
+<p>Exit the nzsql console by executing the \q command.</p>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(LABADMIN)=> [\q]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>[nz@localhost storedProcedure]\$</p>
+<p>Edit the addCustomer.sql file with vi with the following command</p>
+<p>nz@netezza storedProcedure]\$ [vi addCustomer.sql]{.mark}</p>
+<p>We will now create a simple stored procedure that inserts the new entry
+into the customer table. But first we will add some variables that alias
+the input variables \$1, \$2 etc. After the BEGIN_PROC statement enter
+the following lines (open a line by pressing o while the cursor is
+positioned on the line BEGIN_PROC, this will enter you into the INSERT
+mode of vi.):</p>
+<p>[DECLARE]{.mark}</p>
+<p>[C_KEY ALIAS FOR \$1;]{.mark}</p>
+<p>[C_NAME ALIAS FOR \$2;]{.mark}</p>
+<p>[N_KEY ALIAS FOR \$3;]{.mark}</p>
+<p>[PHONE ALIAS FOR \$4;]{.mark}</p>
+<p>Each BEGIN..END block in the stored procedure can have its own DECLARE
+section. Variables are valid in the block they belong to. It is a good
+best practice to change the input parameters into readable variable
+names to make the stored procedure code maintainable. We will later add
+some additional parameters to our procedures as well.</p>
+<p>Be careful not to use variable names that are restricted by Netezza
+Performance Server system, for example NAME.</p>
+<p>Next we will add the BEGIN..END block with the INSERT statement.</p>
+<p>[BEGIN]{.mark}</p>
+<p>[INSERT INTO CUSTOMER VALUES (C_KEY, C_NAME, \'\', N_KEY, PHONE, 0,
+\'\', \'\');]{.mark}</p>
+<p>[END;]{.mark}</p>
+<p>This statement will add a new row to the customer table using the input
+variables. It will replace the remaining fields like account balance
+with default values that can be later filled. It is also possible to
+execute dynamic SQL queries which we will do in a later chapter.</p>
+<p>Your complete stored procedure should now look like the following:</p>
+<p>[CREATE OR REPLACE PROCEDURE addCustomer(integer, varchar(25), integer,
+varchar(15))]{.mark}</p>
+<p>[LANGUAGE NZPLSQL RETURNS INT4 AS]{.mark}</p>
+<p>[BEGIN_PROC]{.mark}</p>
+<p>[DECLARE]{.mark}</p>
+<p>[C_KEY ALIAS FOR \$1;]{.mark}</p>
+<p>[C_NAME ALIAS FOR \$2;]{.mark}</p>
+<p>[N_KEY ALIAS FOR \$3;]{.mark}</p>
+<p>[PHONE ALIAS FOR \$4;]{.mark}</p>
+<p>[BEGIN]{.mark}</p>
+<p>[INSERT INTO CUSTOMER VALUES (C_KEY, C_NAME, \'\', N_KEY, PHONE, 0 \'\',
+\'\');]{.mark}</p>
+<p>[END;]{.mark}</p>
+<p>[END_PROC;]{.mark}</p>
+<p>Save and exit vi again by pressing ESC to enter the command mode and
+entering wq! and pressing enter. This will bring you back to the Linux
+command line.</p>
+<p>17. Enter NZSQL and connect to LABDB as user LABADMIN.</p>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>[nz@localhost storedProcedure]\$ [nzsql LABDB LABADMIN]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>Welcome to nzsql, the IBM Netezza SQL interactive terminal.</p>
+<p>Type: \h for help with SQL commands</p>
+<p>\? for help on internal slash commands</p>
+<p>\g or terminate with semicolon to execute query</p>
+<p>\q to quit</p>
+<p>Execute the stored procedure script with the following command: \i
+addCustomer.sql</p>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(LABADMIN)=> [\i addCustomer.sql]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>CREATE PROCEDURE</p>
+<p>Now try the stored procedure lets add a new customer John Smith with
+customer key 999999, phone number 555-5555 and nation 2 (which is the
+key for the United States in our NATION table). You can also check first
+that the customer doesn't yet exist if you want.</p>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(LABADMIN)=> [CALL addCustomer(999999,\'John Smith\', 2,
+\'555-5555\');]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>ADDCUSTOMER</p>
+<p>-------------</p>
+<p>(1 row)</p>
+<p>Check if the insert was successful:</p>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(LABADMIN)=> [SELECT * FROM CUSTOMER WHERE C_CUSTKEY =
+999999;]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>C_CUSTKEY | C_NAME | C_ADDRESS | C_NATIONKEY | C_PHONE | C_ACCTBAL
+| C_MKTSEGMENT | C_COMMENT</p>
+<p>-----------+------------+-----------+-------------+-----------------+-----------+--------------+-----------</p>
+<p>999999 | John Smith | | 2 | 555-5555 | 0.00 | |</p>
+<p>(1 row)</p>
+<blockquote>
+<p>Congratulations, you have built your first Netezza Performance
+Serverstored procedure.</p>
+</blockquote>
+<h2 id="adding-integrity-checks">Adding integrity checks</h2>
+<p>In this chapter we will add integrity checks to the stored procedure we
+just created. We will make sure that no duplicate customer is entered
+into the CUSTOMER table by querying it before the insert. We will then
+check with an IF condition if the value had already been inserted into
+the CUSTOMER table and abort the insert in that case. We will also check
+the foreign key relationship to the nation table and make sure that no
+customer is inserted for a nation that doesn't exist. If any of these
+conditions aren't met the procedure will abort and display an error
+message.</p>
+<ol>
+<li>Exit the nzsql console by executing the \q command.</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(LABADMIN)=> [\q]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>[nz@localhost storedProcedure]\$</p>
+<p>Edit the addCustomer.sql file with vi with the following command</p>
+<p>nz@netezza storedProcedure]\$ [vi addCustomer.sql]{.mark}</p>
+<p>In case of a message warning about duplicate files press enter.</p>
+<p>Add a new variable REC with the type RECORD in the DECLARE section (open
+a line by pressing o while the cursor is positioned on the line with the
+variable PHONE, this will enter you into the INSERT mode of vi.):</p>
+<p>[REC RECORD;]{.mark}</p>
+<p>A RECORD type is a row set with dynamic fields. It can refer to any row
+that is selected in a SELECT INTO statement. You can later refer to
+fields with for example REC.C_PHONE.</p>
+<p>Add the following statement before the INSERT statement, press ESC and
+move your cursor to the line with BEGIN and press o to open a line and
+enter INSERT mode:</p>
+<p>SELECT * INTO REC FROM CUSTOMER WHERE C_CUSTKEY = C_KEY;</p>
+<p>This statement fills the REC variable with the results of the query. If
+there are already one or more customers with the specified key it will
+contain the first. Otherwise the variable will be null.</p>
+<p>Now we add the IF condition to abort the stored procedure in case a
+record already exists. After the newly added SELECT statement add the
+following lines. Press ESC and move your cursor to the line with SELECT
+and press o to open a line and enter INSERT mode:</p>
+<p>IF FOUND REC THEN</p>
+<p>RAISE EXCEPTION \'Customer with key % already exists\', C_KEY;</p>
+<p>END IF;</p>
+<p>In this case we use an IF condition to check if a customer record with
+the key already exists and has been selected by the previous SELECT
+condition. We could do an implicit check on the record or any of its
+fields and see if it compares to the null value, but Netezza Performance
+Serverprovides a number of special variables that make this more
+convenient.</p>
+<ul>
+<li>
+<p>FOUND specifies if the last SELECT INTO statement has returned any
+    records</p>
+</li>
+<li>
+<p>ROW_COUNT contains the number of found rows in the last SELECT INTO
+    statement</p>
+</li>
+<li>
+<p>LAST_OID is the object id of the last inserted row, this variable is
+    not very useful unless used for catalog tables.</p>
+</li>
+</ul>
+<p>Finally, we use a RAISE EXCEPTION statement to throw an error and abort
+the stored procedure. To add variable values to the return string use
+the % symbol anywhere in the string. This is a similar approach as used
+for example by the C printf statement.</p>
+<p>We will also check the foreign key relationship to NATION, add the
+following lines after the last END IF:. Press ESC and move your cursor
+to the line with END IF and press o to open a line and enter INSERT
+mode:</p>
+<p>SELECT * INTO REC FROM NATION WHERE N_NATIONKEY = N_KEY;</p>
+<p>IF NOT FOUND REC THEN</p>
+<p>RAISE EXCEPTION \'No Nation with nation key %\', N_KEY;</p>
+<p>END IF;</p>
+<p>This is very similar to the last check, only that we this time check if
+a record was NOT FOUND. Notice that we can reuse the REC record since it
+is not typed to a particular table.</p>
+<p>Your stored procedure should now look like the following:</p>
+<p>CREATE OR REPLACE PROCEDURE addCustomer(integer, varchar(25), integer,
+varchar(15))</p>
+<p>LANGUAGE NZPLSQL RETURNS INT4 AS</p>
+<p>BEGIN_PROC</p>
+<p>DECLARE</p>
+<p>C_KEY ALIAS FOR \$1;</p>
+<p>C_NAME ALIAS FOR \$2;</p>
+<p>N_KEY ALIAS FOR \$3;</p>
+<p>PHONE ALIAS FOR \$4;</p>
+<p>REC RECORD;</p>
+<p>BEGIN</p>
+<p>SELECT * INTO REC FROM CUSTOMER WHERE C_CUSTKEY = C_KEY;</p>
+<p>IF FOUND REC THEN</p>
+<p>RAISE EXCEPTION \'Customer with key % already exists\', C_KEY;</p>
+<p>END IF;</p>
+<p>SELECT * INTO REC FROM NATION WHERE N_NATIONKEY = N_KEY;</p>
+<p>IF NOT FOUND REC THEN</p>
+<p>RAISE EXCEPTION \'No Nation with nation key %\', N_KEY;</p>
+<p>END IF;</p>
+<p>INSERT INTO CUSTOMER VALUES (C_KEY, C_NAME, \'\', N_KEY, PHONE, 0 ,\'\',
+\'\');</p>
+<p>END;</p>
+<p>END_PROC;</p>
+<p>Save the stored procedure by pressing ESC, and then entering wq! and
+pressing Enter.</p>
+<p>Enter nzsql and connect to LABDB as user ADMIN.</p>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>[nz@localhost storedProcedure]\$ [nzsql labdb admin]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>Welcome to nzsql, the IBM Netezza SQL interactive terminal.</p>
+<p>Type: \h for help with SQL commands</p>
+<p>\? for help on internal slash commands</p>
+<p>\g or terminate with semicolon to execute query</p>
+<p>\q to quit</p>
+<p>In nzsql create the stored procedure from the script by executing the
+following command (remember that you can cycle through previous commands
+by pressing the UP key)</p>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(LABADMIN)=> [\i addCustomer.sql]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>CREATE PROCEDURE</p>
+<p>Now test the check for duplicate customer ids by repeating our last CALL
+statement, we already know that a customer record with the id 999999
+already exists:</p>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(LABADMIN)=> CALL addCustomer(999999,\'John Smith\', 2,
+\'555-5555\');</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>ERROR: Customer with key 999999 already exists</p>
+<p>This is expected, the key value already exists, and an error condition
+is thrown.</p>
+<p>Now let's check the foreign key integrity by executing the following
+command with a customer id that does not yet exist and a nation key that
+doesn't exist in the NATION table as well. You can double check this
+using SELECT statements if you want:</p>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(LABADMIN)=> CALL addcustomer(999998,\'James Brown\', 99,
+\'555-5555\');</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>ERROR: No Nation with nation key 99</p>
+<p>This is also as we have expected. The customer key does not yet exist so
+the first IF condition is not thrown but the check for the nation key
+table throws an error.</p>
+<p>Finally let's try a working example, execute the following command with
+a customer id that doesn't yet exist and the NATION key 2 for United
+States.</p>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(LABADMIN)=> CALL addCustomer(999998,\'James Brown\', 2,
+\'555-5555\');</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>ADDCUSTOMER</p>
+<p>-------------</p>
+<p>(1 row)</p>
+<p>You should see a successful execution.</p>
+<p>Check that the value was correctly inserted:</p>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(LABADMIN)=> [SELECT C_CUSTKEY, C_NAME FROM CUSTOMER WHERE
+C_CUSTKEY = 999998;]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>C_CUSTKEY | C_NAME</p>
+<p>-----------+-------------</p>
+<p>999998 | James Brown</p>
+<p>(1 row)</p>
+<p>You have successfully created a stored procedure that can be used to
+insert values into the CUSTOMER table and checks for unique and foreign
+key constraints. You should remember that Netezza Performance Server
+system isn't optimized to do lookup queries so this will be a pretty
+slow operation and shouldn't be used for thousands of inserts. But for
+the occasional management it is a perfectly valid solution to the
+problem of missing constraints in Netezza Performance Server system.</p>
+<h2 id="managing-your-stored-procedure">Managing your stored procedure</h2>
+<p>In the last chapters we have created a stored procedure that inserts
+values to the CUSTOMER table and does check constraints. We will now
+give rights to execute this procedure to a user and we will use the
+management functions to make changes to the stored procedure and verify
+them.</p>
+<ol>
+<li>First, we will create a user CUSTADMIN database ID will be
+    responsible for adding customers, to do this we will need to switch
+    to the admin user since users are global objects. Enter nzsql and
+    connect to LABDB as user ADMIN.</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>[nz@localhost storedProcedure]\$ [nzsql LABDB ADMIN]{.mark}</p>
+<p>Note: if your Linux environment variable NZ_USER is set to ADMIN you can
+omit ADMIN.</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>Welcome to nzsql, the IBM Netezza SQL interactive terminal.</p>
+<p>Type: \h for help with SQL commands</p>
+<p>\? for help on internal slash commands</p>
+<p>\g or terminate with semicolon to execute query</p>
+<p>\q to quit</p>
+<p>LABDB.ADMIN(ADMIN)=></p>
+<ol start="2">
+<li>Create the CUSTADMIN user using the following command:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(ADMIN)=> [create user custadmin with password
+\'password\';]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>CREATE USER</p>
+<p>You can see that he has the same password as the other users in our
+labs. We do this for simplification, since it allows us to omit the
+nzsql password switch/option, this would of course not be done in a
+production environment.</p>
+<blockquote>
+<p>[nz@localhost storedProcedure]\$ printenv | grep NZ_PASS</p>
+<p>NZ_PASSWORD=password</p>
+</blockquote>
+<ol start="3">
+<li>Now grant access to the LABDB database, otherwise CUSTADMIN cannot
+    connect or read tables. Use the following data control
+    language (DCL) to grant permissions to the user CUSTADMIN to allow
+    connect on the database LABDB.</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(ADMIN)=> [grant list, select on labdb to custadmin;]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>GRANT</p>
+<ol start="4">
+<li>Grant CUSTADMIN the right to SELECT, INSERT from the CUSTOMER table:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(ADMIN)=> [grant select, insert on customer to
+custadmin;]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>GRANT</p>
+<ol start="5">
+<li>Grant CUSTADMIN the right to SELECT from the NATION table:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(ADMIN)=> [grant select on nation to custadmin;]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>GRANT</p>
+<ol start="6">
+<li>Test the connect permission on LABDB for the user CUSTADMIN:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(ADMIN)=> [\c labdb custadmin password]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>You are now connected to database labdb as user custadmin.</p>
+<p>LABDB.ADMIN(CUSTADMIN)=></p>
+<ol start="7">
+<li>SELECT something from the NATION table to verify that the user only
+    has access to the CUSTOMER table:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(CUSTADMIN)=> [select * from nation;]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(CUSTADMIN)=> select * from nation;</p>
+<p>N_NATIONKEY | N_NAME | N_REGIONKEY | N_COMMENT</p>
+<p>-------------+---------------------------+-------------+----------------------------------</p>
+<p>1 | canada | 1 | canada</p>
+<p>2 | united states | 1 | united states of america</p>
+<p>3 | brazil | 2 | brasil</p>
+<p>4 | guyana | 2 | guyana</p>
+<p>5 | venezuela | 2 | venezuela</p>
+<p>6 | united kingdom | 3 | united kingdom</p>
+<p>7 | portugal | 3 | portugal</p>
+<p>8 | united arab emirates | 3 | al imarat al arabiyah multahidah</p>
+<p>9 | south africa | 3 | south africa</p>
+<p>10 | australia | 4 | australia</p>
+<p>11 | japan | 4 | nippon</p>
+<p>12 | macau | 4 | aomen</p>
+<p>13 | hong kong | 4 | xianggang</p>
+<p>14 | new zealand | 4 | new zealand</p>
+<p>(14 rows)</p>
+<ol start="8">
+<li>SELECT C_CUSTKEY 999998 from the CUSTOMER table:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(CUSTADMIN)=> [select c_custkey, c_name]{.mark}</p>
+<p>LABDB.ADMIN(CUSTADMIN)-> [from customer]{.mark}</p>
+<p>LABDB.ADMIN(CUSTADMIN)-> [where c_custkey = 999998]{.mark}</p>
+<p>LABDB.ADMIN(CUSTADMIN)-> [;]{.mark}</p>
+<p>Notice that multiple lines can be used with nzsql and the semicolon
+terminates the statement. Press enter to continue to the next line.</p>
+<blockquote>
+<p>=> Start of the SQL statement</p>
+<p>-> Continuation of the SQL statement</p>
+<p>-> ; End of SQL statement</p>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>C_CUSTKEY | C_NAME</p>
+<p>-----------+-------------</p>
+<p>999998 | James Brown</p>
+<p>(1 row)</p>
+<p>The user should be able to select the row from the CUSTOMER table.</p>
+<ol start="9">
+<li>Now connect as the ADMIN user to give CUSTADMIN the rights to
+    execute the stored procedure:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(CUSTADMIN)=> [\c labdb admin password]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>You are now connected to database labdb as user admin.</p>
+<p>LABDB.ADMIN(ADMIN)=></p>
+<ol start="10">
+<li>To grant the right to execute a specific stored procedure we need to
+    specify the full name including all input parameters. The easiest
+    way to get these in the correct syntax is to first list them with
+    the SHOW PROCEDURE command:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(CUSTADMIN)=> [show procedure all;]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>SCHEMA | RESULT | PROCEDURE | BUILTIN | ARGUMENTS</p>
+<p>--------+---------+-------------+---------+------------------------------------------------------------------</p>
+<p>ADMIN | INTEGER | ADDCUSTOMER | f | (INTEGER, CHARACTER VARYING(25),
+INTEGER, CHARACTER VARYING(15))</p>
+<p>(1 row)</p>
+<p>Cut&amp;paste the arguments or copy them manually for the next command.</p>
+<ol start="11">
+<li>Grant the right to execute this stored procedure to CUSTADMIN:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(ADMIN)=> [grant execute on addcustomer]{.mark}</p>
+<p>LABDB.ADMIN(ADMIN)-> [(INTEGER, CHARACTER VARYING(25), INTEGER,
+CHARACTER VARYING(15))]{.mark}</p>
+<p>LABDB.ADMIN(ADMIN)-> [to custadmin;]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>GRANT</p>
+<ol start="12">
+<li>Check the rights of the CUSTADMIN user now with \dpu custadmin You
+    should get the following results:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(ADMIN)=> \dpu custadmin</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>User object permissions for user \'CUSTADMIN\'</p>
+<p>Database Name | Schema Name | Object Name | L S I U D T L A D B L G O
+E C R X A | D G U S T E X Q Y V M I B R C S H F A L P N S R</p>
+<p>---------------+-------------+-------------+-------------------------------------+-------------------------------------------------</p>
+<p>LABDB | ADMIN | CUSTOMER | X X |</p>
+<p>LABDB | ADMIN | NATION | X X |</p>
+<p>LABDB | ADMIN | ADDCUSTOMER | X |</p>
+<p>GLOBAL | GLOBAL | LABDB | X X |</p>
+<p>(4 rows)</p>
+<p>Object Privileges</p>
+<p>(L)ist (S)elect (I)nsert (U)pdate (D)elete (T)runcate (L)ock</p>
+<p>(A)lter (D)rop a(B)ort (L)oad (G)enstats Gr(O)om (E)xecute</p>
+<p>Label-A(C)cess Label-(R)estrict Label-E(X)pand Execute-(A)s</p>
+<p>Administration Privilege</p>
+<p>(D)atabase (G)roup (U)ser (S)chema (T)able T(E)mp E(X)ternal</p>
+<p>Se(Q)uence S(Y)nonym (V)iew (M)aterialized View (I)ndex (B)ackup</p>
+<p>(R)estore va(C)uum (S)ystem (H)ardware (F)unction (A)ggregate</p>
+<p>(L)ibrary (P)rocedure U(N)fence (S)ecurity Scheduler (R)ule</p>
+<p>You can see that the CUSTADMIN user has only the rights granted.</p>
+<ol start="13">
+<li>Test procedure as CUSTADMIN user, first connect to LABDB with the
+    following command:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(ADMIN)=> [\c labdb custadmin password]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>You are now connected to database labdb as user custadmin.</p>
+<p>LABDB.ADMIN(CUSTADMIN)=></p>
+<ol start="14">
+<li>INSERT another customer to the CUSTOMER table:</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(CUSTADMIN)=> [call addcustomer(999997,\'Jake Jones\', 2,
+\'555-5554\');]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>ADDCUSTOMER</p>
+<p>-------------</p>
+<p>(1 row)</p>
+<p>The insert will have been successful, and you will have another row in
+your table, you can check this with a SELECT query if you want.</p>
+<p>15. Now make some changes to the stored procedure to do this connect to
+LABDB as ADMIN:</p>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(CUSTADMIN)=> [\c labdb admin]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>You are now connected to database labdb as user admin.</p>
+<p>LABDB.ADMIN(ADMIN)=></p>
+<ol start="15">
+<li>Modify the stored procedure but first look at the details.</li>
+</ol>
+<blockquote>
+<p><strong>Input:</strong></p>
+</blockquote>
+<p>LABDB.ADMIN(ADMIN)=> [show procedure addcustomer verbose;]{.mark}</p>
+<blockquote>
+<p><strong>Output:</strong></p>
+</blockquote>
+<p>SCHEMA | RESULT | PROCEDURE | BUILTIN | ARGUMENTS | OWNER |
+EXECUTEDASOWNER | VARARGS | DESCRIPTION | PROCEDURESOURCE</p>
+<p>--------+---------+-------------+---------+------------------------------------------------------------------+----------+-----------------+---------+-------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------</p>
+<p>ADMIN | INTEGER | ADDCUSTOMER | f | (INTEGER, CHARACTER VARYING(25),
+INTEGER, CHARACTER VARYING(15)) | LABADMIN | t | f | |</p>
+<p>DECLARE</p>
+<p>C_KEY ALIAS FOR \$1;</p>
+<p>C_NAME ALIAS FOR \$2;</p>
+<p>N_KEY ALIAS FOR \$3;</p>
+<p>PHONE ALIAS FOR \$4;</p>
+<p>REC RECORD;</p>
+<p>BEGIN</p>
+<p>-- SELECT * INTO REC FROM CUSTOMER WHERE C_CUSTKEY = C_KEY;</p>
+<p>-- IF FOUND REC THEN</p>
+<p>-- RAISE EXCEPTION \'Customer with key % already exists\', C_KEY;</p>
+<p>-- END IF;</p>
+<p>--</p>
+<p>-- SELECT * INTO REC FROM NATION WHERE N_NATIONKEY = N_KEY;</p>
+<p>-- IF NOT FOUND REC THEN</p>
+<p>-- RAISE EXCEPTION \'No Nation with nation key %\', N_KEY;</p>
+<p>-- END IF;</p>
+<p>INSERT INTO CUSTOMER VALUES (C_KEY, C_NAME, \'\', N_KEY, PHONE, 0 ,\'\',
+\'\');</p>
+<p>END;</p>
+<p>(1 row)</p>
+<p>You can see the input and output arguments, procedure name, owner, if it
+is executed as owner or caller and other details. Verbose also shows you
+the source code of the stored procedure. We see that the description
+field is still empty so lets add a comment to the stored procedure. This
+is important to do if you have a big number of stored procedures in your
+system.</p>
+<ol start="16">
+<li>Add a description to the stored procedure:</li>
+</ol>
+<p>It is necessary to specify the exact stored procedure signature
+including the input arguments, these can be cut&amp; pasted from the output
+of the show procedures command. The COMMENT ON command can be used to
+add descriptions to more or less all database objects you own from
+procedures, tables till columns.</p>
+<ol start="17">
+<li>Verify that your description has been set:</li>
+</ol>
+<p>LABDB(ADMIN)=> show procedure addcustomer verbose;</p>
+<p>The description field will now contain your comment:</p>
+<ol start="18">
+<li>We will now alter the stored procedure to be executed as the caller
+    instead of the owner. This means that whoever executes the stored
+    procedure needs to have access rights to all the objects that are
+    touched in the stored procedure otherwise it will fail. This should
+    be the default for stored procedures that encapsulate business logic
+    and do not do extensive data checking:</li>
+</ol>
+<p>LABDB(ADMIN)=> alter procedure addcustomer(INTEGER, CHARACTER
+VARYING(25),</p>
+<p>LABDB(ADMIN)-> INTEGER,CHARACTER VARYING(15)) execute as caller;</p>
+<p>20. Since the admin user has access to the customer table he will be
+able to execute the stored procedure:</p>
+<p>LABDB(ADMIN)=> [call addCustomer(999996,\'Karl Schwarz\', 2,
+\'555-5553\');]{.mark}</p>
+<ol start="19">
+<li>Switch to the CUSTADMIN user:</li>
+</ol>
+<p>LABDB(ADMIN)=> [\c labdb custadmin]{.mark}</p>
+<ol start="20">
+<li>Try to add another customer as CUSTADMIN:</li>
+</ol>
+<p>LABDB(CUSTADMIN)=> [call addCustomer(999995, \'John Schwarz\', 2,
+\'555-5553\');]{.mark}</p>
+<p>You should see the following results:</p>
+<p>As expected, the stored procedure fails now. The user custadmin has read
+access to the CUSTOMER table but no read access to the NATION table,
+therefore this check results in an exception. While EXECUTE AS CALLER is
+more secure in some circumstances it doesn't fit our usecase where we
+specifically want to expose some data modification ability to a user who
+shouldn't be able to modify a table otherwise. Therefore we will change
+the stored procedure back:</p>
+<ol start="21">
+<li>First switch back to the admin user:</li>
+</ol>
+<p>LABDB(CUSTADMIN)=> [\c labdb admin]{.mark}</p>
+<p>24. Change the stored procedure back to being executed as owner:</p>
+<p>LABDB(ADMIN)=> alter procedure addcustomer(INTEGER, CHARACTER
+VARYING(25),</p>
+<p>LABDB(ADMIN)-> INTEGER,CHARACTER VARYING(15)) execute as owner;</p>
+<p>In this chapter you setup the permissions for the addCustomer stored
+procedure and the user CUSTADMIN who is supposed to use it. You also
+added comments to the stored procedure.</p>
+<h1 id="implementing-the-checkregions-stored-procedure">Implementing the checkRegions stored procedure</h1>
+<p>In this chapter we will implement a stored procedure that performs a
+check on all rows of the regions table. The call of the stored procedure
+will be very simple and will not contain input arguments. The stored
+procedure is used to encapsulate a sanity check of the regions table
+that is executed regularly in the IBM Performance Server's system for
+administrative purposes.</p>
+<p>Our stored procedure will check each row of the REGION table for three
+things:</p>
+<ul>
+<li>
+<p>If the region key is smaller than 1</p>
+</li>
+<li>
+<p>If the name string is empty</p>
+</li>
+<li>
+<p>If the description is lower case only this is needed for application
+    reasons.</p>
+</li>
+</ul>
+<p>The procedure will return each row of the region table together with
+additional columns that describe if the above constraints are broken. It
+will also return a notice with the number of faulty rows.</p>
+<p>This chapter will teach you to use loops in a stored procedure and to
+return table results. You will also use dynamic query execution to
+create queries on the fly.</p>
+<ol>
+<li>Exit the NZSQL console by executing the \q command and open the
+    already existing empty file checkRegion.sql with the following
+    command (note you can tab out the filename):</li>
+</ol>
+<p>[nz@netezza storedProcedure]\$ vi checkRegion.sql</p>
+<ol start="2">
+<li>
+<p>You are now in the familiar vi interface and you can edit the file.
+    Switch to INSERT mode by pressing i</p>
+</li>
+<li>
+<p>First, we will define the stored procedure header similar to the
+    last procedure. It will be very simple since we will not use any
+    input arguments. Enter the following code to the editor:</p>
+</li>
+</ol>
+<p>Let's have a detailed look at the RETURNS section. We want to return a
+result set but do not have to describe the column names or datatypes of
+the table object that is returned. Instead we reference an existing
+table, which needs to exist at the time the stored procedure is created.
+This means we will need to create the table TB1 before executing the
+CREATE PROCEDURE command.</p>
+<p>Once the stored procedure is executed the stored procedure will create
+under the cover an empty temporary table that has the same definition as
+the referenced table. So, the results will not actually be saved in the
+referenced table, which is only used for the definition. This means that
+multiple stored procedures can be executed at the same time without
+influencing each other. Since the created table is temporary it will be
+cleaned up once the connection to the database is aborted.</p>
+<p>Note: If the referenced table contains rows they will neither be changed
+nor copied over to the temporary table, the table is strictly used for
+reference.</p>
+<ol start="4">
+<li>For our stored procedure we need four variables, add the following
+    lines after the BEGIN_PROC statement:</li>
+</ol>
+<p>DECLARE</p>
+<p>rec RECORD;</p>
+<p>errorRows INTEGER;</p>
+<p>fieldEmpty BOOLEAN;</p>
+<p>descUpper BOOLEAN;</p>
+<p>The four variables needed for our stored procedure:</p>
+<ul>
+<li>
+<p>rec, is a RECORD structure while we loop through the rows of the
+    table we will use it to save and access the values of each row and
+    check them with our constraints</p>
+</li>
+<li>
+<p>errorRows will be used to contain the total number of rows that
+    violate our constraints</p>
+</li>
+<li>
+<p>fieldEmpty will be used to store if the row violates either the
+    constraint that the name is empty or the record code is smaller than
+    1, this is appropriate since values of -1 or 0 in the region code
+    are used to denote that it is empty</p>
+</li>
+<li>
+<p>descUpper will be true if a record violates the constraint that the
+    description needs to be lowercase</p>
+</li>
+</ul>
+<ol start="5">
+<li>We will now add the main BEGIN..END clause and initialize the
+    errorRows variable. Add the following rows after the DECLARE
+    section:</li>
+</ol>
+<p>BEGIN</p>
+<p>RAISE NOTICE \'Start check of Region\';</p>
+<p>errorRows := 0;</p>
+<p>END;</p>
+<p>Each stored procedure must at least contain one BEGIN..END clause, which
+encapsulates the executed commands. We also initially set the number of
+error rows to 0 and display a short sentence.</p>
+<ol start="6">
+<li>We will now add the main loop. It will iterate through all rows of
+    the REGION table and store each row in the rec variable. Add the
+    following lines before the END statement</li>
+</ol>
+<p>FOR rec IN SELECT * FROM REGION ORDER BY R_REGIONKEY LOOP</p>
+<p>fieldEmpty := false;</p>
+<p>descUpper := false;</p>
+<p>END LOOP;</p>
+<p>RAISE NOTICE \' % rows had an error see result set\', errorRows;</p>
+<p>The FOR rec IN expression LOOP..END LOOP command is used to iterate
+through a result set, in our case a SELECT * on the REGION table. The
+loop body is executed once for every row in the expression and the
+current row is saved in the rec field. The loop needs to be ended with
+the END LOOP keyword.</p>
+<p>There are many other types of loops in NZPLSQL, for a complete set refer
+to the stored procedure guide.</p>
+<p>For each iteration of the loop we initially set the value of the
+fieldEmpty and descUpper to false. Variables can be assigned with the :=
+operator. Finally, we will display a notice that shows the number of
+rows that either had an empty field or upper case expression. This
+number will be saved in the errorRows variable.</p>
+<ol start="7">
+<li>Now it's time to check the rows for our constraints and set our
+    variables accordingly. Enter the following rows behind the variable
+    initialization and before the END LOOP keyword:</li>
+</ol>
+<p>IF rec.R_NAME = \'\' OR rec.R_REGIONKEY \&lt; 1 THEN</p>
+<p>fieldEmpty := true;</p>
+<p>END IF;</p>
+<p>IF rec.R_COMMENT \&lt;> LOWER(rec.R_COMMENT) THEN</p>
+<p>descUpper := true;</p>
+<p>END IF;</p>
+<p>IF (fieldEmpty = true) OR (descUpper = true) THEN</p>
+<p>errorRows := errorRows + 1;</p>
+<p>END IF;</p>
+<p>In this section we check our constraints for each row and set our three
+variables accordingly. First, we check if the name field of the row is
+the empty string or if the region key is smaller than one. In that case
+the fieldEmpty field is set to true.</p>
+<p>Note how we can access the fields by adding the fieldname to our loop
+record.</p>
+<p>The second IF statement checks if the comment field of the row is
+different to the lower case version of the comment field. This would be
+the case if it contains uppercase characters.</p>
+<p>Note that we can use the available Netezza Performance Server functions
+like LOWER in the stored procedure, as if it were a SQL statement.</p>
+<p>Finally, if one of these variables has been set to true by the previous
+checks, we increase the value of the errorRows variable by one. The
+final number will in the end be displayed by the RAISE NOTICE statement
+we already added to the stored procedure.</p>
+<ol start="8">
+<li>Finally add the following lines after the lines you just added and
+    before the END LOOP statement:</li>
+</ol>
+<p>EXECUTE IMMEDIATE \'INSERT INTO \'|| REFTABLENAME ||\' VALUES (\'</p>
+<p>|| rec.R_REGIONKEY ||\',\'\'\'</p>
+<p>|| trim(rec.R_NAME) ||\'\'\',\'\'\'</p>
+<p>|| trim(rec.R_COMMENT) ||\'\'\',\'</p>
+<p>|| fieldEmpty ||\',\'</p>
+<p>|| descUpper ||\')\';</p>
+<p>These lines add the row of the REGION table to the result set of our
+stored procedure adding two columns containing the fieldEmpty and
+descUpper flags for this row. There are a couple of important points
+here:</p>
+<p>For each call of a stored procedure with a result set as return value a
+temporary table is created that is later returned to the caller. Since
+the name is unique it needs to be referenced through a variable. This is
+the REFTABLENAME variable. Apart from that, adding values to the result
+set is identical to other INSERT operations.</p>
+<p>Since the name of the table is dynamic we need to execute the INSERT
+operations as a dynamic statement. This means that the EXECUTE IMMEDIATE
+statement is used with a string that contains the query that is to be
+executed.</p>
+<p>To add variable values to the string the pipe symbol || is used. Note
+that the values for R_NAME and R_COMMENT are inserted as strings, which
+means they need to be surrounded by quotes. To add quotes to a string
+they need to be escaped with a second quote character. This is the
+reason that R_NAME and R_COMMENT is surrounded by triple quotes. Apart
+from that we trim them, so the inserted VARCHAR values are not blown up
+with empty characters.</p>
+<p>It can be tricky to construct a string like that and you will see the
+error only once it is executed. For debugging it can be useful to
+construct the string and display it with a RAISE NOTICE statement.</p>
+<ol start="9">
+<li>Your vi should now look like that, containing the complete stored
+    procedure:</li>
+</ol>
+<p>CREATE OR REPLACE PROCEDURE checkRegions() LANGUAGE NZPLSQL RETURNS
+REFTABLE(tb1) AS</p>
+<p>BEGIN_PROC</p>
+<p>DECLARE</p>
+<p>rec RECORD;</p>
+<p>errorRows INTEGER;</p>
+<p>fieldEmpty BOOLEAN;</p>
+<p>descUpper BOOLEAN;</p>
+<p>BEGIN</p>
+<p>RAISE NOTICE \'Start check of Region\';</p>
+<p>errorRows := 0;</p>
+<p>FOR rec IN SELECT * FROM REGION ORDER BY R_REGIONKEY LOOP</p>
+<p>fieldEmpty := false;</p>
+<p>descUpper := false;</p>
+<p>IF rec.R_NAME = \'\' OR rec.R_REGIONKEY \&lt; 1 THEN</p>
+<p>fieldEmpty := true;</p>
+<p>END IF;</p>
+<p>IF rec.R_COMMENT \&lt;> lower(rec.R_COMMENT) THEN</p>
+<p>descUpper := true;</p>
+<p>END IF;</p>
+<p>IF (fieldEmpty = true) OR (descUpper = true) THEN errorRows :=
+errorRows + 1;</p>
+<p>END IF;</p>
+<p>EXECUTE IMMEDIATE \'INSERT INTO \'|| REFTABLENAME ||\' VALUES (\'</p>
+<p>|| rec.R_REGIONKEY ||\',\'\'\'</p>
+<p>|| trim(rec.R_NAME) ||\'\'\',\'\'\'</p>
+<p>|| trim(rec.R_COMMENT) ||\'\'\',\'</p>
+<p>|| fieldEmpty ||\',\'</p>
+<p>|| descUpper ||\')\';</p>
+<p>END LOOP;</p>
+<p>RAISE NOTICE \' % rows had an error see result set\', errorRows;</p>
+<p>END;</p>
+<p>END_PROC;</p>
+<ol start="10">
+<li>
+<p>Save and exit vi. Press ESC to enter the command mode, enter :wq! to
+    save and force quit and press enter.</p>
+</li>
+<li>
+<p>Enter nzsql and connect to LABDB as user LABADMIN.</p>
+</li>
+</ol>
+<p>[nz@netezza storedProcedure]\$ [nzsql LABDB ADMIN]{.mark}</p>
+<ol start="12">
+<li>To create the stored procedure the table reference TB1 needs to
+    exist. Create the table with the following statement:</li>
+</ol>
+<p>LABDB(ADMIN)=> [create table TB1 as]{.mark}</p>
+<p>LABDB(ADMIN)-> [select *, false AS FIELDEMPTY, false as
+DESCUPPER]{.mark}</p>
+<p>LABDB(ADMIN)-> [from region limit 0;]{.mark}</p>
+<p>This command creates a table TB1 that has all the rows of the REGION
+table and two additional BOOLEAN fields</p>
+<p>FIELDNULL and DESCUPPER. It will also be empty because we used the LIMIT
+0 clause.</p>
+<ol start="13">
+<li>Describe the reference table with</li>
+</ol>
+<p>LABDB(ADMIN)=> \d TB1</p>
+<p>You should see the following result:</p>
+<p>Table \"TB1\"</p>
+<p>Attribute | Type | Modifier | Default Value</p>
+<p>-------------+------------------------+----------+---------------</p>
+<p>R_REGIONKEY | INTEGER | NOT NULL |</p>
+<p>R_NAME | CHARACTER(40) | |</p>
+<p>R_COMMENT | CHARACTER VARYING(152) | |</p>
+<p>FIELDEMPTY | BOOLEAN | |</p>
+<p>DESCUPPER | BOOLEAN | |</p>
+<p>Distributed on hash: \"R_REGIONKEY\"</p>
+<p>You can see the three columns of the REGION table and the two additional
+BOOLEAN fields that will contain for each row if the row violates the
+specified constraints.</p>
+<p>Note this table needs to exist before the procedure can be created.</p>
+<ol start="14">
+<li>Now create the stored procedure. Execute the script you just created
+    with the following command:</li>
+</ol>
+<p>LABDB(ADMIN)=> \i checkRegion.sql</p>
+<p>You should successfully create your stored procedure.</p>
+<ol start="15">
+<li>Now let's have a look at our REGION table, select all rows:</li>
+</ol>
+<p>LABDB(ADMIN)=> SELECT * FROM REGION;</p>
+<p>You will get the following results:</p>
+<p>LABDB(ADMIN)=> SELECT * FROM REGION;</p>
+<p>R_REGIONKEY | R_NAME | R_COMMENT</p>
+<p>-------------+---------------------------+-----------------------------</p>
+<p>2 | sa | south america</p>
+<p>1 | na | north america</p>
+<p>4 | ap | asia pacific</p>
+<p>3 | emea | europe, middle east, africa</p>
+<p>(4 rows)</p>
+<p>We can see that none of the rows would violate the constraints we
+defined which would be pretty boring. So lets test our stored procedure
+by adding two rows that violate our constraints.</p>
+<ol start="16">
+<li>Add the two violating rows with the following commands:</li>
+</ol>
+<p>LABDB(ADMIN)=> INSERT INTO REGION VALUES (0, \'as\', \'Australia\');</p>
+<p>This row violates the lower case constraints for the comment field and
+the empty field constraint for the region key</p>
+<p>LABDB(ADMIN)=> INSERT INTO REGION VALUES (6, \'\', \'mongolia\');</p>
+<p>This row violates the empty field constraint for the region name.</p>
+<ol start="17">
+<li>Now finally let's try our checkRegions stored procedure:</li>
+</ol>
+<p>LABDB(ADMIN)=> call checkRegions();</p>
+<p>You should see the following output:</p>
+<p>NOTICE: Start check of Region</p>
+<p>NOTICE: 2 rows had an error see result set</p>
+<p>R_REGIONKEY | R_NAME | R_COMMENT | FIELDEMPTY | DESCUPPER</p>
+<p>-------------+---------------------------+-----------------------------+------------+-----------</p>
+<p>1 | na | north america | f | f</p>
+<p>3 | emea | europe, middle east, africa | f | f</p>
+<p>0 | as | Australia | t | t</p>
+<p>4 | ap | asia pacific | f | f</p>
+<p>2 | sa | south america | f | f</p>
+<p>6 | | mongolia | t | f</p>
+<p>(6 rows)</p>
+<p>You can see the expected results. Our stored procedure has found two
+rows that violated the constraints we check for. In the FIELDNULL and
+DESCUPPER columns we can easily see that the row with the key 0 has both
+an empty field and uppercase comment. We can also see that row 6 only
+violated the empty field constraint.</p>
+<p>Note that the TB1 table we created doesn't contain any rows, it is only
+used as a template.</p>
+<ol start="18">
+<li>Finally let's cleanup our REGION table again:</li>
+</ol>
+<p>LABDB(ADMIN)=> DELETE FROM REGION WHERE R_REGIONKEY = 0 OR R_REGIONKEY
+= 6;</p>
+<ol start="19">
+<li>And let's run our checkRegions procedure again:</li>
+</ol>
+<p>LABDB(ADMIN)=> call checkRegions();</p>
+<p>You will see the following results:</p>
+<p>NOTICE: Start check of Region</p>
+<p>NOTICE: 0 rows had an error see result set</p>
+<p>R_REGIONKEY | R_NAME. | R_COMMENT | FIELDEMPTY | DESCUPPER</p>
+<p>-------------+---------------------------+-----------------------------+------------+-----------</p>
+<p>3 | emea | europe, middle east, africa | f | f</p>
+<p>4 | ap | asia pacific. | f | f</p>
+<p>1 | na | north America | f | f</p>
+<p>2 | sa. | south america | f | f</p>
+<p>(4 rows)</p>
+<p>You can see that the table now is error free and all constraint
+violation fields are false.</p>
+<p>Congratulations you have finished the stored procedure lab and created
+two stored procedures that help you to manage your database.</p>
+
+              
+            </article>
+            
+          </div>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+    <nav class="md-footer__inner md-grid" aria-label="Footer" >
+      
+        
+        <a href="../nz-09-Groom/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Grooming Data" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Grooming Data
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../nz-disclaimer/" class="md-footer__link md-footer__link--next" aria-label="Next: Disclaimer" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Disclaimer
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2024 IBM
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.b97dbffb.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.6c7ad80a.min.js"></script>
+      
+    
+  </body>
+</html>
