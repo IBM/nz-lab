@@ -1,4 +1,4 @@
-# Data Grooming
+# 1 Data Grooming
 
 As part of your routine database maintenance activities, you should plan
 to recover disk space occupied by outdated or deleted rows. In normal
@@ -16,7 +16,7 @@ The GROOM TABLE command does not lock a table while it is running; you
 can continue to SELECT, UPDATE, and INSERT into the table while the
 table is being groomed.
 
-## Objectives
+## 1.1 Objectives
 
 In this lab we will use the GROOM command to prepare our tables for the
 customer. During the course of the POC we have deleted and update a
@@ -24,7 +24,7 @@ number of rows. At the end of a POC it is sensible to clean up the
 system. Use Groom on the created tables, Generate Statistics, and other
 cleanup tasks.
 
-# Lab Setup
+# 2 Lab Setup
 
 This lab uses an initial setup script to make sure the correct user and
 database exist for the remainder of the lab. Follow the instructions
@@ -37,24 +37,20 @@ below to run the setup script.
 
     b.  Connect to your Netezza Performance Server image using putty
 
-<!-- -->
-
-1.  If you are continuing from the previous lab and are already
-    connected to NZSQL quit the NZSQL console with the \q
+2.  If you are continuing from the previous lab and are already
+    connected to NZSQL quit the NZSQL console with the `\q`
     command.
 
-2.  Prepare for this lab by running the setup script. To do this use the
+3.  Prepare for this lab by running the setup script. To do this use the
     following two commands:
 
 !!! abstract "Input"
 	```bash
-
-
-nz@localhost labs]$ [cd ~/labs/groom/setupLab
-
-nz@localhost setupLab]$ [./setupLab.sh
-
-!!! abstract "Output"
+	cd ~/labs/groom/setupLab
+	./setupLab.sh
+	```
+	
+!!! success "Output"
 	```bash
 	DROP DATABASE
 	CREATE DATABASE
@@ -82,7 +78,7 @@ nz@localhost setupLab]$ [./setupLab.sh
 There may be error message at the beginning of the output since the
 script tries to clean up existing databases and users.
 
-# Transactions
+# 3 Transactions
 
 In this section we will show how transactions can leave logically
 deleted rows in a table which later as an administrative task need to be
@@ -90,7 +86,7 @@ removed with the groom command. We will go through the different
 transaction types and show you what happens under the covers in an
 Netezza Performance Server Appliance.
 
-## Insert Transaction
+## 3.1 Insert Transaction
 
 In this chapter we will add a new row to the regions table and review
 the hidden fields that are saved in the database. As you remember from
@@ -105,26 +101,28 @@ transaction id that is increasing with each new transaction.
 In this subsection we will add a new row to the REGION table.
 
 1.  Connect to your NPS system using a terminal application (i.e.: PuTTY
-    or Terminal). Login to <ip-provided-by-your-instructor> as user nz
-    with password nz. (<ip-provided-by-your-instructor> is the default
+    or Terminal). Login to `<ip-provided-by-your-instructor>` as user nz
+    with password nz. (`<ip-provided-by-your-instructor>` is the default
     IP address for a lab system).
 
 2.  Start nzsql from the Linux command line as following:
 
 !!! abstract "Input"
 	```bash
+	nzsql
+	```
 
-
-nzsql
-
-!!! abstract "Output"
+!!! success "Output"
 	```bash
 		Welcome to nzsql, the IBM Netezza SQL interactive terminal.
+		
 	Type: \h for help with SQL commands
-	\? for help on internal slash commands
-	\g or terminate with semicolon to execute query
-	\q to quit
+	      \? for help on internal slash commands
+	      \g or terminate with semicolon to execute query
+	      \q to quit
+	      
 	SYSTEM.ADMIN(ADMIN)=>
+	```
 
 You will be entered into the nzsql interactive terminal.
 
@@ -133,75 +131,67 @@ You will be entered into the nzsql interactive terminal.
 
 !!! abstract "Input"
 	```bash
+	\c LABDB LABADMIN
+	```
 
-
-SYSTEM.ADMIN(ADMIN)=> \c LABDB LABADMIN
-
-!!! abstract "Output"
+!!! success "Output"
 	```bash
+	You are now connected to database LABDB as user LABADMIN.
+	LABDB.ADMIN(LABADMIN)=>
+	```
 
-
-You are now connected to database LABDB as user LABADMIN.
-
-LABDB.ADMIN(LABADMIN)=>
-
-Notice the prompt has changed to show the new connection information:
+Notice the prompt has changed to show the new connection information.
 
 4.  Select all rows from the REGION table:
 
 !!! abstract "Input"
 	```bash
+	SELECT * FROM REGION;
+	```
 
-
-SELECT * FROM REGION;
-
-!!! abstract "Output"
+!!! success "Output"
 	```bash
-	R_REGIONKEY | R_NAME | R_COMMENT
+	 R_REGIONKEY |          R_NAME           |          R_COMMENT
 	-------------+---------------------------+-----------------------------
-	3 | emea | europe, middle east, africa
-	1 | na | north america
-	2 | sa | south america
-	4 | ap | asia pacific
+	           3 | emea                      | europe, middle east, africa
+	           1 | na                        | north america
+	           2 | sa                        | south america
+	           4 | ap                        | asia pacific
 	(4 rows)
+	```
 
-You should see the following output with 4 existing regions:
+You should see the following output with 4 existing regions.
 
 5.  Insert a new row into the REGIONS table for the region Australia
     with the following SQL command
 
 !!! abstract "Input"
 	```bash
+	INSERT INTO REGION VALUES (5, 'as', 'australia');
+	```
 
-
-[INSERT INTO REGION VALUES (5, 'as',
-'australia');
-
-!!! abstract "Output"
+!!! success "Output"
 	```bash
-
-
-INSERTED 0 1
+	INSERTED 0 1
+	```
 
 6.  Now we will again do a select on the REGION table. But this time we
     will also query the hidden fields CREATEXID, DELETEXID and ROWID:
 
 !!! abstract "Input"
 	```bash
+	SELECT CREATEXID, DELETEXID, ROWID,* FROM REGION;
+	```
 
-
-[SELECT CREATEXID, DELETEXID, ROWID,* FROM
-REGION;
-
-!!! abstract "Output"
+!!! success "Output"
 	```bash
-	CREATEXID | DELETEXID | ROWID | R_REGIONKEY | R_NAME | R_COMMENT
+	 CREATEXID | DELETEXID |  ROWID   | R_REGIONKEY |          R_NAME           |          R_COMMENT
 	-----------+-----------+----------+-------------+---------------------------+-----------------------------
-	17498 | 0 | 28765000 | 3 | emea | europe, middle east, africa
-	17498 | 0 | 28765001 | 1 | na | north america
-	17498 | 0 | 28765002 | 2 | sa | south america
-	17498 | 0 | 28765003 | 4 | ap | asia pacific
-	17514 | 0 | 37428000 | 5 | as | australia
+	     17498 |         0 | 28765000 |           3 | emea                      | europe, middle east, africa
+	     17498 |         0 | 28765001 |           1 | na                        | north america
+	     17498 |         0 | 28765002 |           2 | sa                        | south america
+	     17498 |         0 | 28765003 |           4 | ap                        | asia pacific
+	     17514 |         0 | 37428000 |           5 | as                        | australia
 	(5 rows)
 	```
 	
@@ -213,7 +203,7 @@ see this new row. Note also that each row has a unique ROWID. ROWIDs
 do not need to be consecutive, but they are unique across all data
 slices for one table.
 
-## Update and Delete Transactions
+## 3.2 Update and Delete Transactions
 
 Delete transactions in Netezza Performance Server do not physically
 remove rows but update the DELETEXID field of a row to mark it as
@@ -232,82 +222,78 @@ environment variable, but this has some restrictions.
 To see deleted rows without changing the system registry parameters do
 the following:
 
-[nz@localhost ~]$ nzsql labdb labadmin password
+```
+nzsql labdb labadmin password
 
 set show_deleted_records = true;
 select * from table_with_deleted_rows;
 set show_deleted_records = false;
+```
 
 The above method is not used in this lab, please follow the steps
 below.
 
 1.  First, we will change the system variable that allows us to see
-    deleted rows in the system, to do this exit the console with \q
+    deleted rows in the system, to do this exit the console with `\q`.
 
-<!-- -->
-
-7.  Check the Netezza Performance Server system registry for the
-    parameters host.fpgaAllowXIDOverride and system.useFpgaPrep, each
-    should be set to yes:
-
-!!! abstract "Input"
-	```bash
-
-
-	nzsystem showregistry | grep -iE
-'fpgaAllowXIDOverride|useFpgaPrep'
-
-!!! abstract "Output"
-	```bash
-host.fpgaAllowXIDOverride = no
-system.useFpgaPrep = yes
-
-8.  To change these system parameters, first pause the system with the
-    following command:
-
-!!! abstract "Input"
-	```bash
-	nzsystem pause
-
-	Are you sure you want to pause the system (y|n)? [n] 
-	y
-	```
-
-9.  Next, update the system parameters with the following command:
-
-!!! abstract "Input"
-	```bash
-	nzsystem set -arg host.fpgaAllowXIDOverride=yes
-	
-	Are you sure you want to change the system configuration (y|n)? [n]
-	y
-	```
-
-Ensure both parameters `host.fpgaAllowXIDOverride` and
-`system.useFpgaPrep` are set to `yes`.
-
-10. Resume the system with the following command:
-
-!!! abstract "Input"
-	```bash
-	nzsystem resume
-	```
-
-11. Re-check the Netezza Performance Server system registry for the
+2.  Check the Netezza Performance Server system registry for the
     parameters host.fpgaAllowXIDOverride and system.useFpgaPrep, each
     should be set to yes:
 
 !!! abstract "Input"
 	```bash
 	nzsystem showregistry | grep -iE 'fpgaAllowXIDOverride|useFpgaPrep'
+	```
 
-!!! abstract "Output"
+!!! success "Output"
+	```bash
+	host.fpgaAllowXIDOverride = no
+	system.useFpgaPrep = yes
+	```
+
+3.  To change these system parameters, first pause the system with the
+    following command:
+
+!!! abstract "Input"
+	```bash
+	nzsystem pause
+	Are you sure you want to pause the system (y|n)? [n] y
+	```
+
+4.  Next, update the system parameters with the following command:
+
+!!! abstract "Input"
+	```bash
+	nzsystem set -arg host.fpgaAllowXIDOverride=yes
+	Are you sure you want to change the system configuration (y|n)? [n] y
+	```
+
+Ensure both parameters `host.fpgaAllowXIDOverride` and
+`system.useFpgaPrep` are set to `yes`.
+
+5. Resume the system with the following command:
+
+!!! abstract "Input"
+	```bash
+	nzsystem resume
+	```
+
+6. Re-check the Netezza Performance Server system registry for the
+    parameters `host.fpgaAllowXIDOverride` and `system.useFpgaPrep`, each
+    should be set to yes:
+
+!!! abstract "Input"
+	```bash
+	nzsystem showregistry | grep -iE 'fpgaAllowXIDOverride|useFpgaPrep'
+	```
+
+!!! success "Output"
 	```bash
 	host.fpgaAllowXIDOverride = yes
 	system.useFpgaPrep = yes
 	```
 
-12. Start nzsql from the Linux command line as following:
+7. Start nzsql from the Linux command line as following:
 
 !!! abstract "Input"
 	```bash
@@ -315,33 +301,31 @@ Ensure both parameters `host.fpgaAllowXIDOverride` and
 	```
 
 
-13. Now we will update the row we inserted in the last chapter to the
+8. Now we will update the row we inserted in the last chapter to the
     REGION table:
 
 !!! abstract "Input"
 	```bash
-	UPDATE REGION SET R_COMMENT='Australia' 
-	WHERE R_REGIONKEY=5;
+	UPDATE REGION SET R_COMMENT='Australia' WHERE R_REGIONKEY=5;
 	```
 
-14. Do a SELECT on the REGION table again:
+9. Do a SELECT on the REGION table again:
 
 !!! abstract "Input"
 	```bash
-	SELECT CREATEXID, DELETEXID, ROWID,* 
-	FROM REGION;
+	SELECT CREATEXID, DELETEXID, ROWID,* FROM REGION;
 	```
 
-!!! abstract "Output"
+!!! success "Output"
 	```bash
-	CREATEXID | DELETEXID | ROWID | R_REGIONKEY | R_NAME | R_COMMENT
+	 CREATEXID | DELETEXID |  ROWID   | R_REGIONKEY |          R_NAME           |          R_COMMENT
 	-----------+-----------+----------+-------------+---------------------------+-----------------------------
-	17498 | 0 | 28765000 | 3 | emea | europe, middle east, africa
-	17498 | 0 | 28765001 | 1 | na | north america
-	17498 | 0 | 28765002 | 2 | sa | south america
-	17498 | 0 | 28765003 | 4 | ap | asia pacific
-	**17514 | 21506 | 37428000 | 5 | as | australia**
-	**21506 | 0 | 37428000 | 5 | as | Australia**
+	     17498 |         0 | 28765000 |           3 | emea                      | europe, middle east, africa
+	     17498 |         0 | 28765001 |           1 | na                        | north america
+	     17498 |         0 | 28765002 |           2 | sa                        | south america
+	     17498 |         0 | 28765003 |           4 | ap                        | asia pacific
+	     17514 |     21506 | 37428000 |           5 | as                        | australia
+	     21506 |         0 | 37428000 |           5 | as                        | Australia
 	(6 rows)
 	```
 
@@ -359,7 +343,7 @@ We also see a newly inserted row with the new comment value Australia.
 It has the same ROWID as the deleted row and the same CREATEXID as the
 transaction that did the insert.
 
-15. Finally let's clean up the table again by deleting the Australia
+10. Finally let's clean up the table again by deleting the Australia
     row:
 
 !!! abstract "Input"
@@ -367,29 +351,30 @@ transaction that did the insert.
 	DELETE FROM REGION WHERE R_REGIONKEY=5;
 	```
 
-!!! abstract "Output"
+!!! success "Output"
 	```bash
 	DELETE 1
 	```
 
-16. Do a SELECT on the REGION table again:
+11. Do a SELECT on the REGION table again:
 
 !!! abstract "Input"
 	```bash
 	SELECT CREATEXID, DELETEXID, ROWID,* FROM REGION;
 	```
 
-!!! abstract "Output"
+!!! success "Output"
 	```bash
-	CREATEXID | DELETEXID | ROWID | R_REGIONKEY | R_NAME | R_COMMENT	
-	-----------+-----------+----------+-------------+---------------------------+-----------------------------	
-	17498 | 0 | 28765000 | 3 | emea | europe, middle east, africa	
-	17498 | 0 | 28765001 | 1 | na | north america	
-	17498 | 0 | 28765002 | 2 | sa | south america	
-	17498 | 0 | 28765003 | 4 | ap | asia pacific	
-	**17514 | 21506 | 37428000 | 5 | as | australia**	
-	**21506 | 21510 | 37428000 | 5 | as | Australia**	
+	 CREATEXID | DELETEXID |  ROWID   | R_REGIONKEY |          R_NAME           |          R_COMMENT
+	-----------+-----------+----------+-------------+---------------------------+-----------------------------
+	     17498 |         0 | 28765000 |           3 | emea                      | europe, middle east, africa
+	     17498 |         0 | 28765001 |           1 | na                        | north america
+	     17498 |         0 | 28765002 |           2 | sa                        | south america
+	     17498 |         0 | 28765003 |           4 | ap                        | asia pacific
+	     17514 |     21506 | 37428000 |           5 | as                        | australia
+	     21506 |     21510 | 37428000 |           5 | as                        | Australia
 	(6 rows)
+	
 	```
 
 We can now see that we have logically deleted our updated row as well.
@@ -408,7 +393,7 @@ If you do a SELECT, the FPGA will filter out all rows that:
 
 -   have a DELETEXID of 1 which means that the insert has been aborted.
 
-## Aborting Transactions
+## 3.3 Aborting Transactions
 
 Netezza Performance Server never deletes a row during transactions even
 if transactions are rolled back. In this section we will show what
@@ -424,7 +409,7 @@ behavior for all tree transaction types with this.
 	BEGIN;
 	```
 
-!!! abstract "Output"
+!!! success "Output"
 	```bash
 	BEGIN
 	```
@@ -437,36 +422,36 @@ can be used COMMIT to commit the transaction or ROLLBACK to rollback
 the transaction and all changes since the BEGIN statement was
 executed.
 
-17. Update the row for the AP region:
+2. Update the row for the AP region:
 
 !!! abstract "Input"
 	```bash
 	UPDATE REGION SET R_COMMENT='AP' WHERE R_REGIONKEY=4;
 	```
 
-!!! abstract "Output"
+!!! success "Output"
 	```bash
 	UPDATE 1
 	```
 
-18. Do a SELECT on the REGION table again:
+3. Do a SELECT on the REGION table again:
 
 !!! abstract "Input"
 	```bash
 	SELECT CREATEXID, DELETEXID, ROWID,* FROM REGION;
 	```
 
-!!! abstract "Output"
+!!! success "Output"
 	```bash
-	CREATEXID | DELETEXID | ROWID | R_REGIONKEY | R_NAME | R_COMMENT
+	 CREATEXID | DELETEXID |  ROWID   | R_REGIONKEY |          R_NAME           |          R_COMMENT
 	-----------+-----------+----------+-------------+---------------------------+-----------------------------
-	17498 | 0 | 28765000 | 3 | emea | europe, middle east, africa
-	17498 | 0 | 28765001 | 1 | na | north america
-	17498 | 0 | 28765002 | 2 | sa | south america
-	**17498 | 21514 | 28765003 | 4 | ap | asia pacific**
-	17514 | 21506 | 37428000 | 5 | as | australia
-	21506 | 21510 | 37428000 | 5 | as | Australia
-	**21514 | 0 | 28765003 | 4 | ap | AP**
+	     17498 |         0 | 28765000 |           3 | emea                      | europe, middle east, africa
+	     17498 |         0 | 28765001 |           1 | na                        | north america
+	     17498 |         0 | 28765002 |           2 | sa                        | south america
+	     17498 |     21514 | 28765003 |           4 | ap                        | asia pacific
+	     17514 |     21506 | 37428000 |           5 | as                        | australia
+	     21506 |     21510 | 37428000 |           5 | as                        | Australia
+	     21514 |         0 | 28765003 |           4 | ap                        | AP
 	(7 rows)
 	```
 
@@ -476,36 +461,36 @@ field, and a new row with the updated comment and new ROWID has been
 added. Note that its CREATEXID is the same as the DELETEXID of the old
 row, since they were updated by the same transaction.
 
-19. Now let's rollback the transaction:
+4. Now let's rollback the transaction:
 
 !!! abstract "Input"
 	```bash
 	ROLLBACK;
 	```
 
-!!! abstract "Output"
+!!! success "Output"
 	```bash
 	ROLLBACK
 	```
 
-20. Do a SELECT on the REGION table again:
+5. Do a SELECT on the REGION table again:
 
 !!! abstract "Input"
 	```bash
 	SELECT CREATEXID, DELETEXID, ROWID,* FROM REGION;
 	```
 
-!!! abstract "Output"
+!!! success "Output"
 	```bash
-	CREATEXID | DELETEXID | ROWID | R_REGIONKEY | R_NAME | R_COMMENT
+	 CREATEXID | DELETEXID |  ROWID   | R_REGIONKEY |          R_NAME           |          R_COMMENT
 	-----------+-----------+----------+-------------+---------------------------+-----------------------------
-	17498 | 0 | 28765000 | 3 | emea | europe, middle east, africa
-	17498 | 0 | 28765001 | 1 | na | north america
-	17498 | 0 | 28765002 | 2 | sa | south america
-	**17498 | 0 | 28765003 | 4 | ap | asia pacific**
-	17514 | 21506 | 37428000 | 5 | as | australia
-	21506 | 21510 | 37428000 | 5 | as | Australia
-	**21514 | 1 | 28765003 | 4 | ap | AP**
+	     17498 |         0 | 28765000 |           3 | emea                      | europe, middle east, africa
+	     17498 |         0 | 28765001 |           1 | na                        | north america
+	     17498 |         0 | 28765002 |           2 | sa                        | south america
+	     17498 |         0 | 28765003 |           4 | ap                        | asia pacific
+	     17514 |     21506 | 37428000 |           5 | as                        | australia
+	     21506 |     21510 | 37428000 |           5 | as                        | Australia
+	     21514 |         1 | 28765003 |           4 | ap                        | AP
 	(7 rows)
 	```
 
@@ -514,7 +499,7 @@ the old version of the row has been reset to 0, which means that it is
 a valid row that can be seen by other transactions, and the DELETEXID
 of the new row has been set to 1 which marks it as aborted.
 
-## Cleaning up
+## 3.4 Cleaning up
 
 In this section we will use the GROOM command to remove the logically
 deleted rows we have entered, and we will remove the system parameter
@@ -531,7 +516,7 @@ deleted rows from a table and frees up the space on the machine again.
 	GROOM TABLE REGION;
 	```
 
-!!! abstract "Output"
+!!! success "Output"
 	```bash
 	NOTICE: Groom will not purge records deleted by transactions that
 	started after 2020-04-02 19:18:49.
@@ -546,22 +531,23 @@ You can see that the GROOM command purged 3 rows, exactly the number
 of aborted and logically deleted rows we have generated in the
 previous chapter.
 
-21. Now select the rows from the REGION table again.
+2. Now select the rows from the REGION table again.
 
 !!! abstract "Input"
 	```bash
 	SELECT CREATEXID, DELETEXID, ROWID,* FROM REGION;
 	```
 
-!!! abstract "Output"
+!!! success "Output"
 	```bash
-	CREATEXID | DELETEXID | ROWID | R_REGIONKEY | R_NAME | R_COMMENT
+	 CREATEXID | DELETEXID |  ROWID   | R_REGIONKEY |          R_NAME           |          R_COMMENT
 	-----------+-----------+----------+-------------+---------------------------+-----------------------------
-	17498 | 0 | 28765000 | 3 | emea | europe, middle east, africa
-	17498 | 0 | 28765001 | 1 | na | north america
-	17498 | 0 | 28765002 | 2 | sa | south america
-	17498 | 0 | 28765003 | 4 | ap | asia pacific
+	     17498 |         0 | 28765000 |           3 | emea                      | europe, middle east, africa
+	     17498 |         0 | 28765001 |           1 | na                        | north america
+	     17498 |         0 | 28765002 |           2 | sa                        | south america
+	     17498 |         0 | 28765003 |           4 | ap                        | asia pacific
 	(4 rows)
+	```
 	
 You can see that the GROOM command has removed all logically deleted
 rows from the table. Remember that we still have the parameter
@@ -570,42 +556,38 @@ Especially in tables that are heavily changed with lots and updates
 and deletes running the groom command will free up hard drive space
 and increase performance.
 
-2.  Finally, we will change the system variables back to the original
+3.  Finally, we will change the system variables back to the original
     settings, to do this exit the console with `\q`.
 
 
-22. To change these system parameters, first pause the system with the
+4. To change these system parameters, first pause the system with the
     following command:
 
 !!! abstract "Input"
 	```bash
 	nzsystem pause
-
-	Are you sure you want to pause the system (y|n)? [n] 
-	y
+	Are you sure you want to pause the system (y|n)? [n]  y
 	```
 
-23. Next, update the system parameters with the following command:
+5. Next, update the system parameters with the following command:
 
 !!! abstract "Input"
 	```bash
 	nzsystem set -arg host.fpgaAllowXIDOverride=no
-
-	Are you sure you want to change the system configuration (y|n)? [n]
-	y
+	Are you sure you want to change the system configuration (y|n)? [n] y
 	```
 
 Ensure both parameters host.fpgaAllowXIDOverride=no and
 system.useFpgaPrep=yes.
 
-24. Resume the system with the following command:
+6. Resume the system with the following command:
 
 !!! abstract "Input"
 	```bash
 	nzsystem resume
 	```
 
-25. Re-check the Netezza Performance Server system registry for the
+7. Re-check the Netezza Performance Server system registry for the
     parameters host.fpgaAllowXIDOverride and system.useFpgaPrep, each
     should be set to yes:
 
@@ -614,13 +596,13 @@ system.useFpgaPrep=yes.
 	nzsystem showregistry | grep -iE 'fpgaAllowXIDOverride|useFpgaPrep'
 	```
 
-!!! abstract "Output"
+!!! success "Output"
 	```bash
 	host.fpgaAllowXIDOverride = no
 	system.useFpgaPrep = yes
 	```
 	
-## Grooming Logically Deleted Rows
+# 4 Grooming Logically Deleted Rows
 
 In this section we will delete rows and determine that they have not
 really been deleted from the disk. Then using GROOM we will physically
@@ -636,26 +618,27 @@ You should see the following results:
 	/nz/support/bin/nz_db_size LABDB
 	```
 
-!!! abstract "Output"
+!!! success "Output"
 	```bash
-	Object | Name | Bytes | KB | MB | GB | TB
+	  Object   |               Name               |        Bytes         |        KB        |      MB      |     GB     |   TB
 	-----------+----------------------------------+----------------------+------------------+--------------+------------+--------
-	Appliance | localhost | 452,984,832 | 442,368 | 432 | .4 | .0
-	Database | LABDB | 452,984,832 | 442,368 | 432 | .4 | .0
-	.schema | ADMIN | 452,984,832 | 442,368 | 432 | .4 | .0
-	Table | CUSTOMER | 13,107,200 | 12,800 | 13 | .0 | .0
-	Table | LINEITEM | 284,688,384 | 278,016 | 272 | .3 | .0
-	Table | NATION | 131,072 | 128 | 0 | .0 | .0
-	**Table | ORDERS | 76,283,904 | 74,496 | 73 | .1 | .0**
-	Table | PART | 11,534,336 | 11,264 | 11 | .0 | .0
-	Table | PARTSUPP | 66,322,432 | 64,768 | 63 | .1 | .0
-	Table | REGION | 131,072 | 128 | 0 | .0 | .0
-	Table | SUPPLIER | 786,432 | 768 | 1 | .0 | .0
+	 Appliance | localhost                        |          452,984,832 |          442,368 |          432 |         .4 |     .0
+	 Database  | LABDB                            |          452,984,832 |          442,368 |          432 |         .4 |     .0
+	   .schema | ADMIN                            |          452,984,832 |          442,368 |          432 |         .4 |     .0
+	 Table     | CUSTOMER                         |           13,107,200 |           12,800 |           13 |         .0 |     .0
+	 Table     | LINEITEM                         |          284,688,384 |          278,016 |          272 |         .3 |     .0
+	 Table     | NATION                           |              131,072 |              128 |            0 |         .0 |     .0
+	 Table     | ORDERS                           |           76,283,904 |           74,496 |           73 |         .1 |     .0
+	 Table     | PART                             |           11,534,336 |           11,264 |           11 |         .0 |     .0
+	 Table     | PARTSUPP                         |           66,322,432 |           64,768 |           63 |         .1 |     .0
+	 Table     | REGION                           |              131,072 |              128 |            0 |         .0 |     .0
+	 Table     | SUPPLIER                         |              786,432 |              768 |            1 |         .0 |     .0
+	
 	```
 	
 Notice that the ORDERS table is 75 MB in size.
 
-26. Now we are going to delete some rows from ORDERS table. Delete all
+2. Now we are going to delete some rows from ORDERS table. Delete all
     rows where the ORDERSTATUS is marked as F for finished using the
     following command:
 
@@ -665,12 +648,12 @@ Notice that the ORDERS table is 75 MB in size.
 	DELETE FROM ORDERS WHERE O_ORDERSTATUS='F';
 	```
 
-!!! abstract "Output"
+!!! success "Output"
 	```bash
 	DELETE 729413
 	```
 
-27. Now check the physical table size for ORDERS and see if the size
+3. Now check the physical table size for ORDERS and see if the size
     decreased using the same command as before. You must first exit
     nzsql to shell using \q.
 
@@ -680,21 +663,21 @@ Notice that the ORDERS table is 75 MB in size.
 	/nz/support/bin/nz_db_size LABDB
 	```
 
-!!! abstract "Output"
+!!! success "Output"
 	```bash
-	Object | Name | Bytes | KB | MB | GB | TB
+	  Object   |               Name               |        Bytes         |        KB        |      MB      |     GB     |   TB
 	-----------+----------------------------------+----------------------+------------------+--------------+------------+--------
-	Appliance | localhost | 452,984,832 | 442,368 | 432 | .4 | .0
-	Database | LABDB | 452,984,832 | 442,368 | 432 | .4 | .0
-	.schema | ADMIN | 452,984,832 | 442,368 | 432 | .4 | .0
-	Table | CUSTOMER | 13,107,200 | 12,800 | 13 | .0 | .0
-	Table | LINEITEM | 284,688,384 | 278,016 | 272 | .3 | .0
-	Table | NATION | 131,072 | 128 | 0 | .0 | .0
-	**Table | ORDERS | 76,283,904 | 74,496 | 73 | .1 | .0**
-	Table | PART | 11,534,336 | 11,264 | 11 | .0 | .0
-	Table | PARTSUPP | 66,322,432 | 64,768 | 63 | .1 | .0
-	Table | REGION | 131,072 | 128 | 0 | .0 | .0
-	Table | SUPPLIER | 786,432 | 768 | 1 | .0 | .0
+	 Appliance | localhost                        |          452,984,832 |          442,368 |          432 |         .4 |     .0
+	 Database  | LABDB                            |          452,984,832 |          442,368 |          432 |         .4 |     .0
+	   .schema | ADMIN                            |          452,984,832 |          442,368 |          432 |         .4 |     .0
+	 Table     | CUSTOMER                         |           13,107,200 |           12,800 |           13 |         .0 |     .0
+	 Table     | LINEITEM                         |          284,688,384 |          278,016 |          272 |         .3 |     .0
+	 Table     | NATION                           |              131,072 |              128 |            0 |         .0 |     .0
+	 Table     | ORDERS                           |           76,283,904 |           74,496 |           73 |         .1 |     .0
+	 Table     | PART                             |           11,534,336 |           11,264 |           11 |         .0 |     .0
+	 Table     | PARTSUPP                         |           66,322,432 |           64,768 |           63 |         .1 |     .0
+	 Table     | REGION                           |              131,072 |              128 |            0 |         .0 |     .0
+	 Table     | SUPPLIER                         |              786,432 |              768 |            1 |         .0 |     .0
 	```
 	
 The output should be the same as above showing that the ORDERS table
@@ -703,7 +686,7 @@ rows were logically deleted but are still left on disk. The rows will
 still accessible to transactions that started before the DELETE
 statement which we just executed. (i.e. have a lower transaction id)
 
-28. Next let's physically delete what we just logically deleted using
+4. Next let's physically delete what we just logically deleted using
     the GROOM TABLE command and specifying table ORDERS. When you run
     the GROOM TABLE command, it removes outdated and deleted records
     from tables.
@@ -714,7 +697,7 @@ statement which we just executed. (i.e. have a lower transaction id)
 	GROOM TABLE ORDERS;
 	```
 
-!!! abstract "Output"
+!!! success "Output"
 	```bash
 	NOTICE: Groom will not purge records deleted by transactions that
 	started after 2020-04-02 19:56:57.
@@ -729,7 +712,7 @@ You can see that 729413 rows were removed from disk resulting in the
 table size shrinking by 12 extents. Notice that this is the same
 number of rows we deleted in the previous step.
 
-29. Check if the ORDERS table size on disk has shrunk using the
+5. Check if the ORDERS table size on disk has shrunk using the
     nz_db_size command. You must first exit nzsql to shell using \q.
 
 !!! abstract "Input"
@@ -738,21 +721,22 @@ number of rows we deleted in the previous step.
 	/nz/support/bin/nz_db_size LABDB
 	```
 
-!!! abstract "Output"
+!!! success "Output"
 	```bash
-		Object | Name | Bytes | KB | MB | GB | TB
+	  Object   |               Name               |        Bytes         |        KB        |      MB      |     GB     |   TB
 	-----------+----------------------------------+----------------------+------------------+--------------+------------+--------
-	Appliance | localhost | 416,284,672 | 406,528 | 397 | .4 | .0
-	Database | LABDB | 416,284,672 | 406,528 | 397 | .4 | .0
-	.schema | ADMIN | 416,284,672 | 406,528 | 397 | .4 | .0
-	Table | CUSTOMER | 13,107,200 | 12,800 | 13 | .0 | .0
-	Table | LINEITEM | 284,688,384 | 278,016 | 272 | .3 | .0
-	Table | NATION | 131,072 | 128 | 0 | .0 | .0
-	**Table | ORDERS | 39,583,744 | 38,656 | 38 | .0 | .0**
-	Table | PART | 11,534,336 | 11,264 | 11 | .0 | .0
-	Table | PARTSUPP | 66,322,432 | 64,768 | 63 | .1 | .0
-	Table | REGION | 131,072 | 128 | 0 | .0 | .0
-	Table | SUPPLIER | 786,432 | 768 | 1 | .0 | .0
+	 Appliance | localhost                        |          416,284,672 |          406,528 |          397 |         .4 |     .0
+	 Database  | LABDB                            |          416,284,672 |          406,528 |          397 |         .4 |     .0
+	   .schema | ADMIN                            |          416,284,672 |          406,528 |          397 |         .4 |     .0
+	 Table     | CUSTOMER                         |           13,107,200 |           12,800 |           13 |         .0 |     .0
+	 Table     | LINEITEM                         |          284,688,384 |          278,016 |          272 |         .3 |     .0
+	 Table     | NATION                           |              131,072 |              128 |            0 |         .0 |     .0
+	 Table     | ORDERS                           |           39,583,744 |           38,656 |           38 |         .0 |     .0
+	 Table     | PART                             |           11,534,336 |           11,264 |           11 |         .0 |     .0
+	 Table     | PARTSUPP                         |           66,322,432 |           64,768 |           63 |         .1 |     .0
+	 Table     | REGION                           |              131,072 |              128 |            0 |         .0 |     .0
+	 Table     | SUPPLIER                         |              786,432 |              768 |            1 |         .0 |     .0
+	
 	```
 
 Notice the reduced size of the ORDERS table. We can see that GROOM did
@@ -761,7 +745,7 @@ was reduced by 12 extents and we can confirm this because we can see
 that the size of the table reduced by 36MB which is the correct size
 for 12 extents. (1 extent's size is 3 MB).
 
-## Performance Benefits of GROOM
+# 5 Performance Benefits of GROOM
 
 In this section we will show that grooming a table can also result in a
 performance benefit because the amount of data that needs to be scanned
@@ -781,7 +765,7 @@ Grooming the table.
 	UPDATE ORDERS SET O_TOTALPRICE = O_TOTALPRICE+1;
 	```
 
-!!! abstract "Output"
+!!! success "Output"
 	```bash
 	UPDATE 770587
 	```
@@ -793,7 +777,7 @@ transaction is still operating on the rows. New rows are created, and
 the results of the UPDATE are put in these rows. The old rows that are
 left on disk are marked as logically deleted.
 
-30. To measure the performance of our test query, we can configure the
+2. To measure the performance of our test query, we can configure the
     nzsql console to show the elapsed execution time using the following
     command:
 
@@ -802,19 +786,19 @@ left on disk are marked as logically deleted.
 	\time
 	```
 
-!!! abstract "Output"
+!!! success "Output"
 	```bash
 	Query time printout on
 	```
 
-31. Run our given test query and note the performance:
+3. Run our given test query and note the performance:
 
 !!! abstract "Input"
 	```bash
 	SELECT COUNT(*) FROM ORDERS;
 	```
 
-!!! abstract "Output"
+!!! success "Output"
 	```bash
 
 	COUNT
@@ -825,7 +809,7 @@ left on disk are marked as logically deleted.
 	Elapsed time: 0m0.641s
 	```
 
-32. Please rerun the query once or twice more to see roughly what a
+4. Please rerun the query once or twice more to see roughly what a
     consistent query time is on your machine.
 
 !!! abstract "Input"
@@ -833,20 +817,20 @@ left on disk are marked as logically deleted.
 	SELECT COUNT(*) FROM ORDERS;
 	```
 
-!!! abstract "Output"
+!!! success "Output"
 	```bash
 	?????
 	```
 
 
-33. Now run the GROOM TABLE command on the ORDER table again:
+5. Now run the GROOM TABLE command on the ORDER table again:
 
 !!! abstract "Input"
 	```bash
 	GROOM TABLE ORDERS;
 	```
 
-!!! abstract "Output"
+!!! success "Output"
 	```bash
 	NOTICE: Groom will not purge records deleted by transactions that
 	started after 2020-04-02 20:12:07.
@@ -862,7 +846,7 @@ left on disk are marked as logically deleted.
 Can you tell how much disk space this saved? (It's the number of
 extents times 3MB)
 
-34. Now run our chosen test query again and you should see a difference
+6. Now run our chosen test query again and you should see a difference
     in performance:
 
 !!! abstract "Input"
@@ -870,7 +854,7 @@ extents times 3MB)
 	SELECT COUNT(*) FROM ORDERS;
 	```
 
-!!! abstract "Output"
+!!! success "Output"
 	```bash
 	COUNT
 	--------
@@ -897,7 +881,7 @@ that are seldom updated. You might want to schedule tasks that
 routinely GROOM the frequently updated tables or run a GROOM command
 as part of you ETL process.
 
-## Changing the Data Type of a Column
+# 6 Changing the Data Type of a Column
 
 In some situations, you will realize that the initially used data types
 are not suitable for long-term use, for example because new entries
@@ -949,7 +933,7 @@ decide to increase the R_NAME field to a CHAR(40) field.
 	\time
 	```
 
-!!! abstract "Output"
+!!! success "Output"
 	```bash
 	Query time printout on
 	```
@@ -959,7 +943,7 @@ decide to increase the R_NAME field to a CHAR(40) field.
 	ALTER TABLE REGION ADD COLUMN R_NAME_TEMP CHAR(40);
 	```
 
-!!! abstract "Output"
+!!! success "Output"
 	```bash
 	ALTER TABLE
 	```
@@ -969,7 +953,7 @@ holds true for huge tables. Under the cover the system will create a
 new empty version of the table. It will not lock and change the whole
 table.
 
-35. Let's insert a row into the table using the new name column
+2. Let's insert a row into the table using the new name column
 
 !!! abstract "Input"
 	```bash
@@ -978,28 +962,27 @@ table.
 		'Australia, New Zealand, and Tasmania');
 	```
 
-!!! abstract "Output"
+!!! success "Output"
 	```bash
 	INSERT 0 1
 	```
 
-36. Now do a select on the table:
+3. Now do a select on the table:
 
 !!! abstract "Input"
 	```bash
+	SELECT * FROM REGION;
+	```
 
-
-SELECT * FROM REGION;
-
-!!! abstract "Output"
+!!! success "Output"
 	```bash
-		R_REGIONKEY | R_NAME | R_COMMENT | R_NAME_TEMP
+	R_REGIONKEY  |          R_NAME           |          R_COMMENT          |               R_NAME_TEMP
 	-------------+---------------------------+-----------------------------+------------------------------------------
-	3 | emea | europe, middle east, africa |
-	1 | na | north america |
-	2 | sa | south america |
-	4 | ap | asia pacific |
-	5 | | South Pacific Region | Australia, New Zealand, and Tasmania
+	           3 | emea                      | europe, middle east, africa |
+	           1 | na                        | north america               |
+	           2 | sa                        | south america               |
+	           4 | ap                        | asia pacific                |
+	           5 |                           | South Pacific Region        | Australia, New Zealand, and Tasmania
 	(5 rows)
 	```
 
@@ -1009,87 +992,92 @@ Netezza Performance Server appliances we have two versions of the
 table, one containing the old columns and rows and one containing the
 new row column.
 
-37. Let's do an EXPLAIN on the SELECT query
+4. Let's do an EXPLAIN on the SELECT query
 
 !!! abstract "Input"
 	```bash
-
-
-EXPLAIN VERBOSE SELECT * FROM REGION;
-
-!!! abstract "Output"
-	```bash
-		NOTICE: QUERY PLAN:
-	QUERY SQL:
 	EXPLAIN VERBOSE SELECT * FROM REGION;
+	```
+
+!!! success "Output"
+	```bash
+	NOTICE:  QUERY PLAN:
+	
+	
+	QUERY SQL:
+	
+	EXPLAIN VERBOSE SELECT * FROM REGION;
+	
+	
+	
 	QUERY VERBOSE PLAN:
+	
 	Node 1.
-	[SPU Sequential Scan table ""**_TV_203063_2**""
-{("_TV_203063_2".R_REGIONKEY)}]
-	-- Estimated Rows = 1, Width = 221, Cost = 0.0 .. 0.0, Conf = 100.0
-	User table: REGION version 2
-	Projections:
-	1:"_TV_203063_2".R_REGIONKEY 2:"_TV_203063_2".R_NAME
-	3:"_TV_203063_2".R_COMMENT 4:"_TV_203063_2".R_NAME_TEMP
+	  [SPU Sequential Scan table ""_TV_203063_2"" {("_TV_203063_2".R_REGIONKEY)}]
+	      -- Estimated Rows = 1, Width = 221, Cost = 0.0 .. 0.0, Conf = 100.0
+	      User table: REGION version 2
+	      Projections:
+	        1:"_TV_203063_2".R_REGIONKEY  2:"_TV_203063_2".R_NAME
+	        3:"_TV_203063_2".R_COMMENT  4:"_TV_203063_2".R_NAME_TEMP
 	Node 2.
-	[SPU Sub-query Scan table "*SELECT* 1" Node "1" {(0."1")}]
-	-- Estimated Rows = 1, Width = 221, Cost = 0.0 .. 0.0, Conf = 0.0
-	Projections:
-	1:0."1" 2:0."2" 3:0."3" 4:0."4"
+	  [SPU Sub-query Scan table "*SELECT* 1" Node "1" {(0."1")}]
+	      -- Estimated Rows = 1, Width = 221, Cost = 0.0 .. 0.0, Conf = 0.0
+	      Projections:
+	        1:0."1"  2:0."2"  3:0."3"  4:0."4"
 	Node 3.
-	[SPU Sequential Scan table ""**_TV_203063_1**""
-{("_TV_203063_1".R_REGIONKEY)}]
-	-- Estimated Rows = 4, Width = 221, Cost = 0.0 .. 0.0, Conf = 100.0
-	User table: REGION version 1
-	Projections:
-	1:"_TV_203063_1".R_REGIONKEY 2:"_TV_203063_1".R_NAME
-	3:"_TV_203063_1".R_COMMENT **4:(NULL::BPCHAR)::CHAR(40)**
+	  [SPU Sequential Scan table ""_TV_203063_1"" {("_TV_203063_1".R_REGIONKEY)}]
+	      -- Estimated Rows = 4, Width = 221, Cost = 0.0 .. 0.0, Conf = 100.0
+	      User table: REGION version 1
+	      Projections:
+	        1:"_TV_203063_1".R_REGIONKEY  2:"_TV_203063_1".R_NAME
+	        3:"_TV_203063_1".R_COMMENT  4:(NULL::BPCHAR)::CHAR(40)
 	Node 4.
-	[SPU Sub-query Scan table "*SELECT* 2" Node "3" {(0."1")}]
-	-- Estimated Rows = 4, Width = 221, Cost = 0.0 .. 0.0, Conf = 0.0
-	Projections:
-	1:0."1" 2:0."2" 3:0."3" 4:0."4"
-	**Node 5.**
-	**[SPU Append Nodes: , "2", "4 (stream)" {(0."1")}]**
-	**-- Estimated Rows = 5, Width = 221, Cost = 0.0 .. 0.0, Conf = 0.0**
-	**Projections:**
-	**1:0."1" 2:0."2" 3:0."3" 4:0."4"**
+	  [SPU Sub-query Scan table "*SELECT* 2" Node "3" {(0."1")}]
+	      -- Estimated Rows = 4, Width = 221, Cost = 0.0 .. 0.0, Conf = 0.0
+	      Projections:
+	        1:0."1"  2:0."2"  3:0."3"  4:0."4"
+	Node 5.
+	  [SPU Append Nodes: , "2", "4 (stream)" {(0."1")}]
+	      -- Estimated Rows = 5, Width = 221, Cost = 0.0 .. 0.0, Conf = 0.0
+	      Projections:
+	        1:0."1"  2:0."2"  3:0."3"  4:0."4"
 	Node 6.
-	[SPU Sub-query Scan table "_BV_203063" Node "5"
-{("_BV_203063".R_REGIONKEY)}]
-	-- Estimated Rows = 5, Width = 221, Cost = 0.0 .. 0.0, Conf = 100.0
-	Projections:
-	1:"_BV_203063".R_REGIONKEY 2:"_BV_203063".R_NAME
-3:"_BV_203063".R_COMMENT
-	4:"_BV_203063".R_NAME_TEMP
-	[SPU Return]
-	[Host Return]
+	  [SPU Sub-query Scan table "_BV_203063" Node "5" {("_BV_203063".R_REGIONKEY)}]
+	      -- Estimated Rows = 5, Width = 221, Cost = 0.0 .. 0.0, Conf = 100.0
+	      Projections:
+	        1:"_BV_203063".R_REGIONKEY  2:"_BV_203063".R_NAME  3:"_BV_203063".R_COMMENT
+	        4:"_BV_203063".R_NAME_TEMP
+	  [SPU Return]
+	  [Host Return]
+	
+	
 	QUERY PLANTEXT:
-	Sub-query Scan table "_BV_203063" (cost=0.0..0.0 rows=5 width=221
-conf=100) {("_BV_203063".R_REGIONKEY)}
+	
+	Sub-query Scan table "_BV_203063" (cost=0.0..0.0 rows=5 width=221 conf=100) {("_BV_203063".R_REGIONKEY)}
 	(xpath_none, locus=spu subject=self)
 	(xpath_none, locus=spu subject=self)
 	(xpath_none, locus=spu subject=self)
 	(spu_send, locus=host subject=self)
 	(host_return, locus=host subject=self)
-	l: Append (cost=0.0..0.0 rows=5 width=221 conf=0) {(0."1")}
-	(xpath_none, locus=spu subject=self)
-	(xpath_none, locus=spu subject=self)
-	a: Sub-query Scan table "*SELECT* 1" (cost=0.0..0.0 rows=1 width=221
-conf=0) {(0."1")}
-	(xpath_none, locus=spu subject=self)
-	l: Sequential Scan table ""_TV_203063_2"" (cost=0.0..0.0 rows=1
-width=221 conf=100) {("_TV_203063_2".R_REGIONKEY)}
-	(User table: REGION version 2)
-	(xpath_none, locus=spu subject=self)
-	a: Sub-query Scan table "*SELECT* 2" (cost=0.0..0.0 rows=4 width=221
-conf=0) {(0."1")}
-	(xpath_none, locus=spu subject=self)
-	l: Sequential Scan table ""_TV_203063_1"" (cost=0.0..0.0 rows=4
-width=221 conf=100) {("_TV_203063_1".R_REGIONKEY)}
-	(User table: REGION version 1)
-	(xpath_none, locus=spu subject=self)
+	   l: Append (cost=0.0..0.0 rows=5 width=221 conf=0) {(0."1")}
+	      (xpath_none, locus=spu subject=self)
+	      (xpath_none, locus=spu subject=self)
+	      a: Sub-query Scan table "*SELECT* 1" (cost=0.0..0.0 rows=1 width=221 conf=0) {(0."1")}
+	         (xpath_none, locus=spu subject=self)
+	         l: Sequential Scan table ""_TV_203063_2"" (cost=0.0..0.0 rows=1 width=221 conf=100)  {("_TV_203063_2".R_REGIONKEY)}
+	            (User table: REGION version 2)
+	            (xpath_none, locus=spu subject=self)
+	      a: Sub-query Scan table "*SELECT* 2" (cost=0.0..0.0 rows=4 width=221 conf=0) {(0."1")}
+	         (xpath_none, locus=spu subject=self)
+	         l: Sequential Scan table ""_TV_203063_1"" (cost=0.0..0.0 rows=4 width=221 conf=100)  {("_TV_203063_1".R_REGIONKEY)}
+	            (User table: REGION version 1)
+	            (xpath_none, locus=spu subject=self)
+	
+	
+	
 	EXPLAIN
+	
+	```
 
 Normally the query would result in a single table scan node. But now
 we see a more complicated query plan. The Optimizer automatically
@@ -1106,103 +1094,90 @@ and appends them.
 
 But let's proceed with our data type change operation.
 
-38. Let's remove the new row again.
+5. Let's remove the new row again.
 
 !!! abstract "Input"
 	```bash
+	DELETE FROM REGION WHERE R_REGIONKEY > 4;
+	```
 
-
-[DELETE FROM REGION WHERE R_REGIONKEY >
-4;
-
-!!! abstract "Output"
+!!! success "Output"
 	```bash
+	DELETE 1
+	```
 
-
-DELETE 1
-
-39. Now we will move all values of the R_NAME column to the R_NAME_TEMP
+6. Now we will move all values of the R_NAME column to the R_NAME_TEMP
     column by updating them
 
 !!! abstract "Input"
 	```bash
+	UPDATE REGION SET R_NAME_TEMP = R_NAME;
+	```
 
-
-[UPDATE REGION SET R_NAME_TEMP =
-R_NAME;
-
-!!! abstract "Output"
+!!! success "Output"
 	```bash
+	UPDATE 4
+	```
 
-
-UPDATE 4
-
-40. Let's have a look at the table again:
+7. Let's have a look at the table again:
 
 !!! abstract "Input"
 	```bash
+	SELECT * FROM REGION;
+	```
 
-
-SELECT * FROM REGION;
-
-!!! abstract "Output"
+!!! success "Output"
 	```bash
-		SELECT * FROM REGION;
-	R_REGIONKEY | R_NAME | R_COMMENT | R_NAME_TEMP
+	R_REGIONKEY  |          R_NAME           |          R_COMMENT          |               R_NAME_TEMP
 	-------------+---------------------------+-----------------------------+------------------------------------------
-	3 | emea | europe, middle east, africa | emea
-	1 | na | north america | na
-	2 | sa | south america | sa
-	4 | ap | asia pacific | ap
+	           3 | emea                      | europe, middle east, africa | emea
+	           1 | na                        | north america               | na
+	           2 | sa                        | south america               | sa
+	           4 | ap                        | asia pacific                | ap
 	(4 rows)
+	```
 
-41. Now let's remove the old column:
-
-!!! abstract "Input"
-	```bash
-
-
-[ALTER TABLE REGION DROP COLUMN R_NAME
-RESTRICT;
-
-!!! abstract "Output"
-	```bash
-
-
-ALTER TABLE
-
-42. Rename the column name R_NAME_TEMP to R_NAME
+8. Now let's remove the old column:
 
 !!! abstract "Input"
 	```bash
+	ALTER TABLE REGION DROP COLUMN R_NAME RESTRICT;
+	```
 
-
-[ALTER TABLE REGION RENAME COLUMN R_NAME_TEMP
-TO R_NAME;
-
-!!! abstract "Output"
+!!! success "Output"
 	```bash
+	ALTER TABLE
+	```
 
-
-ALTER TABLE
-
-43. Let's have a look at the table again:
+9. Rename the column name R_NAME_TEMP to R_NAME
 
 !!! abstract "Input"
 	```bash
+	ALTER TABLE REGION RENAME COLUMN R_NAME_TEMP TO R_NAME;
+	```
 
-
-SELECT * FROM REGION;
-
-!!! abstract "Output"
+!!! success "Output"
 	```bash
-		R_REGIONKEY | R_COMMENT | R_NAME
+	ALTER TABLE
+	```
+
+10. Let's have a look at the table again:
+
+!!! abstract "Input"
+	```bash
+	SELECT * FROM REGION;
+	```
+
+!!! success "Output"
+	```bash
+	R_REGIONKEY  |          R_COMMENT          |                  R_NAME
 	-------------+-----------------------------+------------------------------------------
-	3 | europe, middle east, africa | emea
-	1 | north america | na
-	2 | south america | sa
-	4 | asia pacific | ap
+	           3 | europe, middle east, africa | emea
+	           1 | north america               | na
+	           2 | south america               | sa
+	           4 | asia pacific                | ap
 	(4 rows)
+	```
 
 We have achieved to change the data type of the R_NAME column. The
 column order has changed but our R_NAME column has the same values as
@@ -1214,115 +1189,110 @@ against the REGION table. This not only uses up space it is also bad
 for the query performance. So, we have to materialize these table
 changes with the GROOM command.
 
-44. GROOM the REGION table with the VERSIONS keyword to merge table
+11. GROOM the REGION table with the VERSIONS keyword to merge table
     versions:
 
 !!! abstract "Input"
 	```bash
-
-
-GROOM TABLE REGION VERSIONS;
-
-!!! abstract "Output"
+	GROOM TABLE REGION VERSIONS;
+	```
+	
+!!! success "Output"
 	```bash
-
-
-NOTICE: Groom will not purge records deleted by transactions that
-started after 2020-04-03 04:04:56.
-
-NOTICE: If this process is interrupted please either repeat GROOM
-VERSIONS or issue 'GENERATE STATISTICS ON "REGION"'
-
-NOTICE: Groom processed 2 pages; purged 5 records; scan size shrunk by 1
-pages; table size shrunk by 1 extents.
-
-GROOM VERSIONS
-
+	NOTICE: Groom will not purge records deleted by transactions that
+	started after 2020-04-03 04:04:56.
+	NOTICE: If this process is interrupted please either repeat GROOM
+	VERSIONS or issue 'GENERATE STATISTICS ON "REGION"'
+	NOTICE: Groom processed 2 pages; purged 5 records; scan size shrunk by 1
+	pages; table size shrunk by 1 extents.
+	
+	GROOM VERSIONS
+	```
+	
 45. Finally, we will look at the EXPLAIN output again:
 
 !!! abstract "Input"
 	```bash
-
-
-EXPLAIN VERBOSE SELECT * FROM REGION;
-
-!!! abstract "Output"
-	```bash
-		NOTICE: QUERY PLAN:
-	QUERY SQL:
 	EXPLAIN VERBOSE SELECT * FROM REGION;
+	```
+
+!!! success "Output"
+	```bash
+	NOTICE:  QUERY PLAN:
+	
+	
+	QUERY SQL:
+	
+	EXPLAIN VERBOSE SELECT * FROM REGION;
+	
+	
 	QUERY VERBOSE PLAN:
+	
 	Node 1.
-	[SPU Sequential Scan table "REGION" {(REGION.R_REGIONKEY)}]
-	-- Estimated Rows = 4, Width = 196, Cost = 0.0 .. 0.0, Conf = 100.0
-	Projections:
-	1:REGION.R_REGIONKEY 2:REGION.R_COMMENT 3:REGION.R_NAME
-	[SPU Return]
-	[Host Return]
+	  [SPU Sequential Scan table "REGION" {(REGION.R_REGIONKEY)}]
+	      -- Estimated Rows = 4, Width = 196, Cost = 0.0 .. 0.0, Conf = 100.0
+	      Projections:
+	        1:REGION.R_REGIONKEY  2:REGION.R_COMMENT  3:REGION.R_NAME
+	  [SPU Return]
+	  [Host Return]
+	
+	
 	QUERY PLANTEXT:
-	Sequential Scan table "REGION" (cost=0.0..0.0 rows=4 width=196
-conf=100) {(REGION.R_REGIONKEY)}
+	
+	Sequential Scan table "REGION" (cost=0.0..0.0 rows=4 width=196 conf=100)  {(REGION.R_REGIONKEY)}
 	(xpath_none, locus=spu subject=self)
 	(spu_send, locus=host subject=self)
 	(host_return, locus=host subject=self)
+	
+	
 	EXPLAIN
+	
+	```
 
 Now this is much nicer. As we would expect we only have a single table
 scan snippet in the query plan and a single version of the REGION
 table.
 
-46. Finally, we will return the REGION table to the old column ordering
+13. Finally, we will return the REGION table to the old column ordering
     to not interfere with future labs, to do this we will use a CTAS
     statement
 
 !!! abstract "Input"
 	```bash
+	CREATE TABLE REGION_NEW AS
+	  SELECT R.R_REGIONKEY, R.R_NAME, R.R_COMMENT
+	FROM REGION R;
+	```
 
-
-CREATE TABLE REGION_NEW AS
-
-LABDB.ADMIN(LABADMIN)-> [SELECT R.R_REGIONKEY, R.R_NAME,
-R.R_COMMENT
-
-LABDB.ADMIN(LABADMIN)-> FROM REGION R;
-
-!!! abstract "Output"
+!!! success "Output"
 	```bash
-
-
-INSERT 0 4
+	INSERT 0 4
+	```
 
 47. Now drop the REGION table:
 
 !!! abstract "Input"
 	```bash
+	DROP TABLE REGION;
+	```
 
-
-DROP TABLE REGION;
-
-DROP TABLE
-
-!!! abstract "Output"
+!!! success "Output"
 	```bash
+	DROP TABLE
+	```
 
-
-DROP TABLE
-
-48. Finally, rename the REGION_NEW table to make the transformation
+15. Finally, rename the REGION_NEW table to make the transformation
     complete:
 
 !!! abstract "Input"
 	```bash
+	ALTER TABLE REGION_NEW RENAME TO REGION;
+	```
 
-
-[ALTER TABLE REGION_NEW RENAME TO
-REGION;
-
-!!! abstract "Output"
+!!! success "Output"
 	```bash
-
-
-ALTER TABLE
+	ALTER TABLE
+	```
 
 If a table can be inaccessible for a short period of time using CTAS
 tables can be the better solution to change data types than using an
