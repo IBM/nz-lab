@@ -1,8 +1,12 @@
 .md-typeset .admonition.abstract,
 .md-typeset details.abstract {
-  font-size: 18px;
+  font-size: 16px;
 }
 .md-typeset .admonition.success,
 .md-typeset details.success {
+  font-size: 16px;
+}
+.md-typeset .admonition.warning,
+.md-typeset details.warning {
   font-size: 16px;
 }
