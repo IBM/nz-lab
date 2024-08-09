@@ -66,7 +66,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#backup-and-restore" class="md-skip">
+        <a href="#1-backup-and-restore" class="md-skip">
           Skip to content
         </a>
       
@@ -292,8 +292,8 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#objectives" class="md-nav__link">
-    Objectives
+  <a href="#11-objectives" class="md-nav__link">
+    1.1 Objectives
   </a>
   
 </li>
@@ -455,8 +455,8 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#objectives" class="md-nav__link">
-    Objectives
+  <a href="#11-objectives" class="md-nav__link">
+    1.1 Objectives
   </a>
   
 </li>
@@ -475,7 +475,7 @@
                 
 
 
-<h1 id="backup-and-restore">Backup and Restore</h1>
+<h1 id="1-backup-and-restore">1 Backup and Restore</h1>
 <p>Regular backups of your user databases and system catalogs should be
 taken as part of any data warehouse continuity strategy. One reason to
 take backups is for disaster recovery, for example in case of a fire in
@@ -489,13 +489,13 @@ your various requirements.</p>
 network file system locations and several third-party solutions such as
 IBM Spectrum Protect (formerly Tivoli® Storage Manager), Veritas
 NetBackup, and EMC NetWorker as destinations.</p>
-<h2 id="objectives">Objectives</h2>
+<h2 id="11-objectives">1.1 Objectives</h2>
 <p>In the previous labs we created our LABDB database and loaded the data
 into it. In this lab we will set up a QA database that contains a subset
 of the tables and data of the full database. To create the tables, we
 will use Cross-Database-Access from our QA database to the LABDB
 production database.</p>
-<p>Next we will use the schema-only function of [nzbackup]{.mark} to create
+<p>Next we will use the schema-only function of nzbackup to create
 a test database that contains the same tables and data objects as the QA
 database, but no data. Test data will later be added specifically for
 testing needs. After that we will do a multistep backup of our QA
@@ -510,11 +510,11 @@ example to archive users and groups that are no longer used in any
 database. Host data should be backed up regularly so you can restore the
 Performance Server data directory from the host backup without the
 additional time to restore all of the databases.</p>
-<h1 id="lab-virtual-machine"><strong>Lab Virtual Machine</strong></h1>
+<h1 id="2-lab-virtual-machine">2 Lab Virtual Machine</h1>
 <p>This lab system will be a virtual machine running on Virtual Box. Please
 see the document on how to install the IPS Virtual Machine for your
 workstation (Windows or Mac OS).</p>
-<h1 id="creating-a-qa-database">Creating a QA Database</h1>
+<h1 id="3-creating-a-qa-database">3 Creating a QA Database</h1>
 <p>In this lab we will create a QA database called LABDBQA, which contains
 a subset of the tables. It will contain all of the data from the NATION
 and REGION tables, along with a subset of the data from the CUSTOMER
@@ -534,15 +534,14 @@ system commands and it will be referred to as the OS session, in the
 second session we will start the NZSQL console. It will be referred to
 as the NZSQL session. You can also see which session to use from the
 command prompt in the screenshots.</p>
+<p><img alt="A screenshot of a social media post Description automatically
+generated" src="../nz-images/nz-06-BNR/media/image5.png" /></p>
 <p><strong>Figure 2</strong> The two terminal sessions for this lab, OS session 1
 (Terminal 1) on the left, nzsql session 2 (Terminal 2) on the right</p>
-<p><img alt="A screenshot of a social media post Description automatically
-generated" src="../nz-images/nz-06-BNR/media/image5.png" />{width="7.5in"
-height="3.2159722222222222in"}</p>
 <ol>
 <li>
-<p>Open the first Terminal session. Login to \&lt;your-nps-vm-ip-address>
-    as user nz with password nz. (\&lt;your-nps-vm-ip-address> is the
+<p>Open the first Terminal session. Login to <your-nps-vm-ip-address>
+    as user nz with password nz. (<your-nps-vm-ip-address> is the
     default IP address for a local VM, the IP may be different for your
     Bootcamp)</p>
 </li>
@@ -550,42 +549,44 @@ height="3.2159722222222222in"}</p>
 <p>Access the lab directory for this lab with the following command:</p>
 </li>
 </ol>
-<blockquote>
-<p><strong>Input [Terminal 1]:</strong></p>
-</blockquote>
-<p>[nz@localhost labs]\$ [cd \~/labs/backupRestore/setupLab]{.mark}</p>
-<p>[nz@localhost setupLab]\$ [./setupLab.sh]{.mark}</p>
-<blockquote>
-<p><strong>Output:</strong></p>
-</blockquote>
-<p>﻿DROP DATABASE</p>
-<p>ERROR: DROP DATABASE: object LABDBQA does not exist.</p>
-<p>ERROR: DROP DATABASE: object LABDBTEST does not exist.</p>
-<p>CREATE DATABASE</p>
-<p>ERROR: CREATE USER: object LABADMIN already exists as a USER.</p>
-<p>ALTER USER</p>
-<p>ALTER DATABASE</p>
-<p>CREATE TABLE</p>
-<p>CREATE TABLE</p>
-<p>CREATE TABLE</p>
-<p>CREATE TABLE</p>
-<p>CREATE TABLE</p>
-<p>CREATE TABLE</p>
-<p>CREATE TABLE</p>
-<p>CREATE TABLE</p>
-<p>Load session of table \'NATION\' completed successfully</p>
-<p>Load session of table \'REGION\' completed successfully</p>
-<p>Load session of table \'CUSTOMER\' completed successfully</p>
-<p>Load session of table \'SUPPLIER\' completed successfully</p>
-<p>Load session of table \'PART\' completed successfully</p>
-<p>Load session of table \'PARTSUPP\' completed successfully</p>
-<p>Load session of table \'ORDERS\' completed successfully</p>
-<p>Load session of table \'LINEITEM\' completed successfully</p>
+<div class="admonition abstract">
+<p class="admonition-title">Input [Terminal 1]:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>~/labs/backupRestore/setupLab
+./setupLab.sh
+</code></pre></div>
+</div>
+<div class="admonition success">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code>DROP<span class="w"> </span>DATABASE
+ERROR:<span class="w">  </span>DROP<span class="w"> </span>DATABASE:<span class="w"> </span>object<span class="w"> </span>LABDBQA<span class="w"> </span>does<span class="w"> </span>not<span class="w"> </span>exist.
+ERROR:<span class="w">  </span>DROP<span class="w"> </span>DATABASE:<span class="w"> </span>object<span class="w"> </span>LABDBTEST<span class="w"> </span>does<span class="w"> </span>not<span class="w"> </span>exist.
+CREATE<span class="w"> </span>DATABASE
+ERROR:<span class="w">  </span>CREATE<span class="w"> </span>USER:<span class="w"> </span>object<span class="w"> </span>LABADMIN<span class="w"> </span>already<span class="w"> </span>exists<span class="w"> </span>as<span class="w"> </span>a<span class="w"> </span>USER.
+ALTER<span class="w"> </span>USER
+ALTER<span class="w"> </span>DATABASE
+CREATE<span class="w"> </span>TABLE
+CREATE<span class="w"> </span>TABLE
+CREATE<span class="w"> </span>TABLE
+CREATE<span class="w"> </span>TABLE
+CREATE<span class="w"> </span>TABLE
+CREATE<span class="w"> </span>TABLE
+CREATE<span class="w"> </span>TABLE
+CREATE<span class="w"> </span>TABLE
+Load<span class="w"> </span>session<span class="w"> </span>of<span class="w"> </span>table<span class="w"> </span><span class="s1">&#39;NATION&#39;</span><span class="w"> </span>completed<span class="w"> </span>successfully
+Load<span class="w"> </span>session<span class="w"> </span>of<span class="w"> </span>table<span class="w"> </span><span class="s1">&#39;REGION&#39;</span><span class="w"> </span>completed<span class="w"> </span>successfully
+Load<span class="w"> </span>session<span class="w"> </span>of<span class="w"> </span>table<span class="w"> </span><span class="s1">&#39;CUSTOMER&#39;</span><span class="w"> </span>completed<span class="w"> </span>successfully
+Load<span class="w"> </span>session<span class="w"> </span>of<span class="w"> </span>table<span class="w"> </span><span class="s1">&#39;SUPPLIER&#39;</span><span class="w"> </span>completed<span class="w"> </span>successfully
+Load<span class="w"> </span>session<span class="w"> </span>of<span class="w"> </span>table<span class="w"> </span><span class="s1">&#39;PART&#39;</span><span class="w"> </span>completed<span class="w"> </span>successfully
+Load<span class="w"> </span>session<span class="w"> </span>of<span class="w"> </span>table<span class="w"> </span><span class="s1">&#39;PARTSUPP&#39;</span><span class="w"> </span>completed<span class="w"> </span>successfully
+Load<span class="w"> </span>session<span class="w"> </span>of<span class="w"> </span>table<span class="w"> </span><span class="s1">&#39;ORDERS&#39;</span><span class="w"> </span>completed<span class="w"> </span>successfully
+Load<span class="w"> </span>session<span class="w"> </span>of<span class="w"> </span>table<span class="w"> </span><span class="s1">&#39;LINEITEM&#39;</span><span class="w"> </span>completed<span class="w"> </span>successfully<span class="w"> </span>
+</code></pre></div>
+</div>
 <ol start="3">
 <li>
 <p>Open the second Terminal session. Login to
-    \&lt;your-nps-vm-ip-address> as user nz with password nz.
-    (\&lt;your-nps-vm-ip-address> is the default IP address for a local
+    <code>&lt;your-nps-vm-ip-address&gt;</code> as user nz with password nz.
+    <code>&lt;your-nps-vm-ip-address&gt;</code> is the default IP address for a local
     VM, the IP may be different for your Bootcamp)</p>
 </li>
 <li>
@@ -593,76 +594,85 @@ height="3.2159722222222222in"}</p>
     command:</p>
 </li>
 </ol>
-<blockquote>
-<p><strong>Input [Terminal 2]:</strong></p>
-</blockquote>
-<p>[nz@localhost \~]\$ [cd \~/labs/backupRestore/]{.mark}</p>
-<blockquote>
-<p><strong>Output:</strong></p>
-</blockquote>
-<p>[nz@localhost backupRestore]\$</p>
+<div class="admonition abstract">
+<p class="admonition-title">Input [Terminal 2]:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>~/labs/backupRestore/
+</code></pre></div>
+</div>
+<div class="admonition success">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code><span class="o">[</span>nz@localhost<span class="w"> </span>backupRestore<span class="o">]</span>$
+</code></pre></div>
+</div>
 <ol start="5">
 <li>Start the nzsql console using the nzsql command:</li>
 </ol>
-<blockquote>
-<p><strong>Input [Terminal 2]:</strong></p>
-</blockquote>
-<p>[nz@localhost backupRestore]\$ [nzsql]{.mark}</p>
-<blockquote>
-<p><strong>Output:</strong></p>
-</blockquote>
-<p>Welcome to nzsql, the IBM Netezza SQL interactive terminal.</p>
-<p>Type: \h for help with SQL commands</p>
-<p>\? for help on internal slash commands</p>
-<p>\g or terminate with semicolon to execute query</p>
-<p>\q to quit</p>
-<p>SYSTEM.ADMIN(ADMIN)=></p>
-<ul>
-<li>
-<p><img alt="" src="../nz-images/nz-06-BNR/media/image6.jpeg" />{width="0.3645833333333333in"
-    height="0.375in"}This will connect you to the SYSTEM database with
-    the ADMIN user. These are the default settings stored in the
-    environment variables of the NZ user.</p>
-<ol>
+<div class="admonition abstract">
+<p class="admonition-title">Input [Terminal 2]:</p>
+<div class="highlight"><pre><span></span><code>nzsql
+</code></pre></div>
+</div>
+<div class="admonition success">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code>Welcome<span class="w"> </span>to<span class="w"> </span>nzsql,<span class="w"> </span>the<span class="w"> </span>IBM<span class="w"> </span>Netezza<span class="w"> </span>SQL<span class="w"> </span>interactive<span class="w"> </span>terminal.
+
+Type:<span class="w">  </span><span class="se">\h</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="nb">help</span><span class="w"> </span>with<span class="w"> </span>SQL<span class="w"> </span>commands
+<span class="w">       </span><span class="se">\?</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="nb">help</span><span class="w"> </span>on<span class="w"> </span>internal<span class="w"> </span>slash<span class="w"> </span>commands
+<span class="w">       </span><span class="se">\g</span><span class="w"> </span>or<span class="w"> </span>terminate<span class="w"> </span>with<span class="w"> </span>semicolon<span class="w"> </span>to<span class="w"> </span>execute<span class="w"> </span>query
+<span class="w">       </span><span class="se">\q</span><span class="w"> </span>to<span class="w"> </span>quit
+
+SYSTEM.ADMIN<span class="o">(</span>ADMIN<span class="o">)=</span>&gt;
+</code></pre></div>
+</div>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>This will connect you to the SYSTEM database with
+the ADMIN user. These are the default settings stored in the
+environment variables of the NZ user.</p>
+</div>
+<ol start="6">
 <li>Create the empty QA database using the CREATE DATABASE command:</li>
 </ol>
-</li>
-</ul>
-<blockquote>
-<p><strong>Input [Terminal 2]:</strong></p>
-</blockquote>
-<p>SYSTEM.ADMIN(ADMIN)=> [create database LABDBQA;]{.mark}</p>
-<blockquote>
-<p><strong>Output:</strong></p>
-</blockquote>
-<p>CREATE DATABASE</p>
+<div class="admonition abstract">
+<p class="admonition-title">Input [Terminal 2]:</p>
+<div class="highlight"><pre><span></span><code>create<span class="w"> </span>database<span class="w"> </span>LABDBQA<span class="p">;</span>
+</code></pre></div>
+</div>
+<div class="admonition success">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code>CREATE<span class="w"> </span>DATABASE
+</code></pre></div>
+</div>
 <ol start="2">
-<li>Connect to the QA database using the \c command.</li>
+<li>Connect to the QA database using the <code>\c</code> command.</li>
 </ol>
-<blockquote>
-<p><strong>Input [Terminal 2]:</strong></p>
-</blockquote>
-<p>SYSTEM.ADMIN(ADMIN)=> [\c LABDBQA]{.mark}</p>
-<blockquote>
-<p><strong>Output:</strong></p>
-</blockquote>
-<p>You are now connected to database LABDBQA.</p>
+<div class="admonition abstract">
+<p class="admonition-title">Input [Terminal 2]:</p>
+<div class="highlight"><pre><span></span><code><span class="w"> </span><span class="se">\c</span><span class="w"> </span>LABDBQA
+</code></pre></div>
+</div>
+<div class="admonition success">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code>You<span class="w"> </span>are<span class="w"> </span>now<span class="w"> </span>connected<span class="w"> </span>to<span class="w"> </span>database<span class="w"> </span>LABDBQA.
+</code></pre></div>
+</div>
 <ol start="3">
 <li>Create a full copy of the REGION table from the LABDB database:</li>
 </ol>
-<blockquote>
-<p><strong>Input [Terminal 2]:</strong></p>
-</blockquote>
-<p>LABDBQA.ADMIN(ADMIN)=> [create table region as select * from
-labdb.admin.region;]{.mark}</p>
-<blockquote>
-<p><strong>Output:</strong></p>
-</blockquote>
-<p>INSERT 0 4</p>
+<div class="admonition abstract">
+<p class="admonition-title">Input [Terminal 2]:</p>
+<div class="highlight"><pre><span></span><code>create<span class="w"> </span>table<span class="w"> </span>region<span class="w"> </span>as<span class="w"> </span><span class="k">select</span><span class="w"> </span>*<span class="w"> </span>from<span class="w"> </span>labdb.admin.region<span class="p">;</span>
+</code></pre></div>
+</div>
+<div class="admonition success">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code>INSERT<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">4</span>
+</code></pre></div>
+</div>
 <p>With the CTAS statement, we created a local REGION table in the
 currently connected LABDBQA database with the same definition and
 content as the REGION table from the LABDB database. The [CREATE TABLE
-AS]{.mark} statement is one of the most flexible administrative tools
+AS statement is one of the most flexible administrative tools
 for an IBM Netezza Performance Server administrator.</p>
 <p>We can easily access tables of databases we are currently not connected
 to, but only for read operations. We cannot insert data into a database
@@ -671,21 +681,22 @@ we are not connected to.</p>
 <li>Verify that the content has been copied over correctly. View the
     original data in the LABDB database:</li>
 </ol>
-<blockquote>
-<p><strong>Input [Terminal 2]:</strong></p>
-</blockquote>
-<p>LABDBQA.ADMIN(ADMIN)=> [select * from labdb.admin.region order by
-1;]{.mark}</p>
-<blockquote>
-<p><strong>Output:</strong></p>
-</blockquote>
-<p>﻿R_REGIONKEY | R_NAME | R_COMMENT</p>
-<p>-------------+---------------------------+-----------------------------</p>
-<p>1 | na | north america</p>
-<p>2 | sa | south america</p>
-<p>3 | emea | europe, middle east, africa</p>
-<p>4 | ap | asia pacific</p>
-<p>(4 rows)</p>
+<div class="admonition abstract">
+<p class="admonition-title">Input [Terminal 2]:</p>
+<div class="highlight"><pre><span></span><code><span class="k">select</span><span class="w"> </span>*<span class="w"> </span>from<span class="w"> </span>labdb.admin.region<span class="w"> </span>order<span class="w"> </span>by<span class="w"> </span><span class="m">1</span><span class="p">;</span>
+</code></pre></div>
+</div>
+<div class="admonition success">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code><span class="w"> </span>R_REGIONKEY<span class="w"> </span><span class="p">|</span><span class="w">          </span>R_NAME<span class="w">           </span><span class="p">|</span><span class="w">          </span>R_COMMENT<span class="w">          </span>
+-------------+---------------------------+-----------------------------
+<span class="w">           </span><span class="m">1</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>na<span class="w">                        </span><span class="p">|</span><span class="w"> </span>north<span class="w"> </span>america
+<span class="w">           </span><span class="m">2</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sa<span class="w">                        </span><span class="p">|</span><span class="w"> </span>south<span class="w"> </span>america
+<span class="w">           </span><span class="m">3</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>emea<span class="w">                      </span><span class="p">|</span><span class="w"> </span>europe,<span class="w"> </span>middle<span class="w"> </span>east,<span class="w"> </span>africa
+<span class="w">           </span><span class="m">4</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>ap<span class="w">                        </span><span class="p">|</span><span class="w"> </span>asia<span class="w"> </span>pacific
+<span class="o">(</span><span class="m">4</span><span class="w"> </span>rows<span class="o">)</span>
+</code></pre></div>
+</div>
 <p>You should see four rows in the result set.</p>
 <p>To access a table from a foreign database, we need to have the fully
 qualified name. Notice that we include the schema name between the two
@@ -695,48 +706,52 @@ table name needs to be unique in a given database it should be included.</p>
 <li>Now let's compare that to our local REGION table using the SELECT
     statement:</li>
 </ol>
-<blockquote>
-<p><strong>Input [Terminal 2]:</strong></p>
-</blockquote>
-<p>LABDBQA.ADMIN(ADMIN)=> [select * from labdbqa.admin.region order by
-1;]{.mark}</p>
-<blockquote>
-<p><strong>Output:</strong></p>
-</blockquote>
-<p>﻿R_REGIONKEY | R_NAME | R_COMMENT</p>
-<p>-------------+---------------------------+-----------------------------</p>
-<p>1 | na | north america</p>
-<p>2 | sa | south america</p>
-<p>3 | emea | europe, middle east, africa</p>
-<p>4 | ap | asia pacific</p>
-<p>(4 rows)</p>
+<div class="admonition abstract">
+<p class="admonition-title">Input [Terminal 2]:</p>
+<div class="highlight"><pre><span></span><code><span class="k">select</span><span class="w"> </span>*<span class="w"> </span>from<span class="w"> </span>labdbqa.admin.region<span class="w"> </span>order<span class="w"> </span>by<span class="w"> </span><span class="m">1</span><span class="p">;</span>
+</code></pre></div>
+</div>
+<div class="admonition success">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code>R_REGIONKEY<span class="w"> </span><span class="p">|</span><span class="w">          </span>R_NAME<span class="w">           </span><span class="p">|</span><span class="w">          </span>R_COMMENT<span class="w">          </span>
+-------------+---------------------------+-----------------------------
+<span class="w">           </span><span class="m">1</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>na<span class="w">                        </span><span class="p">|</span><span class="w"> </span>north<span class="w"> </span>america
+<span class="w">           </span><span class="m">2</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sa<span class="w">                        </span><span class="p">|</span><span class="w"> </span>south<span class="w"> </span>america
+<span class="w">           </span><span class="m">3</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>emea<span class="w">                      </span><span class="p">|</span><span class="w"> </span>europe,<span class="w"> </span>middle<span class="w"> </span>east,<span class="w"> </span>africa
+<span class="w">           </span><span class="m">4</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>ap<span class="w">                        </span><span class="p">|</span><span class="w"> </span>asia<span class="w"> </span>pacific
+<span class="o">(</span><span class="m">4</span><span class="w"> </span>rows<span class="o">)</span>
+</code></pre></div>
+</div>
 <p>You should see the same rows as before.</p>
 <ol start="6">
 <li>Now copy over the NATION table:</li>
 </ol>
-<blockquote>
-<p><strong>Input [Terminal 2]:</strong></p>
-</blockquote>
-<p>LABDBQA.ADMIN(ADMIN)=> [create table nation as select * from
-labdb.admin.nation;]{.mark}</p>
-<blockquote>
-<p><strong>Output:</strong></p>
-</blockquote>
-<p>INSERT 0 14</p>
+<div class="admonition abstract">
+<p class="admonition-title">Input [Terminal 2]:</p>
+<div class="highlight"><pre><span></span><code>create<span class="w"> </span>table<span class="w"> </span>nation<span class="w"> </span>as<span class="w"> </span><span class="k">select</span><span class="w"> </span>*<span class="w"> </span>from<span class="w"> </span>labdb.admin.nation<span class="p">;</span>
+</code></pre></div>
+</div>
+<div class="admonition success">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code>INSERT<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">14</span>
+</code></pre></div>
+</div>
 <ol start="7">
 <li>Finally, we will copy over a subset of our CUSTOMER table, copying
     only the rows from the automobile market segment into the QA
     database:</li>
 </ol>
-<blockquote>
-<p><strong>Input [Terminal 2]:</strong></p>
-</blockquote>
-<p>LABDBQA.ADMIN(ADMIN)=> [create table customer as select * from
-labdb.admin.customer where c_mktsegment = \'AUTOMOBILE\';]{.mark}</p>
-<blockquote>
-<p><strong>Output:</strong></p>
-</blockquote>
-<p>INSERT 0 29752</p>
+<div class="admonition abstract">
+<p class="admonition-title">Input [Terminal 2]:</p>
+<div class="highlight"><pre><span></span><code>create<span class="w"> </span>table<span class="w"> </span>customer<span class="w"> </span>as<span class="w"> </span><span class="k">select</span><span class="w"> </span>*<span class="w"> </span>from<span class="w"> </span>labdb.admin.customer<span class="w"> </span>
+where<span class="w"> </span><span class="nv">c_mktsegment</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;AUTOMOBILE&#39;</span><span class="p">;</span>
+</code></pre></div>
+</div>
+<div class="admonition success">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code>INSERT<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">29752</span>
+</code></pre></div>
+</div>
 <p>Notice that this inserts 29,752 rows into the QA customer table, roughly
 a fifth of the original table.</p>
 <ol start="8">
@@ -744,43 +759,46 @@ a fifth of the original table.</p>
     names with their corresponding region names. This is used in a
     couple of applications:</li>
 </ol>
-<blockquote>
-<p><strong>Input [Terminal 2]:</strong></p>
-</blockquote>
-<p>LABDBQA.ADMIN(ADMIN)=> [create view nationsbyregions as select r_name,
-n_name from nation, region where r_regionkey = n_regionkey;]{.mark}</p>
-<blockquote>
-<p><strong>Output:</strong></p>
-</blockquote>
-<p>CREATE VIEW</p>
+<div class="admonition abstract">
+<p class="admonition-title">Input [Terminal 2]:</p>
+<div class="highlight"><pre><span></span><code>create<span class="w"> </span>view<span class="w"> </span>nationsbyregions<span class="w"> </span>as<span class="w"> </span><span class="k">select</span><span class="w"> </span>r_name,<span class="w"> </span>n_name<span class="w"> </span>
+from<span class="w"> </span>nation,<span class="w"> </span>region<span class="w"> </span>where<span class="w"> </span><span class="nv">r_regionkey</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>n_regionkey<span class="p">;</span>
+</code></pre></div>
+</div>
+<div class="admonition success">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code>CREATE<span class="w"> </span>VIEW
+</code></pre></div>
+</div>
 <ol start="9">
 <li>Let's have a look at what the view returns:</li>
 </ol>
-<blockquote>
-<p><strong>Input [Terminal 2]:</strong></p>
-</blockquote>
-<p>LABDBQA.ADMIN(ADMIN)=> [select * from nationsbyregions order by
-1;]{.mark}</p>
-<blockquote>
-<p><strong>Output:</strong></p>
-</blockquote>
-<p><strong>﻿</strong> R_NAME | N_NAME</p>
-<p>---------------------------+---------------------------</p>
-<p>ap | australia</p>
-<p>ap | macau</p>
-<p>ap | japan</p>
-<p>ap | hong kong</p>
-<p>ap | new zealand</p>
-<p>emea | united arab emirates</p>
-<p>emea | portugal</p>
-<p>emea | united kingdom</p>
-<p>emea | south africa</p>
-<p>na | united states</p>
-<p>na | canada</p>
-<p>sa | brazil</p>
-<p>sa | guyana</p>
-<p>sa | venezuela</p>
-<p>(14 rows)</p>
+<div class="admonition abstract">
+<p class="admonition-title">Input [Terminal 2]:</p>
+<div class="highlight"><pre><span></span><code><span class="k">select</span><span class="w"> </span>*<span class="w"> </span>from<span class="w"> </span>nationsbyregions<span class="w"> </span>order<span class="w"> </span>by<span class="w"> </span><span class="m">1</span><span class="p">;</span>
+</code></pre></div>
+</div>
+<div class="admonition success">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code><span class="w">          </span>R_NAME<span class="w">           </span><span class="p">|</span><span class="w">          </span>N_NAME<span class="w">           </span>
+---------------------------+---------------------------
+<span class="w"> </span>ap<span class="w">                        </span><span class="p">|</span><span class="w"> </span>australia<span class="w">                </span>
+<span class="w"> </span>ap<span class="w">                        </span><span class="p">|</span><span class="w"> </span>macau<span class="w">                    </span>
+<span class="w"> </span>ap<span class="w">                        </span><span class="p">|</span><span class="w"> </span>japan<span class="w">                    </span>
+<span class="w"> </span>ap<span class="w">                        </span><span class="p">|</span><span class="w"> </span>hong<span class="w"> </span>kong<span class="w">                </span>
+<span class="w"> </span>ap<span class="w">                        </span><span class="p">|</span><span class="w"> </span>new<span class="w"> </span>zealand<span class="w">              </span>
+<span class="w"> </span>emea<span class="w">                      </span><span class="p">|</span><span class="w"> </span>united<span class="w"> </span>arab<span class="w"> </span>emirates<span class="w">     </span>
+<span class="w"> </span>emea<span class="w">                      </span><span class="p">|</span><span class="w"> </span>portugal<span class="w">                 </span>
+<span class="w"> </span>emea<span class="w">                      </span><span class="p">|</span><span class="w"> </span>united<span class="w"> </span>kingdom<span class="w">           </span>
+<span class="w"> </span>emea<span class="w">                      </span><span class="p">|</span><span class="w"> </span>south<span class="w"> </span>africa<span class="w">             </span>
+<span class="w"> </span>na<span class="w">                        </span><span class="p">|</span><span class="w"> </span>united<span class="w"> </span>states<span class="w">            </span>
+<span class="w"> </span>na<span class="w">                        </span><span class="p">|</span><span class="w"> </span>canada<span class="w">                   </span>
+<span class="w"> </span>sa<span class="w">                        </span><span class="p">|</span><span class="w"> </span>brazil<span class="w">                   </span>
+<span class="w"> </span>sa<span class="w">                        </span><span class="p">|</span><span class="w"> </span>guyana<span class="w">                   </span>
+<span class="w"> </span>sa<span class="w">                        </span><span class="p">|</span><span class="w"> </span>venezuela<span class="w">                </span>
+<span class="o">(</span><span class="m">14</span><span class="w"> </span>rows<span class="o">)</span>
+</code></pre></div>
+</div>
 <p>You should get a list of all nations and their corresponding region
 name.</p>
 <p>Views are a very convenient way to hide SQL complexity. They can also be
@@ -790,45 +808,51 @@ Performance Server.</p>
 <ol start="10">
 <li>Verify the created tables with the display tables command:</li>
 </ol>
-<blockquote>
-<p><strong>Input [Terminal 2]:</strong></p>
-</blockquote>
-<p>LABDBQA.ADMIN(ADMIN)-> [\dt]{.mark}</p>
-<blockquote>
-<p><strong>Output:</strong></p>
-</blockquote>
-<p>List of relations</p>
-<p>Schema | Name | Type | Owner</p>
-<p>--------+----------+-------+-------</p>
-<p>ADMIN | CUSTOMER | TABLE | ADMIN</p>
-<p>ADMIN | NATION | TABLE | ADMIN</p>
-<p>ADMIN | REGION | TABLE | ADMIN</p>
-<p>(3 rows)</p>
+<div class="admonition abstract">
+<p class="admonition-title">Input [Terminal 2]:</p>
+<div class="highlight"><pre><span></span><code><span class="se">\d</span>t
+</code></pre></div>
+</div>
+<div class="admonition success">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code><span class="w">     </span>List<span class="w"> </span>of<span class="w"> </span>relations
+<span class="w"> </span>Schema<span class="w"> </span><span class="p">|</span><span class="w">   </span>Name<span class="w">   </span><span class="p">|</span><span class="w"> </span>Type<span class="w">  </span><span class="p">|</span><span class="w"> </span>Owner<span class="w"> </span>
+--------+----------+-------+-------
+<span class="w"> </span>ADMIN<span class="w">  </span><span class="p">|</span><span class="w"> </span>CUSTOMER<span class="w"> </span><span class="p">|</span><span class="w"> </span>TABLE<span class="w"> </span><span class="p">|</span><span class="w"> </span>ADMIN
+<span class="w"> </span>ADMIN<span class="w">  </span><span class="p">|</span><span class="w"> </span>NATION<span class="w">   </span><span class="p">|</span><span class="w"> </span>TABLE<span class="w"> </span><span class="p">|</span><span class="w"> </span>ADMIN
+<span class="w"> </span>ADMIN<span class="w">  </span><span class="p">|</span><span class="w"> </span>REGION<span class="w">   </span><span class="p">|</span><span class="w"> </span>TABLE<span class="w"> </span><span class="p">|</span><span class="w"> </span>ADMIN
+<span class="o">(</span><span class="m">3</span><span class="w"> </span>rows<span class="o">)</span>
+</code></pre></div>
+</div>
 <p>Notice that the QA database only contains the three tables we just
 created.</p>
 <p>Next create a QA user and make them owner of the database.</p>
 <ol start="11">
 <li>Create a user qauser:</li>
 </ol>
-<blockquote>
-<p><strong>Input [Terminal 2]:</strong></p>
-</blockquote>
-<p>LABDBQA.ADMIN(ADMIN)=> [create user qauser;]{.mark}</p>
-<blockquote>
-<p><strong>Output:</strong></p>
-</blockquote>
-<p>CREATE USER</p>
+<div class="admonition abstract">
+<p class="admonition-title">Input [Terminal 2]:</p>
+<div class="highlight"><pre><span></span><code>create<span class="w"> </span>user<span class="w"> </span>qauser<span class="p">;</span>
+</code></pre></div>
+</div>
+<div class="admonition success">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code>CREATE<span class="w"> </span>USER
+</code></pre></div>
+</div>
 <ol start="12">
 <li>Make the id qauser owner of the QA database called labdbqa:</li>
 </ol>
-<blockquote>
-<p><strong>Input [Terminal 2]:</strong></p>
-</blockquote>
-<p>LABDBQA.ADMIN(ADMIN)=> [alter database labdbqa owner to qauser;]{.mark}</p>
-<blockquote>
-<p><strong>Output:</strong></p>
-</blockquote>
-<p>ALTER DATABASE</p>
+<div class="admonition abstract">
+<p class="admonition-title">Input [Terminal 2]:</p>
+<div class="highlight"><pre><span></span><code>alter<span class="w"> </span>database<span class="w"> </span>labdbqa<span class="w"> </span>owner<span class="w"> </span>to<span class="w"> </span>qauser<span class="p">;</span>
+</code></pre></div>
+</div>
+<div class="admonition success">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code>ALTER<span class="w"> </span>DATABASE
+</code></pre></div>
+</div>
 <p>We have successfully created our QA database using cross access database
 CTAS statements. Our QA database contains three tables and a view, and
 we have a user that is the owner of this database. In the next section
@@ -840,71 +864,73 @@ empty copy of the QA database as test database. This will not contain
 any data since the developers will fill it with test-specific data.
 Schema only backup is a convenient way to recreate databases without
 user data.</p>
-<p>We need to specify three parameters to the [nzbackup]{.mark} command,
+<p>We need to specify three parameters to the nzbackup command,
 the database we want to backup, the file system location where we want
-to save the backup files to and the [--schema-only]{.mark} parameter to
+to save the backup files to and the --schema-only parameter to
 specify that user data shouldn't be backed up.</p>
-<ul>
-<li>
-<p><img alt="" src="../nz-images/nz-06-BNR/media/image7.png" />{width="0.34375in"
-    height="0.3020833333333333in"}Normally backups should be saved on a
-    remote network file server, not on the host hard disks. Not only is
-    this essential for disaster recovery, but the host hard disks are
-    small, optimized for speed and not intended to hold large amount of
-    data. They are strictly intended for Netezza Performance Server
-    software and operational data.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Normally backups should be saved on a
+remote network file server, not on the host hard disks. Not only is
+this essential for disaster recovery, but the host hard disks are
+small, optimized for speed and not intended to hold large amount of
+data. They are strictly intended for Netezza Performance Server
+software and operational data.</p>
+</div>
 <ol>
 <li>Switch to the OS session and create the schema only backup of
     our QA database:</li>
 </ol>
-</li>
-</ul>
-<blockquote>
-<p><strong>Input [Terminal 1]:</strong></p>
-</blockquote>
-<p>[nz@localhost setupLab]\$ [nzbackup -schema-only -db labdbqa -dir
-/tmp/bkschema]{.mark}</p>
-<blockquote>
-<p><strong>Output:</strong></p>
-</blockquote>
-<p>Backup of schema for database labdbqa completed successfully.</p>
+<div class="admonition abstract">
+<p class="admonition-title">Input [Terminal 1]:</p>
+<div class="highlight"><pre><span></span><code>nzbackup<span class="w"> </span>-schema-only<span class="w"> </span>-db<span class="w"> </span>labdbqa<span class="w"> </span>-dir<span class="w"> </span>/tmp/bkschema
+</code></pre></div>
+</div>
+<div class="admonition success">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code>Backup<span class="w"> </span>of<span class="w"> </span>schema<span class="w"> </span><span class="k">for</span><span class="w"> </span>database<span class="w"> </span>labdbqa<span class="w"> </span>completed<span class="w"> </span>successfully.
+</code></pre></div>
+</div>
 <p>Later in this Lab we will have a deeper look at the files and the logs
 the backup command created.</p>
 <p>We can restore a database to a different database name. We simply need
-to specify the new name in the [--db]{.mark} parameter and the old name
-in the [--sourcedb]{.mark} parameter.</p>
+to specify the new name in the --db parameter and the old name
+in the --sourcedb parameter.</p>
 <ol start="2">
 <li>Now we will restore the test database from this backup:</li>
 </ol>
-<blockquote>
-<p><strong>Input [Terminal 1]:</strong></p>
-</blockquote>
-<p>[nz@localhost setupLab]\$ [nzrestore -dir /tmp/bkschema -db labdbtest
--sourcedb labdbqa -schema-only]{.mark}</p>
-<blockquote>
-<p><strong>Output:</strong></p>
-</blockquote>
-<p>Restore of schema for database labdbtest completed successfully.</p>
+<div class="admonition abstract">
+<p class="admonition-title">Input [Terminal 1]:</p>
+<div class="highlight"><pre><span></span><code>nzrestore<span class="w"> </span>-dir<span class="w"> </span>/tmp/bkschema<span class="w"> </span>-db<span class="w"> </span>labdbtest<span class="w"> </span>-sourcedb<span class="w"> </span>labdbqa<span class="w"> </span>-schema-only
+</code></pre></div>
+</div>
+<div class="admonition success">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code>Restore<span class="w"> </span>of<span class="w"> </span>schema<span class="w"> </span><span class="k">for</span><span class="w"> </span>database<span class="w"> </span>labdbtest<span class="w"> </span>completed<span class="w"> </span>successfully.
+</code></pre></div>
+</div>
 <ol start="3">
 <li>In the nzsql session we will verify that we successfully created an
     empty copy of our database. See all available databases with the
-    following command: \l</li>
+    following command: <code>\l</code></li>
 </ol>
-<blockquote>
-<p><strong>Input [Terminal 2]:</strong></p>
-</blockquote>
-<p>LABDBQA.ADMIN(ADMIN)=> [\l]{.mark}</p>
-<blockquote>
-<p><strong>Output:</strong></p>
-</blockquote>
-<p>List of databases</p>
-<p>DATABASE | OWNER</p>
-<p>-----------+----------</p>
-<p>LABDB | LABADMIN</p>
-<p>LABDBQA | QAUSER</p>
-<p>LABDBTEST | QAUSER</p>
-<p>SYSTEM | ADMIN</p>
-<p>(4 rows)</p>
+<div class="admonition abstract">
+<p class="admonition-title">Input [Terminal 2]:</p>
+<div class="highlight"><pre><span></span><code><span class="w"> </span><span class="se">\l</span>
+</code></pre></div>
+</div>
+<div class="admonition success">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code><span class="w">  </span>List<span class="w"> </span>of<span class="w"> </span>databases
+<span class="w"> </span>DATABASE<span class="w">  </span><span class="p">|</span><span class="w">  </span>OWNER<span class="w">   </span>
+-----------+----------
+<span class="w"> </span>LABDB<span class="w">     </span><span class="p">|</span><span class="w"> </span>LABADMIN
+<span class="w"> </span>LABDBQA<span class="w">   </span><span class="p">|</span><span class="w"> </span>QAUSER
+<span class="w"> </span>LABDBTEST<span class="w"> </span><span class="p">|</span><span class="w"> </span>QAUSER
+<span class="w"> </span>SYSTEM<span class="w">    </span><span class="p">|</span><span class="w"> </span>ADMIN
+<span class="o">(</span><span class="m">4</span><span class="w"> </span>rows<span class="o">)</span>
+</code></pre></div>
+</div>
 <p>Notice that the LABDBTEST database was successfully created and the
 privilege information has been copied as well, the owner is QAUSER,
 which is the same as the owner of the LABDBQA database.</p>
@@ -912,66 +938,73 @@ which is the same as the owner of the LABDBQA database.</p>
 <li>We do not want the QA user being the owner of the test database,
     change the owner to ADMIN for now:</li>
 </ol>
-<blockquote>
-<p><strong>Input [Terminal 2]:</strong></p>
-</blockquote>
-<p>LABDBQA.ADMIN(ADMIN)=> [alter database labdbtest owner to
-admin;]{.mark}</p>
-<blockquote>
-<p><strong>Output:</strong></p>
-</blockquote>
-<p>ALTER DATABASE</p>
+<div class="admonition abstract">
+<p class="admonition-title">Input [Terminal 2]:</p>
+<div class="highlight"><pre><span></span><code>alter<span class="w"> </span>database<span class="w"> </span>labdbtest<span class="w"> </span>owner<span class="w"> </span>to<span class="w"> </span>admin<span class="p">;</span>
+</code></pre></div>
+</div>
+<div class="admonition success">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code>ALTER<span class="w"> </span>DATABASE
+</code></pre></div>
+</div>
 <ol start="5">
 <li>Now let's check the contents of the test database. First connect to
     the database with the \c command, and then display the database
     objects with the \d command</li>
 </ol>
-<blockquote>
-<p><strong>Input [Terminal 2]:</strong></p>
-</blockquote>
-<p>LABDBQA.ADMIN(ADMIN)=> [\c labdbtest]{.mark}</p>
-<blockquote>
-<p><strong>Output:</strong></p>
-</blockquote>
-<p>You are now connected to database labdbtest.</p>
+<div class="admonition abstract">
+<p class="admonition-title">Input [Terminal 2]:</p>
+<div class="highlight"><pre><span></span><code><span class="se">\c</span><span class="w"> </span>labdbtest
+</code></pre></div>
+</div>
+<div class="admonition success">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code>You<span class="w"> </span>are<span class="w"> </span>now<span class="w"> </span>connected<span class="w"> </span>to<span class="w"> </span>database<span class="w"> </span>labdbtest.
+</code></pre></div>
+</div>
 <ol start="6">
 <li>Verify the test database contains all the objects of the QA
-    database: [\d]{.mark}</li>
+    database: \d</li>
 </ol>
-<blockquote>
-<p><strong>Input [Terminal 2]:</strong></p>
-</blockquote>
-<p>LABDBTEST.ADMIN(ADMIN)-> [\d]{.mark}</p>
-<blockquote>
-<p><strong>Output:</strong></p>
-</blockquote>
-<p>List of relations</p>
-<p>Schema | Name | Type | Owner</p>
-<p>--------+------------------+-------+-------</p>
-<p>ADMIN | CUSTOMER | TABLE | ADMIN</p>
-<p>ADMIN | NATION | TABLE | ADMIN</p>
-<p>ADMIN | NATIONSBYREGIONS | VIEW | ADMIN</p>
-<p>ADMIN | REGION | TABLE | ADMIN</p>
-<p>(4 rows)</p>
+<div class="admonition abstract">
+<p class="admonition-title">Input [Terminal 2]:</p>
+<div class="highlight"><pre><span></span><code><span class="w"> </span><span class="se">\d</span>
+</code></pre></div>
+</div>
+<div class="admonition success">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code><span class="w">             </span>List<span class="w"> </span>of<span class="w"> </span>relations
+<span class="w"> </span>Schema<span class="w"> </span><span class="p">|</span><span class="w">       </span>Name<span class="w">       </span><span class="p">|</span><span class="w"> </span>Type<span class="w">  </span><span class="p">|</span><span class="w"> </span>Owner<span class="w"> </span>
+--------+------------------+-------+-------
+<span class="w"> </span>ADMIN<span class="w">  </span><span class="p">|</span><span class="w"> </span>CUSTOMER<span class="w">         </span><span class="p">|</span><span class="w"> </span>TABLE<span class="w"> </span><span class="p">|</span><span class="w"> </span>ADMIN
+<span class="w"> </span>ADMIN<span class="w">  </span><span class="p">|</span><span class="w"> </span>NATION<span class="w">           </span><span class="p">|</span><span class="w"> </span>TABLE<span class="w"> </span><span class="p">|</span><span class="w"> </span>ADMIN
+<span class="w"> </span>ADMIN<span class="w">  </span><span class="p">|</span><span class="w"> </span>NATIONSBYREGIONS<span class="w"> </span><span class="p">|</span><span class="w"> </span>VIEW<span class="w">  </span><span class="p">|</span><span class="w"> </span>ADMIN
+<span class="w"> </span>ADMIN<span class="w">  </span><span class="p">|</span><span class="w"> </span>REGION<span class="w">           </span><span class="p">|</span><span class="w"> </span>TABLE<span class="w"> </span><span class="p">|</span><span class="w"> </span>ADMIN
+<span class="o">(</span><span class="m">4</span><span class="w"> </span>rows<span class="o">)</span>
+</code></pre></div>
+</div>
 <p>You will see the three tables and the view we created.</p>
 <p>Performance Server Backup saves all database objects including views,
 stored procedures, and more. It also includes all users, groups and
 privileges that refer to the database included in the backup.</p>
 <ol start="7">
-<li>Since we used the [--schema-only]{.mark} option we have not copied
-    any data. Verify this for the NATION table using the [SELECT]{.mark}
+<li>Since we used the --schema-only option we have not copied
+    any data. Verify this for the NATION table using the SELECT
     command:</li>
 </ol>
-<blockquote>
-<p><strong>Input:</strong></p>
-</blockquote>
-<p>LABDBTEST.ADMIN(ADMIN)=> [select * from nation;]{.mark}</p>
-<blockquote>
-<p><strong>Output:</strong></p>
-</blockquote>
-<p>N_NATIONKEY | N_NAME | N_REGIONKEY | N_COMMENT</p>
-<p>-------------+--------+-------------+-----------</p>
-<p>(0 rows)</p>
+<div class="admonition abstract">
+<p class="admonition-title">Input</p>
+<div class="highlight"><pre><span></span><code><span class="k">select</span><span class="w"> </span>*<span class="w"> </span>from<span class="w"> </span>nation<span class="p">;</span>
+</code></pre></div>
+</div>
+<div class="admonition success">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code><span class="w"> </span>N_NATIONKEY<span class="w"> </span><span class="p">|</span><span class="w"> </span>N_NAME<span class="w"> </span><span class="p">|</span><span class="w"> </span>N_REGIONKEY<span class="w"> </span><span class="p">|</span><span class="w"> </span>N_COMMENT
+-------------+--------+-------------+-----------
+<span class="o">(</span><span class="m">0</span><span class="w"> </span>rows<span class="o">)</span>
+</code></pre></div>
+</div>
 <p>Notice the result set is empty as expected. The schema-only backup
 option is a convenient way to save your database schema and to create
 empty copies of your database. It will create a full 1:1 copy of the
@@ -1000,11 +1033,13 @@ backups after the daily ETL processes that feed the warehouse.</p>
 <p><strong>Figure 3 A typical backup strategy</strong></p>
 <p>In this section we will create a backup of our QA database. We will then
 do a differential backup and then do a restore.</p>
-<p><img alt="" src="../nz-images/nz-06-BNR/media/image9.png" />{width="0.3645833333333333in"
-height="0.3020833333333333in"}Our VMWare environment has some specific
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Our VMWare environment has some specific
 restrictions that only allow the restoration of up to 2 increments. The
 labs will work correctly but don't be surprised if you encounter errors
 during restore operations of more than 2 increments.</p>
+</div>
 <h2 id="backing-up-the-database">Backing up the Database</h2>
 <p>Netezza Performance Server's backup is organized in so called backup
 sets. Every new full backup creates a new backup set. Differential and
@@ -1015,83 +1050,87 @@ switch between the two Terminal sessions.</p>
 <li>In the OS session execute the following command to create a full
     backup of the QA database:</li>
 </ol>
-<blockquote>
-<p><strong>Input [Terminal 1]:</strong></p>
-</blockquote>
-<p>[nz@localhost setupLab]\$ [nzbackup -db labdbqa -dir /tmp/bk1
-/tmp/bk2]{.mark}</p>
-<blockquote>
-<p><strong>Output:</strong></p>
-</blockquote>
-<p>﻿Backup of database labdbqa to backupset ﻿ ﻿20210331133512 completed
-successfully.</p>
+<div class="admonition abstract">
+<p class="admonition-title">Input [Terminal 1]:</p>
+<div class="highlight"><pre><span></span><code>nzbackup<span class="w"> </span>-db<span class="w"> </span>labdbqa<span class="w"> </span>-dir<span class="w"> </span>/tmp/bk1<span class="w"> </span>/tmp/bk2
+</code></pre></div>
+</div>
+<div class="admonition success">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code>Backup<span class="w"> </span>of<span class="w"> </span>database<span class="w"> </span>labdbqa<span class="w"> </span>to<span class="w"> </span>backupset﻿20210331133512<span class="w"> </span>completed<span class="w"> </span>successfully.
+</code></pre></div>
+</div>
 <p>This command will create a full user data backup of the LABDBQA
 database.</p>
 <p>Each backup set has a unique id that can be later used to access it. By
 default, the last active backup set is used for restore and differential
 backups.</p>
-<blockquote>
-<p><img alt="" src="../nz-images/nz-06-BNR/media/image6.jpeg" />{width="0.3645833333333333in"
-height="0.375in"}In this lab we split up the backup between two file
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>In this lab we split up the backup between two file
 system locations. You can specify up to 16 file system locations after
-the [--dir]{.mark} parameter. Alternatively, you could use a directory
-list file as well with the [--dirfile]{.mark} option. Splitting up the
+the --dir parameter. Alternatively, you could use a directory
+list file as well with the --dirfile option. Splitting up the
 backup between different file servers will result in higher backup
 performance.</p>
-</blockquote>
+</div>
 <ol start="2">
 <li>In the NZSQL session we will now add a new row to the REGION table.
-    First connect to the QA database using the [\c]{.mark} command:</li>
+    First connect to the QA database using the \c command:</li>
 </ol>
-<blockquote>
-<p><strong>Input [Terminal 2]:</strong></p>
-</blockquote>
-<p>LABDBTEST.ADMIN(ADMIN)=> [\c labdbqa]{.mark}</p>
-<blockquote>
-<p><strong>Output:</strong></p>
-</blockquote>
-<p>You are now connected to database labdbqa.</p>
+<div class="admonition abstract">
+<p class="admonition-title">Input [Terminal 2]:</p>
+<div class="highlight"><pre><span></span><code><span class="se">\c</span><span class="w"> </span>labdbqa
+</code></pre></div>
+</div>
+<div class="admonition success">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code>You<span class="w"> </span>are<span class="w"> </span>now<span class="w"> </span>connected<span class="w"> </span>to<span class="w"> </span>database<span class="w"> </span>labdbqa.
+</code></pre></div>
+</div>
 <ol start="3">
 <li>Now add a new entry for the north pole to the REGION table:</li>
 </ol>
-<blockquote>
-<p><strong>Input [Terminal 2]:</strong></p>
-</blockquote>
-<p>LABDBQA.ADMIN(ADMIN)=> [insert into region values (5, \'np\', \'north
-pole\');]{.mark}</p>
-<blockquote>
-<p><strong>Output:</strong></p>
-</blockquote>
-<p>INSERT 0 1</p>
-<p>Now create a differential backup with the [--differential]{.mark}
+<div class="admonition abstract">
+<p class="admonition-title">Input [Terminal 2]:</p>
+<div class="highlight"><pre><span></span><code>insert<span class="w"> </span>into<span class="w"> </span>region<span class="w"> </span>values<span class="w"> </span><span class="o">(</span><span class="m">5</span>,<span class="w"> </span><span class="s1">&#39;np&#39;</span>,<span class="w"> </span><span class="s1">&#39;north pole&#39;</span><span class="o">)</span><span class="p">;</span>
+</code></pre></div>
+</div>
+<div class="admonition success">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code>INSERT<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">1</span>
+</code></pre></div>
+</div>
+<p>Now create a differential backup with the --differential
 option. This will create a new entry to the backup set we created
 previously only containing the differences since the full backup.</p>
 <ol start="4">
 <li>In the OS session create a differential backup:</li>
 </ol>
-<blockquote>
-<p><strong>Input [Terminal 1]:</strong></p>
-</blockquote>
-<p>[nz@localhost setupLab]\$ [nzbackup -db labdbqa -dir /tmp/bk1 /tmp/bk2
--differential]{.mark}</p>
-<blockquote>
-<p><strong>Output:</strong></p>
-</blockquote>
-<p>﻿Backup of database labdbqa to backupset ﻿20210331133512 completed
-successfully.</p>
+<div class="admonition abstract">
+<p class="admonition-title">Input [Terminal 1]:</p>
+<div class="highlight"><pre><span></span><code>nzbackup<span class="w"> </span>-db<span class="w"> </span>labdbqa<span class="w"> </span>-dir<span class="w"> </span>/tmp/bk1<span class="w"> </span>/tmp/bk2<span class="w"> </span>-differential
+</code></pre></div>
+</div>
+<div class="admonition success">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code>Backup<span class="w"> </span>of<span class="w"> </span>database<span class="w"> </span>labdbqa<span class="w"> </span>to<span class="w"> </span>backupset<span class="w"> </span>﻿20210331133512<span class="w"> </span>completed<span class="w"> </span>successfully.
+</code></pre></div>
+</div>
 <p>Notice that the backup set id hasn't changed.</p>
 <ol start="5">
 <li>In the NZSQL session add the south pole to the REGION table:</li>
 </ol>
-<blockquote>
-<p><strong>Input [Terminal 2]:</strong></p>
-</blockquote>
-<p>LABDBQA.ADMIN(ADMIN)=> [insert into region values (6, \'sp\', \'south
-pole\');]{.mark}</p>
-<blockquote>
-<p><strong>Output:</strong></p>
-</blockquote>
-<p>INSERT 0 1</p>
+<div class="admonition abstract">
+<p class="admonition-title">Input [Terminal 2]:</p>
+<div class="highlight"><pre><span></span><code>insert<span class="w"> </span>into<span class="w"> </span>region<span class="w"> </span>values<span class="w"> </span><span class="o">(</span><span class="m">6</span>,<span class="w"> </span><span class="s1">&#39;sp&#39;</span>,<span class="w"> </span><span class="s1">&#39;south pole&#39;</span><span class="o">)</span><span class="p">;</span>
+</code></pre></div>
+</div>
+<div class="admonition success">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code>INSERT<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">1</span>
+</code></pre></div>
+</div>
 <p>You have now one full backup with the original 4 rows in the REGION
 table, a differential backup that has additionally the north pole entry
 and a current state that has in addition to that the south pole region.</p>
@@ -1102,23 +1141,20 @@ are created during the Netezza Performance Server Backup process.</p>
 <li>In the OS session display the backup history of your Netezza
     Performance Server.</li>
 </ol>
-<blockquote>
-<p><strong>Input [Terminal 1]:</strong></p>
-</blockquote>
-<p>[nz@localhost setupLab]\$ [nzbackup -history]{.mark}</p>
-<blockquote>
-<p><strong>Output:</strong></p>
-</blockquote>
-<p><strong>﻿</strong> ﻿Database Backupset Seq # OpType Status Date Log File</p>
-<p>-------- -------------- ----- -------
---------- -------------------
-------------------------------</p>
-<p>LABDBQA 20210331133344 1 NO DATA COMPLETED 2021-03-31 06:33:44
-backupsvr.30436.2021-03-31.log</p>
-<p>LABDBQA 20210331133512 1 FULL COMPLETED 2021-03-31 06:35:12
-backupsvr.30648.2021-03-31.log</p>
-<p>LABDBQA 20210331133512 2 DIFF COMPLETED 2021-03-31 06:36:00
-backupsvr.30859.2021-03-31.log</p>
+<div class="admonition abstract">
+<p class="admonition-title">Input [Terminal 1]:</p>
+<div class="highlight"><pre><span></span><code>nzbackup<span class="w"> </span>-history
+</code></pre></div>
+</div>
+<div class="admonition success">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code><span class="w"> </span>Database<span class="w"> </span>Backupset<span class="w">      </span>Seq<span class="w"> </span><span class="c1"># OpType  Status    Date                Log File                      </span>
+--------<span class="w"> </span>--------------<span class="w"> </span>-----<span class="w"> </span>-------<span class="w"> </span>---------<span class="w"> </span>-------------------<span class="w"> </span>------------------------------
+LABDBQA<span class="w">  </span><span class="m">20210331133344</span><span class="w"> </span><span class="m">1</span><span class="w">     </span>NO<span class="w"> </span>DATA<span class="w"> </span>COMPLETED<span class="w"> </span><span class="m">2021</span>-03-31<span class="w"> </span><span class="m">06</span>:33:44<span class="w"> </span>backupsvr.30436.2021-03-31.log
+LABDBQA<span class="w">  </span><span class="m">20210331133512</span><span class="w"> </span><span class="m">1</span><span class="w">     </span>FULL<span class="w">    </span>COMPLETED<span class="w"> </span><span class="m">2021</span>-03-31<span class="w"> </span><span class="m">06</span>:35:12<span class="w"> </span>backupsvr.30648.2021-03-31.log
+LABDBQA<span class="w">  </span><span class="m">20210331133512</span><span class="w"> </span><span class="m">2</span><span class="w">     </span>DIFF<span class="w">    </span>COMPLETED<span class="w"> </span><span class="m">2021</span>-03-31<span class="w"> </span><span class="m">06</span>:36:00<span class="w"> </span>backupsvr.30859.2021-03-31.log
+</code></pre></div>
+</div>
 <p>Netezza Performance Server keeps track of all backups and saves them in
 the system catalog. This is used for differential backups and it is also
 integrated with the Groom process. Since Performance Server doesn't use
@@ -1135,48 +1171,46 @@ has been generated for the last differential backup.</p>
 <li>In the OS session, switch to the log directory of the backupsrv
     process, which is the process responsible for backing up data:</li>
 </ol>
-<blockquote>
-<p><strong>Input [Terminal 1]:</strong></p>
-</blockquote>
-<p>[nz@localhost backupRestore]\$ [cd /nz/kit/log/backupsvr]{.mark}</p>
-<blockquote>
-<p><strong>Output:</strong></p>
-</blockquote>
-<p>[nz@localhost backupsvr]\$</p>
-<p><img alt="" src="../nz-images/nz-06-BNR/media/image6.jpeg" />{width="0.3645833333333333in"
-height="0.375in"} The /nz/kit/log directory contains the log directories
+<div class="admonition abstract">
+<p class="admonition-title">Input [Terminal 1]:</p>
+<div class="highlight"><pre><span></span><code><span class="o">[</span><span class="nb">cd</span><span class="w"> </span>/nz/kit/log/backupsvr
+</code></pre></div>
+</div>
+<div class="admonition success">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code><span class="o">[</span>nz@localhost<span class="w"> </span>backupsvr<span class="o">]</span>$
+</code></pre></div>
+</div>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>The /nz/kit/log directory contains the log directories
 for all Performance Server processes.</p>
+</div>
 <ol start="3">
 <li>Display the end of the log for the last differential backup process.
     You will need to replace the XXX values with the actual values of
     your log. You can cut and paste the log name from the history output
     above. We are interested in the last differential backup process:</li>
 </ol>
-<blockquote>
-<p><strong>Input [Terminal 1]:</strong></p>
-</blockquote>
-<p>[nz@netezza backupsvr]\$ [tail backupsvr.xxxxx.xxxx-xx-xx.log]{.mark}</p>
-<blockquote>
-<p><strong>Output:</strong></p>
-</blockquote>
-<p>﻿﻿2021-03-31 06:36:04.879861 PDT (30859) Info: [30882] Postgres client
-pid: 30884, session: 16111</p>
-<p>2021-03-31 06:36:04.883271 PDT (30859) Info: [30883] Postgres client
-pid: 30885, session: 16112</p>
-<p>2021-03-31 06:36:04.892053 PDT (30859) Info: Capturing deleted rows</p>
-<p>2021-03-31 06:36:04.892145 PDT (30859) Info: Backing up table
-ADMIN.REGION</p>
-<p>2021-03-31 06:36:06.115265 PDT (30859) Info: Wrote 5569 bytes of
-metadata and udx files in less than a second</p>
-<p>2021-03-31 06:36:06.115362 PDT (30859) Info: Operation committed</p>
-<p>2021-03-31 06:36:06.115381 PDT (30859) Info: Wrote 72 bytes in less than
-one second to location 1</p>
-<p>2021-03-31 06:36:06.115384 PDT (30859) Info: Wrote 193 bytes in less
-than one second to location 2</p>
-<p>2021-03-31 06:36:06.115434 PDT (30859) Info: Backup of database labdbqa
-to backupset 20210331133512 completed successfully.</p>
-<p>2021-03-31 06:36:06.123928 PDT (30859) Info: NZ-00023: --- program
-\'backupsvr\' (30859) exiting on host \'localhost.localdomain\' ...</p>
+<div class="admonition abstract">
+<p class="admonition-title">Input [Terminal 1]:</p>
+<div class="highlight"><pre><span></span><code>tail<span class="w"> </span>backupsvr.xxxxx.xxxx-xx-xx.log
+</code></pre></div>
+</div>
+<div class="admonition success">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code><span class="m">2021</span>-03-31<span class="w"> </span><span class="m">06</span>:36:04.879861<span class="w"> </span>PDT<span class="w"> </span><span class="o">(</span><span class="m">30859</span><span class="o">)</span><span class="w"> </span>Info:<span class="w"> </span><span class="o">[</span><span class="m">30882</span><span class="o">]</span><span class="w"> </span>Postgres<span class="w"> </span>client<span class="w"> </span>pid:<span class="w"> </span><span class="m">30884</span>,<span class="w"> </span>session:<span class="w"> </span><span class="m">16111</span>
+<span class="m">2021</span>-03-31<span class="w"> </span><span class="m">06</span>:36:04.883271<span class="w"> </span>PDT<span class="w"> </span><span class="o">(</span><span class="m">30859</span><span class="o">)</span><span class="w"> </span>Info:<span class="w"> </span><span class="o">[</span><span class="m">30883</span><span class="o">]</span><span class="w"> </span>Postgres<span class="w"> </span>client<span class="w"> </span>pid:<span class="w"> </span><span class="m">30885</span>,<span class="w"> </span>session:<span class="w"> </span><span class="m">16112</span>
+<span class="m">2021</span>-03-31<span class="w"> </span><span class="m">06</span>:36:04.892053<span class="w"> </span>PDT<span class="w"> </span><span class="o">(</span><span class="m">30859</span><span class="o">)</span><span class="w"> </span>Info:<span class="w"> </span>Capturing<span class="w"> </span>deleted<span class="w"> </span>rows
+<span class="m">2021</span>-03-31<span class="w"> </span><span class="m">06</span>:36:04.892145<span class="w"> </span>PDT<span class="w"> </span><span class="o">(</span><span class="m">30859</span><span class="o">)</span><span class="w"> </span>Info:<span class="w"> </span>Backing<span class="w"> </span>up<span class="w"> </span>table<span class="w"> </span>ADMIN.REGION
+<span class="m">2021</span>-03-31<span class="w"> </span><span class="m">06</span>:36:06.115265<span class="w"> </span>PDT<span class="w"> </span><span class="o">(</span><span class="m">30859</span><span class="o">)</span><span class="w"> </span>Info:<span class="w"> </span>Wrote<span class="w"> </span><span class="m">5569</span><span class="w"> </span>bytes<span class="w"> </span>of<span class="w"> </span>metadata<span class="w"> </span>and<span class="w"> </span>udx<span class="w"> </span>files<span class="w"> </span><span class="k">in</span><span class="w"> </span>less<span class="w"> </span>than<span class="w"> </span>a<span class="w"> </span>second
+<span class="m">2021</span>-03-31<span class="w"> </span><span class="m">06</span>:36:06.115362<span class="w"> </span>PDT<span class="w"> </span><span class="o">(</span><span class="m">30859</span><span class="o">)</span><span class="w"> </span>Info:<span class="w"> </span>Operation<span class="w"> </span>committed
+<span class="m">2021</span>-03-31<span class="w"> </span><span class="m">06</span>:36:06.115381<span class="w"> </span>PDT<span class="w"> </span><span class="o">(</span><span class="m">30859</span><span class="o">)</span><span class="w"> </span>Info:<span class="w"> </span>Wrote<span class="w"> </span><span class="m">72</span><span class="w"> </span>bytes<span class="w"> </span><span class="k">in</span><span class="w"> </span>less<span class="w"> </span>than<span class="w"> </span>one<span class="w"> </span>second<span class="w"> </span>to<span class="w"> </span>location<span class="w"> </span><span class="m">1</span>
+<span class="m">2021</span>-03-31<span class="w"> </span><span class="m">06</span>:36:06.115384<span class="w"> </span>PDT<span class="w"> </span><span class="o">(</span><span class="m">30859</span><span class="o">)</span><span class="w"> </span>Info:<span class="w"> </span>Wrote<span class="w"> </span><span class="m">193</span><span class="w"> </span>bytes<span class="w"> </span><span class="k">in</span><span class="w"> </span>less<span class="w"> </span>than<span class="w"> </span>one<span class="w"> </span>second<span class="w"> </span>to<span class="w"> </span>location<span class="w"> </span><span class="m">2</span>
+<span class="m">2021</span>-03-31<span class="w"> </span><span class="m">06</span>:36:06.115434<span class="w"> </span>PDT<span class="w"> </span><span class="o">(</span><span class="m">30859</span><span class="o">)</span><span class="w"> </span>Info:<span class="w"> </span>Backup<span class="w"> </span>of<span class="w"> </span>database<span class="w"> </span>labdbqa<span class="w"> </span>to<span class="w"> </span>backupset<span class="w"> </span><span class="m">20210331133512</span><span class="w"> </span>completed<span class="w"> </span>successfully.
+<span class="m">2021</span>-03-31<span class="w"> </span><span class="m">06</span>:36:06.123928<span class="w"> </span>PDT<span class="w"> </span><span class="o">(</span><span class="m">30859</span><span class="o">)</span><span class="w"> </span>Info:<span class="w"> </span>NZ-00023:<span class="w"> </span>---<span class="w"> </span>program<span class="w"> </span><span class="s1">&#39;backupsvr&#39;</span><span class="w"> </span><span class="o">(</span><span class="m">30859</span><span class="o">)</span><span class="w"> </span>exiting<span class="w"> </span>on<span class="w"> </span>host<span class="w"> </span><span class="s1">&#39;localhost.localdomain&#39;</span><span class="w"> </span>...
+</code></pre></div>
+</div>
 <p>You can see that the process backed up the three tables REGION, NATION
 and CUSTOMER and wrote the result to two different locations. You also
 see the amount of data written to these locations. Since we only added a
@@ -1186,82 +1220,83 @@ full backup you will see a lot more data being written.</p>
 <li>Now let's have a look at the files that are created during the
     backup process, enter the first backup location:</li>
 </ol>
-<blockquote>
-<p><strong>Input [Terminal 1]:</strong></p>
-</blockquote>
-<p>[nz@netezza backupsvr]\$ [cd /tmp/bk1]{.mark}</p>
-<blockquote>
-<p><strong>Output:</strong></p>
-</blockquote>
-<p>[nz@localhost bk1]\$</p>
+<div class="admonition abstract">
+<p class="admonition-title">Input [Terminal 1]:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>/tmp/bk1
+</code></pre></div>
+</div>
+<div class="admonition success">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code><span class="o">[</span>nz@localhost<span class="w"> </span>bk1<span class="o">]</span>$
+</code></pre></div>
+</div>
 <ol start="5">
-<li>Display the contents of the directory using [ls -l]{.mark}.</li>
+<li>Display the contents of the directory using ls -l.</li>
 </ol>
-<blockquote>
-<p><strong>Input [Terminal 1]:</strong></p>
-</blockquote>
-<p>[nz@localhost bk1]\$ [ls -l]{.mark}</p>
-<blockquote>
-<p><strong>Output:</strong></p>
-</blockquote>
-<p>﻿drwxrwxrwx. 3 nz nz 35 Mar 31 04:43 Netezza</p>
+<div class="admonition abstract">
+<p class="admonition-title">Input [Terminal 1]:</p>
+<div class="highlight"><pre><span></span><code>ls<span class="w"> </span>-l
+</code></pre></div>
+</div>
+<div class="admonition success">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code>drwxrwxrwx.<span class="w"> </span><span class="m">3</span><span class="w"> </span>nz<span class="w"> </span>nz<span class="w"> </span><span class="m">35</span><span class="w"> </span>Mar<span class="w"> </span><span class="m">31</span><span class="w"> </span><span class="m">04</span>:43<span class="w"> </span>Netezza
+</code></pre></div>
+</div>
 <p>The directory contains all backup sets for all Performance Servers that
 use this backup location. If you need to move the backup you always have
 to move the complete folder.</p>
 <ol start="6">
 <li>Change directories into the Netezza folder, with cd Netezza, and
-    display the contents with [ls -l]{.mark}.</li>
+    display the contents with ls -l.</li>
 </ol>
-<blockquote>
-<p><strong>Input [Terminal 1]:</strong></p>
-</blockquote>
-<p>[nz@localhost bk1]\$ [cd Netezza]{.mark}</p>
-<blockquote>
-<p><strong>Input [Terminal 1]:</strong></p>
-</blockquote>
-<p>[nz@localhost Netezza]\$ [ls -l]{.mark}</p>
-<blockquote>
-<p><strong>Output:</strong></p>
-</blockquote>
-<p>total 0</p>
-<p>﻿drwxrwxrwx. 3 nz nz 21 Mar 31 04:43 localhost.localdomain</p>
+<div class="admonition abstract">
+<p class="admonition-title">Input [Terminal 1]:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>Netezza
+ls<span class="w"> </span>-l
+</code></pre></div>
+</div>
+<div class="admonition success">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code>total<span class="w"> </span><span class="m">0</span>
+drwxrwxrwx.<span class="w"> </span><span class="m">3</span><span class="w"> </span>nz<span class="w"> </span>nz<span class="w"> </span><span class="m">21</span><span class="w"> </span>Mar<span class="w"> </span><span class="m">31</span><span class="w"> </span><span class="m">04</span>:43<span class="w"> </span>localhost.localdomain
+</code></pre></div>
+</div>
 <p>Under the main Netezza folder you will find sub folders for each Netezza
 host that is backed up to this location. In our case we only have one
 Netezza host called "netezza". But if your company had multiple Netezza
 hosts you would find them here.</p>
 <ol start="7">
 <li>Change directories to the localhost.localdomain folder with the
-    [cd]{.mark} command and display the contents with [ll]{.mark}:</li>
+    cd command and display the contents with [ll:</li>
 </ol>
-<blockquote>
-<p><strong>Input [Terminal 1]:</strong></p>
-</blockquote>
-<p>[nz@localhost Netezza]\$ [cd localhost.localdomain]{.mark}</p>
-<blockquote>
-<p><strong>Input [Terminal 1]:</strong></p>
-</blockquote>
-<p>[nz@localhost localhost.localdomain]\$ [ls -l]{.mark}</p>
-<blockquote>
-<p><strong>Output:</strong></p>
-</blockquote>
-<p>drwxrwxrwx. 3 nz nz 28 Mar 31 04:43 LABDBQA</p>
+<div class="admonition abstract">
+<p class="admonition-title">Input [Terminal 1]:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>localhost.localdomain
+ls<span class="w"> </span>-l
+</code></pre></div>
+</div>
+<div class="admonition success">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code>drwxrwxrwx.<span class="w"> </span><span class="m">3</span><span class="w"> </span>nz<span class="w"> </span>nz<span class="w"> </span><span class="m">28</span><span class="w"> </span>Mar<span class="w"> </span><span class="m">31</span><span class="w"> </span><span class="m">04</span>:43<span class="w"> </span>LABDBQA
+</code></pre></div>
+</div>
 <ol start="8">
-<li>Change directories to the LABDBQA folder with [cd]{.mark} and
-    display the contents with [ls -l]{.mark}:</li>
+<li>Change directories to the LABDBQA folder with cd and
+    display the contents with ls -l:</li>
 </ol>
-<blockquote>
-<p><strong>Input [Terminal 1]:</strong></p>
-</blockquote>
-<p>[nz@localhost localhost.localdomain]\$ [cd LABDBQA/]{.mark}</p>
-<blockquote>
-<p><strong>Input [Terminal 1]:</strong></p>
-</blockquote>
-<p>[nz@localhost LABDBQA]\$ [ls -l]{.mark}</p>
-<blockquote>
-<p><strong>Output:</strong></p>
-</blockquote>
-<p>total 0</p>
-<p>drwxrwxrwx. 4 nz nz 24 Apr 5 11:44 ﻿20210331133512</p>
+<div class="admonition abstract">
+<p class="admonition-title">Input [Terminal 1]:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>LABDBQA/
+ls<span class="w"> </span>-l
+</code></pre></div>
+</div>
+<div class="admonition success">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code>total<span class="w"> </span><span class="m">0</span>
+drwxrwxrwx.<span class="w"> </span><span class="m">4</span><span class="w"> </span>nz<span class="w"> </span>nz<span class="w"> </span><span class="m">24</span><span class="w"> </span>Apr<span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="m">11</span>:44<span class="w"> </span>﻿20210331133512
+</code></pre></div>
+</div>
 <p>You will find all the databases of the host that have been backed up to
 this location, in our case the QA database.</p>
 <p>In this folder you can see all the backup sets that have been saved for
@@ -1270,244 +1305,188 @@ optional set of differential and cumulative backups. Note that we backed
 up the schema to a different location, so we only have one backup set in
 here.</p>
 <ol start="9">
-<li>Change directories to the backup set folder with [cd]{.mark} \&lt;your
-    backupset id> and display the contents with [ll]{.mark}:</li>
+<li>Change directories to the backup set folder with cd <your
+    backupset id> and display the contents with ll:</li>
 </ol>
-<blockquote>
-<p><strong>Input [Terminal 1]:</strong></p>
-</blockquote>
-<p>[nz@localhost LABDBQA]\$ [cd]{.mark} ﻿[20210331133512 /]{.mark}</p>
-<blockquote>
-<p><strong>Input [Terminal 1]:</strong></p>
-</blockquote>
-<p>[nz@localhost ﻿20210331133512]\$ [ls -l]{.mark}</p>
-<blockquote>
-<p><strong>Output:</strong></p>
-</blockquote>
-<p>total 0</p>
-<p>drwxrwxrwx. 3 nz nz 18 Mar 31 06:35 1</p>
-<p>drwxrwxrwx. 3 nz nz 18 Mar 31 04:36 2</p>
+<div class="admonition abstract">
+<p class="admonition-title">Input [Terminal 1]:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>﻿20210331133512<span class="w"> </span>/
+ls<span class="w"> </span>-l
+</code></pre></div>
+</div>
+<div class="admonition success">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code>total<span class="w"> </span><span class="m">0</span>
+drwxrwxrwx.<span class="w"> </span><span class="m">3</span><span class="w"> </span>nz<span class="w"> </span>nz<span class="w"> </span><span class="m">18</span><span class="w"> </span>Mar<span class="w"> </span><span class="m">31</span><span class="w"> </span><span class="m">06</span>:35<span class="w"> </span><span class="m">1</span>
+drwxrwxrwx.<span class="w"> </span><span class="m">3</span><span class="w"> </span>nz<span class="w"> </span>nz<span class="w"> </span><span class="m">18</span><span class="w"> </span>Mar<span class="w"> </span><span class="m">31</span><span class="w"> </span><span class="m">04</span>:36<span class="w"> </span><span class="m">2</span>
+</code></pre></div>
+</div>
 <p>Under the backup set are folders for each backup that has been added to
 that backup set. "1" is always the full backup followed by additional
 differential or cumulative backups. We will later use these numbers to
 restore our database to a specific backup of the backup set.</p>
 <ol start="10">
-<li>
-<p>Change directories to the full backup with [cd]{.mark} and display
-    the contents with [ll]{.mark}:</p>
-</li>
-<li>
-<p><strong>Input [Terminal 1]:</strong></p>
-</li>
+<li>Change directories to the full backup with cd and display
+    the contents with ll:</li>
 </ol>
-<p>[nz@localhost ﻿20210331133512]\$ [cd 1]{.mark}</p>
-<blockquote>
-<p><strong>Input [Terminal 1]:</strong></p>
-</blockquote>
-<p>[nz@localhost 1]\$ [ls -l]{.mark}</p>
-<blockquote>
-<p><strong>Output:</strong></p>
-</blockquote>
-<p>total 0</p>
-<p>drwxrwxrwx. 4 nz nz 28 Mar 31 06:43 FULL</p>
+<div class="admonition abstract">
+<p class="admonition-title">Input [Terminal 1]:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span><span class="m">1</span>
+ls<span class="w"> </span>-l
+</code></pre></div>
+</div>
+<div class="admonition success">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code>total<span class="w"> </span><span class="m">0</span>
+drwxrwxrwx.<span class="w"> </span><span class="m">4</span><span class="w"> </span>nz<span class="w"> </span>nz<span class="w"> </span><span class="m">28</span><span class="w"> </span>Mar<span class="w"> </span><span class="m">31</span><span class="w"> </span><span class="m">06</span>:43<span class="w"> </span>FULL
+</code></pre></div>
+</div>
 <p>As expected, it's a full backup.</p>
 <ol start="12">
-<li>Change directories to the [FULL]{.mark} folder with cd and display
-    the contents with [ls -l:]{.mark}</li>
+<li>Change directories to the FULL folder with cd and display
+    the contents with ls -l:</li>
 </ol>
-<blockquote>
-<p><strong>Input [Terminal 1]:</strong></p>
-</blockquote>
-<p>[nz@localhost FULL]\$ [cd FULL]{.mark}</p>
-<p>[nz@localhost FULL]\$ [ls -l]{.mark}</p>
-<blockquote>
-<p><strong>Output:</strong></p>
-</blockquote>
-<p>total 0</p>
-<p>﻿drwxrwxrwx. 2 nz nz 94 Mar 31 06:35 data</p>
-<p>drwxrwxrwx. 3 nz nz 92 Mar 31 06:35 md</p>
+<div class="admonition abstract">
+<p class="admonition-title">Input [Terminal 1]:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>FULL
+ls<span class="w"> </span>-l
+</code></pre></div>
+</div>
+<div class="admonition success">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code>total<span class="w"> </span><span class="m">0</span>
+drwxrwxrwx.<span class="w"> </span><span class="m">2</span><span class="w"> </span>nz<span class="w"> </span>nz<span class="w"> </span><span class="m">94</span><span class="w"> </span>Mar<span class="w"> </span><span class="m">31</span><span class="w"> </span><span class="m">06</span>:35<span class="w"> </span>data
+drwxrwxrwx.<span class="w"> </span><span class="m">3</span><span class="w"> </span>nz<span class="w"> </span>nz<span class="w"> </span><span class="m">92</span><span class="w"> </span>Mar<span class="w"> </span><span class="m">31</span><span class="w"> </span><span class="m">06</span>:35<span class="w"> </span>md
+</code></pre></div>
+</div>
 <p>The data folder contains the user data, the md folder contains metadata
 including the schema definition of the database.</p>
 <ol start="13">
-<li>Change directories to the data folder with the [cd]{.mark} command
-    and display detailed information with [ll]{.mark}:</li>
+<li>Change directories to the data folder with the cd command
+    and display detailed information with ll:</li>
 </ol>
-<blockquote>
-<p><strong>Input [Terminal 1]:</strong></p>
-</blockquote>
-<p>[nz@localhost FULL]\$ [cd data]{.mark}</p>
-<blockquote>
-<p><strong>Input [Terminal 1]:</strong></p>
-</blockquote>
-<p>[nz@localhost data]\$ [ls -l]{.mark}</p>
-<blockquote>
-<p><strong>Output:</strong></p>
-</blockquote>
-<p>total 8</p>
-<p>﻿total 1128</p>
-<p>-rw-------. 1 nz nz 337 Mar 31 04:43 202287.full.2.1</p>
-<p>-rw-------. 1 nz nz 449 Mar 31 04:43 202289.full.2.1</p>
-<p>-rw-------. 1 nz nz 1140681 Mar 31 04:43 202291.full.2.1</p>
-<p>-rw-------. 1 nz nz 1 Mar 31 04:43 data.marker</p>
+<div class="admonition abstract">
+<p class="admonition-title">Input [Terminal 1]:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>data
+ls<span class="w"> </span>-l
+</code></pre></div>
+</div>
+<div class="admonition success">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code>total<span class="w"> </span><span class="m">8</span>
+total<span class="w"> </span><span class="m">1128</span>
+-rw-------.<span class="w"> </span><span class="m">1</span><span class="w"> </span>nz<span class="w"> </span>nz<span class="w">     </span><span class="m">337</span><span class="w"> </span>Mar<span class="w"> </span><span class="m">31</span><span class="w"> </span><span class="m">04</span>:43<span class="w"> </span><span class="m">202287</span>.full.2.1
+-rw-------.<span class="w"> </span><span class="m">1</span><span class="w"> </span>nz<span class="w"> </span>nz<span class="w">     </span><span class="m">449</span><span class="w"> </span>Mar<span class="w"> </span><span class="m">31</span><span class="w"> </span><span class="m">04</span>:43<span class="w"> </span><span class="m">202289</span>.full.2.1
+-rw-------.<span class="w"> </span><span class="m">1</span><span class="w"> </span>nz<span class="w"> </span>nz<span class="w"> </span><span class="m">1140681</span><span class="w"> </span>Mar<span class="w"> </span><span class="m">31</span><span class="w"> </span><span class="m">04</span>:43<span class="w"> </span><span class="m">202291</span>.full.2.1
+-rw-------.<span class="w"> </span><span class="m">1</span><span class="w"> </span>nz<span class="w"> </span>nz<span class="w">       </span><span class="m">1</span><span class="w"> </span>Mar<span class="w"> </span><span class="m">31</span><span class="w"> </span><span class="m">04</span>:43<span class="w"> </span>data.marker
+</code></pre></div>
+</div>
 <ol start="14">
-<li>Now switch to the md folder using [cd ../md]{.mark} and display the
-    contents with [ll]{.mark}:</li>
+<li>Now switch to the md folder using cd ../md and display the
+    contents with ll:</li>
 </ol>
-<blockquote>
-<p><strong>Input [Terminal 1]:</strong></p>
-</blockquote>
-<p>[nz@localhost data]\$ [cd ../md]{.mark}</p>
-<blockquote>
-<p><strong>Input [Terminal 1]:</strong></p>
-</blockquote>
-<p>[nz@localhost md]\$ [ls -l]{.mark}</p>
-<blockquote>
-<p><strong>Output:</strong></p>
-</blockquote>
-<p>﻿﻿total 1120</p>
-<p>-rw-------. 1 nz nz 338 Mar 31 06:35 200580.full.2.1</p>
-<p>-rw-------. 1 nz nz 451 Mar 31 06:35 200582.full.2.1</p>
-<p>-rw-------. 1 nz nz 1132441 Mar 31 06:35 200584.full.1.1</p>
-<p>-rw-------. 1 nz nz 1 Mar 31 06:35 data.marker</p>
+<div class="admonition abstract">
+<p class="admonition-title">Input [Terminal 1]:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>../md
+ls<span class="w"> </span>-l
+</code></pre></div>
+</div>
+<div class="admonition success">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code><span class="w"> </span>total<span class="w"> </span><span class="m">1120</span>
+-rw-------.<span class="w"> </span><span class="m">1</span><span class="w"> </span>nz<span class="w"> </span>nz<span class="w">     </span><span class="m">338</span><span class="w"> </span>Mar<span class="w"> </span><span class="m">31</span><span class="w"> </span><span class="m">06</span>:35<span class="w"> </span><span class="m">200580</span>.full.2.1
+-rw-------.<span class="w"> </span><span class="m">1</span><span class="w"> </span>nz<span class="w"> </span>nz<span class="w">     </span><span class="m">451</span><span class="w"> </span>Mar<span class="w"> </span><span class="m">31</span><span class="w"> </span><span class="m">06</span>:35<span class="w"> </span><span class="m">200582</span>.full.2.1
+-rw-------.<span class="w"> </span><span class="m">1</span><span class="w"> </span>nz<span class="w"> </span>nz<span class="w"> </span><span class="m">1132441</span><span class="w"> </span>Mar<span class="w"> </span><span class="m">31</span><span class="w"> </span><span class="m">06</span>:35<span class="w"> </span><span class="m">200584</span>.full.1.1
+-rw-------.<span class="w"> </span><span class="m">1</span><span class="w"> </span>nz<span class="w"> </span>nz<span class="w">       </span><span class="m">1</span><span class="w"> </span>Mar<span class="w"> </span><span class="m">31</span><span class="w"> </span><span class="m">06</span>:35<span class="w"> </span>data.marker
+</code></pre></div>
+</div>
 <p>This folder contains information about the files that contribute to the
 backup and the schema definition of the database in the schema.xml</p>
 <ol start="15">
 <li>Let's have a quick look inside the schema.xml file:</li>
 </ol>
-<blockquote>
-<p><strong>Input [Terminal 1]:</strong></p>
-</blockquote>
-<p>[nz@localhost md]\$ [more schema.xml]{.mark}</p>
-<blockquote>
-<p><strong>Output:</strong></p>
-</blockquote>
-<p>\&lt;ARCHIVE archive_major=\"4\" archive_minor=\"0\" archive_subminor=\"1\"
-product_ver=\"Release 11.0.3.1 [Build 0]\" catalog_ver=\"3.1792\"
-hostname=\"localhost.localdomain\" dataslices=\"1\"</p>
-<p>createtime=\"2020-04-05 18:42:23\" lowercase=\"f\" objidcycle=\"0\"
-hpfrel=\"3.2\" model=\"sim\" family=\"sim\" platform=\"sim\"></p>
-<p>\&lt;OPERATION backupset=\"20200405184220\" increment=\"1\"
-predecessor=\"0\" optype=\"0\" dbname=\"LABDBQA\"/></p>
-<p>\&lt;DATABASE name=\"LABDBQA\" schema=\"\" owner=\"QAUSER\" oidhi=\"0\"
-oid=\"200820\" classhi=\"0\" class=\"0\" delimited=\"f\" sdelim=\"f\"
-odelim=\"f\" charset=\"LATIN9\" collation=\"BINARY\" collecth</p>
-<p>ist=\"t\" replcsn=\"0\" replsrcid=\"0\" repldbid=\"0\" replsetid=\"0\"
-defschema=\"ADMIN\" defschemadelim=\"f\" dbtrackchanges=\"1\"></p>
-<p>\&lt;SCHEMA name=\"ADMIN\" schema=\"\" owner=\"ADMIN\" oidhi=\"0\"
-oid=\"200819\" classhi=\"0\" class=\"0\" delimited=\"f\" sdelim=\"f\"
-odelim=\"f\" path=\"\"/></p>
-<p>\&lt;STATISTICS column_count=\"15\"/></p>
-<p>\&lt;TABLE ver=\"2\" name=\"REGION\" schema=\"ADMIN\" owner=\"ADMIN\"
-oidhi=\"0\" oid=\"200821\" classhi=\"0\" class=\"4905\" delimited=\"f\"
-sdelim=\"f\" odelim=\"f\" rowsecurity=\"f\" origoidhi=\"0\" ori</p>
-<p>goid=\"200821\" excludebackup=\"0\"></p>
-<p>\&lt;COLUMN name=\"R_REGIONKEY\" schema=\"\" owner=\"\" oidhi=\"0\"
-oid=\"203501\" classhi=\"0\" class=\"0\" delimited=\"f\" sdelim=\"t\"
-odelim=\"t\" seq=\"1\" type=\"INTEGER\" typeno=\"23\" typemod=\"-1\"</p>
-<p>notnull=\"t\"/></p>
-<p>\&lt;COLUMN name=\"R_NAME\" schema=\"\" owner=\"\" oidhi=\"0\"
-oid=\"203502\" classhi=\"0\" class=\"0\" delimited=\"f\" sdelim=\"t\"
-odelim=\"t\" seq=\"2\" type=\"CHARACTER(25)\" typeno=\"1042\"
-typemod=\"4</p>
-<p>1\" notnull=\"t\"/></p>
-<p>\&lt;COLUMN name=\"R_COMMENT\" schema=\"\" owner=\"\" oidhi=\"0\"
-oid=\"203503\" classhi=\"0\" class=\"0\" delimited=\"f\" sdelim=\"t\"
-odelim=\"t\" seq=\"3\" type=\"CHARACTER VARYING(152)\" typeno=\"1043</p>
-<p>\" typemod=\"168\" notnull=\"f\"/></p>
-<p>\&lt;DISTRIBUTION seq=\"1\" attnum=\"1\"/></p>
-<p>\&lt;/TABLE></p>
-<p>\&lt;TABLE ver=\"2\" name=\"NATION\" schema=\"ADMIN\" owner=\"ADMIN\"
-oidhi=\"0\" oid=\"200823\" classhi=\"0\" class=\"4905\" delimited=\"f\"
-sdelim=\"f\" odelim=\"f\" rowsecurity=\"f\" origoidhi=\"0\" ori</p>
-<p>goid=\"200823\" excludebackup=\"0\"></p>
-<p>\&lt;COLUMN name=\"N_NATIONKEY\" schema=\"\" owner=\"\" oidhi=\"0\"
-oid=\"203510\" classhi=\"0\" class=\"0\" delimited=\"f\" sdelim=\"t\"
-odelim=\"t\" seq=\"1\" type=\"INTEGER\" typeno=\"23\" typemod=\"-1\"</p>
-<p>notnull=\"t\"/></p>
-<p>\&lt;COLUMN name=\"N_NAME\" schema=\"\" owner=\"\" oidhi=\"0\"
-oid=\"203511\" classhi=\"0\" class=\"0\" delimited=\"f\" sdelim=\"t\"
-odelim=\"t\" seq=\"2\" type=\"CHARACTER(25)\" typeno=\"1042\"
-typemod=\"4</p>
-<p>1\" notnull=\"t\"/></p>
-<p>\&lt;COLUMN name=\"N_REGIONKEY\" schema=\"\" owner=\"\" oidhi=\"0\"
-oid=\"203512\" classhi=\"0\" class=\"0\" delimited=\"f\" sdelim=\"t\"
-odelim=\"t\" seq=\"3\" type=\"INTEGER\" typeno=\"23\" typemod=\"-1\"</p>
-<p>notnull=\"t\"/></p>
-<p>\&lt;COLUMN name=\"N_COMMENT\" schema=\"\" owner=\"\" oidhi=\"0\"
-oid=\"203513\" classhi=\"0\" class=\"0\" delimited=\"f\" sdelim=\"t\"
-odelim=\"t\" seq=\"4\" type=\"CHARACTER VARYING(152)\" typeno=\"1043</p>
-<p>\" typemod=\"168\" notnull=\"f\"/></p>
-<p>\&lt;DISTRIBUTION seq=\"1\" attnum=\"1\"/></p>
-<p>\&lt;/TABLE></p>
-<p>\&lt;TABLE ver=\"2\" name=\"CUSTOMER\" schema=\"ADMIN\" owner=\"ADMIN\"
-oidhi=\"0\" oid=\"200825\" classhi=\"0\" class=\"4905\" delimited=\"f\"
-sdelim=\"f\" odelim=\"f\" rowsecurity=\"f\" origoidhi=\"0\" o</p>
-<p>rigoid=\"200825\" excludebackup=\"0\"></p>
-<p>\&lt;COLUMN name=\"C_CUSTKEY\" schema=\"\" owner=\"\" oidhi=\"0\"
-oid=\"203520\" classhi=\"0\" class=\"0\" delimited=\"f\" sdelim=\"t\"
-odelim=\"t\" seq=\"1\" type=\"INTEGER\" typeno=\"23\" typemod=\"-1\" no</p>
-<p>tnull=\"t\"/></p>
-<p>\&lt;COLUMN name=\"C_NAME\" schema=\"\" owner=\"\" oidhi=\"0\"
-oid=\"203521\" classhi=\"0\" class=\"0\" delimited=\"f\" sdelim=\"t\"
-odelim=\"t\" seq=\"2\" type=\"CHARACTER VARYING(25)\" typeno=\"1043\" ty</p>
-<p>pemod=\"41\" notnull=\"t\"/></p>
-<p>\&lt;COLUMN name=\"C_ADDRESS\" schema=\"\" owner=\"\" oidhi=\"0\"
-oid=\"203522\" classhi=\"0\" class=\"0\" delimited=\"f\" sdelim=\"t\"
-odelim=\"t\" seq=\"3\" type=\"CHARACTER VARYING(40)\" typeno=\"1043\"</p>
-<p>typemod=\"56\" notnull=\"t\"/></p>
-<p>\&lt;COLUMN name=\"C_NATIONKEY\" schema=\"\" owner=\"\" oidhi=\"0\"
-oid=\"203523\" classhi=\"0\" class=\"0\" delimited=\"f\" sdelim=\"t\"
-odelim=\"t\" seq=\"4\" type=\"INTEGER\" typeno=\"23\" typemod=\"-1\"</p>
-<p>notnull=\"t\"/></p>
-<p>\&lt;COLUMN name=\"C_PHONE\" schema=\"\" owner=\"\" oidhi=\"0\"
-oid=\"203524\" classhi=\"0\" class=\"0\" delimited=\"f\" sdelim=\"t\"
-odelim=\"t\" seq=\"5\" type=\"CHARACTER(15)\" typeno=\"1042\" typemod=\"</p>
-<p>31\" notnull=\"t\"/></p>
-<p>\&lt;COLUMN name=\"C_ACCTBAL\" schema=\"\" owner=\"\" oidhi=\"0\"
-oid=\"203525\" classhi=\"0\" class=\"0\" delimited=\"f\" sdelim=\"t\"
-odelim=\"t\" seq=\"6\" type=\"NUMERIC(15,2)\" typeno=\"1700\" typemod</p>
-<p>=\"983058\" notnull=\"t\"/></p>
-<p>\&lt;COLUMN name=\"C_MKTSEGMENT\" schema=\"\" owner=\"\" oidhi=\"0\"
-oid=\"203526\" classhi=\"0\" class=\"0\" delimited=\"f\" sdelim=\"t\"
-odelim=\"t\" seq=\"7\" type=\"CHARACTER(10)\" typeno=\"1042\" type</p>
-<p>mod=\"26\" notnull=\"t\"/></p>
-<p>\&lt;COLUMN name=\"C_COMMENT\" schema=\"\" owner=\"\" oidhi=\"0\"
-oid=\"203527\" classhi=\"0\" class=\"0\" delimited=\"f\" sdelim=\"t\"
-odelim=\"t\" seq=\"8\" type=\"CHARACTER VARYING(117)\" typeno=\"1043</p>
-<p>\" typemod=\"133\" notnull=\"t\"/></p>
-<p>\&lt;DISTRIBUTION seq=\"1\" attnum=\"1\"/></p>
-<p>\&lt;/TABLE></p>
-<p>\&lt;VIEW name=\"NATIONSBYREGIONS\" schema=\"ADMIN\" owner=\"ADMIN\"
-oidhi=\"0\" oid=\"200827\" classhi=\"0\" class=\"0\" delimited=\"f\"
-sdelim=\"f\" odelim=\"f\" definition=\"SELECT REGION.R_NAME, N</p>
-<p>ATION.N_NAME FROM ADMIN.NATION, ADMIN.REGION WHERE (REGION.R_REGIONKEY =
-NATION.N_REGIONKEY);\"/></p>
-<p>\&lt;USER name=\"QAUSER\" schema=\"\" owner=\"ADMIN\" oidhi=\"0\"
-oid=\"200829\" classhi=\"0\" class=\"0\" delimited=\"f\" sdelim=\"f\"
-odelim=\"f\" pwd=\"\" rowsetlimit=\"0\" validuntil=\"\" sesstimeout=\"</p>
-<p>0\" qrytimeout=\"0\" defp=\"NONE\" maxp=\"NONE\" pwdinv=\"f\"
-pwdlastchged=\"\" resrcgrpid=\"4901\" crossjoin=\"NULL\"
-collecthist=\"0\" accesstime=\"0\" concursess=\"0\"
-seclabel=\"PUBLIC::\" audit</p>
-<p>cat=\"NONE\" useauth=\"0\"></p>
-<p>\&lt;/USER></p>
-<p>\&lt;RSG username=\"QAUSER\" userdelim=\"f\" groupname=\"PUBLIC\"
-groupdelim=\"f\"/></p>
-<p>\&lt;/DATABASE></p>
-<p>\&lt;/ARCHIVE></p>
+<div class="admonition abstract">
+<p class="admonition-title">Input [Terminal 1]:</p>
+<div class="highlight"><pre><span></span><code>more<span class="w"> </span>schema.xml
+</code></pre></div>
+</div>
+<div class="admonition success">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code>&lt;ARCHIVE<span class="w"> </span><span class="nv">archive_major</span><span class="o">=</span><span class="s2">&quot;4&quot;</span><span class="w"> </span><span class="nv">archive_minor</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="w"> </span><span class="nv">archive_subminor</span><span class="o">=</span><span class="s2">&quot;1&quot;</span><span class="w"> </span><span class="nv">product_ver</span><span class="o">=</span><span class="s2">&quot;Release 11.0.3.1 [Build 0]&quot;</span><span class="w"> </span><span class="nv">catalog_ver</span><span class="o">=</span><span class="s2">&quot;3.1792&quot;</span><span class="w"> </span><span class="nv">hostname</span><span class="o">=</span><span class="s2">&quot;localhost.localdomain&quot;</span><span class="w"> </span><span class="nv">dataslices</span><span class="o">=</span><span class="s2">&quot;1&quot;</span>
+<span class="w"> </span><span class="nv">createtime</span><span class="o">=</span><span class="s2">&quot;2020-04-05 18:42:23&quot;</span><span class="w"> </span><span class="nv">lowercase</span><span class="o">=</span><span class="s2">&quot;f&quot;</span><span class="w"> </span><span class="nv">objidcycle</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="w"> </span><span class="nv">hpfrel</span><span class="o">=</span><span class="s2">&quot;3.2&quot;</span><span class="w"> </span><span class="nv">model</span><span class="o">=</span><span class="s2">&quot;sim&quot;</span><span class="w"> </span><span class="nv">family</span><span class="o">=</span><span class="s2">&quot;sim&quot;</span><span class="w"> </span><span class="nv">platform</span><span class="o">=</span><span class="s2">&quot;sim&quot;</span>&gt;
+&lt;OPERATION<span class="w"> </span><span class="nv">backupset</span><span class="o">=</span><span class="s2">&quot;20200405184220&quot;</span><span class="w"> </span><span class="nv">increment</span><span class="o">=</span><span class="s2">&quot;1&quot;</span><span class="w"> </span><span class="nv">predecessor</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="w"> </span><span class="nv">optype</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="w"> </span><span class="nv">dbname</span><span class="o">=</span><span class="s2">&quot;LABDBQA&quot;</span>/&gt;
+&lt;DATABASE<span class="w"> </span><span class="nv">name</span><span class="o">=</span><span class="s2">&quot;LABDBQA&quot;</span><span class="w"> </span><span class="nv">schema</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="w"> </span><span class="nv">owner</span><span class="o">=</span><span class="s2">&quot;QAUSER&quot;</span><span class="w"> </span><span class="nv">oidhi</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="w"> </span><span class="nv">oid</span><span class="o">=</span><span class="s2">&quot;200820&quot;</span><span class="w"> </span><span class="nv">classhi</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="w"> </span><span class="nv">class</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="w"> </span><span class="nv">delimited</span><span class="o">=</span><span class="s2">&quot;f&quot;</span><span class="w"> </span><span class="nv">sdelim</span><span class="o">=</span><span class="s2">&quot;f&quot;</span><span class="w"> </span><span class="nv">odelim</span><span class="o">=</span><span class="s2">&quot;f&quot;</span><span class="w"> </span><span class="nv">charset</span><span class="o">=</span><span class="s2">&quot;LATIN9&quot;</span><span class="w"> </span><span class="nv">collation</span><span class="o">=</span><span class="s2">&quot;BINARY&quot;</span><span class="w"> </span>collecth
+<span class="nv">ist</span><span class="o">=</span><span class="s2">&quot;t&quot;</span><span class="w"> </span><span class="nv">replcsn</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="w"> </span><span class="nv">replsrcid</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="w"> </span><span class="nv">repldbid</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="w"> </span><span class="nv">replsetid</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="w"> </span><span class="nv">defschema</span><span class="o">=</span><span class="s2">&quot;ADMIN&quot;</span><span class="w"> </span><span class="nv">defschemadelim</span><span class="o">=</span><span class="s2">&quot;f&quot;</span><span class="w"> </span><span class="nv">dbtrackchanges</span><span class="o">=</span><span class="s2">&quot;1&quot;</span>&gt;
+&lt;SCHEMA<span class="w"> </span><span class="nv">name</span><span class="o">=</span><span class="s2">&quot;ADMIN&quot;</span><span class="w"> </span><span class="nv">schema</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="w"> </span><span class="nv">owner</span><span class="o">=</span><span class="s2">&quot;ADMIN&quot;</span><span class="w"> </span><span class="nv">oidhi</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="w"> </span><span class="nv">oid</span><span class="o">=</span><span class="s2">&quot;200819&quot;</span><span class="w"> </span><span class="nv">classhi</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="w"> </span><span class="nv">class</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="w"> </span><span class="nv">delimited</span><span class="o">=</span><span class="s2">&quot;f&quot;</span><span class="w"> </span><span class="nv">sdelim</span><span class="o">=</span><span class="s2">&quot;f&quot;</span><span class="w"> </span><span class="nv">odelim</span><span class="o">=</span><span class="s2">&quot;f&quot;</span><span class="w"> </span><span class="nv">path</span><span class="o">=</span><span class="s2">&quot;&quot;</span>/&gt;
+&lt;STATISTICS<span class="w"> </span><span class="nv">column_count</span><span class="o">=</span><span class="s2">&quot;15&quot;</span>/&gt;
+&lt;TABLE<span class="w"> </span><span class="nv">ver</span><span class="o">=</span><span class="s2">&quot;2&quot;</span><span class="w"> </span><span class="nv">name</span><span class="o">=</span><span class="s2">&quot;REGION&quot;</span><span class="w"> </span><span class="nv">schema</span><span class="o">=</span><span class="s2">&quot;ADMIN&quot;</span><span class="w"> </span><span class="nv">owner</span><span class="o">=</span><span class="s2">&quot;ADMIN&quot;</span><span class="w"> </span><span class="nv">oidhi</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="w"> </span><span class="nv">oid</span><span class="o">=</span><span class="s2">&quot;200821&quot;</span><span class="w"> </span><span class="nv">classhi</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="w"> </span><span class="nv">class</span><span class="o">=</span><span class="s2">&quot;4905&quot;</span><span class="w"> </span><span class="nv">delimited</span><span class="o">=</span><span class="s2">&quot;f&quot;</span><span class="w"> </span><span class="nv">sdelim</span><span class="o">=</span><span class="s2">&quot;f&quot;</span><span class="w"> </span><span class="nv">odelim</span><span class="o">=</span><span class="s2">&quot;f&quot;</span><span class="w"> </span><span class="nv">rowsecurity</span><span class="o">=</span><span class="s2">&quot;f&quot;</span><span class="w"> </span><span class="nv">origoidhi</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="w"> </span>ori
+<span class="nv">goid</span><span class="o">=</span><span class="s2">&quot;200821&quot;</span><span class="w"> </span><span class="nv">excludebackup</span><span class="o">=</span><span class="s2">&quot;0&quot;</span>&gt;
+&lt;COLUMN<span class="w"> </span><span class="nv">name</span><span class="o">=</span><span class="s2">&quot;R_REGIONKEY&quot;</span><span class="w"> </span><span class="nv">schema</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="w"> </span><span class="nv">owner</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="w"> </span><span class="nv">oidhi</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="w"> </span><span class="nv">oid</span><span class="o">=</span><span class="s2">&quot;203501&quot;</span><span class="w"> </span><span class="nv">classhi</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="w"> </span><span class="nv">class</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="w"> </span><span class="nv">delimited</span><span class="o">=</span><span class="s2">&quot;f&quot;</span><span class="w"> </span><span class="nv">sdelim</span><span class="o">=</span><span class="s2">&quot;t&quot;</span><span class="w"> </span><span class="nv">odelim</span><span class="o">=</span><span class="s2">&quot;t&quot;</span><span class="w"> </span><span class="nv">seq</span><span class="o">=</span><span class="s2">&quot;1&quot;</span><span class="w"> </span><span class="nv">type</span><span class="o">=</span><span class="s2">&quot;INTEGER&quot;</span><span class="w"> </span><span class="nv">typeno</span><span class="o">=</span><span class="s2">&quot;23&quot;</span><span class="w"> </span><span class="nv">typemod</span><span class="o">=</span><span class="s2">&quot;-1&quot;</span><span class="w"> </span>
+<span class="nv">notnull</span><span class="o">=</span><span class="s2">&quot;t&quot;</span>/&gt;
+&lt;COLUMN<span class="w"> </span><span class="nv">name</span><span class="o">=</span><span class="s2">&quot;R_NAME&quot;</span><span class="w"> </span><span class="nv">schema</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="w"> </span><span class="nv">owner</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="w"> </span><span class="nv">oidhi</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="w"> </span><span class="nv">oid</span><span class="o">=</span><span class="s2">&quot;203502&quot;</span><span class="w"> </span><span class="nv">classhi</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="w"> </span><span class="nv">class</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="w"> </span><span class="nv">delimited</span><span class="o">=</span><span class="s2">&quot;f&quot;</span><span class="w"> </span><span class="nv">sdelim</span><span class="o">=</span><span class="s2">&quot;t&quot;</span><span class="w"> </span><span class="nv">odelim</span><span class="o">=</span><span class="s2">&quot;t&quot;</span><span class="w"> </span><span class="nv">seq</span><span class="o">=</span><span class="s2">&quot;2&quot;</span><span class="w"> </span><span class="nv">type</span><span class="o">=</span><span class="s2">&quot;CHARACTER(25)&quot;</span><span class="w"> </span><span class="nv">typeno</span><span class="o">=</span><span class="s2">&quot;1042&quot;</span><span class="w"> </span><span class="nv">typemod</span><span class="o">=</span><span class="s2">&quot;4</span>
+<span class="s2">1&quot;</span><span class="w"> </span><span class="nv">notnull</span><span class="o">=</span><span class="s2">&quot;t&quot;</span>/&gt;
+&lt;COLUMN<span class="w"> </span><span class="nv">name</span><span class="o">=</span><span class="s2">&quot;R_COMMENT&quot;</span><span class="w"> </span><span class="nv">schema</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="w"> </span><span class="nv">owner</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="w"> </span><span class="nv">oidhi</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="w"> </span><span class="nv">oid</span><span class="o">=</span><span class="s2">&quot;203503&quot;</span><span class="w"> </span><span class="nv">classhi</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="w"> </span><span class="nv">class</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="w"> </span><span class="nv">delimited</span><span class="o">=</span><span class="s2">&quot;f&quot;</span><span class="w"> </span><span class="nv">sdelim</span><span class="o">=</span><span class="s2">&quot;t&quot;</span><span class="w"> </span><span class="nv">odelim</span><span class="o">=</span><span class="s2">&quot;t&quot;</span><span class="w"> </span><span class="nv">seq</span><span class="o">=</span><span class="s2">&quot;3&quot;</span><span class="w"> </span><span class="nv">type</span><span class="o">=</span><span class="s2">&quot;CHARACTER VARYING(152)&quot;</span><span class="w"> </span><span class="nv">typeno</span><span class="o">=</span><span class="s2">&quot;1043</span>
+<span class="s2">&quot;</span><span class="w"> </span><span class="nv">typemod</span><span class="o">=</span><span class="s2">&quot;168&quot;</span><span class="w"> </span><span class="nv">notnull</span><span class="o">=</span><span class="s2">&quot;f&quot;</span>/&gt;
+&lt;DISTRIBUTION<span class="w"> </span><span class="nv">seq</span><span class="o">=</span><span class="s2">&quot;1&quot;</span><span class="w"> </span><span class="nv">attnum</span><span class="o">=</span><span class="s2">&quot;1&quot;</span>/&gt;
+&lt;/TABLE&gt;
+&lt;TABLE<span class="w"> </span><span class="nv">ver</span><span class="o">=</span><span class="s2">&quot;2&quot;</span><span class="w"> </span><span class="nv">name</span><span class="o">=</span><span class="s2">&quot;NATION&quot;</span><span class="w"> </span><span class="nv">schema</span><span class="o">=</span><span class="s2">&quot;ADMIN&quot;</span><span class="w"> </span><span class="nv">owner</span><span class="o">=</span><span class="s2">&quot;ADMIN&quot;</span><span class="w"> </span><span class="nv">oidhi</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="w"> </span><span class="nv">oid</span><span class="o">=</span><span class="s2">&quot;200823&quot;</span><span class="w"> </span><span class="nv">classhi</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="w"> </span><span class="nv">class</span><span class="o">=</span><span class="s2">&quot;4905&quot;</span><span class="w"> </span><span class="nv">delimited</span><span class="o">=</span><span class="s2">&quot;f&quot;</span><span class="w"> </span><span class="nv">sdelim</span><span class="o">=</span><span class="s2">&quot;f&quot;</span><span class="w"> </span><span class="nv">odelim</span><span class="o">=</span><span class="s2">&quot;f&quot;</span><span class="w"> </span><span class="nv">rowsecurity</span><span class="o">=</span><span class="s2">&quot;f&quot;</span><span class="w"> </span><span class="nv">origoidhi</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="w"> </span>ori
+<span class="nv">goid</span><span class="o">=</span><span class="s2">&quot;200823&quot;</span><span class="w"> </span><span class="nv">excludebackup</span><span class="o">=</span><span class="s2">&quot;0&quot;</span>&gt;
+&lt;COLUMN<span class="w"> </span><span class="nv">name</span><span class="o">=</span><span class="s2">&quot;N_NATIONKEY&quot;</span><span class="w"> </span><span class="nv">schema</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="w"> </span><span class="nv">owner</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="w"> </span><span class="nv">oidhi</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="w"> </span><span class="nv">oid</span><span class="o">=</span><span class="s2">&quot;203510&quot;</span><span class="w"> </span><span class="nv">classhi</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="w"> </span><span class="nv">class</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="w"> </span><span class="nv">delimited</span><span class="o">=</span><span class="s2">&quot;f&quot;</span><span class="w"> </span><span class="nv">sdelim</span><span class="o">=</span><span class="s2">&quot;t&quot;</span><span class="w"> </span><span class="nv">odelim</span><span class="o">=</span><span class="s2">&quot;t&quot;</span><span class="w"> </span><span class="nv">seq</span><span class="o">=</span><span class="s2">&quot;1&quot;</span><span class="w"> </span><span class="nv">type</span><span class="o">=</span><span class="s2">&quot;INTEGER&quot;</span><span class="w"> </span><span class="nv">typeno</span><span class="o">=</span><span class="s2">&quot;23&quot;</span><span class="w"> </span><span class="nv">typemod</span><span class="o">=</span><span class="s2">&quot;-1&quot;</span><span class="w"> </span>
+<span class="nv">notnull</span><span class="o">=</span><span class="s2">&quot;t&quot;</span>/&gt;
+&lt;COLUMN<span class="w"> </span><span class="nv">name</span><span class="o">=</span><span class="s2">&quot;N_NAME&quot;</span><span class="w"> </span><span class="nv">schema</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="w"> </span><span class="nv">owner</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="w"> </span><span class="nv">oidhi</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="w"> </span><span class="nv">oid</span><span class="o">=</span><span class="s2">&quot;203511&quot;</span><span class="w"> </span><span class="nv">classhi</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="w"> </span><span class="nv">class</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="w"> </span><span class="nv">delimited</span><span class="o">=</span><span class="s2">&quot;f&quot;</span><span class="w"> </span><span class="nv">sdelim</span><span class="o">=</span><span class="s2">&quot;t&quot;</span><span class="w"> </span><span class="nv">odelim</span><span class="o">=</span><span class="s2">&quot;t&quot;</span><span class="w"> </span><span class="nv">seq</span><span class="o">=</span><span class="s2">&quot;2&quot;</span><span class="w"> </span><span class="nv">type</span><span class="o">=</span><span class="s2">&quot;CHARACTER(25)&quot;</span><span class="w"> </span><span class="nv">typeno</span><span class="o">=</span><span class="s2">&quot;1042&quot;</span><span class="w"> </span><span class="nv">typemod</span><span class="o">=</span><span class="s2">&quot;4</span>
+<span class="s2">1&quot;</span><span class="w"> </span><span class="nv">notnull</span><span class="o">=</span><span class="s2">&quot;t&quot;</span>/&gt;
+&lt;COLUMN<span class="w"> </span><span class="nv">name</span><span class="o">=</span><span class="s2">&quot;N_REGIONKEY&quot;</span><span class="w"> </span><span class="nv">schema</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="w"> </span><span class="nv">owner</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="w"> </span><span class="nv">oidhi</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="w"> </span><span class="nv">oid</span><span class="o">=</span><span class="s2">&quot;203512&quot;</span><span class="w"> </span><span class="nv">classhi</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="w"> </span><span class="nv">class</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="w"> </span><span class="nv">delimited</span><span class="o">=</span><span class="s2">&quot;f&quot;</span><span class="w"> </span><span class="nv">sdelim</span><span class="o">=</span><span class="s2">&quot;t&quot;</span><span class="w"> </span><span class="nv">odelim</span><span class="o">=</span><span class="s2">&quot;t&quot;</span><span class="w"> </span><span class="nv">seq</span><span class="o">=</span><span class="s2">&quot;3&quot;</span><span class="w"> </span><span class="nv">type</span><span class="o">=</span><span class="s2">&quot;INTEGER&quot;</span><span class="w"> </span><span class="nv">typeno</span><span class="o">=</span><span class="s2">&quot;23&quot;</span><span class="w"> </span><span class="nv">typemod</span><span class="o">=</span><span class="s2">&quot;-1&quot;</span><span class="w"> </span>
+<span class="nv">notnull</span><span class="o">=</span><span class="s2">&quot;t&quot;</span>/&gt;
+&lt;COLUMN<span class="w"> </span><span class="nv">name</span><span class="o">=</span><span class="s2">&quot;N_COMMENT&quot;</span><span class="w"> </span><span class="nv">schema</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="w"> </span><span class="nv">owner</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="w"> </span><span class="nv">oidhi</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="w"> </span><span class="nv">oid</span><span class="o">=</span><span class="s2">&quot;203513&quot;</span><span class="w"> </span><span class="nv">classhi</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="w"> </span><span class="nv">class</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="w"> </span><span class="nv">delimited</span><span class="o">=</span><span class="s2">&quot;f&quot;</span><span class="w"> </span><span class="nv">sdelim</span><span class="o">=</span><span class="s2">&quot;t&quot;</span><span class="w"> </span><span class="nv">odelim</span><span class="o">=</span><span class="s2">&quot;t&quot;</span><span class="w"> </span><span class="nv">seq</span><span class="o">=</span><span class="s2">&quot;4&quot;</span><span class="w"> </span><span class="nv">type</span><span class="o">=</span><span class="s2">&quot;CHARACTER VARYING(152)&quot;</span><span class="w"> </span><span class="nv">typeno</span><span class="o">=</span><span class="s2">&quot;1043</span>
+<span class="s2">&quot;</span><span class="w"> </span><span class="nv">typemod</span><span class="o">=</span><span class="s2">&quot;168&quot;</span><span class="w"> </span><span class="nv">notnull</span><span class="o">=</span><span class="s2">&quot;f&quot;</span>/&gt;
+&lt;DISTRIBUTION<span class="w"> </span><span class="nv">seq</span><span class="o">=</span><span class="s2">&quot;1&quot;</span><span class="w"> </span><span class="nv">attnum</span><span class="o">=</span><span class="s2">&quot;1&quot;</span>/&gt;
+&lt;/TABLE&gt;
+&lt;TABLE<span class="w"> </span><span class="nv">ver</span><span class="o">=</span><span class="s2">&quot;2&quot;</span><span class="w"> </span><span class="nv">name</span><span class="o">=</span><span class="s2">&quot;CUSTOMER&quot;</span><span class="w"> </span><span class="nv">schema</span><span class="o">=</span><span class="s2">&quot;ADMIN&quot;</span><span class="w"> </span><span class="nv">owner</span><span class="o">=</span><span class="s2">&quot;ADMIN&quot;</span><span class="w"> </span><span class="nv">oidhi</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="w"> </span><span class="nv">oid</span><span class="o">=</span><span class="s2">&quot;200825&quot;</span><span class="w"> </span><span class="nv">classhi</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="w"> </span><span class="nv">class</span><span class="o">=</span><span class="s2">&quot;4905&quot;</span><span class="w"> </span><span class="nv">delimited</span><span class="o">=</span><span class="s2">&quot;f&quot;</span><span class="w"> </span><span class="nv">sdelim</span><span class="o">=</span><span class="s2">&quot;f&quot;</span><span class="w"> </span><span class="nv">odelim</span><span class="o">=</span><span class="s2">&quot;f&quot;</span><span class="w"> </span><span class="nv">rowsecurity</span><span class="o">=</span><span class="s2">&quot;f&quot;</span><span class="w"> </span><span class="nv">origoidhi</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="w"> </span>o
+<span class="nv">rigoid</span><span class="o">=</span><span class="s2">&quot;200825&quot;</span><span class="w"> </span><span class="nv">excludebackup</span><span class="o">=</span><span class="s2">&quot;0&quot;</span>&gt;
+&lt;COLUMN<span class="w"> </span><span class="nv">name</span><span class="o">=</span><span class="s2">&quot;C_CUSTKEY&quot;</span><span class="w"> </span><span class="nv">schema</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="w"> </span><span class="nv">owner</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="w"> </span><span class="nv">oidhi</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="w"> </span><span class="nv">oid</span><span class="o">=</span><span class="s2">&quot;203520&quot;</span><span class="w"> </span><span class="nv">classhi</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="w"> </span><span class="nv">class</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="w"> </span><span class="nv">delimited</span><span class="o">=</span><span class="s2">&quot;f&quot;</span><span class="w"> </span><span class="nv">sdelim</span><span class="o">=</span><span class="s2">&quot;t&quot;</span><span class="w"> </span><span class="nv">odelim</span><span class="o">=</span><span class="s2">&quot;t&quot;</span><span class="w"> </span><span class="nv">seq</span><span class="o">=</span><span class="s2">&quot;1&quot;</span><span class="w"> </span><span class="nv">type</span><span class="o">=</span><span class="s2">&quot;INTEGER&quot;</span><span class="w"> </span><span class="nv">typeno</span><span class="o">=</span><span class="s2">&quot;23&quot;</span><span class="w"> </span><span class="nv">typemod</span><span class="o">=</span><span class="s2">&quot;-1&quot;</span><span class="w"> </span>no
+<span class="nv">tnull</span><span class="o">=</span><span class="s2">&quot;t&quot;</span>/&gt;
+&lt;COLUMN<span class="w"> </span><span class="nv">name</span><span class="o">=</span><span class="s2">&quot;C_NAME&quot;</span><span class="w"> </span><span class="nv">schema</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="w"> </span><span class="nv">owner</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="w"> </span><span class="nv">oidhi</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="w"> </span><span class="nv">oid</span><span class="o">=</span><span class="s2">&quot;203521&quot;</span><span class="w"> </span><span class="nv">classhi</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="w"> </span><span class="nv">class</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="w"> </span><span class="nv">delimited</span><span class="o">=</span><span class="s2">&quot;f&quot;</span><span class="w"> </span><span class="nv">sdelim</span><span class="o">=</span><span class="s2">&quot;t&quot;</span><span class="w"> </span><span class="nv">odelim</span><span class="o">=</span><span class="s2">&quot;t&quot;</span><span class="w"> </span><span class="nv">seq</span><span class="o">=</span><span class="s2">&quot;2&quot;</span><span class="w"> </span><span class="nv">type</span><span class="o">=</span><span class="s2">&quot;CHARACTER VARYING(25)&quot;</span><span class="w"> </span><span class="nv">typeno</span><span class="o">=</span><span class="s2">&quot;1043&quot;</span><span class="w"> </span>ty
+<span class="nv">pemod</span><span class="o">=</span><span class="s2">&quot;41&quot;</span><span class="w"> </span><span class="nv">notnull</span><span class="o">=</span><span class="s2">&quot;t&quot;</span>/&gt;
+&lt;COLUMN<span class="w"> </span><span class="nv">name</span><span class="o">=</span><span class="s2">&quot;C_ADDRESS&quot;</span><span class="w"> </span><span class="nv">schema</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="w"> </span><span class="nv">owner</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="w"> </span><span class="nv">oidhi</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="w"> </span><span class="nv">oid</span><span class="o">=</span><span class="s2">&quot;203522&quot;</span><span class="w"> </span><span class="nv">classhi</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="w"> </span><span class="nv">class</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="w"> </span><span class="nv">delimited</span><span class="o">=</span><span class="s2">&quot;f&quot;</span><span class="w"> </span><span class="nv">sdelim</span><span class="o">=</span><span class="s2">&quot;t&quot;</span><span class="w"> </span><span class="nv">odelim</span><span class="o">=</span><span class="s2">&quot;t&quot;</span><span class="w"> </span><span class="nv">seq</span><span class="o">=</span><span class="s2">&quot;3&quot;</span><span class="w"> </span><span class="nv">type</span><span class="o">=</span><span class="s2">&quot;CHARACTER VARYING(40)&quot;</span><span class="w"> </span><span class="nv">typeno</span><span class="o">=</span><span class="s2">&quot;1043&quot;</span>
+<span class="w"> </span><span class="nv">typemod</span><span class="o">=</span><span class="s2">&quot;56&quot;</span><span class="w"> </span><span class="nv">notnull</span><span class="o">=</span><span class="s2">&quot;t&quot;</span>/&gt;
+&lt;COLUMN<span class="w"> </span><span class="nv">name</span><span class="o">=</span><span class="s2">&quot;C_NATIONKEY&quot;</span><span class="w"> </span><span class="nv">schema</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="w"> </span><span class="nv">owner</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="w"> </span><span class="nv">oidhi</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="w"> </span><span class="nv">oid</span><span class="o">=</span><span class="s2">&quot;203523&quot;</span><span class="w"> </span><span class="nv">classhi</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="w"> </span><span class="nv">class</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="w"> </span><span class="nv">delimited</span><span class="o">=</span><span class="s2">&quot;f&quot;</span><span class="w"> </span><span class="nv">sdelim</span><span class="o">=</span><span class="s2">&quot;t&quot;</span><span class="w"> </span><span class="nv">odelim</span><span class="o">=</span><span class="s2">&quot;t&quot;</span><span class="w"> </span><span class="nv">seq</span><span class="o">=</span><span class="s2">&quot;4&quot;</span><span class="w"> </span><span class="nv">type</span><span class="o">=</span><span class="s2">&quot;INTEGER&quot;</span><span class="w"> </span><span class="nv">typeno</span><span class="o">=</span><span class="s2">&quot;23&quot;</span><span class="w"> </span><span class="nv">typemod</span><span class="o">=</span><span class="s2">&quot;-1&quot;</span><span class="w"> </span>
+<span class="nv">notnull</span><span class="o">=</span><span class="s2">&quot;t&quot;</span>/&gt;
+&lt;COLUMN<span class="w"> </span><span class="nv">name</span><span class="o">=</span><span class="s2">&quot;C_PHONE&quot;</span><span class="w"> </span><span class="nv">schema</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="w"> </span><span class="nv">owner</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="w"> </span><span class="nv">oidhi</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="w"> </span><span class="nv">oid</span><span class="o">=</span><span class="s2">&quot;203524&quot;</span><span class="w"> </span><span class="nv">classhi</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="w"> </span><span class="nv">class</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="w"> </span><span class="nv">delimited</span><span class="o">=</span><span class="s2">&quot;f&quot;</span><span class="w"> </span><span class="nv">sdelim</span><span class="o">=</span><span class="s2">&quot;t&quot;</span><span class="w"> </span><span class="nv">odelim</span><span class="o">=</span><span class="s2">&quot;t&quot;</span><span class="w"> </span><span class="nv">seq</span><span class="o">=</span><span class="s2">&quot;5&quot;</span><span class="w"> </span><span class="nv">type</span><span class="o">=</span><span class="s2">&quot;CHARACTER(15)&quot;</span><span class="w"> </span><span class="nv">typeno</span><span class="o">=</span><span class="s2">&quot;1042&quot;</span><span class="w"> </span><span class="nv">typemod</span><span class="o">=</span><span class="s2">&quot;</span>
+<span class="s2">31&quot;</span><span class="w"> </span><span class="nv">notnull</span><span class="o">=</span><span class="s2">&quot;t&quot;</span>/&gt;
+&lt;COLUMN<span class="w"> </span><span class="nv">name</span><span class="o">=</span><span class="s2">&quot;C_ACCTBAL&quot;</span><span class="w"> </span><span class="nv">schema</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="w"> </span><span class="nv">owner</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="w"> </span><span class="nv">oidhi</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="w"> </span><span class="nv">oid</span><span class="o">=</span><span class="s2">&quot;203525&quot;</span><span class="w"> </span><span class="nv">classhi</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="w"> </span><span class="nv">class</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="w"> </span><span class="nv">delimited</span><span class="o">=</span><span class="s2">&quot;f&quot;</span><span class="w"> </span><span class="nv">sdelim</span><span class="o">=</span><span class="s2">&quot;t&quot;</span><span class="w"> </span><span class="nv">odelim</span><span class="o">=</span><span class="s2">&quot;t&quot;</span><span class="w"> </span><span class="nv">seq</span><span class="o">=</span><span class="s2">&quot;6&quot;</span><span class="w"> </span><span class="nv">type</span><span class="o">=</span><span class="s2">&quot;NUMERIC(15,2)&quot;</span><span class="w"> </span><span class="nv">typeno</span><span class="o">=</span><span class="s2">&quot;1700&quot;</span><span class="w"> </span><span class="nv">typemod</span>
+<span class="o">=</span><span class="s2">&quot;983058&quot;</span><span class="w"> </span><span class="nv">notnull</span><span class="o">=</span><span class="s2">&quot;t&quot;</span>/&gt;
+&lt;COLUMN<span class="w"> </span><span class="nv">name</span><span class="o">=</span><span class="s2">&quot;C_MKTSEGMENT&quot;</span><span class="w"> </span><span class="nv">schema</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="w"> </span><span class="nv">owner</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="w"> </span><span class="nv">oidhi</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="w"> </span><span class="nv">oid</span><span class="o">=</span><span class="s2">&quot;203526&quot;</span><span class="w"> </span><span class="nv">classhi</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="w"> </span><span class="nv">class</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="w"> </span><span class="nv">delimited</span><span class="o">=</span><span class="s2">&quot;f&quot;</span><span class="w"> </span><span class="nv">sdelim</span><span class="o">=</span><span class="s2">&quot;t&quot;</span><span class="w"> </span><span class="nv">odelim</span><span class="o">=</span><span class="s2">&quot;t&quot;</span><span class="w"> </span><span class="nv">seq</span><span class="o">=</span><span class="s2">&quot;7&quot;</span><span class="w"> </span><span class="nv">type</span><span class="o">=</span><span class="s2">&quot;CHARACTER(10)&quot;</span><span class="w"> </span><span class="nv">typeno</span><span class="o">=</span><span class="s2">&quot;1042&quot;</span><span class="w"> </span><span class="nb">type</span>
+<span class="nv">mod</span><span class="o">=</span><span class="s2">&quot;26&quot;</span><span class="w"> </span><span class="nv">notnull</span><span class="o">=</span><span class="s2">&quot;t&quot;</span>/&gt;
+&lt;COLUMN<span class="w"> </span><span class="nv">name</span><span class="o">=</span><span class="s2">&quot;C_COMMENT&quot;</span><span class="w"> </span><span class="nv">schema</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="w"> </span><span class="nv">owner</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="w"> </span><span class="nv">oidhi</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="w"> </span><span class="nv">oid</span><span class="o">=</span><span class="s2">&quot;203527&quot;</span><span class="w"> </span><span class="nv">classhi</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="w"> </span><span class="nv">class</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="w"> </span><span class="nv">delimited</span><span class="o">=</span><span class="s2">&quot;f&quot;</span><span class="w"> </span><span class="nv">sdelim</span><span class="o">=</span><span class="s2">&quot;t&quot;</span><span class="w"> </span><span class="nv">odelim</span><span class="o">=</span><span class="s2">&quot;t&quot;</span><span class="w"> </span><span class="nv">seq</span><span class="o">=</span><span class="s2">&quot;8&quot;</span><span class="w"> </span><span class="nv">type</span><span class="o">=</span><span class="s2">&quot;CHARACTER VARYING(117)&quot;</span><span class="w"> </span><span class="nv">typeno</span><span class="o">=</span><span class="s2">&quot;1043</span>
+<span class="s2">&quot;</span><span class="w"> </span><span class="nv">typemod</span><span class="o">=</span><span class="s2">&quot;133&quot;</span><span class="w"> </span><span class="nv">notnull</span><span class="o">=</span><span class="s2">&quot;t&quot;</span>/&gt;
+&lt;DISTRIBUTION<span class="w"> </span><span class="nv">seq</span><span class="o">=</span><span class="s2">&quot;1&quot;</span><span class="w"> </span><span class="nv">attnum</span><span class="o">=</span><span class="s2">&quot;1&quot;</span>/&gt;
+&lt;/TABLE&gt;
+&lt;VIEW<span class="w"> </span><span class="nv">name</span><span class="o">=</span><span class="s2">&quot;NATIONSBYREGIONS&quot;</span><span class="w"> </span><span class="nv">schema</span><span class="o">=</span><span class="s2">&quot;ADMIN&quot;</span><span class="w"> </span><span class="nv">owner</span><span class="o">=</span><span class="s2">&quot;ADMIN&quot;</span><span class="w"> </span><span class="nv">oidhi</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="w"> </span><span class="nv">oid</span><span class="o">=</span><span class="s2">&quot;200827&quot;</span><span class="w"> </span><span class="nv">classhi</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="w"> </span><span class="nv">class</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="w"> </span><span class="nv">delimited</span><span class="o">=</span><span class="s2">&quot;f&quot;</span><span class="w"> </span><span class="nv">sdelim</span><span class="o">=</span><span class="s2">&quot;f&quot;</span><span class="w"> </span><span class="nv">odelim</span><span class="o">=</span><span class="s2">&quot;f&quot;</span><span class="w"> </span><span class="nv">definition</span><span class="o">=</span><span class="s2">&quot;SELECT REGION.R_NAME, N</span>
+<span class="s2">ATION.N_NAME FROM ADMIN.NATION, ADMIN.REGION WHERE (REGION.R_REGIONKEY = NATION.N_REGIONKEY);&quot;</span>/&gt;
+&lt;USER<span class="w"> </span><span class="nv">name</span><span class="o">=</span><span class="s2">&quot;QAUSER&quot;</span><span class="w"> </span><span class="nv">schema</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="w"> </span><span class="nv">owner</span><span class="o">=</span><span class="s2">&quot;ADMIN&quot;</span><span class="w"> </span><span class="nv">oidhi</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="w"> </span><span class="nv">oid</span><span class="o">=</span><span class="s2">&quot;200829&quot;</span><span class="w"> </span><span class="nv">classhi</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="w"> </span><span class="nv">class</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="w"> </span><span class="nv">delimited</span><span class="o">=</span><span class="s2">&quot;f&quot;</span><span class="w"> </span><span class="nv">sdelim</span><span class="o">=</span><span class="s2">&quot;f&quot;</span><span class="w"> </span><span class="nv">odelim</span><span class="o">=</span><span class="s2">&quot;f&quot;</span><span class="w"> </span><span class="nv">pwd</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="w"> </span><span class="nv">rowsetlimit</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="w"> </span><span class="nv">validuntil</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="w"> </span><span class="nv">sesstimeout</span><span class="o">=</span><span class="s2">&quot;</span>
+<span class="s2">0&quot;</span><span class="w"> </span><span class="nv">qrytimeout</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="w"> </span><span class="nv">defp</span><span class="o">=</span><span class="s2">&quot;NONE&quot;</span><span class="w"> </span><span class="nv">maxp</span><span class="o">=</span><span class="s2">&quot;NONE&quot;</span><span class="w"> </span><span class="nv">pwdinv</span><span class="o">=</span><span class="s2">&quot;f&quot;</span><span class="w"> </span><span class="nv">pwdlastchged</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="w"> </span><span class="nv">resrcgrpid</span><span class="o">=</span><span class="s2">&quot;4901&quot;</span><span class="w"> </span><span class="nv">crossjoin</span><span class="o">=</span><span class="s2">&quot;NULL&quot;</span><span class="w"> </span><span class="nv">collecthist</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="w"> </span><span class="nv">accesstime</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="w"> </span><span class="nv">concursess</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="w"> </span><span class="nv">seclabel</span><span class="o">=</span><span class="s2">&quot;PUBLIC::&quot;</span><span class="w"> </span>audit
+<span class="nv">cat</span><span class="o">=</span><span class="s2">&quot;NONE&quot;</span><span class="w"> </span><span class="nv">useauth</span><span class="o">=</span><span class="s2">&quot;0&quot;</span>&gt;
+&lt;/USER&gt;
+&lt;RSG<span class="w"> </span><span class="nv">username</span><span class="o">=</span><span class="s2">&quot;QAUSER&quot;</span><span class="w"> </span><span class="nv">userdelim</span><span class="o">=</span><span class="s2">&quot;f&quot;</span><span class="w"> </span><span class="nv">groupname</span><span class="o">=</span><span class="s2">&quot;PUBLIC&quot;</span><span class="w"> </span><span class="nv">groupdelim</span><span class="o">=</span><span class="s2">&quot;f&quot;</span>/&gt;
+&lt;/DATABASE&gt;
+&lt;/ARCHIVE&gt;
+</code></pre></div>
+</div>
 <p>As you see this file contains a full XML description of your database,
 including table definition, views, users etc.</p>
 <ol start="16">
 <li>Switch back to the lab folder:</li>
 </ol>
-<blockquote>
-<p><strong>Input [Terminal 1]:</strong></p>
-</blockquote>
-<p>[nz@localhost md]\$ [cd \~/labs/backupRestore/]{.mark}</p>
-<blockquote>
-<p><strong>Output:</strong></p>
-</blockquote>
-<p>[nz@localhost backupRestore]\$</p>
+<div class="admonition abstract">
+<p class="admonition-title">Input [Terminal 1]:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>~/labs/backupRestore/
+</code></pre></div>
+</div>
+<div class="admonition success">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code><span class="o">[</span>nz@localhost<span class="w"> </span>backupRestore<span class="o">]</span>$
+</code></pre></div>
+</div>
 <p>You should now have a pretty good understanding of the Performance
 Server Backup process. In the next section we will demonstrate the
 restore functionality.</p>
@@ -1522,191 +1501,210 @@ the database is in the desired state and unlocked.</p>
 <li>In the NZSQL session we will drop the QA database and the QA user.
     First connect to the SYSTEM database:</li>
 </ol>
-<blockquote>
-<p><strong>Input [Terminal 2]:</strong></p>
-</blockquote>
-<p>LABDBQA.ADMIN(ADMIN)=> [\c SYSTEM]{.mark}</p>
-<blockquote>
-<p><strong>Output:</strong></p>
-</blockquote>
-<p>You are now connected to database SYSTEM.</p>
-<p>SYSTEM.ADMIN(ADMIN)=></p>
+<div class="admonition abstract">
+<p class="admonition-title">Input [Terminal 2]:</p>
+<div class="highlight"><pre><span></span><code><span class="se">\c</span><span class="w"> </span>SYSTEM
+</code></pre></div>
+</div>
+<div class="admonition success">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code>You<span class="w"> </span>are<span class="w"> </span>now<span class="w"> </span>connected<span class="w"> </span>to<span class="w"> </span>database<span class="w"> </span>SYSTEM.
+
+SYSTEM.ADMIN<span class="o">(</span>ADMIN<span class="o">)=</span>&gt;
+</code></pre></div>
+</div>
 <ol start="2">
 <li>Now drop the QA database:</li>
 </ol>
-<blockquote>
-<p><strong>Input [Terminal 2]:</strong></p>
-</blockquote>
-<p>SYSTEM.ADMIN(ADMIN)=> [DROP DATABASE LABDBQA;]{.mark}</p>
-<blockquote>
-<p><strong>Output:</strong></p>
-</blockquote>
-<p>DROP DATABASE</p>
+<div class="admonition abstract">
+<p class="admonition-title">Input [Terminal 2]:</p>
+<div class="highlight"><pre><span></span><code><span class="w"> </span>DROP<span class="w"> </span>DATABASE<span class="w"> </span>LABDBQA<span class="p">;</span>
+</code></pre></div>
+</div>
+<div class="admonition success">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code>DROP<span class="w"> </span>DATABASE
+</code></pre></div>
+</div>
 <ol start="3">
 <li>Now drop the QA User:</li>
 </ol>
-<blockquote>
-<p><strong>Input [Terminal 2]:</strong></p>
-</blockquote>
-<p>SYSTEM.ADMIN(ADMIN)=> [DROP USER QAUSER;]{.mark}</p>
-<blockquote>
-<p><strong>Output:</strong></p>
-</blockquote>
-<p>DROP USER</p>
+<div class="admonition abstract">
+<p class="admonition-title">Input [Terminal 2]:</p>
+<div class="highlight"><pre><span></span><code>DROP<span class="w"> </span>USER<span class="w"> </span>QAUSER<span class="p">;</span>
+</code></pre></div>
+</div>
+<div class="admonition success">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code>DROP<span class="w"> </span>USER
+</code></pre></div>
+</div>
 <ol start="4">
 <li>Verify that the QA database has been deleted by displaying the
-    databases using the [\l]{.mark} command. You will see that the
+    databases using the \l command. You will see that the
     LABDBQA database has been removed:</li>
 </ol>
-<blockquote>
-<p><strong>Input [Terminal 2]:</strong></p>
-</blockquote>
-<p>SYSTEM.ADMIN(ADMIN)=> [\l]{.mark}</p>
-<blockquote>
-<p><strong>Output:</strong></p>
-</blockquote>
-<p>List of databases</p>
-<p>DATABASE | OWNER</p>
-<p>-----------+----------</p>
-<p>LABDB | LABADMIN</p>
-<p>LABDBTEST | ADMIN</p>
-<p>SYSTEM | ADMIN</p>
-<p>(3 rows)</p>
+<div class="admonition abstract">
+<p class="admonition-title">Input [Terminal 2]:</p>
+<div class="highlight"><pre><span></span><code><span class="se">\l</span>
+</code></pre></div>
+</div>
+<div class="admonition success">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code><span class="w">  </span>List<span class="w"> </span>of<span class="w"> </span>databases
+<span class="w"> </span>DATABASE<span class="w">  </span><span class="p">|</span><span class="w">  </span>OWNER<span class="w">   </span>
+-----------+----------
+<span class="w"> </span>LABDB<span class="w">     </span><span class="p">|</span><span class="w"> </span>LABADMIN
+<span class="w"> </span>LABDBTEST<span class="w"> </span><span class="p">|</span><span class="w"> </span>ADMIN
+<span class="w"> </span>SYSTEM<span class="w">    </span><span class="p">|</span><span class="w"> </span>ADMIN
+<span class="o">(</span><span class="m">3</span><span class="w"> </span>rows<span class="o">)</span>
+</code></pre></div>
+</div>
 <ol start="5">
 <li>In the OS session, restore the database to the first increment:</li>
 </ol>
-<blockquote>
-<p><strong>Input [Terminal 1]:</strong></p>
-</blockquote>
-<p>[nz@localhost backupRestore]\$ [nzrestore -db labdbqa -dir /tmp/bk1
-/tmp/bk2 -increment 1 -lockdb true]{.mark}</p>
-<blockquote>
-<p><strong>Output:</strong></p>
-</blockquote>
-<p>﻿Restore of increment 1 from backupset ﻿20210331133512 to database
-\'labdbqa\' committed.</p>
+<div class="admonition abstract">
+<p class="admonition-title">Input [Terminal 1]:</p>
+<div class="highlight"><pre><span></span><code>nzrestore<span class="w"> </span>-db<span class="w"> </span>labdbqa<span class="w"> </span>-dir<span class="w"> </span>/tmp/bk1<span class="w"> </span>/tmp/bk2<span class="w"> </span>-increment<span class="w"> </span><span class="m">1</span><span class="w"> </span>-lockdb<span class="w"> </span><span class="nb">true</span>
+</code></pre></div>
+</div>
+<div class="admonition success">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code>Restore<span class="w"> </span>of<span class="w"> </span>increment<span class="w"> </span><span class="m">1</span><span class="w"> </span>from<span class="w"> </span>backupset<span class="w"> </span>﻿20210331133512<span class="w"> </span>to<span class="w"> </span>database<span class="w"> </span><span class="s1">&#39;labdbqa&#39;</span><span class="w"> </span>committed.
+</code></pre></div>
+</div>
 <p>Notice that we have specified the increment with the
-[--increment]{.mark} option. In our case this is the first full backup
+<code>--increment</code> option. In our case this is the first full backup
 in our backup set. We did not have to specify a backup set, by default
 the most recent one is used. Since we are not sure which increment we
 want to restore the database to, we have to lock the database with the
-[-lockdb]{.mark} option. This allows only read-only access until the
+-lockdb option. This allows only read-only access until the
 desired increment has been restored.</p>
 <ol start="6">
 <li>In the NZSQL session, verify that the database has been recreated
-    with [\l]{.mark}</li>
+    with \l</li>
 </ol>
-<blockquote>
-<p><strong>Input [Terminal 2]:</strong></p>
-</blockquote>
-<p>SYSTEM.ADMIN(ADMIN)-> [\l]{.mark}</p>
-<blockquote>
-<p><strong>Output:</strong></p>
-</blockquote>
-<p>List of databases</p>
-<p>DATABASE | OWNER</p>
-<p>-----------+----------</p>
-<p>LABDB | LABADMIN</p>
-<p>LABDBQA | QAUSER</p>
-<p>LABDBTEST | ADMIN</p>
-<p>SYSTEM | ADMIN</p>
-<p>(4 rows)</p>
+<div class="admonition abstract">
+<p class="admonition-title">Input [Terminal 2]:</p>
+<div class="highlight"><pre><span></span><code><span class="se">\l</span>
+</code></pre></div>
+</div>
+<div class="admonition success">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code><span class="w">  </span>List<span class="w"> </span>of<span class="w"> </span>databases
+<span class="w"> </span>DATABASE<span class="w">  </span><span class="p">|</span><span class="w">  </span>OWNER<span class="w">   </span>
+-----------+----------
+<span class="w"> </span>LABDB<span class="w">     </span><span class="p">|</span><span class="w"> </span>LABADMIN
+<span class="w"> </span>LABDBQA<span class="w">   </span><span class="p">|</span><span class="w"> </span>QAUSER
+<span class="w"> </span>LABDBTEST<span class="w"> </span><span class="p">|</span><span class="w"> </span>ADMIN
+<span class="w"> </span>SYSTEM<span class="w">    </span><span class="p">|</span><span class="w"> </span>ADMIN
+<span class="o">(</span><span class="m">4</span><span class="w"> </span>rows<span class="o">)</span>
+</code></pre></div>
+</div>
 <p>Notice the LABDBQA database is there. You can also see that the owner
 QAUSER has been recreated and is again the database owner.</p>
 <ol start="7">
-<li>Connect to the LABDBQA database with the [\c]{.mark} command</li>
+<li>Connect to the LABDBQA database with the \c command</li>
 </ol>
-<blockquote>
-<p><strong>Input [Terminal 2]:</strong></p>
-</blockquote>
-<p>SYSTEM.ADMIN(ADMIN)-> [\c labdbqa]{.mark}</p>
-<blockquote>
-<p><strong>Output:</strong></p>
-</blockquote>
-<p>NOTICE: Database \'LABDBQA\' is available for read-only</p>
+<div class="admonition abstract">
+<p class="admonition-title">Input [Terminal 2]:</p>
+<div class="highlight"><pre><span></span><code><span class="se">\c</span><span class="w"> </span>labdbqa
+</code></pre></div>
+</div>
+<div class="admonition success">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code>NOTICE:<span class="w"> </span>Database<span class="w"> </span><span class="s1">&#39;LABDBQA&#39;</span><span class="w"> </span>is<span class="w"> </span>available<span class="w"> </span><span class="k">for</span><span class="w"> </span>read-only
+</code></pre></div>
+</div>
 <p>You are now connected to database labdbqa.</p>
 <p>Notice that LABDBQA database is currently in read-only mode.</p>
 <ol start="8">
 <li>Verify the contents of the REGION table from the LABDBQA database:</li>
 </ol>
-<blockquote>
-<p><strong>Input [Terminal 2]:</strong></p>
-</blockquote>
-<p>LABDBQA.ADMIN(ADMIN)=> [select * from region order by 1;]{.mark}</p>
-<blockquote>
-<p><strong>Output:</strong></p>
-</blockquote>
-<p>﻿R_REGIONKEY | R_NAME | R_COMMENT</p>
-<p>-------------+---------------------------+-----------------------------</p>
-<p>1 | na | north america</p>
-<p>2 | sa | south america</p>
-<p>3 | emea | europe, middle east, africa</p>
-<p>4 | ap | asia pacific</p>
-<p>(4 rows)</p>
+<div class="admonition abstract">
+<p class="admonition-title">Input [Terminal 2]:</p>
+<div class="highlight"><pre><span></span><code><span class="k">select</span><span class="w"> </span>*<span class="w"> </span>from<span class="w"> </span>region<span class="w"> </span>order<span class="w"> </span>by<span class="w"> </span><span class="m">1</span><span class="p">;</span>
+</code></pre></div>
+</div>
+<div class="admonition success">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code><span class="w"> </span>R_REGIONKEY<span class="w"> </span><span class="p">|</span><span class="w">          </span>R_NAME<span class="w">           </span><span class="p">|</span><span class="w">          </span>R_COMMENT<span class="w">          </span>
+-------------+---------------------------+-----------------------------
+<span class="w">           </span><span class="m">1</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>na<span class="w">                        </span><span class="p">|</span><span class="w"> </span>north<span class="w"> </span>america
+<span class="w">           </span><span class="m">2</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sa<span class="w">                        </span><span class="p">|</span><span class="w"> </span>south<span class="w"> </span>america
+<span class="w">           </span><span class="m">3</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>emea<span class="w">                      </span><span class="p">|</span><span class="w"> </span>europe,<span class="w"> </span>middle<span class="w"> </span>east,<span class="w"> </span>africa
+<span class="w">           </span><span class="m">4</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>ap<span class="w">                        </span><span class="p">|</span><span class="w"> </span>asia<span class="w"> </span>pacific
+<span class="o">(</span><span class="m">4</span><span class="w"> </span>rows<span class="o">)</span>
+</code></pre></div>
+</div>
 <p>Notice that we have returned the database to the point in time after the
 first full backup. There is no north or south pole in the R_COMMENT
 column.</p>
 <ol start="9">
 <li>Try to insert a row to verify the read only mode:</li>
 </ol>
-<blockquote>
-<p><strong>Input [Terminal 2]:</strong></p>
-</blockquote>
-<p>LABDBQA.ADMIN(ADMIN)=> [insert into region values (5, \'np\', \'north
-pole\');]{.mark}</p>
-<blockquote>
-<p><strong>Output:</strong></p>
-</blockquote>
-<p>ERROR: Database \'LABDBQA\' is available for read-only (command ignored)</p>
+<div class="admonition abstract">
+<p class="admonition-title">Input [Terminal 2]:</p>
+<div class="highlight"><pre><span></span><code>insert<span class="w"> </span>into<span class="w"> </span>region<span class="w"> </span>values<span class="w"> </span><span class="o">(</span><span class="m">5</span>,<span class="w"> </span><span class="s1">&#39;np&#39;</span>,<span class="w"> </span><span class="s1">&#39;north pole&#39;</span><span class="o">)</span><span class="p">;</span>
+</code></pre></div>
+</div>
+<div class="admonition success">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code>ERROR:<span class="w"> </span>Database<span class="w"> </span><span class="s1">&#39;LABDBQA&#39;</span><span class="w"> </span>is<span class="w"> </span>available<span class="w"> </span><span class="k">for</span><span class="w"> </span>read-only<span class="w"> </span><span class="o">(</span><span class="nb">command</span><span class="w"> </span>ignored<span class="o">)</span>
+</code></pre></div>
+</div>
 <p>As expected, this is prohibited until we unlock the database.</p>
 <ol start="10">
 <li>In the OS session, apply the next increment to the database</li>
 </ol>
-<blockquote>
-<p><strong>Input [Terminal 1]:</strong></p>
-</blockquote>
-<p>[nz@localhost backupRestore]\$ [nzrestore -db labdbqa -dir /tmp/bk1
-/tmp/bk2 -increment next -lockdb true]{.mark}</p>
-<blockquote>
-<p><strong>Output:</strong></p>
-</blockquote>
-<p>﻿Restore of increment 2 from backupset ﻿20210331133512 to database
-\'labdbqa\' committed.</p>
+<div class="admonition abstract">
+<p class="admonition-title">Input [Terminal 1]:</p>
+<div class="highlight"><pre><span></span><code>nzrestore<span class="w"> </span>-db<span class="w"> </span>labdbqa<span class="w"> </span>-dir<span class="w"> </span>/tmp/bk1<span class="w"> </span>/tmp/bk2<span class="w"> </span>-increment<span class="w"> </span>next<span class="w"> </span>-lockdb<span class="w"> </span><span class="nb">true</span>
+</code></pre></div>
+</div>
+<div class="admonition success">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code>Restore<span class="w"> </span>of<span class="w"> </span>increment<span class="w"> </span><span class="m">2</span><span class="w"> </span>from<span class="w"> </span>backupset<span class="w"> </span>﻿20210331133512<span class="w"> </span>to<span class="w"> </span>database<span class="w"> </span><span class="s1">&#39;labdbqa&#39;</span><span class="w"> </span>committed.
+</code></pre></div>
+</div>
 <p>Notice that we now apply the second increment to the database.</p>
 <ol start="11">
 <li>Since we do not need to load any more increments, we can now unlock
     the database:</li>
 </ol>
-<blockquote>
-<p><strong>Input [Terminal 1]:</strong></p>
-</blockquote>
-<p>[nz@localhost backupRestore]\$ [nzrestore -db labdbqa -dir /tmp/bk1
-/tmp/bk2 -unlockdb]{.mark}</p>
-<blockquote>
-<p><strong>Output:</strong></p>
-</blockquote>
-<p>[nz@localhost backupRestore]\$</p>
+<div class="admonition abstract">
+<p class="admonition-title">Input [Terminal 1]:</p>
+<div class="highlight"><pre><span></span><code>nzrestore<span class="w"> </span>-db<span class="w"> </span>labdbqa<span class="w"> </span>-dir<span class="w"> </span>/tmp/bk1<span class="w"> </span>/tmp/bk2<span class="w"> </span>-unlockdb
+</code></pre></div>
+</div>
+<div class="admonition success">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code><span class="o">[</span>nz@localhost<span class="w"> </span>backupRestore<span class="o">]</span>$
+</code></pre></div>
+</div>
 <p>After the database unlock, we cannot apply any further increments to
 this database. To jump to a different increment, we would need to start
 from the beginning.</p>
 <ol start="12">
 <li>In the nzsql session we will look at the REGION table again:</li>
 </ol>
-<blockquote>
-<p><strong>Input [Terminal 2]:</strong></p>
-</blockquote>
-<p>LABDBQA.ADMIN(ADMIN)=> [select * from region order by 1;]{.mark}</p>
-<blockquote>
-<p><strong>Output:</strong></p>
-</blockquote>
-<p>﻿R_REGIONKEY | R_NAME | R_COMMENT</p>
-<p>-------------+---------------------------+-----------------------------</p>
-<p>1 | na | north america</p>
-<p>2 | sa | south america</p>
-<p>3 | emea | europe, middle east, africa</p>
-<p>4 | ap | asia pacific</p>
-<p>5 | np | north pole</p>
-<p>(5 rows)</p>
+<div class="admonition abstract">
+<p class="admonition-title">Input [Terminal 2]:</p>
+<div class="highlight"><pre><span></span><code><span class="k">select</span><span class="w"> </span>*<span class="w"> </span>from<span class="w"> </span>region<span class="w"> </span>order<span class="w"> </span>by<span class="w"> </span><span class="m">1</span><span class="p">;</span>
+</code></pre></div>
+</div>
+<div class="admonition success">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code><span class="w"> </span>R_REGIONKEY<span class="w"> </span><span class="p">|</span><span class="w">          </span>R_NAME<span class="w">           </span><span class="p">|</span><span class="w">          </span>R_COMMENT<span class="w">          </span>
+-------------+---------------------------+-----------------------------
+<span class="w">           </span><span class="m">1</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>na<span class="w">                        </span><span class="p">|</span><span class="w"> </span>north<span class="w"> </span>america
+<span class="w">           </span><span class="m">2</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sa<span class="w">                        </span><span class="p">|</span><span class="w"> </span>south<span class="w"> </span>america
+<span class="w">           </span><span class="m">3</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>emea<span class="w">                      </span><span class="p">|</span><span class="w"> </span>europe,<span class="w"> </span>middle<span class="w"> </span>east,<span class="w"> </span>africa
+<span class="w">           </span><span class="m">4</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>ap<span class="w">                        </span><span class="p">|</span><span class="w"> </span>asia<span class="w"> </span>pacific
+<span class="w">           </span><span class="m">5</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>np<span class="w">                        </span><span class="p">|</span><span class="w"> </span>north<span class="w"> </span>pole
+<span class="o">(</span><span class="m">5</span><span class="w"> </span>rows<span class="o">)</span>
+</code></pre></div>
+</div>
 <p>Notice that we have added the north pole region, which was created
 before the first differential backup.</p>
 <ol start="13">
@@ -1715,31 +1713,34 @@ before the first differential backup.</p>
     the Automobile users we want to add the machinery users from the
     main database:</li>
 </ol>
-<blockquote>
-<p><strong>Input [Terminal 2]:</strong></p>
-</blockquote>
-<p>LABDBQA.ADMIN(ADMIN)=> [insert into customer select * from
-labdb.admin.customer where c_mktsegment = \'MACHINERY\';]{.mark}</p>
-<blockquote>
-<p><strong>Output:</strong></p>
-</blockquote>
-<p>INSERT 0 29949</p>
+<div class="admonition abstract">
+<p class="admonition-title">Input [Terminal 2]:</p>
+<div class="highlight"><pre><span></span><code>insert<span class="w"> </span>into<span class="w"> </span>customer<span class="w"> </span><span class="k">select</span><span class="w"> </span>*<span class="w"> </span>fromlabdb.admin.customer<span class="w"> </span>where<span class="w"> </span><span class="nv">c_mktsegment</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;MACHINERY&#39;</span><span class="p">;</span>
+</code></pre></div>
+</div>
+<div class="admonition success">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code>INSERT<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">29949</span>
+</code></pre></div>
+</div>
 <p>Notice that we now can use the database in a normal fashion again.</p>
 <ol start="14">
 <li>We had around 30000 customers before, verify that the new user set
     has been added successfully:</li>
 </ol>
-<blockquote>
-<p><strong>Input [Terminal 2]:</strong></p>
-</blockquote>
-<p>LABDBQA.ADMIN(ADMIN)=> [select count(*) from customer;]{.mark}</p>
-<blockquote>
-<p><strong>Output:</strong></p>
-</blockquote>
-<p>COUNT</p>
-<p>-------</p>
-<p>59701</p>
-<p>(1 row)</p>
+<div class="admonition abstract">
+<p class="admonition-title">Input [Terminal 2]:</p>
+<div class="highlight"><pre><span></span><code><span class="k">select</span><span class="w"> </span>count<span class="o">(</span>*<span class="o">)</span><span class="w"> </span>from<span class="w"> </span>customer<span class="p">;</span>
+</code></pre></div>
+</div>
+<div class="admonition success">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code><span class="w"> </span>COUNT<span class="w"> </span>
+-------
+<span class="w"> </span><span class="m">59701</span>
+<span class="o">(</span><span class="m">1</span><span class="w"> </span>row<span class="o">)</span>
+</code></pre></div>
+</div>
 <p>You will see that we now have around 60000 rows in the CUSTOMER table.</p>
 <p>You have now done a full restore cycle for the database and applied a
 full and incremental backup to your database. In the next section we
@@ -1753,16 +1754,16 @@ specific older backup set.</p>
 <li>First, we will create a second backup set with the new customer
     data. In the OS session execute the following command:</li>
 </ol>
-<blockquote>
-<p><strong>Input [Terminal 1]:</strong></p>
-</blockquote>
-<p>[nz@localhost backupRestore]\$ [nzbackup -db labdbqa -dir /tmp/bk1
-/tmp/bk2]{.mark}</p>
-<blockquote>
-<p><strong>Output:</strong></p>
-</blockquote>
-<p>﻿Backup of database labdbqa to backupset ﻿20210331134349 completed
-successfully.</p>
+<div class="admonition abstract">
+<p class="admonition-title">Input [Terminal 1]:</p>
+<div class="highlight"><pre><span></span><code>nzbackup<span class="w"> </span>-db<span class="w"> </span>labdbqa<span class="w"> </span>-dir<span class="w"> </span>/tmp/bk1<span class="w"> </span>/tmp/bk2
+</code></pre></div>
+</div>
+<div class="admonition success">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code>Backup<span class="w"> </span>of<span class="w"> </span>database<span class="w"> </span>labdbqa<span class="w"> </span>to<span class="w"> </span>backupset<span class="w"> </span>﻿20210331134349<span class="w"> </span>completed<span class="w"> </span>successfully.
+</code></pre></div>
+</div>
 <p>Notice that this is a full database backup because we took the defaults.
 In this case Netezza Performance Server automatically creates a new
 backup set.</p>
@@ -1772,25 +1773,21 @@ backup set.</p>
     we need to know the backup set id of the previous backup set. To do
     this execute the history command again:</li>
 </ol>
-<blockquote>
-<p><strong>Input [Terminal 1]:</strong></p>
-</blockquote>
-<p>[nz@localhost backupRestore]\$ [nzbackup -history]{.mark}</p>
-<blockquote>
-<p><strong>Output:</strong></p>
-</blockquote>
-<p>﻿﻿Database Backupset Seq # OpType Status Date Log File</p>
-<p>--------- -------------- ----- -------
---------- -------------------
-------------------------------</p>
-<p>(LABDBQA) 20210331133344 1 NO DATA COMPLETED 2021-03-31 06:33:44
-backupsvr.30436.2021-03-31.log</p>
-<p>(LABDBQA) 20210331133512 1 FULL COMPLETED 2021-03-31 06:35:12
-backupsvr.30648.2021-03-31.log</p>
-<p>(LABDBQA) 20210331133512 2 DIFF COMPLETED 2021-03-31 06:36:00
-backupsvr.30859.2021-03-31.log</p>
-<p>LABDBQA 20210331134349 1 FULL COMPLETED 2021-03-31 06:43:49
-backupsvr.31972.2021-03-31.log</p>
+<div class="admonition abstract">
+<p class="admonition-title">Input [Terminal 1]:</p>
+<div class="highlight"><pre><span></span><code>nzbackup<span class="w"> </span>-history
+</code></pre></div>
+</div>
+<div class="admonition success">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code><span class="w"> </span>Database<span class="w">  </span>Backupset<span class="w">      </span>Seq<span class="w"> </span><span class="c1"># OpType  Status    Date                Log File                      </span>
+---------<span class="w"> </span>--------------<span class="w"> </span>-----<span class="w"> </span>-------<span class="w"> </span>---------<span class="w"> </span>-------------------<span class="w"> </span>------------------------------
+<span class="o">(</span>LABDBQA<span class="o">)</span><span class="w"> </span><span class="m">20210331133344</span><span class="w"> </span><span class="m">1</span><span class="w">     </span>NO<span class="w"> </span>DATA<span class="w"> </span>COMPLETED<span class="w"> </span><span class="m">2021</span>-03-31<span class="w"> </span><span class="m">06</span>:33:44<span class="w"> </span>backupsvr.30436.2021-03-31.log
+<span class="o">(</span>LABDBQA<span class="o">)</span><span class="w"> </span><span class="m">20210331133512</span><span class="w"> </span><span class="m">1</span><span class="w">     </span>FULL<span class="w">    </span>COMPLETED<span class="w"> </span><span class="m">2021</span>-03-31<span class="w"> </span><span class="m">06</span>:35:12<span class="w"> </span>backupsvr.30648.2021-03-31.log
+<span class="o">(</span>LABDBQA<span class="o">)</span><span class="w"> </span><span class="m">20210331133512</span><span class="w"> </span><span class="m">2</span><span class="w">     </span>DIFF<span class="w">    </span>COMPLETED<span class="w"> </span><span class="m">2021</span>-03-31<span class="w"> </span><span class="m">06</span>:36:00<span class="w"> </span>backupsvr.30859.2021-03-31.log
+LABDBQA<span class="w">   </span><span class="m">20210331134349</span><span class="w"> </span><span class="m">1</span><span class="w">     </span>FULL<span class="w">    </span>COMPLETED<span class="w"> </span><span class="m">2021</span>-03-31<span class="w"> </span><span class="m">06</span>:43:49<span class="w"> </span>backupsvr.31972.2021-03-31.log
+</code></pre></div>
+</div>
 <p>We now see three different backup sets, the schema only backup, the two
 step backupset and the new full backupset. Remember the backup set id of
 the two step backupset.</p>
@@ -1799,44 +1796,45 @@ the two step backupset.</p>
     backup set, we can do a table level restore with the following
     command:</li>
 </ol>
-<blockquote>
-<p><strong>Input [Terminal 1]:</strong></p>
-</blockquote>
-<p>[nz@localhost backupRestore]\$ [nzrestore -db labdbqa -dir /tmp/bk1
-/tmp/bk2 -backupset ﻿20210331133512 -tables CUSTOMER]{.mark}</p>
-<blockquote>
-<p><strong>Output:</strong></p>
-</blockquote>
-<p>Error: Specify -droptables to force drop of tables in the -tables list.</p>
+<div class="admonition abstract">
+<p class="admonition-title">Input [Terminal 1]:</p>
+<div class="highlight"><pre><span></span><code>nzrestore<span class="w"> </span>-db<span class="w"> </span>labdbqa<span class="w"> </span>-dir<span class="w"> </span>/tmp/bk1<span class="w"> </span>/tmp/bk2<span class="w"> </span>-backupset<span class="w"> </span>﻿20210331133512<span class="w"> </span>-tables<span class="w"> </span>CUSTOMER
+</code></pre></div>
+</div>
+<div class="admonition success">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code>Error:<span class="w"> </span>Specify<span class="w"> </span>-droptables<span class="w"> </span>to<span class="w"> </span>force<span class="w"> </span>drop<span class="w"> </span>of<span class="w"> </span>tables<span class="w"> </span><span class="k">in</span><span class="w"> </span>the<span class="w"> </span>-tables<span class="w"> </span>list.
+</code></pre></div>
+</div>
 <p>This command will only restore the tables in the --tables option. If you
 want to restore multiple tables, you can simply write them in a list
 after the option.</p>
 <p>We use the --backupset option to specify a specific backup set. Remember
 to replace the id with the value you retrieved with the history command.</p>
-<blockquote>
-<p><img alt="" src="../nz-images/nz-06-BNR/media/image6.jpeg" />{width="0.3645833333333333in"
-height="0.375in"} Notice that the table name needs to be case
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>Notice that the table name needs to be case
 sensitive. This is in contrast to the database name. You will get the
 error "Performance Server cannot restore a table that exists in the
 target database. You can either drop the table before restoring it or
-use the [--droptables]{.mark} option."</p>
-</blockquote>
+use the --droptables option."</p>
+</div>
 <ol start="4">
 <li>Repeat the previous command with the added --droptables option:</li>
 </ol>
-<blockquote>
-<p><strong>Input [Terminal 1]:</strong></p>
-</blockquote>
-<p>[nz@localhost backupRestore]\$ [nzrestore -db labdbqa -dir /tmp/bk1
-/tmp/bk2 -backupset 20210331133512 -tables CUSTOMER -droptables]{.mark}</p>
-<blockquote>
-<p><strong>Output:</strong></p>
-</blockquote>
-<p>﻿[Restore Server] : Dropping TABLE \'CUSTOMER\'</p>
-<p>Restore of increment 1 from backupset 20210331133512 to database
-\'labdbqa\' committed.</p>
-<p>Restore of increment 2 from backupset 20210331133512 to database
-\'labdbqa\' committed.</p>
+<div class="admonition abstract">
+<p class="admonition-title">Input [Terminal 1]:</p>
+<div class="highlight"><pre><span></span><code>nzrestore<span class="w"> </span>-db<span class="w"> </span>labdbqa<span class="w"> </span>-dir<span class="w"> </span>/tmp/bk1<span class="w"> </span>/tmp/bk2<span class="w"> </span>-backupset<span class="w"> </span><span class="m">20210331133512</span><span class="w"> </span>-tables<span class="w"> </span>CUSTOMER<span class="w"> </span>-droptables
+</code></pre></div>
+</div>
+<div class="admonition success">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code><span class="o">[</span>Restore<span class="w"> </span>Server<span class="o">]</span><span class="w"> </span>:<span class="w"> </span>Dropping<span class="w"> </span>TABLE<span class="w"> </span><span class="s1">&#39;CUSTOMER&#39;</span>
+<span class="o">[</span>Restore<span class="w"> </span>Server<span class="o">]</span><span class="w"> </span>:<span class="w"> </span>Dropping<span class="w"> </span>TABLE<span class="w"> </span><span class="s1">&#39;CUSTOMER&#39;</span>
+Restore<span class="w"> </span>of<span class="w"> </span>increment<span class="w"> </span><span class="m">1</span><span class="w"> </span>from<span class="w"> </span>backupset<span class="w"> </span><span class="m">20210331133512</span><span class="w"> </span>to<span class="w"> </span>database<span class="w"> </span><span class="s1">&#39;labdbqa&#39;</span><span class="w"> </span>committed.
+Restore<span class="w"> </span>of<span class="w"> </span>increment<span class="w"> </span><span class="m">2</span><span class="w"> </span>from<span class="w"> </span>backupset<span class="w"> </span><span class="m">20210331133512</span><span class="w"> </span>to<span class="w"> </span>database<span class="w"> </span><span class="s1">&#39;labdbqa&#39;</span><span class="w"> </span>committed.
+</code></pre></div>
+</div>
 <p>Notice that the target table was dropped before the restore happened and
 the specified backup set was used. Since we didn't stipulate a specific
 increment, the full backup set has been applied with all increments.
@@ -1846,17 +1844,19 @@ finishes.</p>
 <li>Finally let's verify that the restore worked as expected, in the
     NZSQL console count the rows of the customer table again:</li>
 </ol>
-<blockquote>
-<p><strong>Input [Terminal 2]:</strong></p>
-</blockquote>
-<p>LABDBQA.ADMIN(ADMIN)=> [select count(*) from customer;]{.mark}</p>
-<blockquote>
-<p><strong>Output:</strong></p>
-</blockquote>
-<p>COUNT</p>
-<p>-------</p>
-<p>29752</p>
-<p>(1 row)</p>
+<div class="admonition abstract">
+<p class="admonition-title">Input [Terminal 2]:</p>
+<div class="highlight"><pre><span></span><code><span class="k">select</span><span class="w"> </span>count<span class="o">(</span>*<span class="o">)</span><span class="w"> </span>from<span class="w"> </span>customer<span class="p">;</span>
+</code></pre></div>
+</div>
+<div class="admonition success">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code><span class="w"> </span>COUNT<span class="w"> </span>
+-------
+<span class="w"> </span><span class="m">29752</span>
+<span class="o">(</span><span class="m">1</span><span class="w"> </span>row<span class="o">)</span>
+</code></pre></div>
+</div>
 <p>You will see that we are back to approximately 30000 rows. This means
 that we have backed out the most recent changes.</p>
 <p>In this chapter you executed a single table restore and you did a
@@ -1886,20 +1886,21 @@ backed up by the user data backup. To be able to revert a Performance
 Server completely to its original condition you need to have a backup of
 the global user information as well, to capture for example
 administrative users that are not part of any database.</p>
-<p>This is done with the [--users]{.mark} option of the [nzbackup]{.mark}
+<p>This is done with the --users option of the [nzbackup
 command:</p>
 <ol>
 <li>In the OS session execute the following command.</li>
 </ol>
-<blockquote>
-<p><strong>Input [Terminal 2]:</strong></p>
-</blockquote>
-<p>[nz@localhost backupRestore]\$ [nzbackup -dir /tmp/bk1 /tmp/bk2
--users]{.mark}</p>
-<blockquote>
-<p><strong>Output:</strong></p>
-</blockquote>
-<p>Backup of global objects completed successfully.</p>
+<div class="admonition abstract">
+<p class="admonition-title">Input [Terminal 2]:</p>
+<div class="highlight"><pre><span></span><code>nzbackup<span class="w"> </span>-dir<span class="w"> </span>/tmp/bk1<span class="w"> </span>/tmp/bk2<span class="w"> </span>-users
+</code></pre></div>
+</div>
+<div class="admonition success">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code>Backup<span class="w"> </span>of<span class="w"> </span>global<span class="w"> </span>objects<span class="w"> </span>completed<span class="w"> </span>successfully.
+</code></pre></div>
+</div>
 <p>This will create a backup of all Users, Groups and Privileges. Restoring
 it will not delete any users, instead it will only add missing Users,
 Groups and Privileges, so it doesn't need to be fully synchronized with
@@ -1925,19 +1926,21 @@ be lost. Therefore, it is advisable to regularly backup host data.</p>
 <li>To backup the host data execute the following command in the OS
     session:</li>
 </ol>
-<blockquote>
-<p><strong>Input [Terminal 2]:</strong></p>
-</blockquote>
-<p>[nz@localhost backupRestore]\$ [nzhostbackup /tmp/hostbackup]{.mark}</p>
-<blockquote>
-<p><strong>Output:</strong></p>
-</blockquote>
-<p>Starting host backup. System state is \'online\'.</p>
-<p>Pausing the system ...</p>
-<p>Checkpointing host catalog ...</p>
-<p>Archiving system catalog ...</p>
-<p>Resuming the system ...</p>
-<p>Host backup completed successfully. System state is \'online\'.</p>
+<div class="admonition abstract">
+<p class="admonition-title">Input [Terminal 2]:</p>
+<div class="highlight"><pre><span></span><code>nzhostbackup<span class="w"> </span>/tmp/hostbackup
+</code></pre></div>
+</div>
+<div class="admonition success">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code>Starting<span class="w"> </span>host<span class="w"> </span>backup.<span class="w"> </span>System<span class="w"> </span>state<span class="w"> </span>is<span class="w"> </span><span class="s1">&#39;online&#39;</span>.
+Pausing<span class="w"> </span>the<span class="w"> </span>system<span class="w"> </span>...
+Checkpointing<span class="w"> </span>host<span class="w"> </span>catalog<span class="w"> </span>...
+Archiving<span class="w"> </span>system<span class="w"> </span>catalog<span class="w"> </span>...
+Resuming<span class="w"> </span>the<span class="w"> </span>system<span class="w"> </span>...
+Host<span class="w"> </span>backup<span class="w"> </span>completed<span class="w"> </span>successfully.<span class="w"> </span>System<span class="w"> </span>state<span class="w"> </span>is<span class="w"> </span><span class="s1">&#39;online&#39;</span>.
+</code></pre></div>
+</div>
 <p>As you can see, the system was paused for the duration of the host
 backup but is automatically resumed after the backup is successful. Also
 notice that the host backup is done with the nzhostbackup command
@@ -1945,20 +1948,22 @@ instead of the standard nzbackup command.</p>
 <ol start="2">
 <li>Let's have a look at the created file:</li>
 </ol>
-<blockquote>
-<p><strong>Input [Terminal 2]:</strong></p>
-</blockquote>
-<p>[nz@localhost backupRestore]\$ [ls -l /tmp]{.mark}</p>
-<blockquote>
-<p><strong>Output:</strong></p>
-</blockquote>
-<p>total 389308</p>
-<p>drwxrwxrwx. 3 nz nz 21 Apr 5 11:42 bk1</p>
-<p>drwxrwxrwx. 3 nz nz 21 Apr 5 11:42 bk2</p>
-<p>drwxrwxrwx. 3 nz nz 21 Apr 5 11:37 bkschema</p>
-<p>-rw-r--r--. 1 root root 36730 Apr 6 03:54 cyclops_run.log</p>
-<p>-rw-------. 1 nz nz 398447694 Apr 6 03:52 hostbackup</p>
-<p>...</p>
+<div class="admonition abstract">
+<p class="admonition-title">Input [Terminal 2]:</p>
+<div class="highlight"><pre><span></span><code>ls<span class="w"> </span>-l<span class="w"> </span>/tmp
+</code></pre></div>
+</div>
+<div class="admonition success">
+<p class="admonition-title">Output</p>
+<div class="highlight"><pre><span></span><code>total<span class="w"> </span><span class="m">389308</span>
+drwxrwxrwx.<span class="w"> </span><span class="m">3</span><span class="w"> </span>nz<span class="w"> </span>nz<span class="w"> </span><span class="m">21</span><span class="w"> </span>Apr<span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="m">11</span>:42<span class="w"> </span>bk1
+drwxrwxrwx.<span class="w"> </span><span class="m">3</span><span class="w"> </span>nz<span class="w"> </span>nz<span class="w"> </span><span class="m">21</span><span class="w"> </span>Apr<span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="m">11</span>:42<span class="w"> </span>bk2
+drwxrwxrwx.<span class="w"> </span><span class="m">3</span><span class="w"> </span>nz<span class="w"> </span>nz<span class="w"> </span><span class="m">21</span><span class="w"> </span>Apr<span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="m">11</span>:37<span class="w"> </span>bkschema
+-rw-r--r--.<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">36730</span><span class="w"> </span>Apr<span class="w"> </span><span class="m">6</span><span class="w"> </span><span class="m">03</span>:54<span class="w"> </span>cyclops_run.log
+-rw-------.<span class="w"> </span><span class="m">1</span><span class="w"> </span>nz<span class="w"> </span>nz<span class="w"> </span><span class="m">398447694</span><span class="w"> </span>Apr<span class="w"> </span><span class="m">6</span><span class="w"> </span><span class="m">03</span>:52<span class="w"> </span>hostbackup
+...
+</code></pre></div>
+</div>
 <p>Notice that a backup file has been created. It's a compressed file
 containing the system catalog and Performance Server host information.
 If possible, host backups should be done regularly. If an old host
