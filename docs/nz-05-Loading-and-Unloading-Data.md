@@ -1,4 +1,4 @@
-# Load and Unloading Data
+# 1 Load and Unloading Data
 
 In every data warehouse environment, there is a need to load new data
 into the database. The task to load data into the database is not just a
@@ -23,7 +23,7 @@ Server.
 Format Options -- These are options for formatting the data load to and
 from external tables.
 
-## Objectives
+## 1.1 Objectives
 
 This lab will help you explore the Netezza Performance Server framework
 components for loading data into the database and unloading data from
@@ -41,13 +41,13 @@ and load data.
 The second part of this lab will discuss using the nzload utility to
 load records into tables.
 
-# Lab Environment
+# 2 Lab Environment
 
 The lab system will be a virtual machine running on Virtual Box. Please
 see the document on how to install the NPS Virtual Machine for your
 workstation (Windows or Mac OS).
 
-# Connect to the Netezza Performance Server
+# 3 Connect to the Netezza Performance Server
 
 Use the following information to connect to the virtual NPS system.
 There are two options to access the command line:
@@ -59,7 +59,7 @@ There are two options to access the command line:
 
 the lab will use the command line as the nz user.
 
-# Lab Setup
+# 4 Lab Setup
 
 This lab uses an initial setup script to make sure the correct user and
 database exist for the remainder of the lab. Follow the instructions
@@ -75,19 +75,19 @@ below to run the setup script.
         Terminal)
 
 2.  If you are continuing from the previous lab and are already
-    connected to nzsql quit the nzsql console with the \q    command.
+    connected to nzsql quit the nzsql console with the `\q` command.
 
 3.  Prepare for this lab by running the setup script. To do this use the
     following two commands:
 
 !!! abstract "Input"
-	```bash
+	```
 	cd ~/labs/movingData/setupLab
 	./setupLab.sh
 	```
 
-!!! abstract "Output"
-	```bash
+!!! success "Output"
+	```
 	DROP DATABASE
 	CREATE DATABASE
 	ERROR: CREATE USER: object LABADMIN already exists as a USER.
@@ -111,7 +111,7 @@ below to run the setup script.
 The error message at the beginning is expected since the script tries
 to clean up existing LINEITEM tables.
 
-## External Tables
+# 5 External Tables
 
 An external table allows Netezza Performance Server to treat an external
 file as a database table. An external table has a definition, a table
@@ -127,18 +127,18 @@ external data source files for the external tables will also be
 examined, so a second session will be used to view these files.
 
 Connect to your Netezza Performance Server image using a Terminal
-application to ssh into <your-nps-vm-ip-address> (as user nz with
-password nz). Alternatively, you can use a terminal application on the
+application to ssh into `<your-nps-vm-ip-address>` (as `user nz` with
+password `nz`). Alternatively, you can use a terminal application on the
 virtual machine desktop.
 
-<your-nps-vm-ip-address> is the default IP address for a local VM, the
+`<your-nps-vm-ip-address>` is the default IP address for a local VM, the
 IP may be different for your session.
 
 Change to the lab working directory /home/nz/labs/movingData using the
 following command:
 
 !!! abstract "Input"
-	```bash	
+	```	
 	cd /home/nz/labs/movingData
 	```
 	
@@ -146,13 +146,12 @@ Connect to the LABDB database as the database owner, LABADMIN, using the
 nzsql interface:
 
 !!! abstract "Input"
-	```bash	
+	```	
 	nzsql -d LABDB -u labadmin -pw password
-
 	```
 
-!!! abstract "Output"
-	```bash
+!!! success "Output"
+	```
 	Welcome to nzsql, the IBM Netezza SQL interactive terminal.
 	
 	Type: \h for help with SQL commands
@@ -173,19 +172,19 @@ The picture above shows the two Terminal windows that you will need.
 Terminal 1, on the left, will be used for SQL commands and Terminal 2,
 on the right, will be used for operating system prompt commands.
 
-Open another session [Terminal 2] using PuTTY or a Terminal
+Open another session `[Terminal 2]` using PuTTY or a Terminal
 Application.
 
-Login to <your-nps-vm-ip-address> as user nz with password nz.
+Login to `<your-nps-vm-ip-address>` as user nz with password nz.
 
 Change to the /home/nz/labs/movingData directory:
 
-!!! abstract "Input[terminal 2]"
-	```bash
+!!! abstract "Input [Terminal 2]"
+	```
 	cd /home/nz/labs/movingData
 	```
 	
-## Unloading Data using External Tables
+## 5.1 Unloading Data using External Tables
 
 External tables will be used to unload rows from the LABDB database as
 records into an external datasource file. Various methods to create and
@@ -194,7 +193,7 @@ or NATION tables. Five different basic use cases are presented for you
 to follow so you can gain a better understanding of how to use external
 tables to unload data from a database.
 
-### Unloading data with an External Table created with the SAMEAS clause 
+### 5.1.1 Unloading data with an External Table created with the SAMEAS clause 
 
 The first external table will be used to unload data from the REGION
 table into an ASCII delimited text file. This external table will be
@@ -219,28 +218,27 @@ implicit schema definition.
 As the LABDB database owner, LABADMIN, you will create the first basic
 external table using the same column definitions as the REGION table:
 
-!!! abstract "Input[terminal 1]"
-	```bash
+!!! abstract "Input [Terminal 1]"
+	```
 	create external table et1_region sameas region using
 	(dataobject  ('/home/nz/labs/movingData/et1_region_flat_file'));
-
 	```
 
-!!! abstract "Output"
-	```bash
+!!! success "Output"
+	```
 	CREATE EXTERNAL TABLE
 	```
 
 Use the internal slash option `\dx` to list the external tables in the
 LABDB database.
 
-!!! abstract "Input[terminal 1]"
-	```bash
+!!! abstract "Input [Terminal 1]"
+	```
 	\dx
 	```
 
-!!! abstract "Output"
-	```bash
+!!! success "Output"
+	```
 	List of relations
 	Schema | Name | Type | Owner
 	--------+------------+----------------+----------
@@ -252,59 +250,62 @@ List the properties of the external table et1_region using the following
 internal slash option to describe the table, `\d <external table
 name>`.
 
-!!! abstract "Input[terminal 1]"
-	```bash
+!!! abstract "Input [Terminal 1]"
+	```
 	\d et1_region
 	```
 
-!!! abstract "Output"
-	```bash
-	External Table "ET1_REGION"
-	Attribute | Type | Modifier
+!!! success "Output"
+	```
+	        External Table "ET1_REGION"
+	  Attribute  |          Type          | Modifier 
 	-------------+------------------------+----------
-	R_REGIONKEY | INTEGER | NOT NULL
-	R_NAME | CHARACTER(25) | NOT NULL
-	R_COMMENT | CHARACTER VARYING(152) |
+	 R_REGIONKEY | INTEGER                | NOT NULL
+	 R_NAME      | CHARACTER(25)          | NOT NULL
+	 R_COMMENT   | CHARACTER VARYING(152) | 
+	
 	DataObject - '/home/nz/labs/movingData/et1_region_flat_file'
-	adjustdistzeroint -
-	bool style - 1_0
-	code set -
-	compress - FALSE
-	cr in string -
-	ctrl chars -
-	date delim - -
-	date style - YMD
-	delim - |
-	encoding - INTERNAL
-	escape -
-	fill record -
-	format - TEXT
-	ignore zero -
-	log dir - /tmp
-	max errors - 1
-	max rows -
-	null value - NULL
-	quoted value - NO
-	remote source -
-	require quotes -
-	skip rows -
-	socket buf size - 8388608
-	timedelim - :
-	time round nanos -
-	time style - 24HOUR
-	trunc string -
-	y2base -
-	includezeroseconds -
-	record length -
-	record delimiter -
-	nullindicator bytes -
-	layout -
-	decimaldelim -
-	disablenfc -
-	includeheader -
-	datetime delim -
-	meridian delim -
-	lfinstring -
+	
+	adjustdistzeroint   - 
+	bool style          - 1_0
+	code set            - 
+	compress            - FALSE
+	cr in string        - 
+	ctrl chars          - 
+	date delim          - -
+	date style          - YMD
+	delim               - |
+	encoding            - INTERNAL
+	escape              - 
+	fill record         - 
+	format              - TEXT
+	ignore zero         - 
+	log dir             - /tmp
+	max errors          - 1
+	max rows            - 
+	null value          - NULL
+	quoted value        - NO
+	remote source       - 
+	require quotes      - 
+	skip rows           - 
+	socket buf size     - 8388608
+	timedelim           - :
+	time round nanos    - 
+	time style          - 24HOUR
+	trunc string        - 
+	y2base              - 
+	includezeroseconds  - 
+	record length       - 
+	record delimiter    - 
+	
+	nullindicator bytes - 
+	layout              - 
+	decimaldelim        - 
+	disablenfc          - 
+	includeheader       - 
+	datetime delim      -  
+	meridian delim      -  
+	lfinstring          -
 	```
 
 This output includes the columns and associated data types in the
@@ -318,32 +319,32 @@ used for the external table. We will examine some of the others.
 Now that the external table is created, use it to unload data from the
 REGION table using an INSERT statement.
 
-!!! abstract "Input[terminal 1]"
-	```bash
+!!! abstract "Input [Terminal 1]"
+	```
 	insert into et1_region select * from region;
 	```
 
-!!! abstract "Output"
-	```bash
+!!! success "Output"
+	```
 	INSERT 0 4
 	```
 Use the external table like a regular table by issuing SQL statements.
 Try issuing a simple SELECT FROM statement to return all rows in
 external table ET1_REGION :
 
-!!! abstract "Input[terminal 1]"
-	```bash
+!!! abstract "Input [Terminal 1]"
+	```
 	select * from et1_region order by 1;
 	```
 
-!!! abstract "Output"
-	```bash
-	﻿R_REGIONKEY | R_NAME | R_COMMENT
+!!! success "Output"
+	```
+	R_REGIONKEY |          R_NAME           |          R_COMMENT          
 	-------------+---------------------------+-----------------------------
-	1 | na | north america
-	2 | sa | south america
-	3 | emea | europe, middle east, africa
-	4 | ap | asia pacific
+	           1 | na                        | north america
+	           2 | sa                        | south america
+	           3 | emea                      | europe, middle east, africa
+	           4 | ap                        | asia pacific
 	(4 rows)
 	```
 
@@ -356,13 +357,13 @@ table to a file. Using the second Putty (or Terminal) session, review
 the file et1_region_flat_file. This is the file that was created in the
 /home/nz/labs/movingData directory.
 
-!!! abstract "Input[terminal 2]"
-	```bash
+!!! abstract "Input [Terminal 2]"
+	```
 	more et1_region_flat_file
 	```
 
-!!! abstract "Output"
-	```bash
+!!! success "Output"
+	```
 	3|emea|europe, middle east, africa
 	1|na|north america
 	2|sa|south america
@@ -373,7 +374,7 @@ This is an ASCII delimited flat file containing the data from the REGION
 table. The column delimiter used in this file was the default character
 '|'.
 
-###  Unloading data with an External Table using the AS SELECT clause
+### 5.1.2 Unloading data with an External Table using the AS SELECT clause
 
 The second external table will be used to unload data from the REGION
 table into an ASCII delimited text file using a different method. The
@@ -386,7 +387,7 @@ type of external table is:
 **Sample Syntax**
 ```
 CREATE EXTERNAL TABLE table_name 'filename' AS select_statement;
-``
+```
 
 The AS clause allows the external table to be created with the same
 columns returned in the SELECT FROM statement, which is referred to as
@@ -398,15 +399,15 @@ be unloaded in a second step using an INSERT statement. Using the first
 Putty (or Terminal) session, create an external table and unload the
 data in a single step.
 
-!!! abstract "Input[terminal 1]"
-	```bash
+!!! abstract "Input [Terminal 1]"
+	```
 	create external table et2_region
 	'/home/nz/labs/movingData/et2_region_flat_file' as 
 		select * from region;
 	```
 
-!!! abstract "Output"
-	```bash
+!!! success "Output"
+	```
 	INSERT 0 4
 	```
 
@@ -416,13 +417,13 @@ et2_region_flat_file.
 
 Again, use `/dx` to list the external tables in the LABDB database.
 
-!!! abstract "Input[terminal 1]"
-	```bash
+!!! abstract "Input [Terminal 1]"
+	```
 	\dx
 	```
 
-!!! abstract "Output"
-	```bash
+!!! success "Output"
+	```
 	List of relations
 	Schema | Name | Type | Owner
 	--------+------------+----------------+----------
@@ -438,13 +439,13 @@ the output in the last section, except for the filename.
 Using the second session, review the file that was created,
 et2_region_flat_file, in the /home/nz/labs/movingData directory.
 
-!!! abstract "Input[terminal 2]"
-	```bash
+!!! abstract "Input [Terminal 2]"
+	```
 	more et2_region_flat_file
 	```
 
-!!! abstract "Output"
-	```bash
+!!! success "Output"
+	```
 	3|emea|europe, middle east, africa
 	1|na|north america
 	2|sa|south america
@@ -455,7 +456,7 @@ This file is exactly the same as the file you reviewed in the last
 chapter. The only difference in this example is we didn't need to unload
 it explicitly.
 
-### Unloading data with an external table using defined columns
+### 5.1.3 Unloading data with an external table using defined columns
 
 The first two external tables that you created used the exact same
 columns from the REGION table using an implicit table schema. You can
@@ -478,74 +479,76 @@ CREATE EXTERNAL TABLE table_name ({column_name type} [, ... ])
     columns and exclude the R_REGIONKEY column from the REGION table.
     Also change the delimiter string from the default '|' to '=':
 
-!!! abstract "Input[terminal 1]"
-	```bash
+!!! abstract "Input [Terminal 1]"
+	```
 	create external table et3_region (r_name char(25),
 	r_comment varchar(152)) USING (dataobject
-	('/home/nz/labs/movingData/et3_region_flat_file') DELIMITER
-'=');]
+	('/home/nz/labs/movingData/et3_region_flat_file') DELIMITER '=');
 
 	```
 
-!!! abstract "Output"
-	```bash
+!!! success "Output"
+	```
 	CREATE EXTERNAL TABLE
 	```
 
 2.  List the properties of the ET3_REGION external table:
 
-!!! abstract "Input[terminal 1]"
-	```bash
+!!! abstract "Input [Terminal 1]"
+	```
 	\d et3_region
 	```
 
-!!! abstract "Output"
-	```bash
+!!! success "Output"
+	```
 	External Table "ET3_REGION"
-	Attribute | Type | Modifier
+	 Attribute |          Type          | Modifier 
 	-----------+------------------------+----------
-	R_NAME | CHARACTER(25) |
-	R_COMMENT | CHARACTER VARYING(152) |
+	 R_NAME    | CHARACTER(25)          | 
+	 R_COMMENT | CHARACTER VARYING(152) | 
+	
 	DataObject - '/home/nz/labs/movingData/et3_region_flat_file'
-	adjustdistzeroint -
-	bool style - 1_0
-	code set -
-	compress - FALSE
-	cr in string -
-	ctrl chars -
-	date delim - -
-	date style - YMD
-	delim - =
-	encoding - INTERNAL
-	escape -
-	fill record -
-	format - TEXT
-	ignore zero -
-	log dir - /tmp
-	max errors - 1
-	max rows -
-	null value - NULL
-	quoted value - NO
-	remote source -
-	require quotes -
-	skip rows -
-	socket buf size - 8388608
-	timedelim - :
-	time round nanos -
-	time style - 24HOUR
-	trunc string -
-	y2base -
-	includezeroseconds -
-	record length -
-	record delimiter -
-	nullindicator bytes -
-	layout -
-	decimaldelim -
-	disablenfc -
-	includeheader -
-	datetime delim -
-	meridian delim -
-	lfinstring -
+	
+	adjustdistzeroint   - 
+	bool style          - 1_0
+	code set            - 
+	compress            - FALSE
+	cr in string        - 
+	ctrl chars          - 
+	date delim          - -
+	date style          - YMD
+	delim               - =
+	encoding            - INTERNAL
+	escape              - 
+	fill record         - 
+	format              - TEXT
+	ignore zero         - 
+	log dir             - /tmp
+	max errors          - 1
+	max rows            - 
+	null value          - NULL
+	quoted value        - NO
+	remote source       - 
+	require quotes      - 
+	skip rows           - 
+	socket buf size     - 8388608
+	timedelim           - :
+	time round nanos    - 
+	time style          - 24HOUR
+	trunc string        - 
+	y2base              - 
+	includezeroseconds  - 
+	record length       - 
+	record delimiter    - 
+	
+	nullindicator bytes - 
+	layout              - 
+	decimaldelim        - 
+	disablenfc          - 
+	includeheader       - 
+	datetime delim      -  
+	meridian delim      -  
+	lfinstring          - 
 	```
 
 Notice that there are only two columns for this external table since
@@ -559,13 +562,13 @@ now '=' instead of the default, '|'.
 1.  Unload the data from the REGION table but only the data from columns
     R_NAME and R_COMMENT.
 
-!!! abstract "Input[terminal 1]"
-	```bash
+!!! abstract "Input [Terminal 1]"
+	```
 	insert into et3_region select r_name, r_comment from region;
 	```
 
-!!! abstract "Output"
-	```bash
+!!! success "Output"
+	```
 	INSERT 0 4
 	```
 
@@ -579,16 +582,16 @@ create external table et4_test
 '=') as select r_name, r_comment from region;
 ```
 
-1.  Using the second session review the file that was created,
+2.  Using the second session review the file that was created,
     et3_region_flat_file, in the /home/nz/labs/movingData directory.
 
-!!! abstract "Input[terminal 2]"
-	```bash
+!!! abstract "Input [Terminal 2]"
+	```
 	more et3_region_flat_file
 	```
 
-!!! abstract "Output"
-	```bash
+!!! success "Output"
+	```
 	emea=europe, middle east, africa
 	na=north america
 	sa=south america
@@ -598,7 +601,7 @@ create external table et4_test
 Notice that only two columns are present in the flat file using the '='
 string as a delimiter.
 
-### (Optional) Unloading data with an External Table from two tables
+### 5.1.4 (Optional) Unloading data with an External Table from two tables
 
 The first three external table exercises unloaded data from one table.
 In this exercise, the external table will be created based on a table
@@ -614,108 +617,108 @@ REGIONKEY column to list all of the countries and their associated
 regions. Instead of specifying the columns in the create external
 table statement you will use the AS SELECT option:
 
-!!! abstract "Input[terminal 2]"
-	```bash
+!!! abstract "Input [Terminal 2]"
+	```
 	create external table et_nation_region
 	'/home/nz/labs/movingData/et_nation_region_flat_file' as select
 	n_name, r_name from nation, region where
-	n_regionkey=r_regionkey;]{.mark}
-
+	n_regionkey=r_regionkey;
 	```
 
-!!! abstract "Output"
-	```bash
-INSERT 0 14
+!!! success "Output"
+	```
+	INSERT 0 14
+	```
 
 2. List the properties of the ET_NATION_REGION external table.
 
-!!! abstract "Input[terminal 1]"
-	```bash
-
-
-LABDB(LABADMIN)=> \d et_nation_region
+!!! abstract "Input [Terminal 1]"
+	```
+	\d et_nation_region
 	```
 
-!!! abstract "Output"
-	```bash
-External Table "ET_NATION_REGION"
-Attribute | Type | Modifier
------------+---------------+----------
-N_NAME | CHARACTER(25) | NOT NULL
-R_NAME | CHARACTER(25) | NOT NULL
-DataObject - '/home/nz/labs/movingData/et_nation_region_flat_file'
-adjustdistzeroint -
-bool style - 1_0
-code set -
-compress - FALSE
-cr in string -
-ctrl chars -
-date delim - -
-date style - YMD
-delim - |
-encoding - INTERNAL
-escape -
-fill record -
-format - TEXT
-ignore zero -
-log dir - /tmp
-max errors - 1
-max rows -
-null value - NULL
-quoted value - NO
-remote source -
-require quotes -
-skip rows -
-socket buf size - 8388608
-timedelim - :
-time round nanos -
-time style - 24HOUR
-trunc string -
-y2base -
-includezeroseconds -
-record length -
-record delimiter -
-nullindicator bytes -
-layout -
-decimaldelim -
-disablenfc -
-includeheader -
-datetime delim -
-meridian delim -
-lfinstring -
+!!! success "Output"
+	```
+	  External Table "ET_NATION_REGION"
+	 Attribute |     Type      | Modifier 
+	-----------+---------------+----------
+	 N_NAME    | CHARACTER(25) | NOT NULL
+	 R_NAME    | CHARACTER(25) | NOT NULL
+	
+	DataObject - '/home/nz/labs/movingData/et_nation_region_flat_file'
+	
+	adjustdistzeroint   - 
+	bool style          - 1_0
+	code set            - 
+	compress            - FALSE
+	cr in string        - 
+	ctrl chars          - 
+	date delim          - -
+	date style          - YMD
+	delim               - |
+	encoding            - INTERNAL
+	escape              - 
+	fill record         - 
+	format              - TEXT
+	ignore zero         - 
+	log dir             - /tmp
+	max errors          - 1
+	max rows            - 
+	null value          - NULL
+	quoted value        - NO
+	remote source       - 
+	require quotes      - 
+	skip rows           - 
+	socket buf size     - 8388608
+	timedelim           - :
+	time round nanos    - 
+	time style          - 24HOUR
+	trunc string        - 
+	y2base              - 
+	includezeroseconds  - 
+	record length       - 
+	record delimiter    - 
+	
+	nullindicator bytes - 
+	layout              - 
+	decimaldelim        - 
+	disablenfc          - 
+	includeheader       - 
+	datetime delim      -  
+	meridian delim      -  
+	lfinstring          - 
+	```
 
 You will notice that the external table was created using the two
 columns specified in the SELECT clause: N_NAME and R_NAME.
 
 1.  View the data of the ET_NATION_REGION external table.
 
-!!! abstract "Input[terminal 1]"
-	```bash
-
-
-LABDB(LABADMIN)=> [select * from et_nation_region]{.mark};
-
+!!! abstract "Input [Terminal 1]"
+	```
+	select * from et_nation_region;
 	```
 
-!!! abstract "Output"
-	```bash
-N_NAME | R_NAME
----------------------------+---------------------------
-canada | na
-united states | na
-brazil | sa
-guyana | sa
-venezuela | sa
-united kingdom | emea
-portugal | emea
-united arab emirates | emea
-south africa | emea
-australia | ap
-japan | ap
-macau | ap
-hong kong | ap
-new zealand | ap
-(14 rows)
+!!! success "Output"
+	```
+	          N_NAME           |          R_NAME           
+	---------------------------+---------------------------
+	 canada                    | na                       
+	 united states             | na                       
+	 brazil                    | sa                       
+	 guyana                    | sa                       
+	 venezuela                 | sa                       
+	 united kingdom            | emea                     
+	 portugal                  | emea                     
+	 united arab emirates      | emea                     
+	 south africa              | emea                     
+	 australia                 | ap                       
+	 japan                     | ap                       
+	 macau                     | ap                       
+	 hong kong                 | ap                       
+	 new zealand               | ap                       
+	(14 rows)
+	```
 
 This is the result of the joining the NATION and REGION table on the
 REGIONKEY column to return just the N_NAME and R_NAME columns.
@@ -724,35 +727,34 @@ REGIONKEY column to return just the N_NAME and R_NAME columns.
     et_nation_region_flat_file, in the /home/nz/labs/movingData
     directory:
 
-!!! abstract "Input[terminal 2]"
-	```bash
-
-
-nz@netezza movingData]$ [more et_nation_region_flat_file
+!!! abstract "Input [Terminal 2]"
+	```
+	more et_nation_region_flat_file
 	```
 
-!!! abstract "Output"
-	```bash
-canada|na
-united states|na
-brazil|sa
-guyana|sa
-venezuela|sa
-united kingdom|emea
-portugal|emea
-united arab emirates|emea
-south africa|emea
-australia|ap
-japan|ap
-macau|ap
-hong kong|ap
-new zealand|ap
-
+!!! success "Output"
+	```
+	canada|na
+	united states|na
+	brazil|sa
+	guyana|sa
+	venezuela|sa
+	united kingdom|emea
+	portugal|emea
+	united arab emirates|emea
+	south africa|emea
+	australia|ap
+	japan|ap
+	macau|ap
+	hong kong|ap
+	new zealand|ap
+	```
+	
 We created a flat delimited flat file from a complex SQL statement.
 External tables are a very flexible and powerful way to load, unload and
 transfer data.
 
-### (Optional) Unloading data with an External Table using the compress format
+### 5.1.5 (Optional) Unloading data with an External Table using the compress format
 
 In the previous exercises, the external tables were created used the
 default ASCII delimited text format. In this exercise, the external
@@ -762,9 +764,10 @@ compressed binary format. The name of the external table will be
 ET4_REGION and the datasource file name will be et4_region_compress.
 
 **Sample Syntax**
-
+```
 CREATE EXTERNAL TABLE table_name 'filename' USING (COMPRESS true
 FORMAT 'internal') AS select_statement;
+```
 
 1.  Create an external table using a similar method that you used to
     create the second external table, in section 2.1.2. But instead of
@@ -772,86 +775,85 @@ FORMAT 'internal') AS select_statement;
     compressed binary format. This is achieved by using the COMPRESS and
     FORMAT external table options:
 
-!!! abstract "Input[terminal 1]"
-	```bash
-
-
-LABDB(LABADMIN)=> [create external table et4_region
-'/home/nz/labs/movingData/et4_region_compress' using (compress true
-format 'internal') as select * from region]{.mark};
-
+!!! abstract "Input [Terminal 1]"
+	```
+	create external table et4_region
+	'/home/nz/labs/movingData/et4_region_compress' using (compress true
+	format 'internal') as select * from region;
 	```
 
-!!! abstract "Output"
-	```bash
-INSERT 0 4
+!!! success "Output"
+	```
+	INSERT 0 4
+	```
 
 As a reminder, the external table is created, and the data is unloaded
 in the same operation using the AS SELECT clause.
 
 2.  List the properties of the ET4_REGION external table
 
-!!! abstract "Input[terminal 1]"
-	```bash
-
-
-LABDB(LABADMIN)=> \d et4_region
+!!! abstract "Input [Terminal 1]"
+	```
+	\d et4_region
 	```
 
-!!! abstract "Output"
-	```bash
-External Table "ET4_REGION"
-Attribute | Type | Modifier
--------------+------------------------+----------
-R_REGIONKEY | INTEGER | NOT NULL
-R_NAME | CHARACTER(25) | NOT NULL
-R_COMMENT | CHARACTER VARYING(152) |
-DataObject - '/home/nz/labs/movingData/et4_region_compress'
-adjustdistzeroint -
-bool style -
-code set -
-compress - TRUE
-cr in string -
-ctrl chars -
-date delim -
-date style -
-delim -
-encoding -
-escape -
-fill record -
-format - INTERNAL
-ignore zero -
-log dir -
-max errors - 1
-max rows -
-null value -
-quoted value -
-remote source -
-require quotes -
-skip rows -
-socket buf size - 8388608
-timedelim -
-time round nanos -
-time style -
-trunc string -
-y2base -
-includezeroseconds -
-record length -
-record delimiter -
-nullindicator bytes -
-layout -
-decimaldelim -
-disablenfc -
-includeheader -
-datetime delim -
-meridian delim -
-lfinstring -
+!!! success "Output"
+	```
+	           External Table "ET4_REGION"
+	  Attribute  |          Type          | Modifier 
+	-------------+------------------------+----------
+	 R_REGIONKEY | INTEGER                | NOT NULL
+	 R_NAME      | CHARACTER(25)          | NOT NULL
+	 R_COMMENT   | CHARACTER VARYING(152) | 
+	
+	DataObject - '/home/nz/labs/movingData/et4_region_compress'
+	
+	adjustdistzeroint   - 
+	bool style          - 
+	code set            - 
+	compress            - TRUE
+	cr in string        - 
+	ctrl chars          - 
+	date delim          - 
+	date style          - 
+	delim               - 
+	encoding            - 
+	escape              - 
+	fill record         - 
+	format              - INTERNAL
+	ignore zero         - 
+	log dir             - 
+	max errors          - 1
+	max rows            - 
+	null value          - 
+	quoted value        - 
+	remote source       - 
+	require quotes      - 
+	skip rows           - 
+	socket buf size     - 8388608
+	timedelim           - 
+	time round nanos    - 
+	time style          - 
+	trunc string        - 
+	y2base              - 
+	includezeroseconds  - 
+	record length       - 
+	record delimiter    - 
+	nullindicator bytes - 
+	layout              - 
+	decimaldelim        - 
+	disablenfc          - 
+	includeheader       - 
+	datetime delim      - 
+	meridian delim      - 
+	lfinstring          - 
+	```
 
 Notice that the option for COMPRESS has changed from FALSE to TRUE
 indicating that the datasource file is compressed, and the FORMAT has
 changed from TEXT to INTERNAL which is required for compressed files.
 
-## Dropping External Tables
+## 5.2 Dropping External Tables
 
 Dropping external tables is similar to dropping a regular Netezza
 Performance Server table. The column definition for the external table
@@ -867,41 +869,40 @@ REGION table.
 1.  Drop the first external table that you created, ET1_REGION, using
     the DROP TABLE command:
 
-**﻿** **﻿**
-
-LABDB(LABADMIN)=> [drop table et1_region]{.mark};
-
+!!! abstract "Input [Terminal 1]"
+	```
+	drop table et1_region;
 	```
 
-!!! abstract "Output"
-	```bash
-DROP TABLE
+!!! success "Output"
+	```
+	DROP TABLE
+	```
 
-> The same drop command for tables is used for external tables. There is
-> not a separate DROP EXTERNAL TABLE command.
+The same drop command for tables is used for external tables. There is
+not a separate DROP EXTERNAL TABLE command.
 
 2.  Verify the external table has been dropped using the internal slash
     option, \dx, to list all of the external tables.
 
-!!! abstract "Input[terminal 1]"
-	```bash
-
-
-LABDB(LABADMIN)=> \dx
+!!! abstract "Input [Terminal 1]"
+	```
+	\dx
 	```
 
-!!! abstract "Output"
-	```bash
-List of relations
-Schema | Name | Type | Owner
---------+------------------+----------------+----------
-ADMIN | ET2_REGION | EXTERNAL TABLE | LABADMIN
-ADMIN | ET3_REGION | EXTERNAL TABLE | LABADMIN
-ADMIN | ET4_REGION | EXTERNAL TABLE | LABADMIN
-ADMIN | ET4_TEST | EXTERNAL TABLE | LABADMIN
-ADMIN | ET_NATION_REGION | EXTERNAL TABLE | LABADMIN
-(5 rows)
-
+!!! success "Output"
+	```
+      	             List of relations
+	 Schema |       Name       |      Type      |  Owner   
+	--------+------------------+----------------+----------
+	 ADMIN  | ET2_REGION       | EXTERNAL TABLE | LABADMIN
+	 ADMIN  | ET3_REGION       | EXTERNAL TABLE | LABADMIN
+	 ADMIN  | ET4_REGION       | EXTERNAL TABLE | LABADMIN
+	 ADMIN  | ET4_TEST         | EXTERNAL TABLE | LABADMIN
+	 ADMIN  | ET_NATION_REGION | EXTERNAL TABLE | LABADMIN
+	(5 rows)
+	```
+	
 Notice the remaining external tables that you created still exist.
 
 3.  Even though the external table definition no longer exists within
@@ -909,23 +910,21 @@ Notice the remaining external tables that you created still exist.
     exists in the /home/nz/labs/movingData directory. Verify this by
     using the second putty session:
 
-!!! abstract "Input[terminal 2]"
-	```bash
-
-
-nz@netezza movingData]$ [ls
+!!! abstract "Input [Terminal 2]"
+	```
+	ls
 	```
 
-!!! abstract "Output"
-	```bash
-et1_region_flat_file et3_region_flat_file et4_region_flat_file
-
-et2_region_flat_file et4_region_compress et_nation_region_flat_file
+!!! success "Output"
+	```
+	et1_region_flat_file et3_region_flat_file et4_region_flat_file
+	et2_region_flat_file et4_region_compress et_nation_region_flat_file
+	```
 
 Notice that the file et1_REGION_flat_file still exists. This file can
 still be used to load data into another similar table.
 
-## Loading Data using External Tables
+## 5.3 Loading Data using External Tables
 
 External tables can also be used to load data into tables in the
 database. In this exercise, data will be loaded into the REGION table,
@@ -935,259 +934,184 @@ SELECT FROM statements. We will use two different methods to load data
 into the REGION table, one using an external table and the other using
 the external datasource file. Loading data into a table from any
 external table will generate an associated log file with a default name
-of <table_name>.<database_name>.log
+of `<table_name>.<database_name>.log`
 
 1. Before loading the data into the REGION table, delete the rows from
-the data using the [TRUNCATE TABLE]{.mark} command:
+the data using the [TRUNCATE TABLE command:
 
-> !!! abstract "Input[terminal 1]"
-	```bash
-
-
-LABDB(LABADMIN)=> [truncate table region]{.mark};
-
+!!! abstract "Input [Terminal 1]"
+	```
+	truncate table region;
 	```
 
-!!! abstract "Output"
-	```bash
-TRUNCATE TABLE
+!!! success "Output"
+	```
+	TRUNCATE TABLE
+	```
 
 2. Verify the table is empty with the SELECT * command:
 
-> !!! abstract "Input[terminal 1]"
-	```bash
-
-
-LABDB(LABADMIN)=> [select * from region]{.mark};
-
+!!! abstract "Input [Terminal 1]"
+	```
+	select * from region;
 	```
 
-!!! abstract "Output"
-	```bash
-R_REGIONKEY | R_NAME | R_COMMENT
-
--------------+--------+-----------
-
-(0 rows)
-
+!!! success "Output"
+	```
+	 R_REGIONKEY | R_NAME | R_COMMENT 
+	-------------+--------+-----------
+	(0 rows)
+	```
+	
 3. Load data into the REGION table from the ET2_REGION external table
 using an INSERT statement:
 
-> !!! abstract "Input[terminal 1]"
-	```bash
-
-
-LABDB(LABADMIN)=> [insert into region select * from
-et2_region]{.mark};
-
+!!! abstract "Input [Terminal 1]"
+	```
+	insert into region select * from et2_region;
 	```
 
-!!! abstract "Output"
-	```bash
-INSERT 0 4
+!!! success "Output"
+	```
+	INSERT 0 4
+	```
 
 4.  Check to ensure that the table contains the four rows using the
     SELECT * statement.
 
-> !!! abstract "Input[terminal 1]"
-	```bash
-
-
-LABDB(LABADMIN)=> select * from region;
+!!! abstract "Input [Terminal 1]"
+	```
+	select * from region;
 	```
 
-!!! abstract "Output"
-	```bash
-R_REGIONKEY | R_NAME | R_COMMENT
--------------+---------------------------+-----------------------------
-3 | emea | europe, middle east, africa
-1 | na | north america
-2 | sa | south america
-4 | ap | asia pacific
-(4 rows)
-
+!!! success "Output"
+	```
+	 R_REGIONKEY |          R_NAME           |          R_COMMENT          
+	-------------+---------------------------+-----------------------------
+	           3 | emea                      | europe, middle east, africa
+	           1 | na                        | north america
+	           2 | sa                        | south america
+	           4 | ap                        | asia pacific
+	(4 rows)
+	```
+	
 5.  Again, delete the rows in the REGION table:
 
-> !!! abstract "Input[terminal 1]"
-	```bash
-
-
-LABDB(LABADMIN)=> [truncate table region]{.mark};
-
+!!! abstract "Input [Terminal 1]"
+	```
+	truncate table region;
 	```
 
-!!! abstract "Output"
-	```bash
-TRUNCATE TABLE
+!!! success "Output"
+	```
+	TRUNCATE TABLE
+	```
 
 6.  Check to ensure that the table is empty using the SELECT *
     statement.
 
-> !!! abstract "Input[terminal 1]"
-	```bash
-
-
-LABDB(LABADMIN)=> [select * from region]{.mark};
-
+!!! abstract "Input [Terminal 1]"
+	```
+	select * from region;
 	```
 
-!!! abstract "Output"
-	```bash
-R_REGIONKEY | R_NAME | R_COMMENT
-
--------------+--------+-----------
-
-1.  rows)
-
-<!-- -->
+!!! success "Output"
+	```
+	 R_REGIONKEY | R_NAME | R_COMMENT 
+	-------------+--------+-----------
+	(0	rows)
+	```
 
 7.  Load data into the REGION table using the ASCII delimited file that
     was created for external table ET1_REGION. Recall that the
     definition of the external table was removed from that database, but
     the external data source file, et1_region_flat_file, still exists:
 
-> !!! abstract "Input[terminal 1]"
-	```bash
-
-
-LABDB(LABADMIN)=> [insert into region select * from external
-'/labs/movingData/et1_region_flat_file']{.mark};
-
+!!! abstract "Input [Terminal 1]"
+	```
+	insert into region select * from external
+	'/labs/movingData/et1_region_flat_file';
 	```
 
-!!! abstract "Output"
-	```bash
-INSERT 0 4
+!!! success "Output"
+	```
+	INSERT 0 4
+	```
 
 8.  Verify the table contains the four rows using the SELECT *
     statement.
 
-!!! abstract "Input[terminal 1]"
-	```bash
-
-
-LABDB(LABADMIN)=> select * from region;
+!!! abstract "Input [Terminal 1]"
+	```
+	select * from region;
 	```
 
-!!! abstract "Output"
-	```bash
-R_REGIONKEY | R_NAME | R_COMMENT
--------------+---------------------------+-----------------------------
-3 | emea | europe, middle east, africa
-1 | na | north america
-2 | sa | south america
-4 | ap | asia pacific
-(4 rows)
+!!! success "Output"
+	```
+	 R_REGIONKEY |          R_NAME           |          R_COMMENT          
+	-------------+---------------------------+-----------------------------
+	           3 | emea                      | europe, middle east, africa
+	           1 | na                        | north america
+	           2 | sa                        | south america
+	           4 | ap                        | asia pacific
+	(4 rows)
+	```
 
 Since this is a load operation, there is always an associated log file
-<table>.<database>.nzlog created for each load performed. By default
+`<table>.<database>.nzlog` created for each load performed. By default
 this log file is created in the /tmp directory.
 
 In the second Putty session review this file:
 
-!!! abstract "Input[terminal 2]"
-	```bash
-
-
-nz@netezza movingData]$ [more /tmp/REGION.ADMIN.LABDB.nzlog
+!!! abstract "Input [Terminal 2]"
+	```
+	more /tmp/REGION.ADMIN.LABDB.nzlog
 	```
 
-!!! abstract "Output"
-	```bash
-Load started at:08-May-13 07:10:13 EDT
-
-Database: Tablename: Datafile: Host:
-
-LABDB REGION
-
-/labs/movingData/et1_region_flat_file netezza
-
-Load Options
-
-> Field delimiter:
-
-'|'
-
-NULL value:
-
-NULL
-
-File Buffer Size (MB): 8 Load Replay Region (MB): 0
-
-Statistics
-
-> number of records read: number of bad records:
-
-4
-
-0
-
-> number of records loaded: 4
->
-> Elapsed Time (sec): 0.0
-
-Load completed at: 08-May-13 07:10:13 EDT
-
-+---------------------+---------------+---------------------------+---+
-| > Encoding:         | > INTERNAL    | > Max errors:             | > |
-|                     |               |                           |   |
-|                     |               |                           | 1 |
-+=====================+===============+===========================+===+
-| > Skip records:     | > 0           | > Max rows:               | > |
-|                     |               |                           |   |
-|                     |               |                           | 0 |
-+---------------------+---------------+---------------------------+---+
-| > FillRecord:       | > No          | > Truncate String:        | > |
-|                     |               |                           |   |
-|                     |               |                           | N |
-|                     |               |                           | o |
-+---------------------+---------------+---------------------------+---+
-| > Escape Char:      | > None        | > Accept Control Chars:   | > |
-|                     |               |                           |   |
-|                     |               |                           | N |
-|                     |               |                           | o |
-+---------------------+---------------+---------------------------+---+
-| > Allow CR in       | > No          | > Ignore Zero:            | > |
-| > string:           |               |                           |   |
-|                     |               |                           | N |
-|                     |               |                           | o |
-+---------------------+---------------+---------------------------+---+
-| > Quoted data:      | > NO          | > Require Quotes:         | > |
-|                     |               |                           |   |
-|                     |               |                           | N |
-|                     |               |                           | o |
-+---------------------+---------------+---------------------------+---+
-| > BoolStyle:        | > 1_0         | > Decimal Delimiter:      | > |
-|                     |               |                           |   |
-|                     |               |                           |  |
-|                     |               |                           | ' |
-|                     |               |                           | . |
-|                     |               |                           |  |
-|                     |               |                           | ' |
-+---------------------+---------------+---------------------------+---+
-| > Disable NFC:      | > No          |                           |   |
-+---------------------+---------------+---------------------------+---+
-| > Date Style:       | > YMD         | > Date Delim:             | > |
-|                     |               |                           |   |
-|                     |               |                           |  |
-|                     |               |                           | ' |
-|                     |               |                           | - |
-|                     |               |                           |  |
-|                     |               |                           | ' |
-+---------------------+---------------+---------------------------+---+
-| > Time Style:       | > 24HOUR      | > Time Delim:             | > |
-| >                   | >             |                           |   |
-| > Time extra zeros: | > No          |                           |  |
-|                     |               |                           | ' |
-|                     |               |                           | : |
-|                     |               |                           |  |
-|                     |               |                           | ' |
-+---------------------+---------------+---------------------------+---+
+!!! success "Output"
+	```
+	Load started at:08-May-13 07:10:13 EDT
+	
+	  Database:        LABDB
+	  Tablename:       REGION
+	  Datafile:        /labs/movingData/etl_region_flat_file
+	  ...
+	  
+	Load Options
+	
+	  Field delimiter:        '|'                  NULL value:            NULL
+	  File Buffer Size (MB):  8                    Load Replay Region (MB): 0
+	
+	       Encoding:			INTERNAL		Max errors:				1
+	       Skip records:		0				Max rows:				0
+	       FillRecord:			No				Truncate String:		No
+	       Escape Char:			None			Accept Control Chars:	No
+	       Allow CR in string:	No				Ignore Zero:			No
+	       Quoted data:			NO				Require Quotes:	No
+	
+	       BoolStyle:			1_0				Decimal Delimiter:		'.'
+	
+	       Disable NFC:			No		
+	       Date Style:			YMD				Date Delim:				'-'
+	       Time Style:			24HOUR			Time Delim:				':'
+	       Time extra zeros:	No		
+	
+	
+	Statistics
+	 
+	   number of records read: 		4
+	   number of bad records:		0
+	   number of records loaded:	4
+	   
+	   Elapsed Time (sec): 0.0
+	 
+	Load completed at: 08-May-13 07:10:13 EDT
+	```
 
 Notice that the log file contains the load options and statistics of the
 load, along with environment information to identify the table.
 
-# Loading Data using the nzload Utility
+# 6 Loading Data using the nzload Utility
 
 The nzload command is a SQL CLI client application that allows you to
 load data from the local host or a remote client, on all the supported
@@ -1198,11 +1122,11 @@ the external table. The nzload command is a command-line program that
 accepts options from multiple sources, where some of the sources can be
 from:
 
-Command line
+- Command line
 
-Control file
+- Control file
 
-NZ Environment Variables
+- NZ Environment Variables
 
 Without a control file, you can only do one load at a time. Using a
 control file allows multiple loads. The nzload command connects to a
@@ -1227,7 +1151,7 @@ commands, for example to review tables after load operations
 Session Two, which will be used for operating system commands such as
 execute nzload.
 
-## Using the nzload Utility with Command Line Options
+## 6.1 Using the nzload Utility with Command Line Options
 
 The first method for using the nzload utility to load data in the REGION
 table will specify options at the command line. We will only need to
@@ -1235,132 +1159,138 @@ specify the datasource file and we will use default options for the
 rest. The datasource file will be the et1_region_flat_file that you
 created in the External Tables section.
 
-> **Sample Syntax**
-
-nzload --db <database> -u <username> --pw <password> -df
-<datasource filename>
+**Sample Syntax**
+```
+nzload --db <database> -u <username> --pw <password> -df <datasource filename>
+```
 
 1.  As the LABDB database owner, LABADMIN first remove the rows in the
     REGION table:
 
-!!! abstract "Input[terminal 1]"
-	```bash
+!!! abstract "Input [Terminal 1]"
+	```
+	truncate table region;
+	```
 
-
-LABDB(LABADMIN)=> [truncate table region]{.mark};
-
-> 	```
-
-!!! abstract "Output"
-	```bash
-TRUNCATE TABLE
+!!! success "Output"
+	```
+	TRUNCATE TABLE
+	```
 
 2.  Verify the rows have been removed from the table using the SELECT *
     statement:
 
-> !!! abstract "Input[terminal 1]"
-	```bash
+!!! abstract "Input [Terminal 1]"
+	```
+	select * from region;
+	```
 
-
-LABDB(LABADMIN)=> [select * from region]{.mark};
-
-> 	```
-
-!!! abstract "Output"
-	```bash
-R_REGIONKEY | R_NAME | R_COMMENT
--------------+--------+-----------
-(0 rows)
+!!! success "Output"
+	```
+	 R_REGIONKEY | R_NAME | R_COMMENT 
+	-------------+--------+-----------
+	(0 rows)
+	```
 
 3.  Using the second session at the OS command line, use the nzload
     utility to load data from the et1_region_flat file into the REGION
     table using the following command line options:
 
-> **Sample Syntax**
-
+**Sample Syntax**
+```
 -db <database name>, -u <user>, -pw <password>, -t <table name>,
 -df <data file>, and --delimiter <string>:
+```
 
-> !!! abstract "Input[terminal 2]"
-	```bash
+!!! abstract "Input [Terminal 2]"
+	```
+	nzload -db labdb -u labadmin -pw password 
+	-t region -df et1_region_flat_file -delimiter '|'
+	```
 
-
-[nz@netezza movingData]$ [nzload -db labdb -u labadmin -pw password
--t region -df et1_region_flat_file -delimiter '|']{.mark}
-
-> 	```
-
-!!! abstract "Output"
-	```bash
-Load session of table 'REGION' completed successfully
+!!! success "Output"
+	```
+	Load session of table 'REGION' completed successfully
+	```
 
 4.  Verify the rows have been load into the table by using the SELECT *
     statement:
 
-> !!! abstract "Input[terminal 1]"
-	```bash
+!!! abstract "Input [Terminal 1]"
+	```
+	select * from region;
+	```
 
-
-LABDB(LABADMIN)=> select * from region;
-> 	```
-
-!!! abstract "Output"
-	```bash
-R_REGIONKEY | R_NAME | R_COMMENT
--------------+---------------------------+-----------------------------
-3 | emea | europe, middle east, africa
-1 | na | north america
-2 | sa | south america
-4 | ap | asia pacific
-(4 rows)
-
+!!! success "Output"
+	```
+	 R_REGIONKEY |          R_NAME           |          R_COMMENT          
+	-------------+---------------------------+-----------------------------
+	           3 | emea                      | europe, middle east, africa
+	           1 | na                        | north america
+	           2 | sa                        | south america
+	           4 | ap                        | asia pacific
+	(4 rows)
+	```
+	
 These rows were loaded into the REGION table from the records in the
 et1_region_flat_file file.
 
-> 5. For every load task performed there is always an associated log
-> file created with the format <table>.<db>.nzlog. By default, this
-> log file is created in the current working directory, which is the
-> /home/nz/labs/movingData directory. In the second session review this
-> file:
->
-> !!! abstract "Input[terminal 2]"
-	```bash
-nz@netezza movingData]$ [more REGION.ADMIN.LABDB.nzlog
-> 	```
-!!! abstract "Output"
-	```bash
-Load started at:03-Apr-20 03:05:12 PDT
-Database: LABDB
-Schema: ADMIN
-Tablename: REGION
-Datafile: /home/nz/labs/movingData/et1_region_flat_file
-Host: localhost.localdomain
-Load Options
-Field delimiter: '|' NULL value: NULL
-File Buffer Size (MB): 8 Load Replay Region (MB): 0
-Encoding: INTERNAL Max errors: 1
-Skip records: 0 Max rows: 0
-FillRecord: No Truncate String: No
-Escape Char: None Accept Control Chars: No
-Allow CR in string: No Ignore Zero: No
-Quoted data: NO Require Quotes: No
-BoolStyle: 1_0 Decimal Delimiter: '.'
-Disable NFC: No
-Date Style: YMD Date Delim: '-'
-DateTime Delim: ' '
-Time Style: 24HOUR Time Delim: ':'
-Record Delim: '\n' Meridian Delim: ' '
-Time extra zeros: No LfInString: False
-Statistics
-number of records read: 4
-number of bytes read: 91
-number of bad records: 0
--------------------------------------------------
-number of records loaded: 4
-Elapsed Time (sec): 0.0
------------------------------------------------------------------------------
-Load completed at: 03-Apr-20 03:05:12 PDT
-=============================================================================
+5. For every load task performed there is always an associated log
+file created with the format `<table>.<db>.nzlog`. By default, this
+log file is created in the current working directory, which is the
+/home/nz/labs/movingData directory. In the second session review this
+file:
+
+!!! abstract "Input [Terminal 2]"
+	```
+	[more REGION.ADMIN.LABDB.nzlog
+	```
+	
+!!! success "Output"
+	```
+	Load started at:03-Apr-20 03:05:12 PDT
+	
+	  Database:         LABDB
+	  Schema:           ADMIN
+	  Tablename:        REGION
+	  Datafile:         /home/nz/labs/movingData/et1_region_flat_file
+	  Host:             localhost.localdomain
+	
+	Load Options
+	
+	  Field delimiter:       '|'                NULL value:            NULL
+	  File Buffer Size (MB): 8                  Load Replay Region (MB): 0
+	  Encoding:              INTERNAL           Max errors:            1
+	  Skip records:          0                  Max rows:              0
+	  FillRecord:            No                 Truncate String:       No
+	  Escape Char:           None               Accept Control Chars:  No
+	  Allow CR in string:    No                 Ignore Zero:           No
+	  Quoted data:           NO                 Require Quotes:        No
+	
+	  BoolStyle:             1_0                Decimal Delimiter:     '.'
+	
+	  Disable NFC:           No               
+	  Date Style:            YMD                Date Delim:            '-'
+	  DateTime Delim:        ' '
+	  Time Style:            24HOUR             Time Delim:            ':'
+	  Record Delim:          '\n'               Meridian Delim:        ' '
+	  Time extra zeros:      No                 LfInString:            False            
+	
+	Statistics
+	
+	  number of records read:      4
+	  number of bytes read:        91
+	  number of bad records:       0
+	  -------------------------------------------------
+	  number of records loaded:    4
+	
+	  Elapsed Time (sec): 0.0
+	
+	
+	-----------------------------------------------------------------------------
+	Load completed at: 03-Apr-20 03:05:12 PDT 
+	=============================================================================
+	```
 
 Notice the log file contains the load options and statistics of the
 load, along with environment information to identify the database and
@@ -1378,11 +1308,11 @@ There are other options that you can use with the nzload utility. These
 options were not specified here since the default values were sufficient
 for this load task.
 
--t specifies the target table name in the database
+* -t specifies the target table name in the database
 
--df specifies the datasource file to be loaded
+* -df specifies the datasource file to be loaded
 
--delimiter specifies the string to use as the delimiter in an ASCII
+* -delimiter specifies the string to use as the delimiter in an ASCII
 delimited text file.
 
 The following nzload command syntax is equivalent to the nzload command
@@ -1390,8 +1320,8 @@ we used above. It is intended to demonstrate some of the options that
 can be used with the nzload command, or can be omitted when default
 values are acceptable.
 
-> **Sample Syntax**
-
+**Sample Syntax**
+```
 nzload --db labdb --u labadmin --pw password
 --t region
 --df et1_region_flat_file --delimiter '|'
@@ -1399,6 +1329,7 @@ nzload --db labdb --u labadmin --pw password
 --lf <table>.<database>.nzlog --bf<table>.<database>.nzlog
 --compress false --format text
 --maxErrors 1
+```
 
 The --lf, -bf, and --maxErrors options are explained in the next
 exercise. The --compress and --format options indicate that the
@@ -1406,7 +1337,7 @@ datasource file is an ASCII delimited text file. For a compressed binary
 datasource file the following options would be used: -compress true
 --format internal.
 
-## Using the nzload Utility with a Control File.
+## 6.2 Using the nzload Utility with a Control File.
 
 As demonstrated in section 3.1 you can run the nzload command by
 specifying the command line options or you can use another method by
@@ -1415,22 +1346,21 @@ useful because the file can be modified over time, since loading data
 into a database for a data warehouse environment is a continuous
 operation. A nzload control file has the following basic structure:
 
-> **Sample Syntax**
-
+**Sample Syntax**
+```
 DATAFILE <filename>
-
 {
-
 [<option name> <option value>]
-
 }
+```
 
 The --cf option is used at the nzload command line to indicate the use
 of a control file:
 
-> **Sample Syntax**
-
+**Sample Syntax**
+```
 nzload --u <username> -pw <password> -cf <control file>
+```
 
 The --u and --pw options are optional if the NZ_USER and NZ_PASSWORD
 environment variables are set to the appropriate user and password.
@@ -1446,162 +1376,156 @@ session is the region.del file.
 1.  As the LABDB database owner, LABADMIN first remove the rows in the
     REGION table:
 
-> !!! abstract "Input[terminal 1]"
-	```bash
+!!! abstract "Input [Terminal 1]"
+	```
+	truncate table region;
+	```
 
+!!! success "Output"
+	```
+	TRUNCATE TABLE
+	```
 
-LABDB(LABADMIN)=> [truncate table region]{.mark};
+2. Verify the rows have been removed from the table using the SELECT
+* statement. The table should contain no rows.
 
-> 	```
-
-!!! abstract "Output"
-	```bash
-TRUNCATE TABLE
-
-> 2. Verify the rows have been removed from the table using the SELECT
-> * statement. The table should contain no rows.
->
-> !!! abstract "Input[terminal 1]"
-	```bash
-LABDB(LABADMIN)=> [select * from region]{.mark};
-> 	```
-!!! abstract "Output"
-	```bash
-R_REGIONKEY | R_NAME | R_COMMENT
--------------+--------+-----------
-(0 rows)
+!!! abstract "Input [Terminal 1]"
+	```
+	select * from region;
+	```
+	
+!!! success "Output"
+	```
+	 R_REGIONKEY | R_NAME | R_COMMENT 
+	-------------+--------+-----------
+	(0 rows)
+	```
+	
 
 The control file will be used by the nzload utility to load data into
 the REGION table using the region.del data file. The control file has
 already been created in the lab directory. A control file can include
 the following options:
 
-> Database name
->
-> **Database**
->
-> **Value**
->
-> **Parameter**
-
-+------------------------------+---------------------------------------+
-| > **Tablename**              | > Table name                          |
-+==============================+=======================================+
-| > **Delimiter**              | > Delimiter string                    |
-+------------------------------+---------------------------------------+
-| > **LogDir**                 | > Log directory                       |
-+------------------------------+---------------------------------------+
-| > **LogFile**                | > Log file name                       |
-+------------------------------+---------------------------------------+
-| > **BadFile**                | > Bad record log file name            |
-+------------------------------+---------------------------------------+
+| Parameter            | Value                               |
+|----------------------|-------------------------------------|
+| Database             | Database name                       |
+| Tablename            | Table name                          |
+| Delimiter            | Delimiter string                    |
+| LogDir               | Log directory                       |
+| LogFile              | Log file name                       |
+| BadFile              | Bad record log file name            |
 
 1)  Review the control file in the second putty session with the
     following command:
 
-> !!! abstract "Input[terminal 2]"
-	```bash
+!!! abstract "Input [Terminal 2]"
+	```
+	more control_file
+	```
 
-
-nz@netezza movingData]$ [more control_file
-> 	```
-
-!!! abstract "Output"
-	```bash
-DATAFILE /home/nz/labs/movingData/region.del
-{
-Database labdb
-Tablename region
-Delimiter '|'
-LogDir '/home/nz/labs/movingData'
-LogFile region.log
-BadFile region.bad
-}
-
+!!! success "Output"
+	```
+	DATAFILE /home/nz/labs/movingData/region.del
+	{
+	        Database        labdb
+	        Tablename       region
+	        Delimiter       '|'
+	        LogDir          '/home/nz/labs/movingData'
+	        LogFile         region.log
+	        BadFile         region.bad
+	}
+	```
+	
 2)  Load the data using the nzload utility and the control file you just
     reviewed.
 
-> !!! abstract "Input[terminal 2]"
-	```bash
+!!! abstract "Input [Terminal 2]"
+	```
+	nzload -u labadmin -pw password -cf control_file
+ 	```
 
-
-[nz@netezza movingData]$ [nzload -u labadmin -pw password -cf
-control_file]{.mark}
-
-> 	```
-
-!!! abstract "Output"
-	```bash
-Load session of table 'REGION' completed successfully
+!!! success "Output"
+	```
+	Load session of table 'REGION' completed successfully
+	```
 
 3)  The nzload log file was renamed using the information in the control
     file. The log file name was changed from the default to region.log
     and the location was changed from the /tmp directory to /labs/.
     Check the nzload log.
 
-> !!! abstract "Input[terminal 2]"
-	```bash
+!!! abstract "Input [Terminal 2]"
+	```
+	more region.log
+ 	```
 
-
-nz@netezza movingData]$ [more region.log
-> 	```
-
-!!! abstract "Output"
-	```bash
-Load started at:03-Apr-20 03:38:32 PDT
-Database: LABDB
-Schema: ADMIN
-Tablename: REGION
-Datafile: /home/nz/labs/movingData/region.del
-Host: localhost.localdomain
-Load Options
-Field delimiter: '|' NULL value: NULL
-File Buffer Size (MB): 8 Load Replay Region (MB): 0
-Encoding: INTERNAL Max errors: 1
-Skip records: 0 Max rows: 0
-FillRecord: No Truncate String: No
-Escape Char: None Accept Control Chars: No
-Allow CR in string: No Ignore Zero: No
-Quoted data: NO Require Quotes: No
-BoolStyle: 1_0 Decimal Delimiter: '.'
-Disable NFC: No
-Date Style: YMD Date Delim: '-'
-DateTime Delim: ' '
-Time Style: 24HOUR Time Delim: ':'
-Record Delim: '\n' Meridian Delim: ' '
-Time extra zeros: No LfInString: False
-Statistics
-number of records read: 4
-number of bytes read: 91
-number of bad records: 0
--------------------------------------------------
-number of records loaded: 4
-Elapsed Time (sec): 0.0
------------------------------------------------------------------------------
-Load completed at: 03-Apr-20 03:38:32 PDT
-
+!!! success "Output"
+	```
+	Load started at:03-Apr-20 03:38:32 PDT
+	
+	  Database:         LABDB
+	  Schema:           ADMIN
+	  Tablename:        REGION
+	  Datafile:         /home/nz/labs/movingData/region.del
+	  Host:             localhost.localdomain
+	
+	Load Options
+	
+	  Field delimiter:       '|'                NULL value:            NULL
+	  File Buffer Size (MB): 8                  Load Replay Region (MB): 0
+	  Encoding:              INTERNAL           Max errors:            1
+	  Skip records:          0                  Max rows:              0
+	  FillRecord:            No                 Truncate String:       No
+	  Escape Char:           None               Accept Control Chars:  No
+	  Allow CR in string:    No                 Ignore Zero:           No
+	  Quoted data:           NO                 Require Quotes:        No
+	
+	  BoolStyle:             1_0                Decimal Delimiter:     '.'
+	
+	  Disable NFC:           No               
+	  Date Style:            YMD                Date Delim:            '-'
+	  DateTime Delim:        ' '
+	  Time Style:            24HOUR             Time Delim:            ':'
+	  Record Delim:          '\n'               Meridian Delim:        ' '
+	  Time extra zeros:      No                 LfInString:            False            
+	
+	Statistics
+	
+	  number of records read:      4
+	  number of bytes read:        91
+	  number of bad records:       0
+	  -------------------------------------------------
+	  number of records loaded:    4
+	
+	  Elapsed Time (sec): 0.0
+	
+	
+	-----------------------------------------------------------------------------
+	Load completed at: 03-Apr-20 03:38:32 PDT 
+	```
+	
 4)  Verify the rows in the REGION table in the first putty session with
     the nzsql console:
 
-> !!! abstract "Input[terminal 1]"
-	```bash
+!!! abstract "Input [Terminal 1]"
+	```
+	select * from region;
+ 	```
 
+!!! success "Output"
+	```
+	R_REGIONKEY |          R_NAME           |          R_COMMENT          
+	-------------+---------------------------+-----------------------------
+	           3 | emea                      | europe, middle east, africa
+	           1 | na                        | north america
+	           2 | sa                        | south america
+	           4 | ap                        | asia pacific
+	(4 rows)
+	```
+	
 
-LABDB(LABADMIN)=> [select * from region]{.mark};
-
-> 	```
-
-!!! abstract "Output"
-	```bash
-R_REGIONKEY | R_NAME | R_COMMENT
--------------+---------------------------+-----------------------------
-3 | emea | europe, middle east, africa
-1 | na | north america
-2 | sa | south america
-4 | ap | asia pacific
-(4 rows)
-
-## (Optional) Using nzload with Bad Records
+## 6.3 (Optional) Using nzload with Bad Records
 
 The first two load methods illustrated how to use the nzload utility to
 load data into an empty table using command line options or a control
@@ -1622,55 +1546,50 @@ nation.del file, which unfortunately has a bad record.
 1.  First check the NATION table by listing all of the rows in the table
     using the SELECT * statement in the first putty session:
 
-> !!! abstract "Input[terminal 1]"
-	```bash
+!!! abstract "Input [Terminal 1]"
+	```
+	select * from nation;
+ 	```
 
+!!! success "Output"
+	```
+	N_NATIONKEY |          N_NAME           | N_REGIONKEY |            N_COMMENT             
+	-------------+---------------------------+-------------+----------------------------------
+	           1 | canada                    |           1 | canada
+	           2 | united states             |           1 | united states of america
+	           3 | brazil                    |           2 | brasil
+	           4 | guyana                    |           2 | guyana
+	           5 | venezuela                 |           2 | venezuela
+	           6 | united kingdom            |           3 | united kingdom
+	           7 | portugal                  |           3 | portugal
+	           8 | united arab emirates      |           3 | al imarat al arabiyah multahidah
+	           9 | south africa              |           3 | south africa
+	          10 | australia                 |           4 | australia
+	          11 | japan                     |           4 | nippon
+	          12 | macau                     |           4 | aomen
+	          13 | hong kong                 |           4 | xianggang
+	          14 | new zealand               |           4 | new zealand
+	(14 rows)
+	```
 
-LABDB(LABADMIN)=> select * from nation;
-> 	```
-
-!!! abstract "Output"
-	```bash
-N_NATIONKEY | N_NAME | N_REGIONKEY | N_COMMENT
--------------+---------------------------+-------------+----------------------------------
-1 | canada | 1 | canada
-2 | united states | 1 | united states of america
-3 | brazil | 2 | brasil
-4 | guyana | 2 | guyana
-5 | venezuela | 2 | venezuela
-6 | united kingdom | 3 | united kingdom
-7 | portugal | 3 | portugal
-8 | united arab emirates | 3 | al imarat al arabiyah multahidah
-9 | south africa | 3 | south africa
-10 | australia | 4 | australia
-11 | japan | 4 | nippon
-12 | macau | 4 | aomen
-13 | hong kong | 4 | xianggang
-14 | new zealand | 4 | new zealand
-(14 rows)
 
 2.  Using the second session at the OS command line you will use the
     nzload utility to load data from the nation.del file into the
     NATION:
 
-> !!! abstract "Input[terminal 1]"
-	```bash
+!!! abstract "Input [Terminal 1]"
+	```
+	nzload -db LABDB -u labadmin -pw password -t nation -df nation.del -delimiter '|'
 
+ 	```
 
-nzload -db LABDB -u labadmin -pw password -t nation -df nation.del
--delimiter '|'
-
-> 	```
-
-!!! abstract "Output"
-	```bash
-Error: Operation canceled
-
-Error: External Table : count of bad input rows reached maxerrors limit
-
-See /home/nz/labs/movingData/NATION.ADMIN.LABDB.nzlog file
-
-Error: Load Failed, records not inserted.
+!!! success "Output"
+	```
+	Error: Operation canceled
+	Error: External Table : count of bad input rows reached maxerrors limit
+	See /home/nz/labs/movingData/NATION.ADMIN.LABDB.nzlog file
+	Error: Load Failed, records not inserted.
+	```
 
 This is an indication that the load has failed due to a bad record in
 the datasource file.
@@ -1679,122 +1598,133 @@ the datasource file.
     which you can confirm by using the SELECT * statement (in the first
     session):
 
-> !!! abstract "Input[terminal 1]"
-	```bash
+!!! abstract "Input [Terminal 1]"
+	```
+	select * from nation;
+ 	```
 
-
-LABDB(LABADMIN)=> select * from nation;
-> 	```
-
-!!! abstract "Output"
-	```bash
-N_NATIONKEY | N_NAME | N_REGIONKEY | N_COMMENT
--------------+---------------------------+-------------+----------------------------------
-1 | canada | 1 | canada
-2 | united states | 1 | united states of america
-3 | brazil | 2 | brasil
-4 | guyana | 2 | guyana
-5 | venezuela | 2 | venezuela
-6 | united kingdom | 3 | united kingdom
-7 | portugal | 3 | portugal
-8 | united arab emirates | 3 | al imarat al arabiyah multahidah
-9 | south africa | 3 | south africa
-10 | australia | 4 | australia
-11 | japan | 4 | nippon
-12 | macau | 4 | aomen
-13 | hong kong | 4 | xianggang
-14 | new zealand | 4 | new zealand
-(14 rows)
+!!! success "Output"
+	```
+	N_NATIONKEY |          N_NAME           | N_REGIONKEY |            N_COMMENT             
+	-------------+---------------------------+-------------+----------------------------------
+	           1 | canada                    |           1 | canada
+	           2 | united states             |           1 | united states of america
+	           3 | brazil                    |           2 | brasil
+	           4 | guyana                    |           2 | guyana
+	           5 | venezuela                 |           2 | venezuela
+	           6 | united kingdom            |           3 | united kingdom
+	           7 | portugal                  |           3 | portugal
+	           8 | united arab emirates      |           3 | al imarat al arabiyah multahidah
+	           9 | south africa              |           3 | south africa
+	          10 | australia                 |           4 | australia
+	          11 | japan                     |           4 | nippon
+	          12 | macau                     |           4 | aomen
+	          13 | hong kong                 |           4 | xianggang
+	          14 | new zealand               |           4 | new zealand
+	(14 rows)
+	```
 
 4.  In the second session, check the log file to determine the problem:
 
-> !!! abstract "Input[terminal 2]"
-	```bash
+!!! abstract "Input [Terminal 2]"
+	```
+	more NATION.ADMIN.LABDB.nzlog
+ 	```
 
-
-nz@netezza movingData] [more NATION.ADMIN.LABDB.nzlog
-> 	```
-
-!!! abstract "Output"
-	```bash
-Load started at:03-Apr-20 04:31:19 PDT
-Database: LABDB
-Schema: ADMIN
-Tablename: NATION
-Datafile: <stdin>
-Host: localhost.localdomain
-Load Options
-Field delimiter: '\t' NULL value: NULL
-File Buffer Size (MB): 8 Load Replay Region (MB): 0
-Encoding: INTERNAL Max errors: 1
-Skip records: 0 Max rows: 0
-FillRecord: No Truncate String: No
-Escape Char: None Accept Control Chars: No
-Allow CR in string: No Ignore Zero: No
-Quoted data: NO Require Quotes: No
-BoolStyle: 1_0 Decimal Delimiter: '.'
-Disable NFC: No
-Date Style: YMD Date Delim: '-'
-DateTime Delim: ' '
-Time Style: 24HOUR Time Delim: ':'
-Record Delim: '\n' Meridian Delim: ' '
-Time extra zeros: No LfInString: False
-Load started at:03-Apr-20 04:36:02 PDT
-Database: LABDB
-Schema: ADMIN
-Tablename: NATION
-Datafile: /home/nz/labs/movingData/nation.del
-Host: localhost.localdomain
-Load Options
-Field delimiter: '|' NULL value: NULL
-File Buffer Size (MB): 8 Load Replay Region (MB): 0
-Encoding: INTERNAL Max errors: 1
-Skip records: 0 Max rows: 0
-FillRecord: No Truncate String: No
-Escape Char: None Accept Control Chars: No
-Allow CR in string: No Ignore Zero: No
-Quoted data: NO Require Quotes: No
-BoolStyle: 1_0 Decimal Delimiter: '.'
-Disable NFC: No
-Date Style: YMD Date Delim: '-'
-DateTime Delim: ' '
-Time Style: 24HOUR Time Delim: ':'
-Record Delim: '\n' Meridian Delim: ' '
-Time extra zeros: No LfInString: False
-Found bad records
-bad #: input row #(byte offset to last char examined) [field #,
-declaration] diagnostic, "text consumed"[last char examined]
-----------------------------------------------------------------------------------------------------------------------------
-1: 10(1) [1, INT4] expected field delimiter or end of record,
-"2"[t]
-Statistics
-number of records read: 10
-number of bytes read: 226
-number of bad records: 1
--------------------------------------------------
-number of records loaded: 0
-Elapsed Time (sec): 0.0
------------------------------------------------------------------------------
-Load completed at: 03-Apr-20 04:36:02 PDT
-=============================================================================
-
+!!! success "Output"
+	```
+	Load started at:03-Apr-20 04:31:19 PDT
+	
+	  Database:         LABDB
+	  Schema:           ADMIN
+	  Tablename:        NATION
+	  Datafile:         <stdin>
+	  Host:             localhost.localdomain
+	
+	Load Options
+	
+	  Field delimiter:       '\t'               NULL value:            NULL
+	  File Buffer Size (MB): 8                  Load Replay Region (MB): 0
+	  Encoding:              INTERNAL           Max errors:            1
+	  Skip records:          0                  Max rows:              0
+	  FillRecord:            No                 Truncate String:       No
+	  Escape Char:           None               Accept Control Chars:  No
+	  Allow CR in string:    No                 Ignore Zero:           No
+	  Quoted data:           NO                 Require Quotes:        No
+	
+	  BoolStyle:             1_0                Decimal Delimiter:     '.'
+	
+	  Disable NFC:           No               
+	  Date Style:            YMD                Date Delim:            '-'
+	  DateTime Delim:        ' '
+	  Time Style:            24HOUR             Time Delim:            ':'
+	  Record Delim:          '\n'               Meridian Delim:        ' '
+	  Time extra zeros:      No                 LfInString:            False            
+	
+	Load started at:03-Apr-20 04:36:02 PDT
+	
+	  Database:         LABDB
+	  Schema:           ADMIN
+	  Tablename:        NATION
+	  Datafile:         /home/nz/labs/movingData/nation.del
+	  Host:             localhost.localdomain
+	
+	Load Options
+	
+	  Field delimiter:       '|'                NULL value:            NULL
+	  File Buffer Size (MB): 8                  Load Replay Region (MB): 0
+	  Encoding:              INTERNAL           Max errors:            1
+	  Skip records:          0                  Max rows:              0
+	  FillRecord:            No                 Truncate String:       No
+	  Escape Char:           None               Accept Control Chars:  No
+	  Allow CR in string:    No                 Ignore Zero:           No
+	  Quoted data:           NO                 Require Quotes:        No
+	
+	  BoolStyle:             1_0                Decimal Delimiter:     '.'
+	
+	  Disable NFC:           No               
+	  Date Style:            YMD                Date Delim:            '-'
+	  DateTime Delim:        ' '
+	  Time Style:            24HOUR             Time Delim:            ':'
+	  Record Delim:          '\n'               Meridian Delim:        ' '
+	  Time extra zeros:      No                 LfInString:            False            
+	
+	Found bad records
+	
+	bad #: input row #(byte offset to last char examined) [field #, declaration] diagnostic, "text consumed"[last char examined]
+	----------------------------------------------------------------------------------------------------------------------------
+	1: 10(1) [1, INT4] expected field delimiter or end of record, "2"[t]
+	
+	Statistics
+	
+	  number of records read:      10
+	  number of bytes read:        226
+	  number of bad records:       1
+	  -------------------------------------------------
+	  number of records loaded:    0
+	
+	  Elapsed Time (sec): 0.0
+	
+	
+	-----------------------------------------------------------------------------
+	Load completed at: 03-Apr-20 04:36:02 PDT 
+	=============================================================================
+	```
+	
 The Statistics section indicates that 10 records were read before the
 bad record was encountered during the load process. As expected, no rows
 were inserted into the table since the default is to abort the load when
 one bad record is encountered. The log file also provides information
 about the bad record:
 
-> **Sample Output**
-
+**Sample Output**
+```
 Found bad records
 
-bad #: input row #(byte offset to last char examined) [field #,
-declaration] diagnostic, "text consumed"[last char examined]
-
+bad #: input row #(byte offset to last char examined) [field #, declaration] diagnostic, "text consumed"[last char examined]
 ----------------------------------------------------------------------------------------------------------------------------
-
-1: 10(1) [1, INT4] expected field delimiter or end of record,
-"2"[t]
+1: 10(1) [1, INT4] expected field delimiter or end of record, "2"[t]
+```
 
 Using the log file, we are able to determine the problem is that the
 value '2t' is in a field for an INT(4) column. Since '2t' is not a valid
@@ -1815,38 +1745,37 @@ example, the character is 2t.
     correct by examining the nation.del datasource file that was used
     for the load. In the second session execute the following command:
 
-> !!! abstract "Input[terminal 2]"
-	```bash
-
-
-nz@netezza movingData] [more nation.del
-> 	```
-!!! abstract "Output"
-	```bash
-15|andorra|2|andorra
-16|ascension islan|3|ascension
-17|austria|3|osterreich
-18|bahamas|2|bahamas
-19|barbados|2|barbados
-20|belgium|3|belqique
-21|chile|2|chile
-22|cuba|2|cuba
-23|cook islands|4|cook islands
-**2t|denmark|3|denmark**
-25|ecuador|2|ecuador
-26|falkland islands|3|islas malinas
-27|fiji|4|fiji
-28|finland|3|suomen tasavalta
-29|greenland|1|kalaallit nunaat
-30|great britain|3|great britian
-31|gibraltar|3|gibraltar
-32|hungary|3|magyarorszag
-33|iceland|3|lyoveldio island
-34|ireland|3|eire
-35|isle of man|3|isle of man
-36|jamaica|2|jamaica
-37|korea|4|han-guk
-38|luxembourg|3|Luxembourg
+!!! abstract "Input [Terminal 2]"
+	```
+	more nation.del
+ 	```
+!!! success "Output"
+	```
+	15|andorra|2|andorra
+	16|ascension islan|3|ascension
+	17|austria|3|osterreich
+	18|bahamas|2|bahamas
+	19|barbados|2|barbados
+	20|belgium|3|belqique
+	21|chile|2|chile
+	22|cuba|2|cuba
+	23|cook islands|4|cook islands
+	2t|denmark|3|denmark
+	25|ecuador|2|ecuador
+	26|falkland islands|3|islas malinas
+	27|fiji|4|fiji
+	28|finland|3|suomen tasavalta
+	29|greenland|1|kalaallit nunaat
+	30|great britain|3|great britian
+	31|gibraltar|3|gibraltar
+	32|hungary|3|magyarorszag
+	33|iceland|3|lyoveldio island
+	34|ireland|3|eire
+	35|isle of man|3|isle of man
+	36|jamaica|2|jamaica
+	37|korea|4|han-guk
+	38|luxembourg|3|Luxembourg
+	```
 
 Notice on the 10th line the output. There is indeed an invalid 2t in the
 first column of the input file. Therefore, we made the correct
@@ -1858,16 +1787,15 @@ assume that the correct value should be 24.
     encountered during a load. In the second session execute the
     following command:
 
-> !!! abstract "Input[terminal 2]"
-	```bash
+!!! abstract "Input [Terminal 2]"
+	```
+	more NATION.ADMIN.LABDB.nzbad
+ 	```
 
-
-nz@netezza movingData] [more NATION.ADMIN.LABDB.nzbad
-> 	```
-
-!!! abstract "Output"
-	```bash
-2t|denmark|3|Denmark
+!!! success "Output"
+	```
+	2t|denmark|3|Denmark
+	```
 
 This is the same data as identified in the nation.del file and using the
 log file information to locate the record. Since the default is to stop
@@ -1877,7 +1805,7 @@ more bad records to be processed, this file could potentially contain
 more records. It provides a comfortable overview of all the records that
 created exceptions during load.
 
-5)  We have the option of changing the NATION.del file to change '2t' to
+7.  We have the option of changing the NATION.del file to change '2t' to
     '24' and then rerun the same nzload command as in step 7. Instead
     you will rerun a similar load but you will allow 10 bad records to
     be encountered during the load process. To change the default
@@ -1885,75 +1813,70 @@ created exceptions during load.
     also change the name of the nzbad file using the --bf command option
     and the log filename using the --lf command option:
 
-> !!! abstract "Input[terminal 2]"
-	```bash
+!!! abstract "Input [Terminal 2]"
+	```
+	nzload -db labdb -u labadmin -pw password -t nation -df nation.del -delimiter '|' -maxerrors 10 -bf nation.bad -lf nation.log
+ 	```
 
-
-[nz@netezza movingData]$ [nzload -db labdb -u labadmin -pw password
--t nation -df nation.del -delimiter '|' -maxerrors 10 -bf nation.bad
--lf nation.log]{.mark}
-
-> 	```
-
-!!! abstract "Output"
-	```bash
-Load session of table 'NATION' completed successfully
+!!! success "Output"
+	```
+	Load session of table 'NATION' completed successfully
+	```
 
 Now the load is successful.
 
 6)  Verify the newly loaded rows are in the NATION using the SELECT *
     command:
 
-> !!! abstract "Input[terminal 1]"
-	```bash
+!!! abstract "Input [Terminal 1]"
+	```
+	select * from nation order by n_nationkey;
+ 	```
 
-
-LABDB(LABADMIN)=> select * from nation order by n_nationkey;
-> 	```
-
-!!! abstract "Output"
-	```bash
-N_NATIONKEY | N_NAME | N_REGIONKEY | N_COMMENT
--------------+---------------------------+-------------+----------------------------------
-1 | canada | 1 | canada
-2 | united states | 1 | united states of america
-3 | brazil | 2 | brasil
-4 | guyana | 2 | guyana
-5 | venezuela | 2 | venezuela
-6 | united kingdom | 3 | united kingdom
-7 | portugal | 3 | portugal
-8 | united arab emirates | 3 | al imarat al arabiyah multahidah
-9 | south africa | 3 | south africa
-10 | australia | 4 | australia
-11 | japan | 4 | nippon
-12 | macau | 4 | aomen
-13 | hong kong | 4 | xianggang
-14 | new zealand | 4 | new zealand
-15 | andorra | 2 | andorra
-16 | ascension islan | 3 | ascension
-17 | austria | 3 | osterreich
-18 | bahamas | 2 | bahamas
-19 | barbados | 2 | barbados
-20 | belgium | 3 | belqique
-21 | chile | 2 | chile
-22 | cuba | 2 | cuba
-23 | cook islands | 4 | cook islands
-25 | ecuador | 2 | ecuador
-26 | falkland islands | 3 | islas malinas
-27 | fiji | 4 | fiji
-28 | finland | 3 | suomen tasavalta
-29 | greenland | 1 | kalaallit nunaat
-30 | great britain | 3 | great britian
-31 | gibraltar | 3 | gibraltar
-32 | hungary | 3 | magyarorszag
-33 | iceland | 3 | lyoveldio island
-34 | ireland | 3 | eire
-35 | isle of man | 3 | isle of man
-36 | jamaica | 2 | jamaica
-37 | korea | 4 | han-guk
-38 | luxembourg | 3 | luxembourg
-39 | monaco | 3 | monaco
-(38 rows)
+!!! success "Output"
+	```
+	N_NATIONKEY |          N_NAME           | N_REGIONKEY |            N_COMMENT             
+	-------------+---------------------------+-------------+----------------------------------
+	           1 | canada                    |           1 | canada
+	           2 | united states             |           1 | united states of america
+	           3 | brazil                    |           2 | brasil
+	           4 | guyana                    |           2 | guyana
+	           5 | venezuela                 |           2 | venezuela
+	           6 | united kingdom            |           3 | united kingdom
+	           7 | portugal                  |           3 | portugal
+	           8 | united arab emirates      |           3 | al imarat al arabiyah multahidah
+	           9 | south africa              |           3 | south africa
+	          10 | australia                 |           4 | australia
+	          11 | japan                     |           4 | nippon
+	          12 | macau                     |           4 | aomen
+	          13 | hong kong                 |           4 | xianggang
+	          14 | new zealand               |           4 | new zealand
+	          15 | andorra                   |           2 | andorra
+	          16 | ascension islan           |           3 | ascension
+	          17 | austria                   |           3 | osterreich
+	          18 | bahamas                   |           2 | bahamas
+	          19 | barbados                  |           2 | barbados
+	          20 | belgium                   |           3 | belqique
+	          21 | chile                     |           2 | chile
+	          22 | cuba                      |           2 | cuba
+	          23 | cook islands              |           4 | cook islands
+	          25 | ecuador                   |           2 | ecuador
+	          26 | falkland islands          |           3 | islas malinas
+	          27 | fiji                      |           4 | fiji
+	          28 | finland                   |           3 | suomen tasavalta
+	          29 | greenland                 |           1 | kalaallit nunaat
+	          30 | great britain             |           3 | great britian
+	          31 | gibraltar                 |           3 | gibraltar
+	          32 | hungary                   |           3 | magyarorszag
+	          33 | iceland                   |           3 | lyoveldio island
+	          34 | ireland                   |           3 | eire
+	          35 | isle of man               |           3 | isle of man
+	          36 | jamaica                   |           2 | jamaica
+	          37 | korea                     |           4 | han-guk
+	          38 | luxembourg                |           3 | luxembourg
+	          39 | monaco                    |           3 | monaco
+	(38 rows)
+	```
 
 Now all of the new records were loaded except for the one bad row with
 nation key 24.
@@ -1962,59 +1885,69 @@ nation key 24.
     good practice to review the nzload log file for any problems, for
     example bad rows that are under the maxErrors threshold. In the
     second putty session execute the following command:
+    
+!!! note 
+    xxxx is the ID associated to your nzload.
 
-> !!! abstract "Input[terminal 2]"
-	```bash
-
-
-[nz@netezza movingData] [more]{.mark} NATION.ADMIN.LABDB.xxxx.nzbad
-
-Note: where xxxx is the ID associated to your nzload.
-
+!!! abstract "Input [Terminal 2]"
 	```
+	more NATION.ADMIN.LABDB.xxxx.nzbad
+	```
+	
+The log file should be similar to the following.
 
-!!! abstract "Output"
-	```bash
-The log file should be similar to the following:
-Load started at:03-Apr-20 06:12:43 PDT
-Database: LABDB
-Schema: ADMIN
-Tablename: NATION
-Datafile: /home/nz/labs/movingData/nation.del
-Host: localhost.localdomain
-Load Options
-Field delimiter: '|' NULL value: NULL
-File Buffer Size (MB): 8 Load Replay Region (MB): 0
-Encoding: INTERNAL Max errors: 10
-Skip records: 0 Max rows: 0
-FillRecord: No Truncate String: No
-Escape Char: None Accept Control Chars: No
-Allow CR in string: No Ignore Zero: No
-Quoted data: NO Require Quotes: No
-BoolStyle: 1_0 Decimal Delimiter: '.'
-Disable NFC: No
-Date Style: YMD Date Delim: '-'
-DateTime Delim: ' '
-Time Style: 24HOUR Time Delim: ':'
-Record Delim: '\n' Meridian Delim: ' '
-Time extra zeros: No LfInString: False
-Found bad records
-bad #: input row #(byte offset to last char examined) [field #,
-declaration] diagnostic, "text consumed"[last char examined]
-----------------------------------------------------------------------------------------------------------------------------
-1: 10(1) [1, INT4] expected field delimiter or end of record,
-"2"[t]
-Statistics
-number of records read: 25
-number of bytes read: 607
-number of bad records: 1
--------------------------------------------------
-number of records loaded: 24
-Elapsed Time (sec): 0.0
------------------------------------------------------------------------------
-Load completed at: 03-Apr-20 06:12:43 PDT
-=============================================================================
-
+!!! success "Output"
+	```
+	Load started at:03-Apr-20 06:12:43 PDT
+	
+	  Database:         LABDB
+	  Schema:           ADMIN
+	  Tablename:        NATION
+	  Datafile:         /home/nz/labs/movingData/nation.del
+	  Host:             localhost.localdomain
+	
+	Load Options
+	
+	  Field delimiter:       '|'                NULL value:            NULL
+	  File Buffer Size (MB): 8                  Load Replay Region (MB): 0
+	  Encoding:              INTERNAL           Max errors:            10
+	  Skip records:          0                  Max rows:              0
+	  FillRecord:            No                 Truncate String:       No
+	  Escape Char:           None               Accept Control Chars:  No
+	  Allow CR in string:    No                 Ignore Zero:           No
+	  Quoted data:           NO                 Require Quotes:        No
+	
+	  BoolStyle:             1_0                Decimal Delimiter:     '.'
+	
+	  Disable NFC:           No               
+	  Date Style:            YMD                Date Delim:            '-'
+	  DateTime Delim:        ' '
+	  Time Style:            24HOUR             Time Delim:            ':'
+	  Record Delim:          '\n'               Meridian Delim:        ' '
+	  Time extra zeros:      No                 LfInString:            False            
+	
+	Found bad records
+	
+	bad #: input row #(byte offset to last char examined) [field #, declaration] diagnostic, "text consumed"[last char examined]
+	----------------------------------------------------------------------------------------------------------------------------
+	1: 10(1) [1, INT4] expected field delimiter or end of record, "2"[t]
+	
+	Statistics
+	
+	  number of records read:      25
+	  number of bytes read:        607
+	  number of bad records:       1
+	  -------------------------------------------------
+	  number of records loaded:    24
+	
+	  Elapsed Time (sec): 0.0
+	
+	
+	-----------------------------------------------------------------------------
+	Load completed at: 03-Apr-20 06:12:43 PDT 
+	=============================================================================
+	```
+	
 The main difference as compared with the example before, is that all 25
 of the data records in the data source file were processed, but only 24
 records were loaded because there was one bad record in the data source
@@ -2033,111 +1966,103 @@ nation.bad file and change the '2t' to '24' in the first field.
 The vi editor has two modes, a command mode used to save files, quit the
 editor etc. and an insert mode. Initially you will be in the command
 mode. To change the file, you need to switch into the insert mode by
-pressing "i". The editor will show an -- INSERT -- at the bottom of the
+pressing "i". The editor will show an `-- INSERT --` at the bottom of the
 screen. Note: you can use gedit from the VM desktop (gedit nation.bad)
 
-> !!! abstract "Input[terminal 2]"
-	```bash
-
-
-nz@netezza movingData]$ [vi nation.bad
-> **Output before changes**
-
-2t|denmark|3|Denmark
+!!! abstract "Input [Terminal 2]"
+	```
+	vi nation.bad
+	```
+	
+!!! success "Output before changes"
+	```
+	2t|denmark|3|Denmark
+	```
 
 8)  You can now use the cursor keys to navigate. Change the first two
     chars of the bad row from 2t to 24. Your screen should look like the
     following:
 
-> **Output after changes**
-
-24|denmark|3|denmark
-
-~
-
-~
-
-~
-
--- INSERT --
+!!! success "Output after changes"
+	```
+	24|denmark|3|Denmark
+	
+	
+	-- INSERT --
+	```
 
 9)  To save the changes, press "Esc" to switch back into command mode.
-    You should see that the "---INSERT--- " string at the bottom of the
+    You should see that the `---INSERT---` string at the bottom of the
     screen vanishes. Enter :wq! and press enter to write the file, and
     quit the editor.
 
 10) After the nation.bad file has modified to correct the record, issue
     a nzload to load the modified nation.bad file:
 
-> !!! abstract "Input[terminal 2]"
-	```bash
+!!! abstract "Input [Terminal 2]"
+	```
+	nzload -db labdb -u labadmin -pw password -t nation -df nation.bad -delimiter '|'
+ 	```
 
-
-LABDB(LABADMIN)=> [nzload -db labdb -u labadmin -pw password -t nation
--df nation.bad -delimiter '|']{.mark}
-
-> 	```
-
-!!! abstract "Output"
-	```bash
-Load session of table 'NATION' completed successfully
+!!! success "Output"
+	```
+	Load session of table 'NATION' completed successfully
+	```
 
 11) Verify the new row has been loaded into the table:
 
-> !!! abstract "Input[terminal 1]"
-	```bash
+!!! abstract "Input [Terminal 1]"
+	```
+	select * from nation order by n_nationkey;
+ 	```
 
-
-LABDB(LABADMIN)=> select * from nation order by n_nationkey;
-> 	```
-
-!!! abstract "Output"
-	```bash
-N_NATIONKEY | N_NAME | N_REGIONKEY | N_COMMENT
--------------+---------------------------+-------------+----------------------------------
-1 | canada | 1 | canada
-2 | united states | 1 | united states of america
-3 | brazil | 2 | brasil
-4 | guyana | 2 | guyana
-5 | venezuela | 2 | venezuela
-6 | united kingdom | 3 | united kingdom
-7 | portugal | 3 | portugal
-8 | united arab emirates | 3 | al imarat al arabiyah multahidah
-9 | south africa | 3 | south africa
-10 | australia | 4 | australia
-11 | japan | 4 | nippon
-12 | macau | 4 | aomen
-13 | hong kong | 4 | xianggang
-14 | new zealand | 4 | new zealand
-15 | andorra | 2 | andorra
-16 | ascension islan | 3 | ascension
-17 | austria | 3 | osterreich
-18 | bahamas | 2 | bahamas
-19 | barbados | 2 | barbados
-20 | belgium | 3 | belqique
-21 | chile | 2 | chile
-22 | cuba | 2 | cuba
-23 | cook islands | 4 | cook islands
-**24 | denmark** **| 3 | denmark**
-25 | ecuador | 2 | ecuador
-26 | falkland islands | 3 | islas malinas
-27 | fiji | 4 | fiji
-28 | finland | 3 | suomen tasavalta
-29 | greenland | 1 | kalaallit nunaat
-30 | great britain | 3 | great britian
-31 | gibraltar | 3 | gibraltar
-32 | hungary | 3 | magyarorszag
-33 | iceland | 3 | lyoveldio island
-34 | ireland | 3 | eire
-35 | isle of man | 3 | isle of man
-36 | jamaica | 2 | jamaica
-37 | korea | 4 | han-guk
-38 | luxembourg | 3 | luxembourg
-39 | monaco | 3 | monaco
-(39 rows)
-
+!!! success "Output"
+	```
+	N_NATIONKEY |          N_NAME           | N_REGIONKEY |            N_COMMENT             
+	-------------+---------------------------+-------------+----------------------------------
+	           1 | canada                    |           1 | canada
+	           2 | united states             |           1 | united states of america
+	           3 | brazil                    |           2 | brasil
+	           4 | guyana                    |           2 | guyana
+	           5 | venezuela                 |           2 | venezuela
+	           6 | united kingdom            |           3 | united kingdom
+	           7 | portugal                  |           3 | portugal
+	           8 | united arab emirates      |           3 | al imarat al arabiyah multahidah
+	           9 | south africa              |           3 | south africa
+	          10 | australia                 |           4 | australia
+	          11 | japan                     |           4 | nippon
+	          12 | macau                     |           4 | aomen
+	          13 | hong kong                 |           4 | xianggang
+	          14 | new zealand               |           4 | new zealand
+	          15 | andorra                   |           2 | andorra
+	          16 | ascension islan           |           3 | ascension
+	          17 | austria                   |           3 | osterreich
+	          18 | bahamas                   |           2 | bahamas
+	          19 | barbados                  |           2 | barbados
+	          20 | belgium                   |           3 | belqique
+	          21 | chile                     |           2 | chile
+	          22 | cuba                      |           2 | cuba
+	          23 | cook islands              |           4 | cook islands
+	          24 | denmark                   |           3 | denmark
+	          25 | ecuador                   |           2 | ecuador
+	          26 | falkland islands          |           3 | islas malinas
+	          27 | fiji                      |           4 | fiji
+	          28 | finland                   |           3 | suomen tasavalta
+	          29 | greenland                 |           1 | kalaallit nunaat
+	          30 | great britain             |           3 | great britian
+	          31 | gibraltar                 |           3 | gibraltar
+	          32 | hungary                   |           3 | magyarorszag
+	          33 | iceland                   |           3 | lyoveldio island
+	          34 | ireland                   |           3 | eire
+	          35 | isle of man               |           3 | isle of man
+	          36 | jamaica                   |           2 | jamaica
+	          37 | korea                     |           4 | han-guk
+	          38 | luxembourg                |           3 | luxembourg
+	          39 | monaco                    |           3 | monaco
+	(39 rows)
+	```
+	
 The row in **bold** denotes the new row that was added to the table,
 which was the bad record you corrected.
 
 Congratulations you have completed the lab.
-
