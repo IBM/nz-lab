@@ -66,7 +66,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#web-console" class="md-skip">
+        <a href="#1-web-console" class="md-skip">
           Skip to content
         </a>
       
@@ -207,102 +207,9 @@
         
       
       
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          Web Console
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
       <a href="./" class="md-nav__link md-nav__link--active">
         Web Console
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#lab-setup" class="md-nav__link">
-    Lab Setup
-  </a>
-  
-    <nav class="md-nav" aria-label="Lab Setup">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#starting-nps-web-console" class="md-nav__link">
-    Starting NPS Web Console
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#launch-the-nps-console" class="md-nav__link">
-    Launch the NPS Console
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#troubleshooting-the-web-console" class="md-nav__link">
-    Troubleshooting the Web Console
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#monitor-system-performance" class="md-nav__link">
-    Monitor System Performance
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#retrieve-information-on-nps-configuration" class="md-nav__link">
-    Retrieve Information on NPS Configuration
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#manage-databases" class="md-nav__link">
-    Manage Databases
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#queries" class="md-nav__link">
-    Queries
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#explore" class="md-nav__link">
-    Explore
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
       
     </li>
   
@@ -510,83 +417,6 @@
     
   
   
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#lab-setup" class="md-nav__link">
-    Lab Setup
-  </a>
-  
-    <nav class="md-nav" aria-label="Lab Setup">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#starting-nps-web-console" class="md-nav__link">
-    Starting NPS Web Console
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#launch-the-nps-console" class="md-nav__link">
-    Launch the NPS Console
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#troubleshooting-the-web-console" class="md-nav__link">
-    Troubleshooting the Web Console
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#monitor-system-performance" class="md-nav__link">
-    Monitor System Performance
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#retrieve-information-on-nps-configuration" class="md-nav__link">
-    Retrieve Information on NPS Configuration
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#manage-databases" class="md-nav__link">
-    Manage Databases
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#queries" class="md-nav__link">
-    Queries
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#explore" class="md-nav__link">
-    Explore
-  </a>
-  
-</li>
-      
-    </ul>
-  
 </nav>
                   </div>
                 </div>
@@ -599,7 +429,7 @@
                 
 
 
-<h1 id="web-console">Web Console</h1>
+<h1 id="1-web-console">1 Web Console</h1>
 <p>In this lab we will explore the features of the IBM Netezza Performance
 Server console. The console is a HTML-based application that allows
 users to manage the system, obtain hardware information and status, and
@@ -609,7 +439,7 @@ normal Netezza Performance Server. Each Netezza Performance Server has
 the Web Console running as an OpenShift containerized application on the
 control plane/master nodes. In this environment, the Web Console is
 running natively on the NPSVB virtual machine.</p>
-<h2 id="lab-setup">Lab Setup</h2>
+<h1 id="2-lab-setup">2 Lab Setup</h1>
 <p>This lab uses an initial setup script to make sure the correct users and
 database exist for the remainder of the lab. Follow the instructions
 below to run the setup script.</p>
@@ -633,8 +463,7 @@ line.</p>
 <ol start="2">
 <li>
 <p>If you are continuing from the previous lab and are already
-    connected to nzsql quit the console with the
-    <code>\q</code> command.</p>
+    connected to <code>nzsql</code> quit the console with the <code>\q</code> command.</p>
 </li>
 <li>
 <p>Prepare for this lab by running the setup script. To do this use the
@@ -643,37 +472,37 @@ line.</p>
 </ol>
 <div class="admonition abstract">
 <p class="admonition-title">Input</p>
-<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>~/labs/console/setupLab/
+<div class="highlight"><pre><span></span><code>cd ~/labs/console/setupLab/
 ./setupLab.sh
 </code></pre></div>
 </div>
-<div class="admonition abstract">
+<div class="admonition success">
 <p class="admonition-title">Output</p>
-<div class="highlight"><pre><span></span><code>DROP<span class="w"> </span>DATABASE
-CREATE<span class="w"> </span>DATABASE
-ERROR:<span class="w"> </span>CREATE<span class="w"> </span>USER:<span class="w"> </span>object<span class="w"> </span>LABADMIN<span class="w"> </span>does<span class="w"> </span>not<span class="w"> </span>exist.
-ALTER<span class="w"> </span>USER
-ALTER<span class="w"> </span>DATABASE
-CREATE<span class="w"> </span>TABLE
-CREATE<span class="w"> </span>TABLE
-CREATE<span class="w"> </span>TABLE
-CREATE<span class="w"> </span>TABLE
-CREATE<span class="w"> </span>TABLE
-CREATE<span class="w"> </span>TABLE
-CREATE<span class="w"> </span>TABLE
-CREATE<span class="w"> </span>TABLE
-Load<span class="w"> </span>session<span class="w"> </span>of<span class="w"> </span>table<span class="w"> </span><span class="s1">&#39;NATION&#39;</span><span class="w"> </span>completed<span class="w"> </span>successfully
-Load<span class="w"> </span>session<span class="w"> </span>of<span class="w"> </span>table<span class="w"> </span><span class="s1">&#39;REGION&#39;</span><span class="w"> </span>completed<span class="w"> </span>successfully
-Load<span class="w"> </span>session<span class="w"> </span>of<span class="w"> </span>table<span class="w"> </span><span class="s1">&#39;CUSTOMER&#39;</span><span class="w"> </span>completed<span class="w"> </span>successfully
-Load<span class="w"> </span>session<span class="w"> </span>of<span class="w"> </span>table<span class="w"> </span><span class="s1">&#39;SUPPLIER&#39;</span><span class="w"> </span>completed<span class="w"> </span>successfully
-Load<span class="w"> </span>session<span class="w"> </span>of<span class="w"> </span>table<span class="w"> </span><span class="s1">&#39;PART&#39;</span><span class="w"> </span>completed<span class="w"> </span>successfully
-Load<span class="w"> </span>session<span class="w"> </span>of<span class="w"> </span>table<span class="w"> </span><span class="s1">&#39;PARTSUPP&#39;</span><span class="w"> </span>completed<span class="w"> </span>successfully
-Load<span class="w"> </span>session<span class="w"> </span>of<span class="w"> </span>table<span class="w"> </span><span class="s1">&#39;ORDERS&#39;</span><span class="w"> </span>completed<span class="w"> </span>successfully
-Load<span class="w"> </span>session<span class="w"> </span>of<span class="w"> </span>table<span class="w"> </span><span class="s1">&#39;LINEITEM&#39;</span><span class="w"> </span>completed<span class="w"> </span>successfully
+<div class="highlight"><pre><span></span><code>DROP DATABASE
+CREATE DATABASE
+ERROR: CREATE USER: object LABADMIN does not exist.
+ALTER USER
+ALTER DATABASE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+Load session of table &#39;NATION&#39; completed successfully
+Load session of table &#39;REGION&#39; completed successfully
+Load session of table &#39;CUSTOMER&#39; completed successfully
+Load session of table &#39;SUPPLIER&#39; completed successfully
+Load session of table &#39;PART&#39; completed successfully
+Load session of table &#39;PARTSUPP&#39; completed successfully
+Load session of table &#39;ORDERS&#39; completed successfully
+Load session of table &#39;LINEITEM&#39; completed successfully
 </code></pre></div>
 </div>
 <p>While the setup script is running proceed to the next step.</p>
-<h3 id="starting-nps-web-console">Starting NPS Web Console</h3>
+<h2 id="21-starting-nps-web-console">2.1 Starting NPS Web Console</h2>
 <p>After booting up the NPSVB virtual machine with Virtual Box follow these
 steps to start the Web Console application inside the VM:</p>
 <ul>
@@ -691,16 +520,16 @@ steps to start the Web Console application inside the VM:</p>
 <li><strong>VM Desktop</strong>: switch to the <code>root</code> user</li>
 </ul>
 <div class="admonition abstract">
-<div class="highlight"><pre><span></span><code>su<span class="w"> </span>–
-password:<span class="w"> </span>netezza
+<div class="highlight"><pre><span></span><code>su –
+password: netezza
 </code></pre></div>
 </div>
 <ul>
 <li>Remotely via ssh </li>
 </ul>
 <div class="admonition abstract">
-<div class="highlight"><pre><span></span><code>ssh<span class="w"> </span>root@192.168.9.2
-password:<span class="w"> </span>netezza
+<div class="highlight"><pre><span></span><code>ssh root@192.168.9.2
+password: netezza
 </code></pre></div>
 </div>
 <ul>
@@ -714,20 +543,20 @@ password:<span class="w"> </span>netezza
 <li>Check that the two pods are running</li>
 </ul>
 <div class="admonition abstract">
-<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>ps
+<div class="highlight"><pre><span></span><code>docker ps
 </code></pre></div>
 </div>
 <p><img alt="Image" src="../nz-images/nz-02-WebConsole/media/image3.png" /></p>
 <div class="admonition note">
 <p class="admonition-title">To stop the console, run the following command for each container</p>
-<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>stop<span class="w"> </span>&lt;container-id&gt;
+<div class="highlight"><pre><span></span><code>docker stop &lt;container-id&gt;
 </code></pre></div>
 </div>
-<h3 id="launch-the-nps-console">Launch the NPS Console</h3>
+<h2 id="22-launch-the-nps-console">2.2 Launch the NPS Console</h2>
 <p>If you already configured the access to the NPS in the Setup Lab, you
 can skip this chapter.</p>
 <p>Open a browser on your host machine or from the virtual machine, use
-<strong>https://192.168.9.2:8443</strong> as URL.</p>
+<code>https://192.168.9.2:8443</code> as URL.</p>
 <p><img alt="Image" src="../nz-images/nz-02-WebConsole/media/image4.png" /></p>
 <p>Add an the local NPS instance</p>
 <ul>
@@ -735,11 +564,11 @@ can skip this chapter.</p>
 </ul>
 <p>Enter the following information:</p>
 <ul>
-<li>Name: NPS VM Local</li>
-<li>Host: 192.168.9.2</li>
-<li>Port: 5480</li>
-<li>Admin Username: admin</li>
-<li>Admin Password: password</li>
+<li>Name: <code>NPS VM Local</code></li>
+<li>Host: <code>192.168.9.2</code></li>
+<li>Port: <code>5480</code></li>
+<li>Admin Username: <code>admin</code></li>
+<li>Admin Password: <code>password</code></li>
 </ul>
 <p>Click <strong>Save</strong>.</p>
 <div class="admonition note">
@@ -760,14 +589,15 @@ instance and select <strong>Add credentials</strong>.</p>
 </ul>
 <p>Enter the following values (admin is the default superuser for NPS)</p>
 <ul>
-<li>Username: admin</li>
-<li>Password: password</li>
+<li>Username: <code>admin</code></li>
+<li>Password: <code>password</code></li>
 </ul>
 <p>Click: <strong>Save</strong></p>
 <p><img alt="Image" src="../nz-images/nz-02-WebConsole/media/image8.png" /></p>
 <div class="admonition note">
 <p class="admonition-title">This is a database user defined inside of NPS by the create user SQL statement.</p>
 </div>
+<p><code>admin</code> is the default superuser for NPS.</p>
 <p>The instance should now have a hot link for the host URL.</p>
 <p><img alt="Image" src="../nz-images/nz-02-WebConsole/media/image9.png" /></p>
 <p>You can select the three vertical ellipses to reveal the following
@@ -832,37 +662,37 @@ options:</p>
 <div class="admonition success">
 <p class="admonition-title">Congratulations you now have access to the NPS Console running inside the NPS VM.</p>
 </div>
-<h2 id="troubleshooting-the-web-console">Troubleshooting the Web Console</h2>
+<h1 id="3-troubleshooting-the-web-console">3 Troubleshooting the Web Console</h1>
 <p>If you receive this error when attempting to access the NPS Console:
 “This site can’t be reached” follow these steps to resolve the issue.</p>
 <p><strong>Stop active containers:</strong></p>
 <div class="admonition abstract">
-<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>ps
+<div class="highlight"><pre><span></span><code>docker ps
 </code></pre></div>
 </div>
 <p>Take note of the container IDs.</p>
 <p><strong>Stop active containers:</strong></p>
 <div class="admonition abstract">
-<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>stop<span class="w"> </span>&lt;container-ID&gt;
+<div class="highlight"><pre><span></span><code>docker stop &lt;container-ID&gt;
 </code></pre></div>
 </div>
 <p><strong>Remove the inactive containers:</strong></p>
 <div class="admonition abstract">
-<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>ps<span class="w"> </span>-a
+<div class="highlight"><pre><span></span><code>docker ps -a
 </code></pre></div>
 </div>
 <p>Take note of the container IDs.</p>
 <p><strong>Stop active containers:</strong></p>
 <div class="admonition abstract">
-<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>rm<span class="w"> </span>&lt;container-ID&gt;
+<div class="highlight"><pre><span></span><code>docker rm &lt;container-ID&gt;
 </code></pre></div>
 </div>
 <p><strong>Reinstall NPS Console:</strong></p>
 <div class="admonition abstract">
-<div class="highlight"><pre><span></span><code>/root/cyclops<span class="se">\_</span>dockerrun/standalone-install.sh
+<div class="highlight"><pre><span></span><code>/root/cyclops\_dockerrun/standalone-install.sh
 </code></pre></div>
 </div>
-<h2 id="monitor-system-performance">Monitor System Performance</h2>
+<h1 id="4-monitor-system-performance">4 Monitor System Performance</h1>
 <p>At this point you should be connected to the NPS console. The main
 screen after logging on displays information on the system usage and
 throughput. In the main screen you will be able to monitor some of the
@@ -882,7 +712,7 @@ for the last two hours:</p>
 <p>Notice how the displayed information changes:</p>
 <p><img alt="Image" src="../nz-images/nz-02-WebConsole/media/image15.png" /></p>
 <p>Click this icon to open the Query editor menu option under the
-Navigation menu.<img alt="Image" src="../nz-images/nz-02-WebConsole/media/image16.png" /></p>
+Navigation menu.<img alt="Image" src="../nz-images/nz-02-WebConsole/media/image16.png" /> (Top Left)</p>
 <p><img alt="Image" src="../nz-images/nz-02-WebConsole/media/image17.png" /></p>
 <p>This allows you to execute queries against a database. You can store the
 queries as well. In addition to the result of the query you can also
@@ -892,15 +722,16 @@ and schema ADMIN (3).</p>
 <p>Enter the following SQL statement (4) and click <strong>Run</strong> (5) to execute
 the query.</p>
 <div class="admonition abstract">
-<div class="highlight"><pre><span></span><code>SELECT<span class="w"> </span>SUM<span class="o">(</span>L_QUANTITY<span class="o">)</span>,<span class="w"> </span>AVG<span class="o">(</span>L_TAX<span class="o">)</span><span class="w"> </span>FROM<span class="w"> </span>LINEITEM<span class="w"> </span>WHERE<span class="w"> </span>EXTRACT<span class="o">(</span>MONTH
-FROM<span class="w"> </span>L_SHIPDATE<span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">4</span>
+<p class="admonition-title">Input:</p>
+<div class="highlight"><pre><span></span><code>SELECT SUM(L_QUANTITY), AVG(L_TAX) FROM LINEITEM WHERE EXTRACT(MONTH
+FROM L_SHIPDATE) = 4
 </code></pre></div>
 </div>
 <p><img alt="Image" src="../nz-images/nz-02-WebConsole/media/image18.png" /></p>
-<p>Note: Typically you terminate the SQL statement with a semicolon (;). In
-this example omit the semicolon (reason: issue with Plan Graph when
-using a semicolon, next step). The result is displayed on the right side
-of the page:</p>
+<p>Note: Typically you terminate the SQL statement with a semicolon (<code>;</code>). In
+    this example omit the semicolon (reason: issue with Plan Graph when
+    using a semicolon, next step). The result is displayed on the right side
+    of the page:</p>
 <p><img alt="Image" src="../nz-images/nz-02-WebConsole/media/image19.png" /></p>
 <p>Clicking <strong>Plan graph</strong> tab to displays information on the access
 methods used for this statement:</p>
@@ -908,7 +739,7 @@ methods used for this statement:</p>
 <p>You can access the different parts of the console through the
 "Navigation" menu in the upper left corner. <img alt="Image" src="../nz-images/nz-02-WebConsole/media/image21.png" /></p>
 <p><img alt="Image" src="../nz-images/nz-02-WebConsole/media/image22.png" /></p>
-<h2 id="retrieve-information-on-nps-configuration">Retrieve Information on NPS Configuration</h2>
+<h1 id="5-retrieve-information-on-nps-configuration">5 Retrieve Information on NPS Configuration</h1>
 <p>From the Navigation menu select “Dashboard”. Select the Hardware tab to
 access the hardware monitoring portion of the NPS console.</p>
 <p>The Overview tab displays:</p>
@@ -951,7 +782,7 @@ VM.</p>
 <p>The one data slices in your system can displayed as well: Click <strong>Data
 Slices</strong></p>
 <p><img alt="Image" src="../nz-images/nz-02-WebConsole/media/image24.png" /></p>
-<h2 id="manage-databases">Manage Databases</h2>
+<h1 id="6-manage-databases">6 Manage Databases</h1>
 <p>Click the Navigation menu and select the click <strong>Data</strong> to access the
 Databases screen of the NPS console. The following screen opens:</p>
 <p><img alt="Image" src="../nz-images/nz-02-WebConsole/media/image25.png" /></p>
@@ -1007,8 +838,8 @@ database and select <strong>Drop</strong>. (2)</p>
 <p>Confirm the action in the pop-up menu, click <strong>Drop</strong>.</p>
 <p><img alt="Image" src="../nz-images/nz-02-WebConsole/media/image40.png" /></p>
 <p>Back in the database screen, you see only the two original databases.</p>
-<h2 id="queries">Queries</h2>
-<p>In the Navigation menu of the console go to <strong>Queries</strong> <strong>🡪 Recent
+<h1 id="7-queries">7 Queries</h1>
+<p>In the Navigation menu of the console go to <strong>Queries</strong> <strong>&rarr; Recent
 queries</strong>.</p>
 <p><img alt="Image" src="../nz-images/nz-02-WebConsole/media/image41.png" /></p>
 <p>This opens a screen with information on the last queries that were
@@ -1027,7 +858,7 @@ about a successful query.</p>
 <p><img alt="Image" src="../nz-images/nz-02-WebConsole/media/image45.png" /></p>
 <p>You are now on the query editor for the selected plan. You can run the
 query and/or get a Plan graph.</p>
-<h2 id="explore">Explore</h2>
+<h1 id="8-explore">8 Explore</h1>
 <p>There are many other options available from the Console, please use this
 time to explore. You can connect to the NPS on Cloud instance previously
 added to the instance list to monitor a simulated workload and explore
@@ -1113,7 +944,7 @@ the history database.</p>
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.b97dbffb.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["content.code.annotate"], "search": "../assets/javascripts/workers/search.b97dbffb.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
     
     
       <script src="../assets/javascripts/bundle.6c7ad80a.min.js"></script>
