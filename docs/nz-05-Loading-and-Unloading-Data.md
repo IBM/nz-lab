@@ -11,16 +11,16 @@ database environment, but also the unloading of data from the database
 environment. This framework contains more than one component, some of
 these components are:
 
-External Tables -- These are tables stored as flat files on the host or
+External Tables - These are tables stored as flat files on the host or
 client systems and registered like tables in the Netezza Performance
 Server catalog. They can be used to load data into the Netezza
 Performance Server or unload data to the file system.
 
-nzload -- This is a wrapper command line tool around external tables
+`nzload` - This is a wrapper command line tool around external tables
 that provides an easy method loading data into the Netezza Performance
 Server.
 
-Format Options -- These are options for formatting the data load to and
+Format Options - These are options for formatting the data load to and
 from external tables.
 
 ## 1.1 Objectives
@@ -41,13 +41,13 @@ and load data.
 The second part of this lab will discuss using the nzload utility to
 load records into tables.
 
-# 2 Lab Environment
+## 2 Lab Environment
 
 The lab system will be a virtual machine running on Virtual Box. Please
 see the document on how to install the NPS Virtual Machine for your
 workstation (Windows or Mac OS).
 
-# 3 Connect to the Netezza Performance Server
+## 3 Connect to the Netezza Performance Server
 
 Use the following information to connect to the virtual NPS system.
 There are two options to access the command line:
@@ -57,9 +57,9 @@ There are two options to access the command line:
 
 2.  Use the local terminal application on your workstation.
 
-the lab will use the command line as the nz user.
+The lab will use the command line as the nz user.
 
-# 4 Lab Setup
+## 4 Lab Setup
 
 This lab uses an initial setup script to make sure the correct user and
 database exist for the remainder of the lab. Follow the instructions
@@ -75,18 +75,18 @@ below to run the setup script.
         Terminal)
 
 2.  If you are continuing from the previous lab and are already
-    connected to nzsql quit the nzsql console with the `\q` command.
+    connected to `nzsql` quit the `nzsql` console with the `\q` command.
 
 3.  Prepare for this lab by running the setup script. To do this use the
     following two commands:
 
-!!! abstract "Input"
+=== "Input"
 	```
 	cd ~/labs/movingData/setupLab
 	./setupLab.sh
 	```
 
-!!! success "Output"
+=== "Output"
 	```
 	DROP DATABASE
 	CREATE DATABASE
@@ -111,7 +111,7 @@ below to run the setup script.
 The error message at the beginning is expected since the script tries
 to clean up existing LINEITEM tables.
 
-# 5 External Tables
+## 5 External Tables
 
 An external table allows Netezza Performance Server to treat an external
 file as a database table. An external table has a definition, a table
@@ -119,8 +119,8 @@ schema, in the Netezza Performance Server system catalog, but the actual
 data exists outside of the Netezza Performance Server database. This is
 referred to as a data source file. External tables can be used to access
 files which are stored on a file system. After you have created the
-external table definition, you can use INSERT INTO statements to load
-data from the external file into a database table or SELECT FROM
+external table definition, you can use `INSERT INTO` statements to load
+data from the external file into a database table or `SELECT FROM`
 statements to query the external table. Different methods are described
 to create and use external tables using the nzsql interface. The
 external data source files for the external tables will also be
@@ -134,23 +134,23 @@ virtual machine desktop.
 `<your-nps-vm-ip-address>` is the default IP address for a local VM, the
 IP may be different for your session.
 
-Change to the lab working directory /home/nz/labs/movingData using the
+Change to the lab working directory `/home/nz/labs/movingData` using the
 following command:
 
-!!! abstract "Input"
+=== "Input"
 	```	
 	cd /home/nz/labs/movingData
 	```
 	
-Connect to the LABDB database as the database owner, LABADMIN, using the
-nzsql interface:
+Connect to the `LABDB` database as the database owner, `LABADMIN`, using the
+`nzsql` interface:
 
-!!! abstract "Input"
+=== "Input"
 	```	
 	nzsql -d LABDB -u labadmin -pw password
 	```
 
-!!! success "Output"
+=== "Output"
 	```
 	Welcome to nzsql, the IBM Netezza SQL interactive terminal.
 	
@@ -175,32 +175,32 @@ on the right, will be used for operating system prompt commands.
 Open another session `[Terminal 2]` using PuTTY or a Terminal
 Application.
 
-Login to `<your-nps-vm-ip-address>` as user nz with password nz.
+Login to `<your-nps-vm-ip-address>` as user `nz` with password `nz`.
 
-Change to the /home/nz/labs/movingData directory:
+Change to the `/home/nz/labs/movingData` directory:
 
-!!! abstract "Input [Terminal 2]"
+=== "Input [Terminal 2]"
 	```
 	cd /home/nz/labs/movingData
 	```
 	
-## 5.1 Unloading Data using External Tables
+### 5.1 Unloading Data using External Tables
 
 External tables will be used to unload rows from the LABDB database as
 records into an external datasource file. Various methods to create and
-use external tables will be explored unloading rows from either REGION
-or NATION tables. Five different basic use cases are presented for you
+use external tables will be explored unloading rows from either `REGION`
+or `NATION` tables. Five different basic use cases are presented for you
 to follow so you can gain a better understanding of how to use external
 tables to unload data from a database.
 
-### 5.1.1 Unloading data with an External Table created with the SAMEAS clause 
+#### 5.1.1 Unloading data with an External Table created with the SAMEAS clause 
 
-The first external table will be used to unload data from the REGION
+The first external table will be used to unload data from the `REGION`
 table into an ASCII delimited text file. This external table will be
-named ET1_REGION using the same column definition as the REGION table.
-After the ET1_REGION external table is created you will then use it to
-unload all the rows from the REGION table. The records for the
-ET1_REGION external table will be in the external datasource file,
+named `ET1_REGION` using the same column definition as the `REGION` table.
+After the `ET1_REGION` external table is created you will then use it to
+unload all the rows from the `REGION` table. The records for the
+`ET1_REGION` external table will be in the external datasource file,
 et1_region_flat_file. The basic syntax to create this type of external
 table is:
 
@@ -211,20 +211,20 @@ SAMEAS table_name
 USING external_table_options
 ```
 
-The SAMEAS clause allows the external table to be created with the same
+The `SAMEAS` clause allows the external table to be created with the same
 column definition of the referenced table. This is referred to as
 implicit schema definition.
 
-As the LABDB database owner, LABADMIN, you will create the first basic
-external table using the same column definitions as the REGION table:
+As the `LABDB` database owner, `LABADMIN`, you will create the first basic
+external table using the same column definitions as the `REGION` table:
 
-!!! abstract "Input [Terminal 1]"
+=== "Input [Terminal 1]"
 	```
 	create external table et1_region sameas region using
 	(dataobject  ('/home/nz/labs/movingData/et1_region_flat_file'));
 	```
 
-!!! success "Output"
+=== "Output"
 	```
 	CREATE EXTERNAL TABLE
 	```
@@ -232,30 +232,31 @@ external table using the same column definitions as the REGION table:
 Use the internal slash option `\dx` to list the external tables in the
 LABDB database.
 
-!!! abstract "Input [Terminal 1]"
+=== "Input [Terminal 1]"
 	```
 	\dx
 	```
 
-!!! success "Output"
+=== "Output"
 	```
-	List of relations
-	Schema | Name | Type | Owner
+	             List of relations
+	 Schema |    Name    |      Type      |  Owner   
 	--------+------------+----------------+----------
-	ADMIN | ET1_REGION | EXTERNAL TABLE | LABADMIN
+	 ADMIN  | ET1_REGION | EXTERNAL TABLE | LABADMIN
 	(1 row)
+	
 	```
 
 List the properties of the external table et1_region using the following
 internal slash option to describe the table, `\d <external table
 name>`.
 
-!!! abstract "Input [Terminal 1]"
+=== "Input [Terminal 1]"
 	```
 	\d et1_region
 	```
 
-!!! success "Output"
+=== "Output"
 	```
 	        External Table "ET1_REGION"
 	  Attribute  |          Type          | Modifier 
@@ -309,37 +310,37 @@ name>`.
 	```
 
 This output includes the columns and associated data types in the
-external table. Notice that this is similar to the REGION table since
-the external table was created using the SAMEAS clause in the CREATE
-EXTERNAL TABLE command. The output also includes the properties of the
-external table. The most notable property is the DataObject property
+external table. Notice that this is similar to the `REGION` table since
+the external table was created using the `SAMEAS` clause in the `CREATE
+EXTERNAL TABLE` command. The output also includes the properties of the
+external table. The most notable property is the `DataObject` property
 that shows the location and the name of the external datasource file
 used for the external table. We will examine some of the others.
 
 Now that the external table is created, use it to unload data from the
-REGION table using an INSERT statement.
+`REGION` table using an `INSERT` statement.
 
-!!! abstract "Input [Terminal 1]"
+=== "Input [Terminal 1]"
 	```
 	insert into et1_region select * from region;
 	```
 
-!!! success "Output"
+=== "Output"
 	```
 	INSERT 0 4
 	```
 Use the external table like a regular table by issuing SQL statements.
-Try issuing a simple SELECT FROM statement to return all rows in
-external table ET1_REGION :
+Try issuing a simple `SELECT FROM` statement to return all rows in
+external table `ET1_REGION` :
 
-!!! abstract "Input [Terminal 1]"
+=== "Input [Terminal 1]"
 	```
 	select * from et1_region order by 1;
 	```
 
-!!! success "Output"
+=== "Output"
 	```
-	R_REGIONKEY |          R_NAME           |          R_COMMENT          
+     R_REGIONKEY |          R_NAME           |          R_COMMENT          
 	-------------+---------------------------+-----------------------------
 	           1 | na                        | north america
 	           2 | sa                        | south america
@@ -348,21 +349,21 @@ external table ET1_REGION :
 	(4 rows)
 	```
 
-You will notice that this is the same data that is in the REGION table.
-But the data retrieved for this SELECT statement was from the datasource
+You will notice that this is the same data that is in the `REGION` table.
+But the data retrieved for this `SELECT` statement was from the datasource
 of this external table and not from the data within the database.
 
 The main reason for creating an external table is to unload data from a
 table to a file. Using the second Putty (or Terminal) session, review
-the file et1_region_flat_file. This is the file that was created in the
-/home/nz/labs/movingData directory.
+the file `et1_region_flat_file`. This is the file that was created in the
+`/home/nz/labs/movingData` directory.
 
-!!! abstract "Input [Terminal 2]"
+=== "Input [Terminal 2]"
 	```
 	more et1_region_flat_file
 	```
 
-!!! success "Output"
+=== "Output"
 	```
 	3|emea|europe, middle east, africa
 	1|na|north america
@@ -370,18 +371,18 @@ the file et1_region_flat_file. This is the file that was created in the
 	4|ap|asia pacific
 	```
 	
-This is an ASCII delimited flat file containing the data from the REGION
+This is an ASCII delimited flat file containing the data from the `REGION`
 table. The column delimiter used in this file was the default character
-'|'.
+'`|`'.
 
-### 5.1.2 Unloading data with an External Table using the AS SELECT clause
+#### 5.1.2 Unloading data with an External Table using the AS SELECT clause
 
-The second external table will be used to unload data from the REGION
+The second external table will be used to unload data from the `REGION`
 table into an ASCII delimited text file using a different method. The
 external table will be created and the data will be unloaded in the same
 create statement. A separate step is not required to unload the data.
-The external table will be named ET2_REGION and the external datasource
-file will be named et2_region_flat_file. The basic syntax to create this
+The external table will be named `ET2_REGION` and the external datasource
+file will be named `et2_region_flat_file`. The basic syntax to create this
 type of external table is:
 
 **Sample Syntax**
@@ -389,47 +390,47 @@ type of external table is:
 CREATE EXTERNAL TABLE table_name 'filename' AS select_statement;
 ```
 
-The AS clause allows the external table to be created with the same
-columns returned in the SELECT FROM statement, which is referred to as
+The `AS` clause allows the external table to be created with the same
+columns returned in the `SELECT FROM` statement, which is referred to as
 implicit table schema definition. This also unloads the rows at the same
 time the external table is created.
 
 The first method used to create an external table required the data to
-be unloaded in a second step using an INSERT statement. Using the first
+be unloaded in a second step using an `INSERT` statement. Using the first
 Putty (or Terminal) session, create an external table and unload the
 data in a single step.
 
-!!! abstract "Input [Terminal 1]"
+=== "Input [Terminal 1]"
 	```
 	create external table et2_region
-	'/home/nz/labs/movingData/et2_region_flat_file' as 
-		select * from region;
+	'/home/nz/labs/movingData/et2_region_flat_file' as select * from region;
 	```
 
-!!! success "Output"
+=== "Output"
 	```
 	INSERT 0 4
 	```
 
-This command created the external table ET2_REGION using the same
-definition as the REGION table and also unloaded the data to the
+This command created the external table `ET2_REGION` using the same
+definition as the `REGION` table and also unloaded the data to the
 et2_region_flat_file.
 
-Again, use `/dx` to list the external tables in the LABDB database.
+Again, use `\dx` to list the external tables in the `LABDB` database.
 
-!!! abstract "Input [Terminal 1]"
+=== "Input [Terminal 1]"
 	```
 	\dx
 	```
 
-!!! success "Output"
+=== "Output"
 	```
-	List of relations
-	Schema | Name | Type | Owner
+	                List of relations
+	 Schema |    Name    |      Type      |  Owner   
 	--------+------------+----------------+----------
-	ADMIN | ET1_REGION | EXTERNAL TABLE | LABADMIN
-	ADMIN | ET2_REGION | EXTERNAL TABLE | LABADMIN
+	 ADMIN  | ET1_REGION | EXTERNAL TABLE | LABADMIN
+	 ADMIN  | ET2_REGION | EXTERNAL TABLE | LABADMIN
 	(2 rows)
+	
 	```
 
 You will notice that there are now two external tables. You can also
@@ -437,14 +438,14 @@ list the properties of the external table. The output will be similar to
 the output in the last section, except for the filename.
 
 Using the second session, review the file that was created,
-et2_region_flat_file, in the /home/nz/labs/movingData directory.
+`et2_region_flat_file`, in the `/home/nz/labs/movingData directory`.
 
-!!! abstract "Input [Terminal 2]"
+=== "Input [Terminal 2]"
 	```
 	more et2_region_flat_file
 	```
 
-!!! success "Output"
+=== "Output"
 	```
 	3|emea|europe, middle east, africa
 	1|na|north america
@@ -456,16 +457,16 @@ This file is exactly the same as the file you reviewed in the last
 chapter. The only difference in this example is we didn't need to unload
 it explicitly.
 
-### 5.1.3 Unloading data with an external table using defined columns
+#### 5.1.3 Unloading data with an external table using defined columns
 
 The first two external tables that you created used the exact same
-columns from the REGION table using an implicit table schema. You can
+columns from the `REGION` table using an implicit table schema. You can
 also create an external table by explicitly specifying the columns. This
 is referred to as an explicit table schema. The third external table
-that you create will still be used to unload data from the REGION table
-but only from the R_NAME and R_COMMENT columns. The ET3_REGION external
+that you create will still be used to unload data from the `REGION` table
+but only from the `R_NAME` and `R_COMMENT` columns. The `ET3_REGION` external
 table will be created in one step and then the data will be unloaded
-into the et3_region_flat_file ASCII delimited text file using a
+into the `et3_region_flat_file ASCII` delimited text file using a
 different delimiter string. The basic syntax to create this type of
 external table is:
 
@@ -475,11 +476,11 @@ CREATE EXTERNAL TABLE table_name ({column_name type} [, ... ])
 [USING external_table_options}]
 ```
 
-1.  Create a new external table to only include the R_NAME and R_COMMENT
-    columns and exclude the R_REGIONKEY column from the REGION table.
+1.  Create a new external table to only include the `R_NAME` and `R_COMMENT`
+    columns and exclude the `R_REGIONKEY` column from the `REGION` table.
     Also change the delimiter string from the default '|' to '=':
 
-!!! abstract "Input [Terminal 1]"
+=== "Input [Terminal 1]"
 	```
 	create external table et3_region (r_name char(25),
 	r_comment varchar(152)) USING (dataobject
@@ -487,19 +488,19 @@ CREATE EXTERNAL TABLE table_name ({column_name type} [, ... ])
 
 	```
 
-!!! success "Output"
+=== "Output"
 	```
 	CREATE EXTERNAL TABLE
 	```
 
-2.  List the properties of the ET3_REGION external table:
+2.  List the properties of the `ET3_REGION` external table:
 
-!!! abstract "Input [Terminal 1]"
+=== "Input [Terminal 1]"
 	```
 	\d et3_region
 	```
 
-!!! success "Output"
+=== "Output"
 	```
 	External Table "ET3_REGION"
 	 Attribute |          Type          | Modifier 
@@ -562,12 +563,12 @@ now '=' instead of the default, '|'.
 1.  Unload the data from the REGION table but only the data from columns
     R_NAME and R_COMMENT.
 
-!!! abstract "Input [Terminal 1]"
+=== "Input [Terminal 1]"
 	```
 	insert into et3_region select r_name, r_comment from region;
 	```
 
-!!! success "Output"
+=== "Output"
 	```
 	INSERT 0 4
 	```
@@ -585,12 +586,12 @@ create external table et4_test
 2.  Using the second session review the file that was created,
     et3_region_flat_file, in the /home/nz/labs/movingData directory.
 
-!!! abstract "Input [Terminal 2]"
+=== "Input [Terminal 2]"
 	```
 	more et3_region_flat_file
 	```
 
-!!! success "Output"
+=== "Output"
 	```
 	emea=europe, middle east, africa
 	na=north america
@@ -601,43 +602,42 @@ create external table et4_test
 Notice that only two columns are present in the flat file using the '='
 string as a delimiter.
 
-### 5.1.4 (Optional) Unloading data with an External Table from two tables
+#### 5.1.4 (Optional) Unloading data with an External Table from two tables
 
 The first three external table exercises unloaded data from one table.
 In this exercise, the external table will be created based on a table
-join between the REGION and NATION tables. The two tables will be joined
-on the REGIONKEY and only the N_NAME and R_NAME columns will be defined
+join between the `REGION` and `NATION` tables. The two tables will be joined
+on the `REGIONKEY` and only the `N_NAME` and `R_NAME` columns will be defined
 for the external table. This exercise will illustrate how data can be
-unloaded using SQL statements other than a simple SELECT FROM statement.
-The external table will be named ET_NATION_REGION using another ASCII
-delimited text file named et_nation_file_flat_file.
+unloaded using SQL statements other than a simple `SELECT FROM` statement.
+The external table will be named `ET_NATION_REGION` using another ASCII
+delimited text file named `et_nation_file_flat_file`.
 
-1. Unload data from both the REGION and NATION tables joined on the
-REGIONKEY column to list all of the countries and their associated
+1. Unload data from both the `REGION` and `NATION` tables joined on the
+`REGIONKEY` column to list all of the countries and their associated
 regions. Instead of specifying the columns in the create external
-table statement you will use the AS SELECT option:
+table statement you will use the `AS SELECT` option:
 
-!!! abstract "Input [Terminal 2]"
+=== "Input [Terminal 2]"
 	```
 	create external table et_nation_region
 	'/home/nz/labs/movingData/et_nation_region_flat_file' as select
-	n_name, r_name from nation, region where
-	n_regionkey=r_regionkey;
+	n_name, r_name from nation, region where n_regionkey=r_regionkey;
 	```
 
-!!! success "Output"
+=== "Output"
 	```
 	INSERT 0 14
 	```
 
 2. List the properties of the ET_NATION_REGION external table.
 
-!!! abstract "Input [Terminal 1]"
+=== "Input [Terminal 1]"
 	```
 	\d et_nation_region
 	```
 
-!!! success "Output"
+=== "Output"
 	```
 	  External Table "ET_NATION_REGION"
 	 Attribute |     Type      | Modifier 
@@ -690,16 +690,16 @@ table statement you will use the AS SELECT option:
 	```
 
 You will notice that the external table was created using the two
-columns specified in the SELECT clause: N_NAME and R_NAME.
+columns specified in the `SELECT` clause: `N_NAME` and `R_NAME`.
 
-1.  View the data of the ET_NATION_REGION external table.
+1.  View the data of the `ET_NATION_REGION` external table.
 
-!!! abstract "Input [Terminal 1]"
+=== "Input [Terminal 1]"
 	```
 	select * from et_nation_region;
 	```
 
-!!! success "Output"
+=== "Output"
 	```
 	          N_NAME           |          R_NAME           
 	---------------------------+---------------------------
@@ -720,19 +720,19 @@ columns specified in the SELECT clause: N_NAME and R_NAME.
 	(14 rows)
 	```
 
-This is the result of the joining the NATION and REGION table on the
-REGIONKEY column to return just the N_NAME and R_NAME columns.
+This is the result of the joining the `NATION` and `REGION` table on the
+`REGIONKEY` column to return just the `N_NAME` and `R_NAME` columns.
 
 2.  Using the second session, review the file that was created,
-    et_nation_region_flat_file, in the /home/nz/labs/movingData
+    `et_nation_region_flat_file`, in the `/home/nz/labs/movingData`
     directory:
 
-!!! abstract "Input [Terminal 2]"
+=== "Input [Terminal 2]"
 	```
 	more et_nation_region_flat_file
 	```
 
-!!! success "Output"
+=== "Output"
 	```
 	canada|na
 	united states|na
@@ -754,14 +754,14 @@ We created a flat delimited flat file from a complex SQL statement.
 External tables are a very flexible and powerful way to load, unload and
 transfer data.
 
-### 5.1.5 (Optional) Unloading data with an External Table using the compress format
+#### 5.1.5 (Optional) Unloading data with an External Table using the compress format
 
 In the previous exercises, the external tables were created used the
 default ASCII delimited text format. In this exercise, the external
 table will be similar to the second external table that was created, but
 instead of the using an ASCII delimited text format we will use the
 compressed binary format. The name of the external table will be
-ET4_REGION and the datasource file name will be et4_region_compress.
+`ET4_REGION` and the datasource file name will be `et4_region_compress`.
 
 **Sample Syntax**
 ```
@@ -772,32 +772,32 @@ FORMAT 'internal') AS select_statement;
 1.  Create an external table using a similar method that you used to
     create the second external table, in section 2.1.2. But instead of
     using an ASCII delimited-text format, the datasource will use the
-    compressed binary format. This is achieved by using the COMPRESS and
-    FORMAT external table options:
+    compressed binary format. This is achieved by using the `COMPRESS` and
+    `FORMAT` external table options:
 
-!!! abstract "Input [Terminal 1]"
+=== "Input [Terminal 1]"
 	```
 	create external table et4_region
 	'/home/nz/labs/movingData/et4_region_compress' using (compress true
 	format 'internal') as select * from region;
 	```
 
-!!! success "Output"
+=== "Output"
 	```
 	INSERT 0 4
 	```
 
 As a reminder, the external table is created, and the data is unloaded
-in the same operation using the AS SELECT clause.
+in the same operation using the `AS SELECT` clause.
 
-2.  List the properties of the ET4_REGION external table
+2.  List the properties of the `ET4_REGION` external table
 
-!!! abstract "Input [Terminal 1]"
+=== "Input [Terminal 1]"
 	```
 	\d et4_region
 	```
 
-!!! success "Output"
+=== "Output"
 	```
 	           External Table "ET4_REGION"
 	  Attribute  |          Type          | Modifier 
@@ -849,11 +849,11 @@ in the same operation using the AS SELECT clause.
 	lfinstring          - 
 	```
 
-Notice that the option for COMPRESS has changed from FALSE to TRUE
-indicating that the datasource file is compressed, and the FORMAT has
-changed from TEXT to INTERNAL which is required for compressed files.
+Notice that the option for `COMPRESS` has changed from `FALSE` to `TRUE`
+indicating that the datasource file is compressed, and the `FORMAT` has
+changed from `TEXT` to `INTERNAL` which is required for compressed files.
 
-## 5.2 Dropping External Tables
+### 5.2 Dropping External Tables
 
 Dropping external tables is similar to dropping a regular Netezza
 Performance Server table. The column definition for the external table
@@ -861,36 +861,36 @@ is removed from the Netezza Performance Server catalog. Keep in mind
 that dropping the table doesn't delete the external datasource file so
 they also have to be maintained, but the external datasource file can
 still be used for loading data into a different table. In this exercise
-you will drop the ET1_REGION table, but you will not delete the
-associated external datasource file, et1_region_flat_file. This
+you will drop the `ET1_REGION` table, but you will not delete the
+associated external datasource file, `et1_region_flat_file`. This
 datasource file will be used later in this lab to load data into the
-REGION table.
+`REGION` table.
 
-1.  Drop the first external table that you created, ET1_REGION, using
-    the DROP TABLE command:
+1.  Drop the first external table that you created, `ET1_REGION`, using
+    the `DROP TABLE` command:
 
-!!! abstract "Input [Terminal 1]"
+=== "Input [Terminal 1]"
 	```
 	drop table et1_region;
 	```
 
-!!! success "Output"
+=== "Output"
 	```
 	DROP TABLE
 	```
 
 The same drop command for tables is used for external tables. There is
-not a separate DROP EXTERNAL TABLE command.
+not a separate `DROP EXTERNAL TABLE` command.
 
 2.  Verify the external table has been dropped using the internal slash
-    option, \dx, to list all of the external tables.
+    option, `\dx`, to list all of the external tables.
 
-!!! abstract "Input [Terminal 1]"
+=== "Input [Terminal 1]"
 	```
 	\dx
 	```
 
-!!! success "Output"
+=== "Output"
 	```
       	             List of relations
 	 Schema |       Name       |      Type      |  Owner   
@@ -906,85 +906,85 @@ not a separate DROP EXTERNAL TABLE command.
 Notice the remaining external tables that you created still exist.
 
 3.  Even though the external table definition no longer exists within
-    the LABDB database, the flat file named et1_region_flat_file still
-    exists in the /home/nz/labs/movingData directory. Verify this by
+    the `LABDB` database, the flat file named `et1_region_flat_file` still
+    exists in the `/home/nz/labs/movingData` directory. Verify this by
     using the second putty session:
 
-!!! abstract "Input [Terminal 2]"
+=== "Input [Terminal 2]"
 	```
 	ls
 	```
 
-!!! success "Output"
+=== "Output"
 	```
 	et1_region_flat_file et3_region_flat_file et4_region_flat_file
 	et2_region_flat_file et4_region_compress et_nation_region_flat_file
 	```
 
-Notice that the file et1_REGION_flat_file still exists. This file can
+Notice that the file `et1_REGION_flat_file` still exists. This file can
 still be used to load data into another similar table.
 
-## 5.3 Loading Data using External Tables
+### 5.3 Loading Data using External Tables
 
 External tables can also be used to load data into tables in the
-database. In this exercise, data will be loaded into the REGION table,
+database. In this exercise, data will be loaded into the `REGION` table,
 after first removing the existing rows. The method to load data from
-external tables into a table is similar to using the DML INSERT INTO and
-SELECT FROM statements. We will use two different methods to load data
-into the REGION table, one using an external table and the other using
+external tables into a table is similar to using the DML `INSERT INTO` and
+`SELECT FROM` statements. We will use two different methods to load data
+into the `REGION` table, one using an external table and the other using
 the external datasource file. Loading data into a table from any
 external table will generate an associated log file with a default name
 of `<table_name>.<database_name>.log`
 
-1. Before loading the data into the REGION table, delete the rows from
-the data using the [TRUNCATE TABLE command:
+1. Before loading the data into the `REGION` table, delete the rows from
+the data using the TRUNCATE TABLE command:
 
-!!! abstract "Input [Terminal 1]"
+=== "Input [Terminal 1]"
 	```
 	truncate table region;
 	```
 
-!!! success "Output"
+=== "Output"
 	```
 	TRUNCATE TABLE
 	```
 
-2. Verify the table is empty with the SELECT * command:
+2. Verify the table is empty with the `SELECT *` command:
 
-!!! abstract "Input [Terminal 1]"
+=== "Input [Terminal 1]"
 	```
 	select * from region;
 	```
 
-!!! success "Output"
+=== "Output"
 	```
 	 R_REGIONKEY | R_NAME | R_COMMENT 
 	-------------+--------+-----------
 	(0 rows)
 	```
 	
-3. Load data into the REGION table from the ET2_REGION external table
-using an INSERT statement:
+3. Load data into the `REGION` table from the `ET2_REGION` external table
+using an `INSERT` statement:
 
-!!! abstract "Input [Terminal 1]"
+=== "Input [Terminal 1]"
 	```
 	insert into region select * from et2_region;
 	```
 
-!!! success "Output"
+=== "Output"
 	```
 	INSERT 0 4
 	```
 
 4.  Check to ensure that the table contains the four rows using the
-    SELECT * statement.
+    `SELECT *` statement.
 
-!!! abstract "Input [Terminal 1]"
+=== "Input [Terminal 1]"
 	```
 	select * from region;
 	```
 
-!!! success "Output"
+=== "Output"
 	```
 	 R_REGIONKEY |          R_NAME           |          R_COMMENT          
 	-------------+---------------------------+-----------------------------
@@ -995,58 +995,58 @@ using an INSERT statement:
 	(4 rows)
 	```
 	
-5.  Again, delete the rows in the REGION table:
+5.  Again, delete the rows in the `REGION` table:
 
-!!! abstract "Input [Terminal 1]"
+=== "Input [Terminal 1]"
 	```
 	truncate table region;
 	```
 
-!!! success "Output"
+=== "Output"
 	```
 	TRUNCATE TABLE
 	```
 
-6.  Check to ensure that the table is empty using the SELECT *
+6.  Check to ensure that the table is empty using the `SELECT *`
     statement.
 
-!!! abstract "Input [Terminal 1]"
+=== "Input [Terminal 1]"
 	```
 	select * from region;
 	```
 
-!!! success "Output"
+=== "Output"
 	```
 	 R_REGIONKEY | R_NAME | R_COMMENT 
 	-------------+--------+-----------
 	(0	rows)
 	```
 
-7.  Load data into the REGION table using the ASCII delimited file that
-    was created for external table ET1_REGION. Recall that the
+7.  Load data into the `REGION` table using the ASCII delimited file that
+    was created for external table `ET1_REGION`. Recall that the
     definition of the external table was removed from that database, but
-    the external data source file, et1_region_flat_file, still exists:
+    the external data source file, `et1_region_flat_file`, still exists:
 
-!!! abstract "Input [Terminal 1]"
+=== "Input [Terminal 1]"
 	```
 	insert into region select * from external
 	'/labs/movingData/et1_region_flat_file';
 	```
 
-!!! success "Output"
+=== "Output"
 	```
 	INSERT 0 4
 	```
 
-8.  Verify the table contains the four rows using the SELECT *
+8.  Verify the table contains the four rows using the `SELECT *`
     statement.
 
-!!! abstract "Input [Terminal 1]"
+=== "Input [Terminal 1]"
 	```
 	select * from region;
 	```
 
-!!! success "Output"
+=== "Output"
 	```
 	 R_REGIONKEY |          R_NAME           |          R_COMMENT          
 	-------------+---------------------------+-----------------------------
@@ -1059,16 +1059,16 @@ using an INSERT statement:
 
 Since this is a load operation, there is always an associated log file
 `<table>.<database>.nzlog` created for each load performed. By default
-this log file is created in the /tmp directory.
+this log file is created in the `/tmp` directory.
 
 In the second Putty session review this file:
 
-!!! abstract "Input [Terminal 2]"
+=== "Input [Terminal 2]"
 	```
 	more /tmp/REGION.ADMIN.LABDB.nzlog
 	```
 
-!!! success "Output"
+=== "Output"
 	```
 	Load started at:08-May-13 07:10:13 EDT
 	
@@ -1111,14 +1111,14 @@ In the second Putty session review this file:
 Notice that the log file contains the load options and statistics of the
 load, along with environment information to identify the table.
 
-# 6 Loading Data using the nzload Utility
+## 6 Loading Data using the nzload Utility
 
-The nzload command is a SQL CLI client application that allows you to
+The `nzload` command is a SQL CLI client application that allows you to
 load data from the local host or a remote client, on all the supported
-client platforms. The nzload command processes command-line load options
+client platforms. The `nzload` command processes command-line load options
 to send queries to the host to create an external table definition, runs
 the insert/select query to load data, and when the load completes, drops
-the external table. The nzload command is a command-line program that
+the external table. The `nzload` command is a command-line program that
 accepts options from multiple sources, where some of the sources can be
 from:
 
@@ -1129,18 +1129,18 @@ from:
 - NZ Environment Variables
 
 Without a control file, you can only do one load at a time. Using a
-control file allows multiple loads. The nzload command connects to a
+control file allows multiple loads. The `nzload` command connects to a
 database with a username and password, just like any other Netezza
 Performance Server client application. The username specifies an account
 with a particular set of privileges, and the system uses this account to
 verify access.
 
-For this section of the lab you will continue to use the LABADMIN user
-to load data into the LABDB database. The nzload utility will be used to
-load records from an external datasource file into the REGION table. The
+For this section of the lab you will continue to use the `LABADMIN` user
+to load data into the `LABDB` database. The nzload utility will be used to
+load records from an external datasource file into the `REGION` table. The
 nzload log files will be reviewed to examine the nzload options. Since
-you will be loading data into a populated REGION table, you will use the
-TRUNCATE TABLE command to remove the rows from the table.
+you will be loading data into a populated `REGION` table, you will use the
+`TRUNCATE TABLE` command to remove the rows from the table.
 
 We will continue to use the two putty sessions from the external table
 lab.
@@ -1151,7 +1151,7 @@ commands, for example to review tables after load operations
 Session Two, which will be used for operating system commands such as
 execute nzload.
 
-## 6.1 Using the nzload Utility with Command Line Options
+### 6.1 Using the nzload Utility with Command Line Options
 
 The first method for using the nzload utility to load data in the REGION
 table will specify options at the command line. We will only need to
@@ -1161,31 +1161,31 @@ created in the External Tables section.
 
 **Sample Syntax**
 ```
-nzload --db <database> -u <username> --pw <password> -df <datasource filename>
+nzload -db <database> -u <username> --pw <password> -df <datasource filename>
 ```
 
-1.  As the LABDB database owner, LABADMIN first remove the rows in the
-    REGION table:
+1.  As the `LABDB` database owner, `LABADMIN` first remove the rows in the
+    `REGION` table:
 
-!!! abstract "Input [Terminal 1]"
+=== "Input [Terminal 1]"
 	```
 	truncate table region;
 	```
 
-!!! success "Output"
+=== "Output"
 	```
 	TRUNCATE TABLE
 	```
 
-2.  Verify the rows have been removed from the table using the SELECT *
+2.  Verify the rows have been removed from the table using the `SELECT *`
     statement:
 
-!!! abstract "Input [Terminal 1]"
+=== "Input [Terminal 1]"
 	```
 	select * from region;
 	```
 
-!!! success "Output"
+=== "Output"
 	```
 	 R_REGIONKEY | R_NAME | R_COMMENT 
 	-------------+--------+-----------
@@ -1193,7 +1193,7 @@ nzload --db <database> -u <username> --pw <password> -df <datasource filename>
 	```
 
 3.  Using the second session at the OS command line, use the nzload
-    utility to load data from the et1_region_flat file into the REGION
+    utility to load data from the `et1_region_flat_file` into the `REGION`
     table using the following command line options:
 
 **Sample Syntax**
@@ -1202,26 +1202,26 @@ nzload --db <database> -u <username> --pw <password> -df <datasource filename>
 -df <data file>, and --delimiter <string>:
 ```
 
-!!! abstract "Input [Terminal 2]"
+=== "Input [Terminal 2]"
 	```
 	nzload -db labdb -u labadmin -pw password 
 	-t region -df et1_region_flat_file -delimiter '|'
 	```
 
-!!! success "Output"
+=== "Output"
 	```
 	Load session of table 'REGION' completed successfully
 	```
 
-4.  Verify the rows have been load into the table by using the SELECT *
+4.  Verify the rows have been load into the table by using the `SELECT *`
     statement:
 
-!!! abstract "Input [Terminal 1]"
+=== "Input [Terminal 1]"
 	```
 	select * from region;
 	```
 
-!!! success "Output"
+=== "Output"
 	```
 	 R_REGIONKEY |          R_NAME           |          R_COMMENT          
 	-------------+---------------------------+-----------------------------
@@ -1232,21 +1232,21 @@ nzload --db <database> -u <username> --pw <password> -df <datasource filename>
 	(4 rows)
 	```
 	
-These rows were loaded into the REGION table from the records in the
-et1_region_flat_file file.
+These rows were loaded into the `REGION` table from the records in the
+`et1_region_flat_file` file.
 
 5. For every load task performed there is always an associated log
 file created with the format `<table>.<db>.nzlog`. By default, this
 log file is created in the current working directory, which is the
-/home/nz/labs/movingData directory. In the second session review this
+`/home/nz/labs/movingData` directory. In the second session review this
 file:
 
-!!! abstract "Input [Terminal 2]"
+=== "Input [Terminal 2]"
 	```
-	[more REGION.ADMIN.LABDB.nzlog
+	more REGION.ADMIN.LABDB.nzlog
 	```
 	
-!!! success "Output"
+=== "Output"
 	```
 	Load started at:03-Apr-20 03:05:12 PDT
 	
@@ -1296,48 +1296,48 @@ Notice the log file contains the load options and statistics of the
 load, along with environment information to identify the database and
 table.
 
-The --db, -u, and --pw, options specify the database name, the user, and
+The `-db`, `-u`, and `-pw` options specify the database name, the user, and
 the password respectively. Alternatively, you could omit these options
 if the NZ environment variables are set to the appropriate database,
 username and password values. Since the NZ environment variables,
-NZ_DATABASE, NZ_USER, and NZ_PASSWORD are set to system, admin, and
+`NZ_DATABASE`, `NZ_USER`, and `NZ_PASSWORD` are set to system, admin, and
 password, we will need to use these options so the load will use the
-LABDB database and the LABADMIN user.
+`LABDB` database and the `LABADMIN` user.
 
 There are other options that you can use with the nzload utility. These
 options were not specified here since the default values were sufficient
 for this load task.
 
-* -t specifies the target table name in the database
+* `-t` specifies the target table name in the database
 
-* -df specifies the datasource file to be loaded
+* `-df` specifies the datasource file to be loaded
 
-* -delimiter specifies the string to use as the delimiter in an ASCII
+* `-delimiter` specifies the string to use as the delimiter in an ASCII
 delimited text file.
 
-The following nzload command syntax is equivalent to the nzload command
+The following `nzload` command syntax is equivalent to the `nzload` command
 we used above. It is intended to demonstrate some of the options that
-can be used with the nzload command, or can be omitted when default
+can be used with the `nzload` command, or can be omitted when default
 values are acceptable.
 
 **Sample Syntax**
 ```
-nzload --db labdb --u labadmin --pw password
---t region
---df et1_region_flat_file --delimiter '|'
---outputDir '<current directory>'
---lf <table>.<database>.nzlog --bf<table>.<database>.nzlog
---compress false --format text
---maxErrors 1
+nzload -db labdb -u labadmin -pw password
+-t region
+-df et1_region_flat_file --delimiter '|'
+-outputDir '<current directory>'
+-lf <table>.<database>.nzlog -bf<table>.<database>.nzlog
+-compress false -format text
+-maxErrors 1
 ```
 
-The --lf, -bf, and --maxErrors options are explained in the next
-exercise. The --compress and --format options indicate that the
+The `-lf`, `-bf`, and `-maxErrors` options are explained in the next
+exercise. The `-compress` and `-format` options indicate that the
 datasource file is an ASCII delimited text file. For a compressed binary
-datasource file the following options would be used: -compress true
---format internal.
+datasource file the following options would be used: `-compress true
+-format internal`.
 
-## 6.2 Using the nzload Utility with a Control File.
+### 6.2 Using the nzload Utility with a Control File.
 
 As demonstrated in section 3.1 you can run the nzload command by
 specifying the command line options or you can use another method by
@@ -1354,7 +1354,7 @@ DATAFILE <filename>
 }
 ```
 
-The --cf option is used at the nzload command line to indicate the use
+The `-cf` option is used at the `nzload` command line to indicate the use
 of a control file:
 
 **Sample Syntax**
@@ -1362,39 +1362,39 @@ of a control file:
 nzload --u <username> -pw <password> -cf <control file>
 ```
 
-The --u and --pw options are optional if the NZ_USER and NZ_PASSWORD
+The `-u` and `-pw` options are optional if the `NZ_USER` and `NZ_PASSWORD`
 environment variables are set to the appropriate user and password.
-Using the --u and --pw options overrides the values in the NZ
+Using the `-u` and `-pw` options overrides the values in the NZ
 environment variables.
 
-In this session you will load rows into an empty REGION table using the
+In this session you will load rows into an empty `REGION` table using the
 nzload utility with a control file. The control file will set the
 following options: delimiter, logDir, logFile, and badFile, along with
 the database and table name. The datasource file to be used in this
 session is the region.del file.
 
-1.  As the LABDB database owner, LABADMIN first remove the rows in the
-    REGION table:
+1.  As the `LABDB` database owner, `LABADMIN` first remove the rows in the
+    `REGION` table:
 
-!!! abstract "Input [Terminal 1]"
+=== "Input [Terminal 1]"
 	```
 	truncate table region;
 	```
 
-!!! success "Output"
+=== "Output"
 	```
 	TRUNCATE TABLE
 	```
 
-2. Verify the rows have been removed from the table using the SELECT
-* statement. The table should contain no rows.
+2. Verify the rows have been removed from the table using the `SELECT
+*` statement. The table should contain no rows.
 
-!!! abstract "Input [Terminal 1]"
+=== "Input [Terminal 1]"
 	```
 	select * from region;
 	```
 	
-!!! success "Output"
+=== "Output"
 	```
 	 R_REGIONKEY | R_NAME | R_COMMENT 
 	-------------+--------+-----------
@@ -1403,7 +1403,7 @@ session is the region.del file.
 	
 
 The control file will be used by the nzload utility to load data into
-the REGION table using the region.del data file. The control file has
+the `REGION` table using the `region.del` data file. The control file has
 already been created in the lab directory. A control file can include
 the following options:
 
@@ -1416,15 +1416,15 @@ the following options:
 | LogFile              | Log file name                       |
 | BadFile              | Bad record log file name            |
 
-1)  Review the control file in the second putty session with the
+3.  Review the control file in the second putty session with the
     following command:
 
-!!! abstract "Input [Terminal 2]"
+=== "Input [Terminal 2]"
 	```
 	more control_file
 	```
 
-!!! success "Output"
+=== "Output"
 	```
 	DATAFILE /home/nz/labs/movingData/region.del
 	{
@@ -1437,30 +1437,30 @@ the following options:
 	}
 	```
 	
-2)  Load the data using the nzload utility and the control file you just
+4.  Load the data using the nzload utility and the control file you just
     reviewed.
 
-!!! abstract "Input [Terminal 2]"
+=== "Input [Terminal 2]"
 	```
 	nzload -u labadmin -pw password -cf control_file
  	```
 
-!!! success "Output"
+=== "Output"
 	```
 	Load session of table 'REGION' completed successfully
 	```
 
-3)  The nzload log file was renamed using the information in the control
+5.  The `nzload` log file was renamed using the information in the control
     file. The log file name was changed from the default to region.log
-    and the location was changed from the /tmp directory to /labs/.
-    Check the nzload log.
+    and the location was changed from the `/tmp` directory to `/labs/`.
+    Check the `nzload` log.
 
-!!! abstract "Input [Terminal 2]"
+=== "Input [Terminal 2]"
 	```
 	more region.log
  	```
 
-!!! success "Output"
+=== "Output"
 	```
 	Load started at:03-Apr-20 03:38:32 PDT
 	
@@ -1505,15 +1505,15 @@ the following options:
 	Load completed at: 03-Apr-20 03:38:32 PDT 
 	```
 	
-4)  Verify the rows in the REGION table in the first putty session with
+6.  Verify the rows in the REGION table in the first putty session with
     the nzsql console:
 
-!!! abstract "Input [Terminal 1]"
+=== "Input [Terminal 1]"
 	```
 	select * from region;
  	```
 
-!!! success "Output"
+=== "Output"
 	```
 	R_REGIONKEY |          R_NAME           |          R_COMMENT          
 	-------------+---------------------------+-----------------------------
@@ -1525,9 +1525,9 @@ the following options:
 	```
 	
 
-## 6.3 (Optional) Using nzload with Bad Records
+### 6.3 (Optional) Using nzload with Bad Records
 
-The first two load methods illustrated how to use the nzload utility to
+The first two load methods illustrated how to use the `nzload` utility to
 load data into an empty table using command line options or a control
 file. In a data warehousing environment, most of the time data is
 incrementally added to a table already containing some rows.
@@ -1538,20 +1538,20 @@ the first bad record is encountered. This is the default behavior and is
 controlled by the maxErrors option, which is set to a default value of
 1.
 
-For this exercise we will add additional rows to the NATION table. Since
-we will be adding rows to the NATION table, there will be no need to
+For this exercise we will add additional rows to the `NATION` table. Since
+we will be adding rows to the `NATION` table, there will be no need to
 truncate the table. The datasource file we will be using is the
 nation.del file, which unfortunately has a bad record.
 
-1.  First check the NATION table by listing all of the rows in the table
-    using the SELECT * statement in the first putty session:
+1.  First check the `NATION` table by listing all of the rows in the table
+    using the `SELECT *` statement in the first putty session:
 
-!!! abstract "Input [Terminal 1]"
+=== "Input [Terminal 1]"
 	```
 	select * from nation;
  	```
 
-!!! success "Output"
+=== "Output"
 	```
 	N_NATIONKEY |          N_NAME           | N_REGIONKEY |            N_COMMENT             
 	-------------+---------------------------+-------------+----------------------------------
@@ -1574,16 +1574,16 @@ nation.del file, which unfortunately has a bad record.
 
 
 2.  Using the second session at the OS command line you will use the
-    nzload utility to load data from the nation.del file into the
-    NATION:
+    `nzload` utility to load data from the nation.del file into the
+    `NATION`:
 
-!!! abstract "Input [Terminal 1]"
+=== "Input [Terminal 1]"
 	```
 	nzload -db LABDB -u labadmin -pw password -t nation -df nation.del -delimiter '|'
 
  	```
 
-!!! success "Output"
+=== "Output"
 	```
 	Error: Operation canceled
 	Error: External Table : count of bad input rows reached maxerrors limit
@@ -1594,16 +1594,16 @@ nation.del file, which unfortunately has a bad record.
 This is an indication that the load has failed due to a bad record in
 the datasource file.
 
-3.  Since the load has failed no rows were loaded into the NATION table,
-    which you can confirm by using the SELECT * statement (in the first
+3.  Since the load has failed no rows were loaded into the `NATION` table,
+    which you can confirm by using the `SELECT *` statement (in the first
     session):
 
-!!! abstract "Input [Terminal 1]"
+=== "Input [Terminal 1]"
 	```
 	select * from nation;
  	```
 
-!!! success "Output"
+=== "Output"
 	```
 	N_NATIONKEY |          N_NAME           | N_REGIONKEY |            N_COMMENT             
 	-------------+---------------------------+-------------+----------------------------------
@@ -1626,12 +1626,12 @@ the datasource file.
 
 4.  In the second session, check the log file to determine the problem:
 
-!!! abstract "Input [Terminal 2]"
+=== "Input [Terminal 2]"
 	```
 	more NATION.ADMIN.LABDB.nzlog
  	```
 
-!!! success "Output"
+=== "Output"
 	```
 	Load started at:03-Apr-20 04:31:19 PDT
 	
@@ -1727,29 +1727,29 @@ bad #: input row #(byte offset to last char examined) [field #, declaration] dia
 ```
 
 Using the log file, we are able to determine the problem is that the
-value '2t' is in a field for an INT(4) column. Since '2t' is not a valid
+value '2t' is in a field for an `INT(4)` column. Since '2t' is not a valid
 integer, the load marked this as a bad record
 
-10(1) indicates the input record number within the file and the offset
+`10(1)` indicates the input record number within the file and the offset
 within the row where a problem was encountered. For this example, the
-input record is 10 and offset is 1.
+input record is `10` and offset is `1`.
 
-[1, INT(4)] indicates the column number within the row and the data
+`[1, INT(4)]` indicates the column number within the row and the data
 for the column. For this example, the column number is 1 and the data
-type is INT(4).
+type is `INT(4)`.
 
-"2"[t] indicates the character that caused the problem. For this
-example, the character is 2t.
+`"2"[t]` indicates the character that caused the problem. For this
+example, the character is `2t`.
 
 5.  We can verify our problem determination for the load failure is
-    correct by examining the nation.del datasource file that was used
+    correct by examining the `nation.del` datasource file that was used
     for the load. In the second session execute the following command:
 
-!!! abstract "Input [Terminal 2]"
+=== "Input [Terminal 2]"
 	```
 	more nation.del
  	```
-!!! success "Output"
+=== "Output"
 	```
 	15|andorra|2|andorra
 	16|ascension islan|3|ascension
@@ -1777,27 +1777,27 @@ example, the character is 2t.
 	38|luxembourg|3|Luxembourg
 	```
 
-Notice on the 10th line the output. There is indeed an invalid 2t in the
+Notice on the 10th line the output. There is indeed an invalid `2t` in the
 first column of the input file. Therefore, we made the correct
 assumption that the '2t' is causing the problem. From this list you can
-assume that the correct value should be 24.
+assume that the correct value should be `24`.
 
 6.  Alternatively, we could have examined the nzload bad log file
-    NATION.LABDB.nzbad, which will contain all bad records that are
+    `NATION.LABDB.nzbad`, which will contain all bad records that are
     encountered during a load. In the second session execute the
     following command:
 
-!!! abstract "Input [Terminal 2]"
+=== "Input [Terminal 2]"
 	```
 	more NATION.ADMIN.LABDB.nzbad
  	```
 
-!!! success "Output"
+=== "Output"
 	```
 	2t|denmark|3|Denmark
 	```
 
-This is the same data as identified in the nation.del file and using the
+This is the same data as identified in the `nation.del` file and using the
 log file information to locate the record. Since the default is to stop
 the load after the first bad record is processed there is only one row
 in the bad log file. If we were to change the default behavior to allow
@@ -1805,35 +1805,35 @@ more bad records to be processed, this file could potentially contain
 more records. It provides a comfortable overview of all the records that
 created exceptions during load.
 
-7.  We have the option of changing the NATION.del file to change '2t' to
-    '24' and then rerun the same nzload command as in step 7. Instead
+7.  We have the option of changing the `NATION.del` file to change '2t' to
+    '24' and then rerun the same `nzload` command as in step 7. Instead
     you will rerun a similar load but you will allow 10 bad records to
     be encountered during the load process. To change the default
-    behavior, you need to use the command option -maxErrors. You will
-    also change the name of the nzbad file using the --bf command option
-    and the log filename using the --lf command option:
+    behavior, you need to use the command option `-maxErrors`. You will
+    also change the name of the nzbad file using the `-bf` command option
+    and the log filename using the `-lf` command option:
 
-!!! abstract "Input [Terminal 2]"
+=== "Input [Terminal 2]"
 	```
 	nzload -db labdb -u labadmin -pw password -t nation -df nation.del -delimiter '|' -maxerrors 10 -bf nation.bad -lf nation.log
  	```
 
-!!! success "Output"
+=== "Output"
 	```
 	Load session of table 'NATION' completed successfully
 	```
 
 Now the load is successful.
 
-6)  Verify the newly loaded rows are in the NATION using the SELECT *
+8.  Verify the newly loaded rows are in the `NATION` using the `SELECT *`
     command:
 
-!!! abstract "Input [Terminal 1]"
+=== "Input [Terminal 1]"
 	```
 	select * from nation order by n_nationkey;
  	```
 
-!!! success "Output"
+=== "Output"
 	```
 	N_NATIONKEY |          N_NAME           | N_REGIONKEY |            N_COMMENT             
 	-------------+---------------------------+-------------+----------------------------------
@@ -1881,22 +1881,22 @@ Now the load is successful.
 Now all of the new records were loaded except for the one bad row with
 nation key 24.
 
-7)  Even though the nzload command received a successful message it is
-    good practice to review the nzload log file for any problems, for
-    example bad rows that are under the maxErrors threshold. In the
+9.  Even though the `nzload` command received a successful message it is
+    good practice to review the `nzload` log file for any problems, for
+    example bad rows that are under the `maxErrors` threshold. In the
     second putty session execute the following command:
     
 !!! note 
     xxxx is the ID associated to your nzload.
 
-!!! abstract "Input [Terminal 2]"
+=== "Input [Terminal 2]"
 	```
 	more NATION.ADMIN.LABDB.xxxx.nzbad
 	```
 	
 The log file should be similar to the following.
 
-!!! success "Output"
+=== "Output"
 	```
 	Load started at:03-Apr-20 06:12:43 PDT
 	
@@ -1953,7 +1953,7 @@ of the data records in the data source file were processed, but only 24
 records were loaded because there was one bad record in the data source
 file.
 
-Correct the bad row and load it into the NATION table. There are couple
+Correct the bad row and load it into the `NATION` table. There are couple
 options you could use. One option is to extract the bad row from the
 original data source file and create a new data source file with the
 correct record. However, this task could be tedious when dealing with
@@ -1969,21 +1969,21 @@ mode. To change the file, you need to switch into the insert mode by
 pressing "i". The editor will show an `-- INSERT --` at the bottom of the
 screen. Note: you can use gedit from the VM desktop (gedit nation.bad)
 
-!!! abstract "Input [Terminal 2]"
+=== "Input [Terminal 2]"
 	```
 	vi nation.bad
 	```
 	
-!!! success "Output before changes"
+=== "Output before changes"
 	```
 	2t|denmark|3|Denmark
 	```
 
-8)  You can now use the cursor keys to navigate. Change the first two
-    chars of the bad row from 2t to 24. Your screen should look like the
-    following:
+10.  You can now use the cursor keys to navigate. Change the first two
+     chars of the bad row from 2t to 24. Your screen should look like the
+     following:
 
-!!! success "Output after changes"
+=== "Output after changes"
 	```
 	24|denmark|3|Denmark
 	
@@ -1991,32 +1991,32 @@ screen. Note: you can use gedit from the VM desktop (gedit nation.bad)
 	-- INSERT --
 	```
 
-9)  To save the changes, press "Esc" to switch back into command mode.
-    You should see that the `---INSERT---` string at the bottom of the
-    screen vanishes. Enter :wq! and press enter to write the file, and
-    quit the editor.
+11.  To save the changes, press `Esc` to switch back into command mode.
+     You should see that the `---INSERT---` string at the bottom of the
+     screen vanishes. Enter :wq! and press enter to write the file, and
+     quit the editor.
 
-10) After the nation.bad file has modified to correct the record, issue
-    a nzload to load the modified nation.bad file:
+12.  After the nation.bad file has modified to correct the record, issue
+     a `nzload` to load the modified nation.bad file:
 
-!!! abstract "Input [Terminal 2]"
+=== "Input [Terminal 2]"
 	```
 	nzload -db labdb -u labadmin -pw password -t nation -df nation.bad -delimiter '|'
  	```
 
-!!! success "Output"
+=== "Output"
 	```
 	Load session of table 'NATION' completed successfully
 	```
 
-11) Verify the new row has been loaded into the table:
+13. Verify the new row has been loaded into the table:
 
-!!! abstract "Input [Terminal 1]"
+=== "Input [Terminal 1]"
 	```
 	select * from nation order by n_nationkey;
  	```
 
-!!! success "Output"
+=== "Output"
 	```
 	N_NATIONKEY |          N_NAME           | N_REGIONKEY |            N_COMMENT             
 	-------------+---------------------------+-------------+----------------------------------
@@ -2065,4 +2065,5 @@ screen. Note: you can use gedit from the VM desktop (gedit nation.bad)
 The row in **bold** denotes the new row that was added to the table,
 which was the bad record you corrected.
 
-Congratulations you have completed the lab.
+!!! success
+	Congratulations you have completed the lab.
