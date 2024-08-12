@@ -1,4 +1,4 @@
-# Database Administration
+# 1 Database Administration
 
 A factory-configured and installed IBM Netezza Performance Server will
 include some of the following components:
@@ -25,8 +25,8 @@ include some of the following components:
   |----------|------------|-----------
   |admin     |password    | IPS database superuser, with full access to all    database administration privileges and objects
   
--   A preconfigured database group named PUBLIC. All database users are
-    automatically placed in the group PUBLIC and therefore inherit all
+-   A preconfigured database group named `PUBLIC`. All database users are
+    automatically placed in the group `PUBLIC` and therefore inherit all
     of its privileges
 
 The IBM Netezza Performance Server warehouse appliance includes a highly
@@ -49,7 +49,7 @@ database and all its objects, even if other users own objects within the
 database. Within a database, permitted users can create tables and
 populate them with data and query its contents.
 
-## Objectives
+## 1.1 Objectives
 
 This lab will guide you through the typical steps to create and manage
 new IBM Netezza Performance Server users and groups after an IBM Netezza
@@ -67,19 +67,19 @@ Performance Server database environment.
     database and tables. The table schema to be used within this
     bootcamp will be explained in the Data Distribution lab.
 
-## Lab Setup
+## 2 Lab Setup
 
 -   Prepare for this lab by running the setup script. To do this use the
     following two commands:
 
-!!! abstract "Input"
-	```bash
+=== "Input"
+	```
 	cd ~/labs/databaseAdministration/setupLab
 	./setupLab.sh
 	```
 
-!!! abstract "Output"
-	```bash
+=== "Output"
+	```
 	drop database labdb;
 	DROP DATABASE
 	drop user labadmin;
@@ -100,16 +100,28 @@ virtual machine.
 -   Connect to the system database as the IBM Netezza Performance Server
     database super-user, ADMIN, using the nzsql interface:
 
-!!! abstract "Input"
-	```bash
+=== "Input"
+	```
 	nzsql
 	or
 	nzsql -d system -u admin -pw password
 	```
+	
+=== "Output"
+	```
+	Welcome to nzsql, the Netezza SQL interactive terminal.
+
+	Type: \h for help with SQL commands
+	\? for help on internal slash commands
+	\g or terminate with semicolon to execute query
+	\q to quit
+
+	SYSTEM(ADMIN)=>
+	```	
 
 There are different options you can use with the nzsql interface. Here
 we present two options, where the first option uses information set in
-the NZ environment variables, NZ_DATABASE, NZ_USER, and NZ_PASSWORD. You
+the NZ environment variables, `NZ_DATABASE`, `NZ_USER`, and `NZ_PASSWORD`. You
 can add these the environment variables (set in .bashrc) as follows:
 
 ```
@@ -119,33 +131,21 @@ export NZ_PASSWORD=password
 ```
 
 Now you do not need to specify the database name or the user. In the
-second option the information is explicitly stated using the -d, -u, and
--pw options, which specifies the database name, the user, and the user's
+second option the information is explicitly stated using the `-d`,`-u`, and
+`-pw` options, which specifies the database name, the user, and the user's
 password, respectively. This option is useful when you want to connect
 to a different database or use a different user than specified in the NZ
 environment variables.
-
-!!! abstract "Output"
-	```bash
-	Welcome to nzsql, the Netezza SQL interactive terminal.
-
-	Type: \h for help with SQL commands
-	\? for help on internal slash commands
-	\g or terminate with semicolon to execute query
-	\q to quit
-
-	SYSTEM(ADMIN)=>
-	```
 	
-## Creating IBM Performance server Users and Groups
+## 3 Creating IBM Performance server Users and Groups
 
 The initial task after an IBM Netezza Performance Server has been set up
 is to create the database environment. This typically begins by creating
 a new set of database users and user groups before creating the
-database. You will use the ADMIN user to start creating additional
+database. You will use the `ADMIN` user to start creating additional
 database users and user groups. Then you will assign the appropriate
 authorities after the database has been created in the next section. The
-ADMIN user should only be used to perform administrative tasks within
+`ADMIN` user should only be used to perform administrative tasks within
 the IBM Netezza Performance Server and is not recommended for regular
 use. Also, it is highly advisable to develop a security access model to
 control user access against the database and the database objects in an
@@ -166,18 +166,18 @@ Groups:
 -   LAGRP
 -   LUGRP
 -   Connect to the Netezza image using PuTTy or another terminal
-    program. Login to <VM-IP-ADDRESS> as user nz with password nz.
+    program. Login to `<VM-IP-ADDRESS>` as user nz with password nz.
     (192.168.9.2)
 
-### Creating New IBM Netezza Performance Server Users and Groups
+### 3.1 Creating New IBM Netezza Performance Server Users and Groups
 
 The three new IBM Netezza Performance Server database users will be
-initially created using the ADMIN user. The LABADMIN user will be the
-full owner of the bootcamp database. The LABUSER user will be allowed to
+initially created using the `ADMIN` user. The `LABADMIN` user will be the
+full owner of the bootcamp database. The `LABUSER` user will be allowed to
 perform data manipulation language (DML) operations (INSERT, UPDATE,
 DELETE) against all of the tables in the database, but they will not be
 allowed to create new objects like tables in the database. And lastly,
-the DBUSER user will only be allowed to read tables in the database,
+the `DBUSER` user will only be allowed to read tables in the database,
 that is, they will only have LIST and SELECT privilege against tables in
 the database.
 
@@ -187,7 +187,7 @@ CREATE USER username WITH PASSWORD 'string';
 ```
 
 1.  As the IBM Netezza Performance Server database super-user, ADMIN,
-    you can now start to create the first user, LABADMIN, which will be
+    you can now start to create the first user, `LABADMIN`, which will be
     the administrator of the database: (Note user and group names are
     not case sensitive) unless surrounded by quotes.
 
@@ -198,13 +198,13 @@ default.
 
 Creating New IBM Netezza Performance Server Users:
 
-!!! abstract "Input"
-	```bash
+=== "Input"
+	```
 	create user labadmin with password	'password';
 	```
 
-!!! abstract "Output"
-	```bash
+=== "Output"
+	```
 	CREATE USER
 	```
 	
@@ -214,73 +214,73 @@ database to this user.
 2.  Now you will create two additional IBM Netezza Performance Server
     database users that will have restricted access to the database.
 
-The first user, LABUSER, will have full DML access to the data in the
+The first user, `LABUSER`, will have full DML access to the data in the
 tables, but will not be able to create or alter tables.
  
 For now, you will just create the user. We will set the privileges
 after the database is created:
  
-!!! abstract "Input"
-	```bash
+=== "Input"
+	```
  	create user labuser with password 'password';
 	```
 	
-!!! abstract "Output"
-	```bash
+=== "Output"
+	```
 	CREATE USER
 	```
 	
-3.  Finally, we create the user DBUSER. This user will have even more
+3.  Finally, we create the user `DBUSER`. This user will have even more
     limited access to the database since it will only be allowed to
     select data from the tables within the database. Again, you will set
     the privileges after the database is created:
 
-!!! abstract "Input"
-	```bash
+=== "Input"
+	```
 	create user dbuser with password 'password';
 	```
 
-!!! abstract "Output"
-	```bash
+=== "Output"
+	```
 	CREATE USER
 	```
 	
-4.  To list the existing database users in the environment, use the \du
+4.  To list the existing database users in the environment, use the `\du`
     internal slash option:
 
-!!! abstract "Input"
-	```bash
+=== "Input"
+	```
 	\du
 	```
 	
-!!! abstract "Output"
-	```bash
-																			List of 	Users
-	 USERNAME | VALIDUNTIL | ROWLIMIT | SESSIONTIMEOUT | QUERYTIMEOUT | 	DEF_PRIORITY | MAX_PRIORITY | USERESOURCEGRPID | USERESOURCEGRPNAME | 	CROSS_JOINS_ALLOWED
-	----------+------------+----------+----------------+--------------	+--------------+--------------+------------------+--------------------	+---------------------
-	 ADMIN    |            |          |              0 |            0 | 	NONE         | NONE         |                  | _ADMIN_            | NULL
-	 DBUSER   |            |        0 |              0 |            0 | 	NONE         | NONE         |             4901 | PUBLIC             | NULL
-	 LABADMIN |            |        0 |              0 |            0 | 	NONE         | NONE         |             4901 | PUBLIC             | NULL
-	 LABUSER  |            |        0 |              0 |            0 | 	NONE         | NONE         |             4901 | PUBLIC             | NULL
+=== "Output"
+	```
+	                                                                        List of Users
+	 USERNAME | VALIDUNTIL | ROWLIMIT | SESSIONTIMEOUT | QUERYTIMEOUT | DEF_PRIORITY | MAX_PRIORITY | USERESOURCEGRPID | USERESOURCEGRPNAME | CROSS_JOINS_ALLOWED
+	----------+------------+----------+----------------+--------------+--------------+--------------+------------------+--------------------+---------------------
+	 ADMIN    |            |          |              0 |            0 | NONE         | NONE         |                  | _ADMIN_            | NULL
+	 DBUSER   |            |        0 |              0 |            0 | NONE         | NONE         |             4901 | PUBLIC             | NULL
+	 LABADMIN |            |        0 |              0 |            0 | NONE         | NONE         |             4901 | PUBLIC             | NULL
+	 LABUSER  |            |        0 |              0 |            0 | NONE         | NONE         |             4901 | PUBLIC             | NULL
 	(4 rows)
 	```
 	
 The other columns are explained in the WLM presentation.
 
-### Creating New IBM Netezza Performance Server Groups
+### 3.2 Creating New IBM Netezza Performance Server Groups
 
 IBM Netezza Performance Server database user groups are useful for
 organizing and managing database users. By default, IBM Netezza
-Performance Server contains one group with the name PUBLIC. All users
-are members in the PUBLIC group when they are created. Users can be
+Performance Server contains one group with the name `PUBLIC`. All users
+are members in the `PUBLIC` group when they are created. Users can be
 members of other groups as well. In this section we will create two new
 IBM Netezza Performance Server database user groups. They will be
-initially created by the ADMIN user.
+initially created by the `ADMIN` user.
 
-We will create an administrative group LAGRP which is short for Lab
-Admin Group. This group will contain the LABADMIN user. The second group
-we create will be the LUGRP or Lab User Group. This group will contain
-the users LABUSER and DBUSER.
+We will create an administrative group `LAGRP` which is short for Lab
+Admin Group. This group will contain the `LABADMIN` user. The second group
+we create will be the `LUGRP` or Lab User Group. This group will contain
+the users `LABUSER` and `DBUSER`.
 
 Two different methods will be used to add the existing users to the
 newly created groups. Alternatively, the groups could be created first
@@ -288,32 +288,32 @@ and then the users. The basic command to create a group is:
 
 CREATE GROUP groupname;
 
-1.  As the IBM Netezza Performance Server database super-user, ADMIN,
-    you will now create the first group, LAGRP, which will be the
-    administrative group for the LABADMIN user:
+1.  As the IBM Netezza Performance Server database super-user, `ADMIN`,
+    you will now create the first group, `LAGRP`, which will be the
+    administrative group for the `LABADMIN` user:
 
-!!! abstract "Input"
-	```bash
+=== "Input"
+	```
 	create group lagrp;
 	```
 	
-!!! abstract "Output"
-	```bash
+=== "Output"
+	```
 	CREATE GROUP
 	```
 	
-2.  After the LAGRP group is created you will now add the LABADMIN user
+2.  After the `LAGRP` group is created you will now add the `LABADMIN` user
     to this group. This is accomplished by using the ALTER statement.
     You can either ALTER the user or the group, for this task you will
-    ALTER the group to add the LABADMIN user to the LAGRP group:
+    ALTER the group to add the `LABADMIN` user to the `LAGRP` group:
 
-!!! abstract "Input"
-	```bash
+=== "Input"
+	```
 	alter group lagrp with add user labadmin;
 	```
 
-!!! abstract "Output"
-	```bash
+=== "Output"
+	```
 	ALTER GROUP
 	```
 	
@@ -323,30 +323,30 @@ To ALTER the user, you would use the following command:
 alter user LABADMIN with in group LAGRP;
 ```
 
-3.  Now you will create the second group, LUGRP, which will be the user
-    group for both the LABUSER and DBUSER users. You can specify the
+3.  Now you will create the second group, `LUGRP`, which will be the user
+    group for both the `LABUSER` and `DBUSER` users. You can specify the
     users to be included in the group when creating the group:
 
-!!! abstract "Input"
-	```bash
+=== "Input"
+	```
 	create group lugrp with add user labuser dbuser;
 	```
 
-!!! abstract "Output"
-	```bash
+=== "Output"
+	```
 	CREATE GROUP
 	```
 	
 4.  To list the existing IBM Netezza Performance Server groups in the
-    environment, use the \dg internal slash option:
+    environment, use the `\dg` internal slash option:
 
-!!! abstract "Input"
-	```bash
+=== "Input"
+	```
 	\dg
 	```
 	
-!!! abstract "Output"
-	```bash
+=== "Output"
+	```
 																	  List of Groups
 	 GROUPNAME | ROWLIMIT | SESSIONTIMEOUT | QUERYTIMEOUT | DEF_PRIORITY | 	MAX_PRIORITY | GRORSGPERCENT | RSGMAXPERCENT | JOBMAX | CROSS_JOINS_ALLOWED
 	-----------+----------+----------------+--------------+--------------	+--------------+---------------+---------------+--------+---------------------
@@ -356,20 +356,20 @@ alter user LABADMIN with in group LAGRP;
 	(3 rows)
 	```
 
-The default database group is PUBLIC. The other columns are explained
+The default database group is `PUBLIC`. The other columns are explained
 in the WLM presentation.
 
 5.  To list the users in a group you can use one of the two internal
-    slash options, \dG, or \dU. The internal slash option \dG will
+    slash options, `\dG`, or `\dU`. The internal slash option `\dG` will
     list the groups with the associated users:
 
-!!! abstract "Input"
-	```bash
+=== "Input"
+	```
 	\dG
 	```
 
-!!! abstract "Output"
-	```bash
+=== "Output"
+	```
 	List of Users in a Group
 	 GROUPNAME | USERNAME
 	-----------+----------
@@ -383,16 +383,16 @@ in the WLM presentation.
 
 	```
 
-5.  The internal slash option \dU will list the users with the
+6.  The internal slash option `\dU` will list the users with the
     associated group:
 
-!!! abstract "Input"
-	```bash
+=== "Input"
+	```
 	\dU
 	```
 	
-!!! abstract "Output"
-	```bash
+=== "Output"
+	```
 	List of Groups a User is a member
 	 USERNAME | GROUPNAME
 	----------+-----------
@@ -406,54 +406,54 @@ in the WLM presentation.
 
 	```
 	
-## Creating an IBM Netezza Performance Server Database
+## 4 Creating an IBM Netezza Performance Server Database
 
 The next step after the Netezza Performance Server database users and
 user groups have been created is to create the lab database. You will
-continue to use the ADMIN user to create the lab database then assign
+continue to use the `ADMIN` user to create the lab database then assign
 the appropriate authorities and privileges to the users created in the
-previous sections. The ADMIN user can also be used to create tables
-within the new database. However, the ADMIN user should only be used to
+previous sections. The `ADMIN` user can also be used to create tables
+within the new database. However, the `ADMIN` user should only be used to
 perform administrative tasks. After the appropriate privileges have been
-assigned by the ADMIN user, the database can be handed over to the
+assigned by the `ADMIN` user, the database can be handed over to the
 end-users to start creating and populating the tables in the database.
 
-### Creating a Database and Transferring Ownership
+### 4.1 Creating a Database and Transferring Ownership
 
-The lab database that will be created will be named LABDB. It will be
-initially created by the ADMIN user and then ownership of the database
-will be transferred to the LABADMIN user. The LABADMIN user will have
-full administrative privileges against the LABDB database. The basic
+The lab database that will be created will be named `LABDB`. It will be
+initially created by the `ADMIN` user and then ownership of the database
+will be transferred to the `LABADMIN` user. The `LABADMIN` user will have
+full administrative privileges against the `LABDB` database. The basic
 syntax to create a database is:
 ```
 CREATE DATABASE database_name;
 ```
 
-1.  As the Netezza Performance Server database super-user, ADMIN, you
-    will create the first database, LABDB, using the CREATE DATABASE
+1.  As the Netezza Performance Server database super-user, `ADMIN`, you
+    will create the first database, `LABDB`, using the CREATE DATABASE
     command:
 
-!!! abstract "Input"
-	```bash
+=== "Input"
+	```
 	create database labdb;
 	```
 	
-!!! abstract "Output"
-	```bash
+=== "Output"
+	```
 	CREATE DATABASE
 	```
 	
-The database LABDB has been created.
+The database `LABDB` has been created.
 
-2.  To view the existing databases use the internal slash option \l :
+2.  To view the existing databases use the internal slash option `\l` :
 
-!!! abstract "Input"
-	```bash
+=== "Input"
+	```
 	\l
 	```
 	
-!!! abstract "Output"
-	```bash
+=== "Output"
+	```
 	List of databases
 	 DATABASE | OWNER
 	----------+-------
@@ -462,25 +462,25 @@ The database LABDB has been created.
 	(2 rows)
 	```
 	
-The owner of the newly created LABDB database is the ADMIN user. The
+The owner of the newly created `LABDB` database is the `ADMIN` user. The
 other databases are the default database SYSTEM and the template
 database MASTER_DB.
 
-3.  At this point you could continue by creating new tables as the ADMIN
-    user. However, the ADMIN user should only be used to create users,
+3.  At this point you could continue by creating new tables as the `ADMIN`
+    user. However, the `ADMIN` user should only be used to create users,
     groups, and databases, and to assign authorities and privileges.
-    Therefore, we will transfer ownership of the LABDB database from the
-    ADMIN user to the LABADMIN user we created previously. The ALTER
+    Therefore, we will transfer ownership of the `LABDB` database from the
+    `ADMIN` user to the `LABADMIN` user we created previously. The ALTER
     DATABASE command is used to transfer ownership of an existing
     database:
 
-!!! abstract "Input"
-	```bash
+=== "Input"
+	```
 	alter database labdb owner to labadmin;
 	```
 	
-!!! abstract "Output"
-	```bash
+=== "Output"
+	```
 	ALTER DATABASE
 	```
 	
@@ -488,15 +488,15 @@ This is the only method to transfer ownership of a database to an
 existing user. The CREATE DATABASE command does not include this
 option.
 
-4.  Check that the owner of the LABDB database is now the LABADMIN user:
+4.  Check that the owner of the `LABDB` database is now the `LABADMIN` user:
 
-!!! abstract "Input"
-	```bash
+=== "Input"
+	```
 	\l
 	```
 	
-!!! abstract "Output"
-	```bash
+=== "Output"
+	```
 	  List of databases
 	 DATABASE |  OWNER
 	----------+----------
@@ -505,30 +505,30 @@ option.
 	(2 rows)
 	```
 	
-The owner of the LABDB database is now the LABADMIN user.
+The owner of the `LABDB` database is now the `LABADMIN` user.
 
-The LABDB database is now created and the LABADMIN user has full
-privileges on the LABDB database. The user can create and alter objects
+The `LABDB` database is now created and the `LABADMIN` user has full
+privileges on the `LABDB` database. The user can create and alter objects
 within the database. You could now continue and start creating tables as
-the LABADMIN user. However, we will first finish assigning privileges to
+the `LABADMIN` user. However, we will first finish assigning privileges to
 the two remaining database users that were created in the previous
 section.
 
-### Assigning Authorities and Privileges
+### 4.2 Assigning Authorities and Privileges
 
-One last task for the ADMIN user is to assign the privileges to the two
-users we created earlier, LABUSER and DBUSER. LABUSER user will have
-full DML rights against all tables in the LABDB database. It will not be
-allowed to create or alter tables within the database. User DBUSER will
+One last task for the `ADMIN` user is to assign the privileges to the two
+users we created earlier, `LABUSER` and `DBUSER`. `LABUSER` user will have
+full DML rights against all tables in the `LABDB` database. It will not be
+allowed to create or alter tables within the database. User `DBUSER` will
 have more restricted access in the database and will only be allowed to
 read data from the tables in the database. The privileges will be
 controlled by a combination of setting the privileges at the group and
 user level.
 
-The LUGRP user group will be granted LIST and SELECT privileges against
-the database and tables within the database. So any member of the LUGRP
+The `LUGRP` user group will be granted LIST and SELECT privileges against
+the database and tables within the database. So any member of the `LUGRP`
 will have these privileges. The full data manipulation privileges will
-be granted individually to the LABUSER user.
+be granted individually to the `LABUSER` user.
 
 The GRANT command that is used to assign object privileges has the
 following syntax:
@@ -558,46 +558,46 @@ HARDWARE,
 [ MANAGE ] SYSTEM, [ MANAGE ] SECURITY, RESTORE, UNFENCE, VACUUM
 ```
 
-1.  As the Netezza Performance Server database super-user, ADMIN,
-    connect to the LABDB database using the internal slash option `\c`
+1.  As the Netezza Performance Server database super-user, `ADMIN`,
+    connect to the `LABDB` database using the internal slash option `\c`
 
-!!! abstract "Input"
-	```bash
+=== "Input"
+	```
 	\c labdb admin password
 	```
 	
-!!! abstract "Output"
-	```bash
+=== "Output"
+	```
 	You are now connected to database labdb as user admin.
 	```
 
 You will notice that the database name in command prompt has changed
-from SYSTEM to LABDB.
+from SYSTEM to `LABDB`.
 
-2.  First you will grant LIST privilege on the LABDB database to the
-    group LUGRP. This will allow members of the LUGRP to view and
-    connect to the LABDB database :
+2.  First you will grant LIST privilege on the `LABDB` database to the
+    group `LUGRP`. This will allow members of the `LUGRP` to view and
+    connect to the `LABDB` database :
 
-!!! abstract "Input"
-	```bash
+=== "Input"
+	```
 	grant list on labdb to lugrp;
 	```
 	
-!!! abstract "Output"
-	```bash
+=== "Output"
+	```
 	GRANT
 	```
 	
 3. To list the object permissions for a group use the following
-    internal slash option, \dpg :
+    internal slash option, `\dpg` :
 
-!!! abstract "Input"
-	```bash
+=== "Input"
+	```
 	\dpg lugrp
 	```
 	
-!!! abstract "Output"
-	```bash
+=== "Output"
+	```
 	                                            Group object permissions for group 'LUGRP'
 	 Database Name | Schema Name | Object Name | L S I U D T L A D B L G O E C R X A | D G U S T E X Q Y V M I B R C S H F A L P N S R
 	---------------+-------------+-------------+-------------------------------------+-------------------------------------------------
@@ -614,35 +614,35 @@ from SYSTEM to LABDB.
 	    (L)ibrary (P)rocedure U(N)fence (S)ecurity Scheduler (R)ule
 	```
 
-The X in the L column of the list denotes that the LUGRP group has
-LIST object privileges on the LABDB global object.
+The `X` in the L column of the list denotes that the `LUGRP` group has
+`LIST` object privileges on the `LABDB` global object.
 
-4. With the current privileges set for the LABUSER and DBUSER, they can
-    now view and connect to the LABDB database as members of the LUGRP
+4. With the current privileges set for the `LABUSER` and `DBUSER`, they can
+    now view and connect to the `LABDB` database as members of the `LUGRP`
     group. But these two users have no privileges to access any of the
     objects within the database. So you will grant LIST and SELECT
-    privilege to the tables within the LABDB database to the members of
-    the LUGRP :
+    privilege to the tables within the `LABDB` database to the members of
+    the `LUGRP` :
 
-!!! abstract "Input"
-	```bash
+=== "Input"
+	```
 	grant list, select on table to lugrp;
 	```
 
-!!! abstract "Output"
-	```bash
+=== "Output"
+	```
 	GRANT
 	```
 	
-12. View the object permissions for the LUGRP group :
+5. View the object permissions for the `LUGRP` group :
 
-!!! abstract "Input"
-	```bash
+=== "Input"
+	```
 	\dpg lugrp
 	```
 	
-!!! abstract "Output"
-	```bash
+=== "Output"
+	```
 	                                            Group object permissions for group 'LUGRP'
 	 Database Name | Schema Name | Object Name | L S I U D T L A D B L G O E C R X A | D G U S T E X Q Y V M I B R C S H F A L P N S R
 	---------------+-------------+-------------+-------------------------------------+-------------------------------------------------
@@ -661,39 +661,39 @@ LIST object privileges on the LABDB global object.
 	```
 	
 
-The X in the L and S column denotes that the LUGRP group has both LIST
-and SELECT privileges on all of the tables in the LABDB database. (The
-LIST privilege is used to allow users to view the tables using the
-internal slash opton \d.)
+The X in the L and S column denotes that the `LUGRP` group has both `LIST`
+and `SELECT` privileges on all of the tables in the `LABDB` database. (The
+`LIST` privilege is used to allow users to view the tables using the
+internal slash opton `\d`.)
 
-13. The current privileges satisfy the DBUSER user requirements, which
-    is to allow access to the LABDB database and SELECT access to all
+6.  The current privileges satisfy the `DBUSER` user requirements, which
+    is to allow access to the `LABDB` database and SELECT access to all
     the tables in the database. But these privileges do not satisfy the
-    requirements for the LABUSER user. The LABUSER user is to have full
+    requirements for the `LABUSER` user. The `LABUSER` user is to have full
     DML access to all the tables in the database. So you will grant
-    SELECT, INSERT, UPDATE, DELETE, LIST, and TRUNCATE privileges on
-    tables in the LABDB database to the LABUSER user:
+    `SELECT`, `INSERT`, `UPDATE`, `DELETE`, `LIST`, and `TRUNCATE` privileges on
+    tables in the `LABDB` database to the `LABUSER` user:
 
-!!! abstract "Input"
-	```bash
+=== "Input"
+	```
 	grant select, insert, update, delete, list, truncate on table to labuser;
 	```
 
-!!! abstract "Output"
-	```bash
+=== "Output"
+	```
 	GRANT
 	```
 
-14. To list the object permissions for a user use the \dpu <user
-    name> internal slash option,:
+7. To list the object permissions for a user use the `\dpu <user
+    name>` internal slash option,:
 
-!!! abstract "Input"
-	```bash
+=== "Input"
+	```
 	\dpu labuser
 	```
 	
-!!! abstract "Output"
-	```bash
+=== "Output"
+	```
 	                                           User object permissions for user 'LABUSER'
 	 Database Name | Schema Name | Object Name | L S I U D T L A D B L G O E C R X A | D G U S T E X Q Y V M I B R C S H F A L P N S R
 	---------------+-------------+-------------+-------------------------------------+-------------------------------------------------
@@ -708,39 +708,36 @@ internal slash opton \d.)
 	    Se(Q)uence S(Y)nonym (V)iew (M)aterialized View (I)ndex (B)ackup
 	    (R)estore va(C)uum (S)ystem (H)ardware (F)unction (A)ggregate
 	    (L)ibrary (P)rocedure U(N)fence (S)ecurity Scheduler (R)ule
-	 ```
+	```
 
-The X under the L, S, I, U, D, T columns indicates that the LABUSER
-user has LIST, SELECT, INSERT, UPDATE, DELETE, and TRUNCATE privileges
-on all of the tables in the LABDB database.
+The X under the L, S, I, U, D, T columns indicates that the `LABUSER`
+user has `LIST`, `SELECT`, `INSERT`, `UPDATE`, `DELETE`, and `TRUNCATE` privileges
+on all of the tables in the `LABDB` database.
 
-Now that all of the privileges have been set by the ADMIN user the LABDB
+Now that all of the privileges have been set by the `ADMIN` user the `LABDB`
 database can be handed over to the end-users. The end-users can use the
-LABADMIN user to create objects, which include tables, in the database
+`LABADMIN` user to create objects, which include tables, in the database
 and also maintain the database.
 
-## Creating Tables
+## 5 Creating Tables
 
-The LABADMIN user will be used to create tables in the LABDB database
-instead of the ADMIN user. Two tables will be created in this lab. The
-remaining tables for the LABDB database schema will be created in the
+The `LABADMIN` user will be used to create tables in the `LABDB` database
+instead of the `ADMIN` user. Two tables will be created in this lab. The
+remaining tables for the `LABDB` database schema will be created in the
 Data Distribution lab. Data Distribution is an important aspect that
 should be considered when creating tables. This concept is not covered
 in this lab since it is discussed separately in the Data Distribution
 presentation. The two tables that will be created are the REGION and
 NATION tables. These two tables will be populated with data in the next
-section using LABUSER user. Two methods will be utilized to create these
+section using `LABUSER` user. Two methods will be utilized to create these
 tables. The basic syntax to create a table is:
 
 **General syntax:**
 ```
 CREATE [ TEMPORARY | TEMP ] TABLE [IF NOT EXISTS] <table>
-
 ( <col> <type> [<col_constraint>][,<col> <type>
 [<col_constraint>]...]
-
 [<table_constraint>[,<table_constraint>... ] )
-
 [ DISTRIBUTE ON { RANDOM | [HASH] (<col>[,<col>...]) } ]
 
 [ ORGANIZE ON { (<col>) | NONE } ]
@@ -748,67 +745,53 @@ CREATE [ TEMPORARY | TEMP ] TABLE [IF NOT EXISTS] <table>
 [ ROW SECURITY ]
 ```
 
-**Where <col_constraint> represents:**
+**Where `<col_constraint>` represents:**
 ```
-[ CONSTRAINT <constraint_name> ]
-
-{NOT NULL | NULL | UNIQUE | PRIMARY KEY | DEFAULT <value> |
-<ref>}
-
-[ [ [ NOT ] DEFERRABLE ] { INITIALLY DEFERRED | INITIALLY
-IMMEDIATE } |
-
+CREATE [ TEMPORARY | TEMP ] TABLE [IF NOT EXISTS] <table>
+( <col> <type> [<col_constraint>][,<col> <type> [<col_constraint>]…]
+[<table_constraint>[,<table_constraint>… ] )
+[ DISTRIBUTE ON { RANDOM | [HASH] (<col>[,<col>…]) } ]
+[ ORGANIZE ON { (<col>) | NONE } ]
+[ ROW SECURITY ]
+```
+**Where `<table_constraint>` represents:**
+```
+[ CONSTRAINT <constraint_name> ] 
+{NOT NULL | NULL | UNIQUE | PRIMARY KEY | DEFAULT <value> | <ref>}
+[ [ [ NOT ] DEFERRABLE ] { INITIALLY DEFERRED | INITIALLY IMMEDIATE } |
 [ INITIALLY DEFERRED | INITIALLY IMMEDIATE ] [ NOT ] DEFERRABLE ]
 ```
-**Where <table_constraint> represents:**
+**Where `<ref>` represents:**
 ```
-[ CONSTRAINT <constraint_name> ]
-
-{UNIQUE (<col>[,<col>...] ) |
-
-PRIMARY KEY (<pkcol_name>[,<pkcol_name>...] ) |
-
-FOREIGN KEY (<fkcol_name>[,<fkcol_name>...] ) <ref>}
-
-[ [ [ NOT ] DEFERRABLE ] { INITIALLY DEFERRED | INITIALLY
-IMMEDIATE } |
-
+[ CONSTRAINT <constraint_name> ] 
+{UNIQUE (<col>[,<col>…] ) |
+PRIMARY KEY (<pkcol_name>[,<pkcol_name>…] ) |
+FOREIGN KEY (<fkcol_name>[,<fkcol_name>…] ) <ref>}
+[ [ [ NOT ] DEFERRABLE ] { INITIALLY DEFERRED | INITIALLY IMMEDIATE } |
 [ INITIALLY DEFERRED | INITIALLY IMMEDIATE ] [ NOT ] DEFERRABLE ]
 ```
-**Where <ref> represents:**
-```
-REFERENCES <reftable> [ (<refcol_name>[,<refcol_name>...] ) ]
 
-[ MATCH FULL ]
+1.  Connect to the `LABDB` database as the `LABADMIN` user using the
+    internal slash option `\c`:
 
-[ ON UPDATE {CASCADE | RESTRICT | SET NULL | SET DEFAULT | NO
-ACTION} ]
-
-[ ON DELETE {CASCADE | RESTRICT | SET NULL | SET DEFAULT | NO
-ACTION} ]
-```
-
-1.  Connect to the LABDB database as the LABADMIN user using the
-    internal slash option \c:
-
-!!! abstract "Input"
-	```bash
+=== "Input"
+	```
 	\c labdb labadmin password
 	```
 	
-!!! abstract "Output"
-	```bash
+=== "Output"
+	```
 	You are now connected to database labdb as user labadmin.
 	```
 
 You will notice that the username in the command prompt has changed
-from ADMIN to LABADMIN. Since you already had an opened session, you
-could use the internal slash option \c to connect to the database.
+from `ADMIN` to `LABADMIN`. Since you already had an opened session, you
+could use the internal slash option `\c` to connect to the database.
 However, if you had handed over this environment to the end user they
 would need to initiate a new connection using the nzsql interface.
  
-To use the nzsql interface to connect to the LABDB database as the
-LABADMIN user you could use the following options (no need to run
+To use the nzsql interface to connect to the `LABDB` database as the
+`LABADMIN` user you could use the following options (no need to run
 these command, informational):
 ```
 nzsql -d labdb -u labadmin -pw password
@@ -828,7 +811,7 @@ export NZ_PASSWORD=password
 In further labs we will often leave out the password parameter since
 it has been set to the same value "password" for all users.
 
-15. Now you can create the first table in the LABDB database. The first
+2. Now you can create the first table in the `LABDB` database. The first
     table you will create is the REGION table with the following columns
     and datatypes :
 
@@ -840,8 +823,8 @@ it has been set to the same value "password" for all users.
 
 To create the above table execute the following command:
  
-!!! abstract "Input"
-	```bash
+=== "Input"
+	```
 	create table region (
 		r_regionkey integer,
 		r_name char(25), 
@@ -849,21 +832,21 @@ To create the above table execute the following command:
 	);
 	```
 
-!!! abstract "Output"
-	```bash
+=== "Output"
+	```
 	CREATE TABLE
 	```
 	
-16. To list the tables in the LABDB database use the \dt internal slash
+3. To list the tables in the `LABDB` database use the `\dt` internal slash
     option:
 
-!!! abstract "Input"
-	```bash
+=== "Input"
+	```
 	\dt
 	```
 	
-!!! abstract "Output"
-	```bash
+=== "Output"
+	```
 	         List of relations
 	 Schema |  Name  | Type  |  Owner
 	--------+--------+-------+----------
@@ -872,16 +855,16 @@ To create the above table execute the following command:
 	```
 	
 
-17. To describe a table you can use the internal slash option `\d
+4. To describe a table you can use the internal slash option `\d
     <table name>`:
 
-!!! abstract "Input"
-	```bash
+=== "Input"
+	```
 	\d region
 	```
 	
-!!! abstract "Output"
-	```bash
+=== "Output"
+	```
 	                        Table "REGION"
 	  Attribute  |          Type          | Modifier | Default Value
 	-------------+------------------------+----------+---------------
@@ -891,22 +874,22 @@ To create the above table execute the following command:
 	Distributed on hash: "R_REGIONKEY"
 	```
 
-The Distributed on hash clause is the distribution method used by the
+The `Distributed on hash` clause is the distribution method used by the
 table. If you do not explicitly specify a distribution method, a
 default distribution is used. In our system this is hash distributed
-on the first column R_REGIONKEY. This concept is discussed in the Data
+on the first column `R_REGIONKEY`. This concept is discussed in the Data
 Distribution presentation and lab.
  
-Note: the default distribution can be change to RANDOM. This might be
+Note: the default distribution can be change to `RANDOM`. This might be
 a preferred default distribution when the Netezza environment is
 supporting ad-hoc user table creation. In the event a user forgets to
-add a distribution key, RANDOM would at a minimum guarantee even
+add a distribution key, `RANDOM` would at a minimum guarantee even
 distribution. However, you table if joined to other tables would
 require data movement to perform the join.
 
-18. Instead of typing out the entire create table statement at the nzsql
+5. Instead of typing out the entire create table statement at the nzsql
     command line you can read and execute commands from a file. You'll
-    use this method to create the NATION table in the LABDB database
+    use this method to create the `NATION` table in the `LABDB` database
     with the following columns and data types:
 
   |Column Name                |Data Type                  | Constraint
@@ -927,42 +910,42 @@ create table nation (
 distribute on random;
 ```
 
-19. The statement can be found in the nation.ddl file under the
-    /home/nz/labs/databaseAdministration directory. To read and execute
-    commands from a file use the \i <*file*> internal slash option:
+6. The statement can be found in the nation.ddl file under the
+    `/home/nz/labs/databaseAdministration` directory. To read and execute
+    commands from a file use the `\i <*file*>` internal slash option:
 
-!!! abstract "Input"
-	```bash
+=== "Input"
+	```
 	\i /home/nz/labs/databaseAdministration/nation.ddl
 	```
 
-!!! abstract "Output"
-	```bash
+=== "Output"
+	```
 	CREATE TABLE
 	```
 	
-20. You can run Linux commands while in the nzsql console. For example:
+7. You can run Linux commands while in the nzsql console. For example:
     list the nation.ddl file
 
-!!! abstract "Input"
-	```bash
+=== "Input"
+	```
 	! ls -l /home/nz/labs/databaseAdministration/nation.ddl
 	```
 
-!!! abstract "Output"
-	```bash
+=== "Output"
+	```
 	-rwxr-xr-x. 1 nz nz 176 May 13 2020	/home/nz/labs/databaseAdministration/nation.ddl
 	```
 
-21. List all the tables in the LABDB database:
+8. List all the tables in the `LABDB` database:
 
-!!! abstract "Input"
-	```bash
+=== "Input"
+	```
 	\dt
 	```
 	
-!!! abstract "Output"
-	```bash
+=== "Output"
+	```
 	         List of relations
 	 Schema |  Name  | Type  |  Owner
 	--------+--------+-------+----------
@@ -972,15 +955,15 @@ distribute on random;
 	```
 	
 
-22. Describe the NATION table :
+9. Describe the NATION table :
 
-!!! abstract "Input"
-	```bash
+=== "Input"
+	```
 	\d nation
 	```
 	
-!!! abstract "Output"
-	```bash
+=== "Output"
+	```
 	                         Table "NATION"
 	  Attribute  |          Type          | Modifier | Default Value
 	-------------+------------------------+----------+---------------
@@ -996,50 +979,50 @@ case the rows in the NATION table are distributed in round-robin
 fashion. This concept will be discussed separately in the Data
 Distribution presentation and lab.
 
-It is possible to continue to use LABADMIN user to perform DML queries
+It is possible to continue to use `LABADMIN` user to perform DML queries
 since it is the owner of the database and holds all privileges on all of
-the objects in the databases. However, the LABUSER and DBUSER users will
+the objects in the databases. However, the `LABUSER` and `DBUSER` users will
 be used to perform DML queries against the tables in the database.
 
-## Using DML Queries
+## 6 Using DML Queries
 
-We will now use the LABUSER user to populate data into both the REGION
+We will now use the `LABUSER` user to populate data into both the REGION
 and NATION tables. This user has full data manipulation language (DML)
 privileges in the database, but no data definition language (DDL)
-privileges. Only the LABADMIN has full DDL privileges in the database.
+privileges. Only the `LABADMIN` has full DDL privileges in the database.
 Later in this course more efficient methods to populate tables with data
-are discussed. The DBUSER will also be used to read data from the
+are discussed. The `DBUSER` will also be used to read data from the
 tables, but it can not insert data into the tables since it has limited
 DML privileges in the database.
 
-1.  Connect to the LABDB database as the LABUSER user using the internal
-    slash option, \c:
+1.  Connect to the `LABDB` database as the `LABUSER` user using the internal
+    slash option, `\c`:
 
-!!! abstract "Input"
-	```bash
+=== "Input"
+	```
 	\c labdb labuser password
 	```
 	
-!!! abstract "Output"
-	```bash
+=== "Output"
+	```
 	You are now connected to database LABDB as user labuser.
 	
 	LABDB.ADMIN(LABUSER)=>
 	```
 
 You will notice that the user name in the command prompt has changed
-from LABADMIN to LABUSER.
+from `LABADMIN` to `LABUSER`.
 
-23. First check which tables exist in the LABDB database using the \dt
+2. First check which tables exist in the `LABDB` database using the `\dt`
     internal slash option:
 
-!!! abstract "Input"
-	```bash
+=== "Input"
+	```
 	\dt
 	```
 	
-!!! abstract "Output"
-	```bash
+=== "Output"
+	```
 	        List of relations
 	 Schema |  Name  | Type  |  Owner
 	--------+--------+-------+----------
@@ -1048,58 +1031,58 @@ from LABADMIN to LABUSER.
 	(2 rows)
 	```
 	
-Remember that the LABUSER user is a member of the LUGRP group which
-was granted LIST privileges on the tables in the LABDB database. This
-is the reason why it can list and view the tables in the LABDB
+Remember that the `LABUSER` user is a member of the `LUGRP` group which
+was granted LIST privileges on the tables in the `LABDB` database. This
+is the reason why it can list and view the tables in the `LABDB`
 database. If it did not have this privilege, it would not be able to
-see any of the tables in the LABDB database.
+see any of the tables in the `LABDB` database.
 
-24. The LABUSER user was created to perform DML operations against the
-    tables in the LABDB database. However, it was restricted on
+3. The `LABUSER` user was created to perform DML operations against the
+    tables in the `LABDB` database. However, it was restricted on
     performing DDL operations against the database. Let's see what
     happens when you try create a new table, t1, with one column, C1,
     using the INTEGER data type:
 
-!!! abstract "Input"
-	```bash
+=== "Input"
+	```
 	create table t1 (c1 integer);
 	```
 
-!!! abstract "Output"
-	```bash
+=== "Output"
+	```
 	ERROR: CREATE TABLE: permission denied.
 	```
 
-As expected, the create table statement is not allowed since LABUSER
-user does not have the privilege to create tables in the LABDB
+As expected, the create table statement is not allowed since `LABUSER`
+user does not have the privilege to create tables in the `LABDB`
 database.
 
-25. Let's continue by performing DML operations that the LABUSER user is
-    allowed to perform against the tables in the LABDB database. Insert
+4. Let's continue by performing DML operations that the `LABUSER` user is
+    allowed to perform against the tables in the `LABDB` database. Insert
     a new row into the REGION table:
 
-!!! abstract "Input"
-	```bash
+=== "Input"
+	```
 	insert into region values (1, 'NA', 'north america');
 
-!!! abstract "Output"
-	```bash
+=== "Output"
+	```
 	INSERT 0 1
 	```
 
 As expected, this operation is successful. The output of the INSERT
 gives feedback about the number of successfully inserted rows.
 
-26. Issue the SELECT statement against the REGION table to check the new
+5. Issue the SELECT statement against the REGION table to check the new
     row you just added to the table:
 
-!!! abstract "Input"
-	```bash
+=== "Input"
+	```
 	select * from region;
 	```
 	
-!!! abstract "Output"
-	```bash
+=== "Output"
+	```
 	 R_REGIONKEY |          R_NAME           |   R_COMMENT
 	-------------+---------------------------+---------------
 	           1 | NA                        | north america
@@ -1107,7 +1090,7 @@ gives feedback about the number of successfully inserted rows.
 	```
 	
 
-27. Instead of typing DML statements at the nzsql command line, you can
+6. Instead of typing DML statements at the nzsql command line, you can
     read and execute statements from a file. You will use this method to
     add the following three rows to the REGION table:
 
@@ -1118,42 +1101,42 @@ gives feedback about the number of successfully inserted rows.
 | 4                | AP             | Asia Pacific                     |
 
 This is done with a SQL script containing the following commands:
-
+```
 insert into region values (2, 'sa', 'south america');
-
-insert into region values (3, 'emea', 'europe, middle east,
-africa'); insert into region values (4, 'ap', 'asia pacific');
+insert into region values (3, 'emea', 'europe, middle east, africa'); 
+insert into region values (4, 'ap', 'asia pacific');
+```
 
 It can be found in the region.dml file under the
-/home/nz/labs/databaseAdministration directory. To read and execute
-commands from a file use the \i <*file*> internal slash option:
+`/home/nz/labs/databaseAdministration` directory. To read and execute
+commands from a file use the `\i <*file*>` internal slash option:
  
-!!! abstract "Input"
-	```bash
+=== "Input"
+	```
 	\i /home/nz/labs/databaseAdministration/region.dml
 	```
 	
-!!! abstract "Output"
-	```bash
+=== "Output"
+	```
 	INSERT 0 1
 	INSERT 0 1
 	INSERT 0 1
 	```
 
-You can see from the output that the SQL script contained three INSERT
+You can see from the output that the SQL script contained three `INSERT`
 statements.
 
-28. You will load data into the NATION table using an external table
+7. You will load data into the `NATION` table using an external table
     with the following command:
 
-!!! abstract "Input"
-	```bash
+=== "Input"
+	```
 	insert into nation select * from external
 	'/home/nz/labs/databaseAdministration/nation.del';
 	```
 	
-!!! abstract "Output"
-	```bash
+=== "Output"
+	```
 	INSERT 0 14
 	```
 	
@@ -1162,52 +1145,52 @@ You loaded 14 rows into the table.
 Loading data into a table is covered in the Loading and Unloading Data
 presentation and lab.
 
-29. Now you will switch over to the DBUSER user, who only has SELECT
-    privilege on the tables in the LABDB database. This privilege is
-    granted to this user since he is a member of the LUGRP group. Use
-    the internal slash option, \c <database name> <user>
-    <password> to connect to the LABDB database as the DBUSER user:
+8. Now you will switch over to the `DBUSER` user, who only has SELECT
+    privilege on the tables in the `LABDB` database. This privilege is
+    granted to this user since he is a member of the `LUGRP` group. Use
+    the internal slash option, `\c <database name> <user>
+    <password>` to connect to the `LABDB` database as the `DBUSER` user:
 
-!!! abstract "Input"
-	```bash
+=== "Input"
+	```
 	\c labdb dbuser password
 	```
 	
-!!! abstract "Output"
-	```bash
+=== "Output"
+	```
 	You are now connected to database labdb as user dbuser.
 	```
 	
 You will notice that the username in the command prompt changes from
-LABUSER to DBUSER.
+`LABUSER` to `DBUSER`.
 
-30. Before trying to view rows from tables in the LABDB database, try to
+9. Before trying to view rows from tables in the `LABDB` database, try to
     add a new row to the REGION table:
 
-!!! abstract "Input"
-	```bash
+=== "Input"
+	```
 	insert into region values (5, 'NP', 'north pole');
 	```
 
-!!! abstract "Output"
-	```bash
+=== "Output"
+	```
 	ERROR: Permission denied on "REGION".
 	```
 	
-As expected, the INSERT statement is not allowed since the DBUSER does
-not have the privilege to add rows to any tables in the LABDB
+As expected, the INSERT statement is not allowed since the `DBUSER` does
+not have the privilege to add rows to any tables in the `LABDB`
 database.
 
-31. Now select all rows from the REGION table:
+10. Now select all rows from the REGION table:
 
-!!! abstract "Input"
-	```bash
+=== "Input"
+	```
 	select * from region;
 	```
 	
-!!! abstract "Output"
-	```bash
-	R_REGIONKEY |          R_NAME           |          R_COMMENT
+=== "Output"
+	```
+	 R_REGIONKEY |          R_NAME           |          R_COMMENT
 	-------------+---------------------------+-----------------------------
 	           1 | NA                        | north america
 	           2 | sa                        | south america
@@ -1217,20 +1200,20 @@ database.
 	```
 	
 
-32. Finally let's run a slightly more complex query. We want to return
+11. Finally let's run a slightly more complex query. We want to return
     all nation names in Asia Pacific, together with their region name.
     To do this you need to execute a simple join using the NATION and
     REGION tables. The join key will be the region key, and to restrict
     results on the AP region you need to add a WHERE condition:
 
-!!! abstract "Input"
-	```bash
+=== "Input"
+	```
 	select n_name, r_name from nation, region where
 		n_regionkey = r_regionkey and r_name = 'ap';
 	```
 
-!!! abstract "Output"
-	```bash
+=== "Output"
+	```
 	          N_NAME           |          R_NAME
 	---------------------------+---------------------------
 	 australia                 | ap
@@ -1241,10 +1224,10 @@ database.
 	(5 rows)
 	```
 
-This should return the following results, containing all countries
+This should return a result containing all countries
 from the ap region.
 
-## Roles
+## 7 Roles
 
 IBM Netezza Performance Server introduced a new object called role. A
 role is a potential grantee or grantor of privileges and of other roles.
@@ -1266,7 +1249,7 @@ permission.
 In this section of the lab we will create roles to demonstrate how roles
 can be used.
 
-#### **Creating role**
+#### 7.1.1 Creating roles
 
 Roles are create using the following syntax:
 ```
@@ -1279,131 +1262,131 @@ CREATE ROLE role name
 See the section: [Login to the NPS Command Line](#_Login_to_the) for
 details on how to access the command line for your given lab system.
 
-33. As the NPS database super-user, ADMIN, use nzsql to create the first
+2. As the NPS database super-user, `ADMIN`, use nzsql to create the first
     role, LAROLE, which will be the administrator of the system: (Note:
     roles are not case sensitive)
 
-!!! abstract "Input"
-	```bash
+=== "Input"
+	```
 	create role DBAROLE AS ADMIN;
 	```
 
-!!! abstract "Output"
-	```bash
+=== "Output"
+	```
 	CREATE ROLE
 	```
 	
-This role will act as the super-user ADMIN and have all permissions on
-the database system. This is a simple way to give ADMIN rights to a user
+This role will act as the super-user `ADMIN` and have all permissions on
+the database system. This is a simple way to give `ADMIN` rights to a user
 through the use of a role.
 
-#### **Display roles**
+#### 7.1.2 Display roles
 
-34. Display the newly created role with the following command:
+3. Display the newly created role with the following command:
 
-!!! abstract "Input"
-	```bash
+=== "Input"
+	```
 	show role;
 	```
 	
-!!! abstract "Output"
-	```bash
+=== "Output"
+	```
 	ROLENAME | ROLEGRANTOR | ASADMIN
 	----------+-------------+---------
 	 DBAROLE  | ADMIN       | t
 	(1 row)
 	```
 	
-#### **Create a new user without any permissions**
+#### 7.1.3 Create a new user without any permissions
 
-35. Create a new DBA user without any permissions.
+4. Create a new DBA user without any permissions.
 
-!!! abstract "Input"
-	```bash
+=== "Input"
+	```
 	create user DBAUSER password 'password';
 	```
 
-!!! abstract "Output"
-	```bash
+=== "Output"
+	```
 	CREATE USER
 	```
 	
-36. Connect to the system database as DBAUSER and CREATE a database:
+5. Connect to the system database as DBAUSER and CREATE a database:
 
-!!! abstract "Input"
-	```bash
+=== "Input"
+	```
 	\c system dbauser password
 	```
 	
-!!! abstract "Output"
-	```bash
+=== "Output"
+	```
 	You are now connected to database system as user dbauser.
 	```
 	
-!!! abstract "Input"
-	```bash
+=== "Input"
+	```
 	create database testdb;
 	```
 	
-!!! abstract "Output"
-	```bash
+=== "Output"
+	```
 	ERROR: CREATE DATABASE: permission denied.
 	```
 	
-Notice that DBUSER cannot create a database as is expected since we
-didn't grant DATABASE permission to the DBUSER.
+Notice that `DBUSER` cannot create a database as is expected since we
+didn't grant DATABASE permission to the `DBUSER`.
 
-37. Connect to the system database as ADMIN:
+6. Connect to the system database as `ADMIN`:
 
-!!! abstract "Input"
-	```bash
+=== "Input"
+	```
 	\c system
 	```
 	
-!!! abstract "Output"
-	```bash
+=== "Output"
+	```
 	You are now connected to database system.
 	```
 	
-#### **Grant permission to use a role**
+#### 7.1.4 Grant permission to use a role
 
 
-38. Grant LIST on DBAROLE to DBAUSER:
+7. Grant LIST on DBAROLE to DBAUSER:
 
-!!! abstract "Input"
-	```bash
+=== "Input"
+	```
 	grant list on dbarole to DBAUSER;
 	```
 	
-!!! abstract "Output"
-	```bash
+=== "Output"
+	```
 	GRANT
 	```
 	
 This gives the DBAUSER permission to use the role DBAROLE which has
 ADMIN rights.
 
-39. Connect to the system database as DBAUSER:
+8. Connect to the system database as DBAUSER:
 
-!!! abstract "Input"
-	```bash
+=== "Input"
+	```
 	\c system dbauser password
 	```
 	
-!!! abstract "Output"
-	```bash
+=== "Output"
+	```
 	You are now connected to database system as user dbauser.
 	```
 	
-40. List the roles as DBUSER:
+9. List the roles as `DBUSER`:
 
-!!! abstract "Input"
-	```bash
+=== "Input"
+	```
 	show role;
 	```
 	
-!!! abstract "Output"
-	```bash
+=== "Output"
+	```
 	ROLENAME | ROLEGRANTOR | ASADMIN
 	----------+-------------+---------
 	 DBAROLE  | ADMIN       | t
@@ -1411,44 +1394,44 @@ ADMIN rights.
 	```
 	
 
-The LIST permission gives the DBAUSER the ability to show and set roles.
+The `LIST` permission gives the `DBAUSER` the ability to show and set roles.
 
-41. As the DBUSER set the session to the role DBAROLE:
+10. As the `DBUSER` set the session to the role `DBAROLE`:
 
-!!! abstract "Input"
-	```bash
+=== "Input"
+	```
 	set role dbarole;
 	```
 	
-!!! abstract "Output"
-	```bash
+=== "Output"
+	```
 	SET ROLE
 	```
 	
-All commands will run with ADMIN rights, thus, full control over the
+All commands will run with `ADMIN` rights, thus, full control over the
 database system.
 
-42. Create a database with the DBAROLE set:
+11. Create a database with the `DBAROLE` set:
 
-!!! abstract "Input"
-	```bash
+=== "Input"
+	```
 	create database testdb;
 	```
 	
-!!! abstract "Output"
-	```bash
+=== "Output"
+	```
 	CREATE DATABASE
 	```
 	
-43. List the database with the slash: option \l:
+12. List the database with the slash: option `\l`:
 
-!!! abstract "Input"
-	```bash
+=== "Input"
+	```
 	\l
 	```
 	
-!!! abstract "Output"
-	```bash
+=== "Output"
+	```
 	List of databases
 	 DATABASE | OWNER
 	----------+-------
@@ -1458,162 +1441,162 @@ database system.
 	(3 rows)
 	```
 	
-Notice the owner of the TESTDB database is ADMIN. This is because the
-role DBAROLE (current session set to DBAROLE) was created with the AS
-ADMIN option.
+Notice the owner of the `TESTDB` database is `ADMIN`. This is because the
+role `DBAROLE` (current session set to `DBAROLE`) was created with the `AS ADMIN` option.
 
-44. Drop the database TESTDB:
+13. Drop the database `TESTDB`:
 
-!!! abstract "Input"
-	```bash
+=== "Input"
+	```
 	drop database testdb;
 	```
 	
-!!! abstract "Output"
-	```bash
+=== "Output"
+	```
 	DROP DATABASE
 	```
 	
-#### **Reset session from a role**
+#### 7.1.5 Reset session from a role
 
-45. Return your nzsql session to the current user with the following
+14. Return your nzsql session to the current user with the following
     command:
 ```
 set role none;
 ```
 
-!!! abstract "Input"
-	```bash
+=== "Input"
+	```
 	set role none;
 	```
 	
-!!! abstract "Output"
-	```bash
+=== "Output"
+	```
 	SET ROLE
 	```
 	
-46. You are now back to using the permission of DBAUSER. Try creating
-    the TESTDB database again and see what happens:
+15. You are now back to using the permission of `DBAUSER`. Try creating
+    the `TESTDB` database again and see what happens:
 
-!!! abstract "Input"
-	```bash
+=== "Input"
+	```
 	create database testdb;
 	```
 	
-!!! abstract "Output"
-	```bash
+=== "Output"
+	```
 	ERROR: CREATE DATABASE: permission denied.
 	```
 	
-The command was run with the DBAUSER privileges and the DBAUSER doesn't
+The command was run with the `DBAUSER` privileges and the `DBAUSER` doesn't
 have permissions to create a database.
 
-#### **Create a second user**
+#### 7.1.6 Create a second user
 
-47. Connect to the system database as ADMIN:
+16. Connect to the system database as `ADMIN`:
 
-!!! abstract "Input"
-	```bash
+=== "Input"
+	```
 	\c system
 	```
 	
-!!! abstract "Output"
-	```bash
+=== "Output"
+	```
 	You are now connected to database system.
 	```
 	
-48. Create a second user called DBOPS:
+17. Create a second user called `DBOPS`:
 
-!!! abstract "Input"
-	```bash
+=== "Input"
+	```
 	create user dbops with password 'password';
 	```
 	
-!!! abstract "Output"
-	```bash
+=== "Output"
+	```
 	CREATE USER
 	```
 	
-#### **Create a new role without permissions**
+#### 7.1.7 Create a new role without permissions
 
 
-49. Create a new role called DBOPSROLE:
+18. Create a new role called `DBOPSROLE`:
 
-!!! abstract "Input"
-	```bash
+=== "Input"
+	```
 	create role dbopsrole with admin dbops;
 	```
 	
-!!! abstract "Output"
-	```bash
+=== "Output"
+	```
 	CREATE ROLE
 	```
 	
-50. Connect to the system database as the LABADMIN user:
+19. Connect to the system database as the `LABADMIN` user:
 
-!!! abstract "Input"
-	```bash
+=== "Input"
+	```
 	\c system dbops password
 	```
 	
-!!! abstract "Output"
-	```bash
+=== "Output"
+	```
 	You are now connected to database system as user dbops.
 	```
 	
-51. Show the role:
+20. Show the role:
 
-!!! abstract "Input"
-	```bash
+=== "Input"
+	```
 	show role;
 	```
 	
-!!! abstract "Output"
-	```bash
-	ROLENAME  | ROLEGRANTOR | ASADMIN
+=== "Output"
+	```
+	 ROLENAME  | ROLEGRANTOR | ASADMIN
 	-----------+-------------+---------
 	 DBOPSROLE | DBOPS       | f
 	(1 row)
 	```
 
-DBOPS can see the DBOPSROLE because the role was created with DBOPS user
-as the admin. DBOPS user is the GRANTOR for the role.
+`DBOPS` can see the `DBOPSROLE` because the role was created with `DBOPS` user
+as the admin. `DBOPS` user is the `GRANTOR` for the role.
 
-52. Set the session role to DBOPSROLE as the DBOPS user:
+21. Set the session role to `DBOPSROLE` as the `DBOPS` user:
 
-!!! abstract "Input"
-	```bash
+=== "Input"
+	```
 	set role dbopsrole;
 	```
 	
-!!! abstract "Output"
-	```bash
+=== "Output"
+	```
 	SET ROLE
 	```
 	
-53. Create a database called TESTDB:
+22. Create a database called TESTDB:
 
-!!! abstract "Input"
-	```bash
+=== "Input"
+	```
 	create database testdb;
 	```
 	
-!!! abstract "Output"
-	```bash
+=== "Output"
+	```
 	ERROR: CREATE DATABASE: permission denied.
 	```
 	
-The CREATE DATABASE failed because the DBOPS user does not have any
-permissions on the database system other than the ADMIN of the role
-DBOPSROLE (i.e.: drop).
+The `CREATE DATABASE` failed because the `DBOPS` user does not have any
+permissions on the database system other than the `ADMIN` of the role
+`DBOPSROLE` (i.e.: drop).
 
-After creating a role that is not defined with the AS ADMIN option you
-will need to GRANT the appropriate permissions similar to how you grant
+After creating a role that is not defined with the `AS ADMIN` option you
+will need to `GRANT` the appropriate permissions similar to how you grant
 permissions to users and groups.
 
 You completed the section on Users, Groups and Roles. You should now
 understand how Users, Groups and Roles are all related and used.
 
-Congratulations you have completed the lab. You have successfully
-created the lab database, 2 tables, and database users, groups and roles
-with various privileges. You also ran a couple of simple queries.
+!!! success
+	Congratulations you have completed the lab. You have successfully
+	created the lab database, 2 tables, and database users, groups and roles
+	with various privileges. You also ran a couple of simple queries.
