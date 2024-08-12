@@ -1,4 +1,4 @@
-# Web Console
+# 1 Web Console
 
 In this lab we will explore the features of the IBM Netezza Performance
 Server console. The console is a HTML-based application that allows
@@ -11,7 +11,7 @@ the Web Console running as an OpenShift containerized application on the
 control plane/master nodes. In this environment, the Web Console is
 running natively on the NPSVB virtual machine.
 
-## Lab Setup
+# 2 Lab Setup
 
 This lab uses an initial setup script to make sure the correct users and
 database exist for the remainder of the lab. Follow the instructions
@@ -29,20 +29,19 @@ See the Setup Lab for more details on accessing the Linux command
 line.
 
 2.  If you are continuing from the previous lab and are already
-    connected to nzsql quit the console with the
-    `\q` command.
+    connected to `nzsql` quit the console with the `\q` command.
 
 3.  Prepare for this lab by running the setup script. To do this use the
     following commands:
 
 !!! abstract "Input"
-    ```bash
+    ```
     cd ~/labs/console/setupLab/
     ./setupLab.sh
     ```
 
-!!! abstract "Output"
-    ```bash
+!!! success "Output"
+    ```
     DROP DATABASE
     CREATE DATABASE
     ERROR: CREATE USER: object LABADMIN does not exist.
@@ -68,7 +67,7 @@ line.
 
 While the setup script is running proceed to the next step.
 
-### Starting NPS Web Console
+## 2.1 Starting NPS Web Console
 
 After booting up the NPSVB virtual machine with Virtual Box follow these
 steps to start the Web Console application inside the VM:
@@ -83,44 +82,44 @@ steps to start the Web Console application inside the VM:
 
 -   **VM Desktop**: switch to the `root` user
 !!! abstract ""
-    ```bash
+    ```
     su –
     password: netezza
     ```
 
 -   Remotely via ssh 
 !!! abstract ""
-    ```bash
+    ```
     ssh root@192.168.9.2
     password: netezza
     ```
 
 -   Start the service pods
 !!! abstract ""
-    ```bash
+    ```
     start-cyclops.sh
     ```
 
 -   Check that the two pods are running
 !!! abstract ""
-    ```bash
+    ```
     docker ps
     ```
 
 ![Image](nz-images/nz-02-WebConsole/media/image3.png)
 
 !!! note "To stop the console, run the following command for each container"
-    ```bash
+    ```
     docker stop <container-id>
     ```
 
-### Launch the NPS Console
+## 2.2 Launch the NPS Console
 
 If you already configured the access to the NPS in the Setup Lab, you
 can skip this chapter.
 
 Open a browser on your host machine or from the virtual machine, use
-**https://192.168.9.2:8443** as URL.
+`https://192.168.9.2:8443` as URL.
 
 ![Image](nz-images/nz-02-WebConsole/media/image4.png)
 
@@ -130,11 +129,11 @@ Add an the local NPS instance
 
 Enter the following information:
 
-* Name: NPS VM Local
-* Host: 192.168.9.2
-* Port: 5480
-* Admin Username: admin
-* Admin Password: password
+* Name: `NPS VM Local`
+* Host: `192.168.9.2`
+* Port: `5480`
+* Admin Username: `admin`
+* Admin Password: `password`
 
 Click **Save**.
 
@@ -160,14 +159,16 @@ Note: There are four available options:
 
 Enter the following values (admin is the default superuser for NPS)
 
-* Username: admin
-* Password: password
+* Username: `admin`
+* Password: `password`
 
 Click: **Save**
 
 ![Image](nz-images/nz-02-WebConsole/media/image8.png)
 
 !!! note "This is a database user defined inside of NPS by the create user SQL statement."
+
+`admin` is the default superuser for NPS.
 
 The instance should now have a hot link for the host URL.
 
@@ -222,14 +223,14 @@ options:
 
 !!! success "Congratulations you now have access to the NPS Console running inside the NPS VM."
 
-## Troubleshooting the Web Console
+# 3 Troubleshooting the Web Console
 
 If you receive this error when attempting to access the NPS Console:
 “This site can’t be reached” follow these steps to resolve the issue.
 
 **Stop active containers:**
 !!! abstract ""
-    ```bash
+    ```
     docker ps
     ```
 
@@ -237,13 +238,13 @@ Take note of the container IDs.
 
 **Stop active containers:**
 !!! abstract ""
-    ```bash
+    ```
     docker stop <container-ID>
     ```
 
 **Remove the inactive containers:**
 !!! abstract ""
-    ```bash
+    ```
     docker ps -a
     ```
 
@@ -251,17 +252,17 @@ Take note of the container IDs.
 
 **Stop active containers:**
 !!! abstract ""
-    ```bash
+    ```
     docker rm <container-ID>
     ```
 
 **Reinstall NPS Console:**
 !!! abstract ""
-    ```bash
+    ```
     /root/cyclops\_dockerrun/standalone-install.sh
     ```
 
-## Monitor System Performance
+# 4 Monitor System Performance
 
 At this point you should be connected to the NPS console. The main
 screen after logging on displays information on the system usage and
@@ -289,7 +290,7 @@ Notice how the displayed information changes:
 ![Image](nz-images/nz-02-WebConsole/media/image15.png)
 
 Click this icon to open the Query editor menu option under the
-Navigation menu.![Image](nz-images/nz-02-WebConsole/media/image16.png)
+Navigation menu.![Image](nz-images/nz-02-WebConsole/media/image16.png) (Top Left)
 
 ![Image](nz-images/nz-02-WebConsole/media/image17.png)
 
@@ -302,18 +303,19 @@ and schema ADMIN (3).
 
 Enter the following SQL statement (4) and click **Run** (5) to execute
 the query.
-!!! abstract ""
-    ```bash
+
+!!! abstract "Input:"
+    ```
     SELECT SUM(L_QUANTITY), AVG(L_TAX) FROM LINEITEM WHERE EXTRACT(MONTH
     FROM L_SHIPDATE) = 4
     ```
 
 ![Image](nz-images/nz-02-WebConsole/media/image18.png)
 
-Note: Typically you terminate the SQL statement with a semicolon (;). In
-this example omit the semicolon (reason: issue with Plan Graph when
-using a semicolon, next step). The result is displayed on the right side
-of the page:
+Note: Typically you terminate the SQL statement with a semicolon (`;`). In
+	this example omit the semicolon (reason: issue with Plan Graph when
+	using a semicolon, next step). The result is displayed on the right side
+	of the page:
 
 ![Image](nz-images/nz-02-WebConsole/media/image19.png)
 
@@ -328,7 +330,7 @@ You can access the different parts of the console through the
 
 ![Image](nz-images/nz-02-WebConsole/media/image22.png)
 
-## Retrieve Information on NPS Configuration
+# 5 Retrieve Information on NPS Configuration
 
 From the Navigation menu select “Dashboard”. Select the Hardware tab to
 access the hardware monitoring portion of the NPS console.
@@ -367,7 +369,7 @@ Slices**
 
 ![Image](nz-images/nz-02-WebConsole/media/image24.png)
 
-## Manage Databases
+# 6 Manage Databases
 
 Click the Navigation menu and select the click **Data** to access the
 Databases screen of the NPS console. The following screen opens:
@@ -460,9 +462,9 @@ Confirm the action in the pop-up menu, click **Drop**.
 
 Back in the database screen, you see only the two original databases.
 
-## Queries
+# 7 Queries
 
-In the Navigation menu of the console go to **Queries** **🡪 Recent
+In the Navigation menu of the console go to **Queries** **&rarr; Recent
 queries**.
 
 ![Image](nz-images/nz-02-WebConsole/media/image41.png)
@@ -496,7 +498,7 @@ Select a **Plan ID** for one the queries.
 You are now on the query editor for the selected plan. You can run the
 query and/or get a Plan graph.
 
-## Explore
+# 8 Explore
 
 There are many other options available from the Console, please use this
 time to explore. You can connect to the NPS on Cloud instance previously

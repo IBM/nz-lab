@@ -1,4 +1,4 @@
-# Data Distribution
+# 1 Data Distribution
 
 Netezza Performance Server is a family of data-warehousing appliances
 that combine high performance with low administrative effort. Due to the
@@ -16,7 +16,7 @@ a table are distributed to which data slice and it is very important to
 pick an optimal distribution key to avoid data skew, processing skew and
 to make joins co-located whenever possible.
 
-## Objectives
+## 1.1 Objectives
 
 In this lab we will cover a typical scenario in a POC or customer
 engagement which involves an existing data warehouse for customer
@@ -42,7 +42,7 @@ In addition to the data and the DDLs we also have received a couple of
 queries from the customer that are usually run against the warehouse.
 Those are important input as well for picking optimal distribution keys.
 
-## Check the Number of Data Slices
+## 2 Check the Number of Data Slices
 
 By default, the NPS VirtualBox virtual machine only comes with 1 data
 slice. To perform the steps in this lab and the other performance
@@ -65,43 +65,46 @@ follow the section called: "**Increase the Number of Data Slices**".
         Terminal)
 
 2.  If you are continuing from the previous lab and are already
-    connected to nzsql, quit the nzsql console with the `\q`
+    connected to `nzsql`, quit the `nzsql` console with the `\q`
     command.
+    
 
-!!! abstract "Input"
-    ```bash
-    nzstate # if NPS is offline, run nzstart
-    nzhw
-    nzds
-    ```
+=== "Input"
 
-!!! abstract "Output"
-    ```bash 
-    [nz@localhost labs]$ nzstate
-    System state is 'Online'.
-    [nz@localhost labs]$ nzhw
-    Description HW ID Location Role State Security
-    ----------- ----- ---------- ------ ------ --------
-    Rack 1001 rack1 Active Ok N/A
-    SPA 1002 spa1 Active Ok N/A
-    SPU 1003 spa1.spu1 Active Online N/A
-    Disk 1004 spa1.disk1 Active Ok N/A
-    Disk 1005 spa1.disk2 Active Ok N/A
-    Disk 1006 spa1.disk3 Active Ok N/A
-    Disk 1007 spa1.disk4 Active Ok N/A
+	``` Input
+	nzstate # if NPS is offline, run nzstart
+	nzhw
+	nzds
+	```
+	
+=== "Output"
 
-    [nz@localhost labs]$ nzds
-    Data Slice Status  SPU  Partition Size (GiB) % Used Supporting Disks
-    ---------- ------- ---- --------- ---------- ------ ----------------
-    1          Unknown 1003 0         16         0.84   1004
-    2          Unknown 1003 1         16         0.84   1005
-    3          Unknown 1003 2         16         0.84   1006
-    4          Unknown 1003 3         16         0.84   1007
-    ```
+	``` Output
+	[nz@localhost labs]$ nzstate
+	System state is 'Online'.
+	[nz@localhost labs]$ nzhw
+	Description HW ID Location Role State Security
+	----------- ----- ---------- ------ ------ --------
+	Rack 1001 rack1 Active Ok N/A
+	SPA 1002 spa1 Active Ok N/A
+	SPU 1003 spa1.spu1 Active Online N/A
+	Disk 1004 spa1.disk1 Active Ok N/A
+	Disk 1005 spa1.disk2 Active Ok N/A
+	Disk 1006 spa1.disk3 Active Ok N/A
+	Disk 1007 spa1.disk4 Active Ok N/A
+	
+	[nz@localhost labs]$ nzds
+	Data Slice Status  SPU  Partition Size (GiB) % Used Supporting Disks
+	---------- ------- ---- --------- ---------- ------ ----------------
+	1          Unknown 1003 0         16         0.84   1004
+	2          Unknown 1003 1         16         0.84   1005
+	3          Unknown 1003 2         16         0.84   1006
+	4          Unknown 1003 3         16         0.84   1007
+	```    
 
 With the proper data slices continue to the next section.
 
-## Lab Setup
+## 3 Lab Setup
 
 This lab uses an initial setup script to make sure the correct user and
 database exist for the remainder of the lab. Follow the instructions
@@ -117,32 +120,34 @@ below to run the setup script.
         Terminal)
 
 4.  If you are continuing from the previous lab and are already
-    connected to nzsql quit the nzsql console with the [\\q
+    connected to `nzsql` quit the `nzsql` console with the `\q`
     command.
 
 5.  Prepare for this lab by running the setup script. To do this use the
     following two commands:
 
-!!! abstract "Input"
-    ```bash
+=== "Input"
+
+    ```
     cd ~/labs/dataDistribution/setupLab
     ./setupLab.sh
     ```
 
-!!! abstract "Output"
-    ```bash
-    ERROR: DROP DATABASE: object LABDB does not exist.
-    CREATE DATABASE
-    ERROR: CREATE USER: object LABADMIN already exists as a USER.
-    ALTER USER
-    ALTER DATABASE
-    ```
+=== "Output"
+	
+	```
+	ERROR: DROP DATABASE: object LABDB does not exist.
+	CREATE DATABASE
+	ERROR: CREATE USER: object LABADMIN already exists as a USER.
+	ALTER USER
+	ALTER DATABASE
+	```
     
 The error message at the beginning is expected since the script tries to clean up existing `LINEITEM` tables.
 
 This lab is now setup to use for the remainder of the sections.
 
-## Skew
+## 4 Skew
 
 Tables in Netezza Performance Server are distributed across data slices
 based on the distribution method and key. If a bad data distribution
@@ -159,7 +164,7 @@ those data slices. Both types of skew result in suboptimal performance
 since in a parallel system the slowest node defines the total execution
 time.
 
-### Data Skew
+### 4.1 Data Skew
 
 The first table we will create is `LINEITEM`, the main fact table of the
 schema. It contains roughly 6 million rows.
@@ -169,24 +174,26 @@ schema. It contains roughly 6 million rows.
     (Notice that you can use bash auto complete by using the Tab key to
     complete folder and files names)
 
-!!! abstract "Input"
-    ```bash
+=== "Input"
+
+    ```
     cd ~/labs/dataDistribution
     ls -l
     ```
 
-!!! abstract "Output"
-    ```bash
-    [nz@localhost dataDistribution]$ ls -l
-    total 24
-    -rwxr-xr-x. 1 nz nz 177 Apr 20 2020 create_lineitem_1.sh
-    -rwxr-xr-x. 1 nz nz 170 Dec 9 2015 create_orders_1.sh
-    -rwxr-xr-x. 1 nz nz 612 Dec 9 2015 create_remaining.sh
-    -rwxr-xr-x. 1 nz nz 656 Mar 29 13:44 lineitem.sql
-    -rwxr-xr-x. 1 nz nz 374 Mar 29 13:44 orders.sql
-    -rwxr-xr-x. 1 nz nz 1660 Mar 29 13:44 remaining_tables.sql
-    drwxr-xr-x. 2 nz nz 91 Mar 29 2020 setupLab
-    ```
+=== "Output"
+
+	``` 
+	[nz@localhost dataDistribution]$ ls -l
+	total 24
+	-rwxr-xr-x. 1 nz nz 177 Apr 20 2020 create_lineitem_1.sh
+	-rwxr-xr-x. 1 nz nz 170 Dec 9 2015 create_orders_1.sh
+	-rwxr-xr-x. 1 nz nz 612 Dec 9 2015 create_remaining.sh
+	-rwxr-xr-x. 1 nz nz 656 Mar 29 13:44 lineitem.sql
+	-rwxr-xr-x. 1 nz nz 374 Mar 29 13:44 orders.sql
+	-rwxr-xr-x. 1 nz nz 1660 Mar 29 13:44 remaining_tables.sql
+	drwxr-xr-x. 2 nz nz 91 Mar 29 2020 setupLab
+	```
 
 The command line prompt changes to reflect the directory you are in
 (`dataDistribution`).
@@ -194,17 +201,19 @@ The command line prompt changes to reflect the directory you are in
 2.  Create the `LINEITEM` table by using the following script. Since the
     fact table is quite large this can take several minutes.
 
-!!! abstract "Input"
-    ```bash
+=== "Input"
+
+    ```
     ./create_lineitem_1.sh
     ```
 
-!!! abstract "Output"
-    ```bash
-    ERROR: relation does not exist LABDB.ADMIN.LINEITEM
-    CREATE TABLE
-    Load session of table 'LINEITEM' completed successfully
-    ```
+=== "Output"
+
+	```
+	ERROR: relation does not exist LABDB.ADMIN.LINEITEM
+	CREATE TABLE
+	Load session of table 'LINEITEM' completed successfully
+	```
 
 The error message at the beginning is expected since the script tries
 to clean up existing `LINEITEM` tables. Also note that a load log file
@@ -215,52 +224,59 @@ logfile as time and interest permits.
 This load will take some time, if you want to see the status of the
 load run the following SQL from another terminal session.
 
-!!! abstract "Input"
-    ```bash
+=== "Input"
+
+    ```
     nzsql -c "select * from _v_load_status;"
     ```
 
-!!! abstract "Output"
-    ```bash
-    PLANID | DATABASENAME | TABLENAME | SCHEMANAME | USERNAME | BYTESPROCESSED | ROWSINSERTED | ROWSREJECTED | BYTESDOWNLOADED
-    -------+--------------+-----------+------------+----------+----------------+--------------+--------------+-----------------
-    592    | LABDB        | LINEITEM  | ADMIN      | LABADMIN | 704643063      | 5522182      | 0            | 718896512
-    (1 row)
-    ```
+=== "Output"
 
-3.  Now let's have a look at the created table, open the nzsql console
+	```
+	PLANID | DATABASENAME | TABLENAME | SCHEMANAME | USERNAME | BYTESPROCESSED | ROWSINSERTED | ROWSREJECTED | BYTESDOWNLOADED
+	-------+--------------+-----------+------------+----------+----------------+--------------+--------------+-----------------
+	592    | LABDB        | LINEITEM  | ADMIN      | LABADMIN | 704643063      | 5522182      | 0            | 718896512
+	(1 row)
+	```
+
+3.  Now let's have a look at the created table, open the `nzsql` console
     by entering the command:
 
-!!! abstract "Input"
-    ```bash
+=== "Input"
+
+    ```
     nzsql
     ```
 
-!!! abstract "Output"
-    ```bash
-    Welcome to nzsql, the IBM Netezza SQL interactive terminal.
+=== "Output"
 
-    Type: \h for help with SQL commands
-    \? for help on internal slash commands
-    \g or terminate with semicolon to execute query
-    \q to quit
-
-    SYSTEM.ADMIN(ADMIN)=>
-    ```
+	```
+	Welcome to nzsql, the IBM Netezza SQL interactive terminal.
+	
+	Type:  \h for help with SQL commands
+	       \? for help on internal slash commands
+	       \g or terminate with semicolon to execute query
+	       \q to quit
+	
+	SYSTEM.ADMIN(ADMIN)=>
+	
+	```
 
 4.  Connect to the database `LABDB` as user `LABADMIN` by typing the
     following command:
 
-!!! abstract "Input"
-    ```bash
+=== "Input"
+
+    ```
     \c LABDB LABADMIN
     ```
 
-!!! abstract "Output"
-    ```bash
-    You are now connected to database LABDB as user LABADMIM
-    LABDB.ADMIN(LABADMIN)=>
-    ```
+=== "Output"
+
+	```
+	You are now connected to database LABDB as user LABADMIM
+	LABDB.ADMIN(LABADMIN)=>
+	```
 
 You should now be connected to the `LABDB` database as the `LABADMIN` user.
 
@@ -268,40 +284,42 @@ You should now be connected to the `LABDB` database as the `LABADMIN` user.
     see a description of its columns and distribution key. Use the `NZSQL`
     describe command `\d LINEITEM` to get a description of the table.
 
-!!! abstract "Input"
-    ```bash
+=== "Input"
+
+    ```
     \d LINEITEM
     ```
 
-!!! abstract "Output"
-    ```bash
-                            Table "LINEITEM"
-        Attribute    |         Type          | Modifier | Default Value
-    -----------------+-----------------------+----------+---------------
-     L_ORDERKEY      | INTEGER               | NOT NULL |
-     L_PARTKEY       | INTEGER               | NOT NULL |
-     L_SUPPKEY       | INTEGER               | NOT NULL |
-     L_LINENUMBER    | INTEGER               | NOT NULL |
-     L_QUANTITY      | NUMERIC(15,2)         | NOT NULL |
-     L_EXTENDEDPRICE | NUMERIC(15,2)         | NOT NULL |
-     L_DISCOUNT      | NUMERIC(15,2)         | NOT NULL |
-     L_TAX           | NUMERIC(15,2)         | NOT NULL |
-     L_RETURNFLAG    | CHARACTER(1)          | NOT NULL |
-     L_LINESTATUS    | CHARACTER(1)          | NOT NULL |
-     L_SHIPDATE      | DATE                  | NOT NULL |
-     L_COMMITDATE    | DATE                  | NOT NULL |
-     L_RECEIPTDATE   | DATE                  | NOT NULL |
-     L_SHIPINSTRUCT  | CHARACTER(25)         | NOT NULL |
-     L_SHIPMODE      | CHARACTER(10)         | NOT NULL |
-     L_COMMENT       | CHARACTER VARYING(44) | NOT NULL |
-    Distributed on hash: "L_LINESTATUS"
-    ```
+=== "Output"
+
+	```
+	                        Table "LINEITEM"
+	    Attribute    |         Type          | Modifier | Default Value
+	-----------------+-----------------------+----------+---------------
+	 L_ORDERKEY      | INTEGER               | NOT NULL |
+	 L_PARTKEY       | INTEGER               | NOT NULL |
+	 L_SUPPKEY       | INTEGER               | NOT NULL |
+	 L_LINENUMBER    | INTEGER               | NOT NULL |
+	 L_QUANTITY      | NUMERIC(15,2)         | NOT NULL |
+	 L_EXTENDEDPRICE | NUMERIC(15,2)         | NOT NULL |
+	 L_DISCOUNT      | NUMERIC(15,2)         | NOT NULL |
+	 L_TAX           | NUMERIC(15,2)         | NOT NULL |
+	 L_RETURNFLAG    | CHARACTER(1)          | NOT NULL |
+	 L_LINESTATUS    | CHARACTER(1)          | NOT NULL |
+	 L_SHIPDATE      | DATE                  | NOT NULL |
+	 L_COMMITDATE    | DATE                  | NOT NULL |
+	 L_RECEIPTDATE   | DATE                  | NOT NULL |
+	 L_SHIPINSTRUCT  | CHARACTER(25)         | NOT NULL |
+	 L_SHIPMODE      | CHARACTER(10)         | NOT NULL |
+	 L_COMMENT       | CHARACTER VARYING(44) | NOT NULL |
+	Distributed on hash: "L_LINESTATUS"
+	```
 
 We can see that the `LINEITEM` table has 16 columns with different data
 types. Some of the columns have a "key" suffix and substrings
 containing the names of other tables and are most likely foreign keys
 of dimension tables. The distribution key is `L_LINESTATUS`, which is of
-a CHAR(1) data type.
+a `CHAR(1)` data type.
 
 6.  Now let's have a look at the data in the table. To return a limited
     number of rows you can use the limit keyword in your select queries.
@@ -310,28 +328,30 @@ a CHAR(1) data type.
     including the order key (`L_ORDERKEY`), the ship date (`L_SHIPDATE`)
     and the line status (`L_LINESTATUS`) distribution key:
 
-!!! abstract "Input"
-    ```bash
+=== "Input"
+
+    ```
     SELECT L_ORDERKEY, L_QUANTITY, L_SHIPDATE, L_LINESTATUS FROM LINEITEM LIMIT 10;
     ```
 
-!!! abstract "Output"
-    ```bash
-    L_ORDERKEY | L_QUANTITY | L_SHIPDATE | L_LINESTATUS
-    ------------+------------+------------+--------------
-              3 |      45.00 | 1994-02-02 | F
-              3 |      49.00 | 1993-11-09 | F
-              3 |      27.00 | 1994-01-16 | F
-              3 |       2.00 | 1993-12-04 | F
-              3 |      28.00 | 1993-12-14 | F
-              3 |      26.00 | 1993-10-29 | F
-              5 |      15.00 | 1994-10-31 | F
-              5 |      26.00 | 1994-10-16 | F
-              5 |      50.00 | 1994-08-08 | F
-              6 |      37.00 | 1992-04-27 | F
-    (10 rows)
-    ```
+=== "Output"
 
+	```
+	 L_ORDERKEY | L_QUANTITY | L_SHIPDATE | L_LINESTATUS
+	------------+------------+------------+--------------
+	          3 |      45.00 | 1994-02-02 | F
+	          3 |      49.00 | 1993-11-09 | F
+	          3 |      27.00 | 1994-01-16 | F
+	          3 |       2.00 | 1993-12-04 | F
+	          3 |      28.00 | 1993-12-14 | F
+	          3 |      26.00 | 1993-10-29 | F
+	          5 |      15.00 | 1994-10-31 | F
+	          5 |      26.00 | 1994-10-16 | F
+	          5 |      50.00 | 1994-08-08 | F
+	          6 |      37.00 | 1992-04-27 | F
+	(10 rows)
+	```
+	
 From this limited sample we cannot make any definite judgement, but we
 can make a couple of assumptions. While the `L_ORDERKEY` column is not
 unique, it seems to have a lot of distinct values. The `L_SHIPDATE`
@@ -347,20 +367,21 @@ F values may be in the `L_LINESTATUS` column.
     distinct values that are in the `L_LINESTATUS` column execute the
     following SQL command:
 
-!!! abstract "Input"
-    ```bash
+=== "Input"
+
+    ```
     SELECT DISTINCT L_LINESTATUS FROM LINEITEM;
     ```
 
-!!! abstract "Output"
-    ```bash
-    L_LINESTATUS
-    --------------
-     O
-     F
-    (2 rows)
+=== "Output"
 
-    ```
+	```
+	L_LINESTATUS
+	--------------
+	 O
+	 F
+	(2 rows)
+	```
 
 We can see that the `L_LINESTATUS` column only contains two distinct
 values. As a distribution key, this will result in a table that is
@@ -370,21 +391,21 @@ only distributed to two of the available data slices.
     return a list of all data slices which contain rows of the `LINEITEM`
     table, and the corresponding number of rows stored in them:
 
-!!! abstract "Input"
-    ```bash
-    SELECT DATASLICEID, COUNT(*) FROM LINEITEM
-    GROUP BY DATASLICEID;
+=== "Input"
+
+    ```
+    SELECT DATASLICEID, COUNT(*) FROM LINEITEM GROUP BY DATASLICEID;
     ```
 
-!!! abstract "Output"
-    ```bash
-    DATASLICEID |  COUNT
-    -------------+---------
-               4 | 2996217
-               1 | 3004998
-    (2 rows)
-    ```
+=== "Output"
 
+	```
+	 DATASLICEID |  COUNT
+	-------------+---------
+	           4 | 2996217
+	           1 | 3004998
+	(2 rows)
+	```
 
 Every Netezza Performance Server table has a hidden column
 `DATASLICEID`, which contains the id of the data slice the selected row
@@ -400,7 +421,7 @@ values, with an even distribution of rows in the data slices. Columns
 with few unique values, especially boolean columns or date columns,
 should not be considered as distribution keys.
 
-## Processing Skew
+### 4.2 Processing Skew
 
 Even in tables that are distributed evenly across data slices, data
 processing for queries can be concentrated or skewed to a limited number
@@ -416,26 +437,28 @@ should be avoided. The next section of the lab will show this effect.
     of distinct values in the `L_SHIPDATE` column with the `COUNT(DISTINCT
     )` statement:
 
-!!! abstract "Input"
-    ```bash
+=== "Input"
+
+    ```
     SELECT COUNT(DISTINCT L_SHIPDATE) FROM LINEITEM;
     ```
 
-!!! abstract "Output"
-    ```bash
-    COUNT
-    -------
-      2526
-    (1 row)
-    ```
+=== "Output"
 
+	```
+	COUNT
+	-------
+	  2526
+	(1 row)
+	```
+	
 The column has over 2500 distinct values and therefore has more than
 enough unique values to guarantee a good data distribution on 4 data
 slices.
 
 2.  Now let's reload the `LINEITEM` table with the new distribution key.
     For this we need to change the SQL of the load script we executed at
-    the beginning of the lab. Exit the nzsql console by entering:
+    the beginning of the lab. Exit the `nzsql` console by entering:
     `\q`.
 
 3.  You should now be in the lab directory `~/labs/dataDistribution`. The
@@ -444,8 +467,9 @@ slices.
     the default Linux text editor vi. To do this enter the following
     command:
 
-!!! abstract ""
-    ```bash
+=== "Input"
+
+    ```
     vi lineitem.sql
     ```
 
@@ -454,22 +478,22 @@ slices.
     command mode. To change the lineitem.sql file you need to switch to
     the insert mode by pressing "i". The editor will show an `-- INSERT
     --` at the bottom of the screen. Use the delete key to remove
-    **l_linestatus** and type **l_shipdate**.
+    `l_linestatus` and type `l_shipdate`.
 
-**Note:** if you are comfortable with vi you can used `gedit` from the
-virtual machine desktop.
+!!! note
+	If you are not comfortable with vi you can used `gedit` from the virtual machine desktop.
 
-!!! abstract ""
-    ```bash
+=== "Input"
+    ```
     gedit lineitem.sql
     ```
 
-5.  You can now use the cursor keys to navigate to the DISTRIBUTE ON
+5.  You can now use the cursor keys to navigate to the `DISTRIBUTE ON`
     clause at the bottom of the create command. Change the distribution
-    key to "L_SHIPDATE". The editor should now look like the following:
+    key to `L_SHIPDATE`. The editor should now look like the following:
 
 !!! abstract ""
-    ```bash
+    ```
     create table lineitem
       (
         l_orderkey integer not null ,
@@ -495,12 +519,11 @@ virtual machine desktop.
     -- INSERT --   
     ```
 
-
-6.  We will now save our changes. Press "Esc" to switch back
+6.  We will now save our changes. Press `Esc` to switch back
     into command mode. You should see that the `---INSERT---` string at
     the bottom of the screen vanishes. Enter `:wq!` and press
-    enter to write the file, and quit the editor without any questions.
-    If you made a mistake editing and would like to undo it press "Esc"
+    enter to write the file and quit the editor without any questions.
+    If you made a mistake editing and would like to undo it press `Esc`
     then enter `:q!` and go back to step 3.
 
 7.  Now repeat steps 3-5 of section 2.1 Data Skew:
@@ -521,22 +544,24 @@ virtual machine desktop.
     number of rows for each datasliceid of the `LINEITEM` table. Execute
     the following command:
 
-!!! abstract "Input"
-    ```bash
+=== "Input"
+
+    ```
     SELECT DATASLICEID, COUNT(*) FROM LINEITEM GROUP BY DATASLICEID ORDER BY 1;
     ```
 
-!!! abstract "Output"
-    ```bash
-    DATASLICEID |  COUNT
-    -------------+---------
-               1 | 1499990
-               2 | 1497649
-               3 | 1501760
-               4 | 1501816
-    (4 rows)
-    ```
+=== "Output"
 
+	```
+	DATASLICEID |  COUNT
+	-------------+---------
+	           1 | 1499990
+	           2 | 1497649
+	           3 | 1501760
+	           4 | 1501816
+	(4 rows)
+	```
+	
 We can see that the data distribution is much better now. All four
 data slices have a roughly equal number of rows.
 
@@ -546,27 +571,30 @@ data slices have a roughly equal number of rows.
     on a given day grouped by the shipping mode. Execute the following
     query:
 
-!!! abstract "Input"
-    ```bash
+=== "Input"
+
+    ```
     SELECT AVG(L_QUANTITY) AS AVG_Q, L_SHIPMODE 
-    FROM LINEITEM WHERE L_SHIPDATE = '1996-03-29' 
+    FROM LINEITEM 
+    WHERE L_SHIPDATE = '1996-03-29' 
     GROUP BY L_SHIPMODE;
     ```
 
-!!! abstract "Output"
-    ```bash
-       AVG_Q   | L_SHIPMODE
-    -----------+------------
-     26.045455 | MAIL
-     24.494186 | REG AIR
-     25.562500 | SHIP
-     24.780282 | RAIL
-     27.147826 | TRUCK
-     25.708556 | AIR
-     26.038567 | FOB
-    (7 rows)
-    ```
+=== "Output"
 
+	```
+	   AVG_Q   | L_SHIPMODE
+	-----------+------------
+	 26.045455 | MAIL
+	 24.494186 | REG AIR
+	 25.562500 | SHIP
+	 24.780282 | RAIL
+	 27.147826 | TRUCK
+	 25.708556 | AIR
+	 26.038567 | FOB
+	(7 rows)
+	```
+	
 This query will take all rows from the 29th March of 1996 and compute
 the average value of the `L_QUANTITY` column for each `L_SHIPMODE` value. It
 is a typical warehousing query insofar as a date column is used to
@@ -579,21 +607,23 @@ computation of the AVG aggregation.
 Execute the following SQL statement to see on which data slice we can
 find the rows from the 29th March of 1996:
 
-!!! abstract "Input"
-    ```bash
+=== "Input"
+
+    ```
     SELECT COUNT(\*), DATASLICEID 
     FROM LINEITEM
     WHERE L_SHIPDATE = '1996-03-29' 
     GROUP BY DATASLICEID;
     ```
 
-!!! abstract "Output"
-    ```bash
-    COUNT | DATASLICEID
-    -------+-------------
-      2501 |           2
-    (1 row)
-    ```
+=== "Output"
+
+	```
+	 COUNT | DATASLICEID
+	-------+-------------
+	  2501 |           2
+	(1 row)
+	```
 
 Since we used the shipping date column as a distribution key, all rows
 from a specific date can be found on one data slice and therefore also
@@ -602,7 +632,7 @@ slices are unused and the computation takes place only on one data
 slice and SPU. This is known as processing skew. While this one SPU is
 working the other SPUs will be idle.
 
-Columns that are often used in WHERE conditions should not be used as
+Columns that are often used in `WHERE` conditions should not be used as
 distribution keys, since this can easily result in processing skew. In
 warehousing environments this is especially true for DATE columns.
 
@@ -611,7 +641,7 @@ unique values and rarely result in processing skew. In our example we
 have a couple of distribution keys to choose from: `L_SUPPKEY`,
 `L_ORDERKEY`, `L_PARTKEY`. All columns have many distinct values.
 
-## Co-Location
+## 5 Co-Location
 
 The most basic warehouse schema consists of a fact table containing a
 list of all business transactions and a set of dimension tables that
@@ -632,57 +662,61 @@ of two tables there are two possibilities.
     data slices, which means that rows need to be redistributed (moved)
     so that rows being joined are on the same data slice.
 
-### Investigation
+### 5.1 Investigation
 
 Co-location has big performance advantages. In the following section we
 will demonstrate this by introducing a second table called ORDERS.
 
 1.  Switch to the Linux command line, if you are in the NZSQL console.
-    Do this with the [\\q command.
+    Do this with the `\q` command.
 
-2.  Switch to the data distribution lab directory with the [cd
-    ~/labs/dataDistribution. command, create and load the
-    ORDERS table by executing the ./create_orders_1.sh script
+2.  Switch to the data distribution lab directory with the `cd
+    ~/labs/dataDistribution`. command, create and load the
+    ORDERS table by executing the `./create_orders_1.sh` script
 
-!!! abstract "Input"
-    ```bash
+=== "Input"
+
+    ```
     cd ~/labs/dataDistribution/
     ./create_orders_1.sh
     ```
 
-!!! abstract "Output"
-    ```bash
-    ERROR:  relation does not exist LABDB.ADMIN.ORDERS
-    CREATE TABLE
-    Load session of table 'ORDERS' completed successfully
+=== "Output"
+
+	```
+	ERROR:  relation does not exist LABDB.ADMIN.ORDERS
+	CREATE TABLE
+	Load session of table 'ORDERS' completed successfully
+	```
+
+3.  Enter the NZSQL console with the `nzsql labdb labadmin`
+    command and take a look at the `ORDERS` table with the `\d
+    orders` command.
+
+=== "Input"
+
     ```
-
-3.  Enter the NZSQL console with the [nzsql labdb labadmin
-    command and take a look at the ORDERS table with the [\\d
-    orders command.
-
-!!! abstract "Input"
-    ```bash
     nzsql labdb
     LABDB.ADMIN(LABADMIN)=> \d orders
     ```
 
-!!! abstract "Output"
-    ```bash
-                               Table "ORDERS"
-        Attribute    |         Type          | Modifier | Default Value
-    -----------------+-----------------------+----------+---------------
-     O_ORDERKEY      | INTEGER               | NOT NULL |
-     O_CUSTKEY       | INTEGER               | NOT NULL |
-     O_ORDERSTATUS   | CHARACTER(1)          | NOT NULL |
-     O_TOTALPRICE    | NUMERIC(15,2)         | NOT NULL |
-     O_ORDERDATE     | DATE                  | NOT NULL |
-     O_ORDERPRIORITY | CHARACTER(15)         | NOT NULL |
-     O_CLERK         | CHARACTER(15)         | NOT NULL |
-     O_SHIPPRIORITY  | INTEGER               | NOT NULL |
-     O_COMMENT       | CHARACTER VARYING(79) | NOT NULL |
-    Distributed on random: (round-robin)
-    ```
+=== "Output"
+
+	```
+	                           Table "ORDERS"
+	    Attribute    |         Type          | Modifier | Default Value
+	-----------------+-----------------------+----------+---------------
+	 O_ORDERKEY      | INTEGER               | NOT NULL |
+	 O_CUSTKEY       | INTEGER               | NOT NULL |
+	 O_ORDERSTATUS   | CHARACTER(1)          | NOT NULL |
+	 O_TOTALPRICE    | NUMERIC(15,2)         | NOT NULL |
+	 O_ORDERDATE     | DATE                  | NOT NULL |
+	 O_ORDERPRIORITY | CHARACTER(15)         | NOT NULL |
+	 O_CLERK         | CHARACTER(15)         | NOT NULL |
+	 O_SHIPPRIORITY  | INTEGER               | NOT NULL |
+	 O_COMMENT       | CHARACTER VARYING(79) | NOT NULL |
+	Distributed on random: (round-robin)
+	```
 
 The `ORDERS` table has a key column `O_ORDERKEY` that is the primary key of
 the table. The `ORDERS` table contains information on the order value,
@@ -695,25 +729,26 @@ available data slices in a round-robin fashion.
     we have used before for the LINEITEM table. The data distribution
     will be perfect. For example, try the following:
 
-!!! abstract "Input"
-    ```bash
+=== "Input"
+
+    ```
     SELECT COUNT(*), DATASLICEID 
     FROM ORDERS
     GROUP BY DATASLICEID 
     ORDER BY 1;
     ```
 
-!!! abstract "Output"
-    ```bash
-    COUNT  | DATASLICEID
-    --------+-------------
-     374393 |           3
-     374518 |           1
-     375517 |           2
-     375572 |           4
-    (4 rows)
-    ```
+=== "Output"
 
+	```
+	COUNT  | DATASLICEID
+	--------+-------------
+	 374393 |           3
+	 374518 |           1
+	 375517 |           2
+	 375572 |           4
+	(4 rows)
+	```
 
 There will also not be any processing skew for queries on the single
 table, since in a random distribution there can be no correlation
@@ -727,8 +762,9 @@ between any WHERE condition and the distribution key.
     tables are joined with an inner join on the `L_ORDERKEY` column.
     Execute the following query and note the approximate execution time:
 
-!!! abstract "Input"
-    ```bash
+=== "Input"
+
+    ```
     \time
     SELECT AVG(O.O_TOTALPRICE) AS PRICE,
            AVG(L.L_QUANTITY) AS QUANTITY, 
@@ -738,20 +774,19 @@ between any WHERE condition and the distribution key.
     GROUP BY O_ORDERPRIORITY;
     ```
 
-!!! abstract "Output"
-    ```bash
-         PRICE     | QUANTITY  | O_ORDERPRIORITY
-    ---------------+-----------+-----------------
-     189219.594349 | 25.532474 | 5-LOW
-     189285.029553 | 25.526186 | 2-HIGH
-     188546.457203 | 25.472923 | 4-NOT SPECIFIED
-     189026.093657 | 25.494518 | 3-MEDIUM
-     189093.608965 | 25.513563 | 1-URGENT
-    (5 rows)
+=== "Output"
 
-    Elapsed time: 0m4.293s
-    ```
-
+	```
+	     PRICE     | QUANTITY  | O_ORDERPRIORITY
+	---------------+-----------+-----------------
+	 189219.594349 | 25.532474 | 5-LOW
+	 189285.029553 | 25.526186 | 2-HIGH
+	 188546.457203 | 25.472923 | 4-NOT SPECIFIED
+	 189026.093657 | 25.494518 | 3-MEDIUM
+	 189093.608965 | 25.513563 | 1-URGENT
+	(5 rows)
+	Elapsed time: 0m4.293s
+	```
 
 Notice that the query takes about 4 seconds to complete on our
 machine. The actual execution times on your machine will be different.
@@ -767,8 +802,9 @@ machine. The actual execution times on your machine will be different.
 
 Execute the following command:
  
-!!! abstract "Input"
-    ```bash
+=== "Input"
+
+    ```
     EXPLAIN VERBOSE 
     SELECT AVG(O.O_TOTALPRICE) AS PRICE,
            AVG(L.L_QUANTITY) AS QUANTITY, 
@@ -782,37 +818,38 @@ You will get a long output. Scroll up until you see your command in the
 text window. The start of the EXPLAIN output should look like the
 following:
  
-!!! abstract "Output"
-    ```bash
-    EXPLAIN VERBOSE SELECT AVG(O.O_TOTALPRICE) AS PRICE, AVG(L.L_QUANTITY) AS   QUANTITY, O_ORDERPRIORITY FROM ORDERS AS O, LINEITEM AS L WHERE L.L_ORDERKEY=O.   O_ORDERKEY GROUP BY O_ORDERPRIORITY;
+=== "Output"
 
-    QUERY VERBOSE PLAN:
-
-    Node 1.
-      [SPU Sequential Scan table "ORDERS" as "O" {}]
-          -- Estimated Rows = 1500000, Width = 27, Cost = 0.0 .. 1653.2, Conf = 100.    0
-          Projections:
-            1:O.O_TOTALPRICE  2:O.O_ORDERPRIORITY  3:O.O_ORDERKEY
-      [SPU Distribute on {(O.O_ORDERKEY)}]
-      [HashIt for Join]
-    Node 2.
-      [SPU Sequential Scan table "LINEITEM" as "L" {(L.L_SHIPDATE)}]
-          -- Estimated Rows = 6001215, Width = 12, Cost = 0.0 .. 6907.1, Conf = 100.    0
-          Projections:
-            1:L.L_QUANTITY  2:L.L_ORDERKEY
-      [SPU Distribute on {(L.L_ORDERKEY)}]
-    Node 3.
-      [SPU Hash Join Stream "Node 2" with Temp "Node 1" {(O.O_ORDERKEY,L.   L_ORDERKEY)}]
-          -- Estimated Rows = 90018225000, Width = 31, Cost = 1653.2 .. 928769.9,   Conf = 80.0
-          Restrictions:
-            (L.L_ORDERKEY = O.O_ORDERKEY)
-          Projections:
-            1:O.O_TOTALPRICE  2:L.L_QUANTITY  3:O.O_ORDERPRIORITY
-      [SPU Fabric Join]
-
-    ...<Rest of EXPLAIN Plan>...
-    ```
-
+	```
+	EXPLAIN VERBOSE SELECT AVG(O.O_TOTALPRICE) AS PRICE, AVG(L.L_QUANTITY) AS QUANTITY, O_ORDERPRIORITY FROM ORDERS AS O, LINEITEM AS L WHERE L.L_ORDERKEY=O.O_ORDERKEY GROUP BY O_ORDERPRIORITY;
+	
+	QUERY VERBOSE PLAN:
+	
+	Node 1.
+	  [SPU Sequential Scan table "ORDERS" as "O" {}]
+	      -- Estimated Rows = 1500000, Width = 27, Cost = 0.0 .. 1653.2, Conf = 100.0
+	      Projections:
+	        1:O.O_TOTALPRICE  2:O.O_ORDERPRIORITY  3:O.O_ORDERKEY
+	  [SPU Distribute on {(O.O_ORDERKEY)}]
+	  [HashIt for Join]
+	Node 2.
+	  [SPU Sequential Scan table "LINEITEM" as "L" {(L.L_SHIPDATE)}]
+	      -- Estimated Rows = 6001215, Width = 12, Cost = 0.0 .. 6907.1, Conf = 100.0
+	      Projections:
+	        1:L.L_QUANTITY  2:L.L_ORDERKEY
+	  [SPU Distribute on {(L.L_ORDERKEY)}]
+	Node 3.
+	  [SPU Hash Join Stream "Node 2" with Temp "Node 1" {(O.O_ORDERKEY,L.L_ORDERKEY)}]
+	      -- Estimated Rows = 90018225000, Width = 31, Cost = 1653.2 .. 928769.9, Conf = 80.0
+	      Restrictions:
+	        (L.L_ORDERKEY = O.O_ORDERKEY)
+	      Projections:
+	        1:O.O_TOTALPRICE  2:L.L_QUANTITY  3:O.O_ORDERPRIORITY
+	  [SPU Fabric Join]
+	
+	..<Rest of EXPLAIN Plan>..
+	
+	```
 
 The EXPLAIN functionality will be covered in detail in a following
 chapter, but it is easy to see what is happening here. What's happening
@@ -822,7 +859,7 @@ tables are of significant size so there is a considerable overhead. This
 inefficient double redistribution occurs because neither of the tables
 are distributed on the join key. In the next section we will fix this.
 
-### Co-Located Joins
+### 5.2 Co-Located Joins
 
 In the last section we have seen that a query using joins can result in
 costly data redistribution during join execution when the joined tables
@@ -852,7 +889,7 @@ tables based on the mutual join key to enhance performance during joins.
         following:
 
 !!! abstract ""
-    ```bash
+    ```
     create table lineitem
       (
         l_orderkey integer not null ,
@@ -892,7 +929,7 @@ tables based on the mutual join key to enhance performance during joins.
         the following:
 
 !!! abstract ""
-    ```bash
+    ```
     create table orders
       (
         o_orderkey integer not null ,
@@ -911,96 +948,105 @@ tables based on the mutual join key to enhance performance during joins.
 5.  Recreate and load the `LINEITEM` table with the distribution key
     `L_ORDERKEY` by executing the `./create_lineitem_1.sh` script.
 
-!!! abstract "Input"
-    ```bash
+=== "Input"
+
+    ```
     cd ~/labs/dataDistribution/
     ./create_lineitem_1.sh
     ```
 
-!!! abstract "Output"
-    ```bash
-    DROP TABLE
-    CREATE TABLE
-    Load session of table 'LINEITEM' completed successfully
-    ```
+=== "Output"
+
+	```
+	DROP TABLE
+	CREATE TABLE
+	Load session of table 'LINEITEM' completed successfully
+	```
 
 6.  Recreate and load the `ORDERS` table with the distribution key
     `O_ORDERKEY` by executing the `./create_orders_1.sh` script.
 
-!!! abstract "Input"
-    ```bash
+=== "Input"
+
+    ```
     ./create_orders_1.sh
     ```
 
-!!! abstract "Output"
-    ```bash
-    DROP TABLE
-    CREATE TABLE
-    Load session of table 'ORDERS' completed successfully
-    ```
+=== "Output"
+
+	```
+	DROP TABLE
+	CREATE TABLE
+	Load session of table 'ORDERS' completed successfully
+	```
 
 7.  Enter the NZSQL console by executing the `nzsql labdb
     labadmin` command and check the distribution key using the
     `\d lineitem` and `\d orders` commands.
 
-!!! abstract "Input"
-    ```bash
+=== "Input"
+
+    ```
     nzsql labdb labadmin
     \d lineitem
     ```
 
-!!! abstract "Output"
-    ```bash
-                              Table "LINEITEM"
-        Attribute    |         Type          | Modifier | Default Value
-    -----------------+-----------------------+----------+---------------
-     L_ORDERKEY      | INTEGER               | NOT NULL |
-     L_PARTKEY       | INTEGER               | NOT NULL |
-     L_SUPPKEY       | INTEGER               | NOT NULL |
-     L_LINENUMBER    | INTEGER               | NOT NULL |
-     L_QUANTITY      | NUMERIC(15,2)         | NOT NULL |
-     L_EXTENDEDPRICE | NUMERIC(15,2)         | NOT NULL |
-     L_DISCOUNT      | NUMERIC(15,2)         | NOT NULL |
-     L_TAX           | NUMERIC(15,2)         | NOT NULL |
-     L_RETURNFLAG    | CHARACTER(1)          | NOT NULL |
-     L_LINESTATUS    | CHARACTER(1)          | NOT NULL |
-     L_SHIPDATE      | DATE                  | NOT NULL |
-     L_COMMITDATE    | DATE                  | NOT NULL |
-     L_RECEIPTDATE   | DATE                  | NOT NULL |
-     L_SHIPINSTRUCT  | CHARACTER(25)         | NOT NULL |
-     L_SHIPMODE      | CHARACTER(10)         | NOT NULL |
-     L_COMMENT       | CHARACTER VARYING(44) | NOT NULL |
-    Distributed on hash: "L_ORDERKEY"
-    ```
+=== "Output"
 
-!!! abstract "Input"
-    ```bash
+	```
+	                          Table "LINEITEM"
+	    Attribute    |         Type          | Modifier | Default Value
+	-----------------+-----------------------+----------+---------------
+	 L_ORDERKEY      | INTEGER               | NOT NULL |
+	 L_PARTKEY       | INTEGER               | NOT NULL |
+	 L_SUPPKEY       | INTEGER               | NOT NULL |
+	 L_LINENUMBER    | INTEGER               | NOT NULL |
+	 L_QUANTITY      | NUMERIC(15,2)         | NOT NULL |
+	 L_EXTENDEDPRICE | NUMERIC(15,2)         | NOT NULL |
+	 L_DISCOUNT      | NUMERIC(15,2)         | NOT NULL |
+	 L_TAX           | NUMERIC(15,2)         | NOT NULL |
+	 L_RETURNFLAG    | CHARACTER(1)          | NOT NULL |
+	 L_LINESTATUS    | CHARACTER(1)          | NOT NULL |
+	 L_SHIPDATE      | DATE                  | NOT NULL |
+	 L_COMMITDATE    | DATE                  | NOT NULL |
+	 L_RECEIPTDATE   | DATE                  | NOT NULL |
+	 L_SHIPINSTRUCT  | CHARACTER(25)         | NOT NULL |
+	 L_SHIPMODE      | CHARACTER(10)         | NOT NULL |
+	 L_COMMENT       | CHARACTER VARYING(44) | NOT NULL |
+	Distributed on hash: "L_ORDERKEY"
+	```
+
+=== "Input"
+
+    ```
     nzsql labdb labadmin
     \d orders
     ```
 
-!!! abstract "Output"
-    ```bash
-    Table "ORDERS"
-        Attribute    |         Type          | Modifier | Default Value
-    -----------------+-----------------------+----------+---------------
-     O_ORDERKEY      | INTEGER               | NOT NULL |
-     O_CUSTKEY       | INTEGER               | NOT NULL |
-     O_ORDERSTATUS   | CHARACTER(1)          | NOT NULL |
-     O_TOTALPRICE    | NUMERIC(15,2)         | NOT NULL |
-     O_ORDERDATE     | DATE                  | NOT NULL |
-     O_ORDERPRIORITY | CHARACTER(15)         | NOT NULL |
-     O_CLERK         | CHARACTER(15)         | NOT NULL |
-     O_SHIPPRIORITY  | INTEGER               | NOT NULL |
-     O_COMMENT       | CHARACTER VARYING(79) | NOT NULL |
-    Distributed on hash: “O_ORDERKEY”
-    ```
+=== "Output"
+
+	```
+	Table "ORDERS"
+	    Attribute    |         Type          | Modifier | Default Value
+	-----------------+-----------------------+----------+---------------
+	 O_ORDERKEY      | INTEGER               | NOT NULL |
+	 O_CUSTKEY       | INTEGER               | NOT NULL |
+	 O_ORDERSTATUS   | CHARACTER(1)          | NOT NULL |
+	 O_TOTALPRICE    | NUMERIC(15,2)         | NOT NULL |
+	 O_ORDERDATE     | DATE                  | NOT NULL |
+	 O_ORDERPRIORITY | CHARACTER(15)         | NOT NULL |
+	 O_CLERK         | CHARACTER(15)         | NOT NULL |
+	 O_SHIPPRIORITY  | INTEGER               | NOT NULL |
+	 O_COMMENT       | CHARACTER VARYING(79) | NOT NULL |
+	Distributed on hash: “O_ORDERKEY”
+	```
 
 8.  Repeat executing the explain of our join query from the previous
     section by executing the following command:
 
-!!! abstract "Input"
-    ```bash
+=== "Input"
+
+    ```
     EXPLAIN VERBOSE 
     SELECT AVG(O.O_TOTALPRICE) AS PRICE, AVG(L.L_QUANTITY) AS QUANTITY,O_ORDERPRIORITY 
     FROM ORDERS AS O, LINEITEM AS L 
@@ -1008,33 +1054,34 @@ tables based on the mutual join key to enhance performance during joins.
     GROUP BY O_ORDERPRIORITY;
     ```
 
-!!! abstract "Output"
-    ```bash
-    EXPLAIN VERBOSE SELECT AVG(O.O_TOTALPRICE) AS PRICE, AVG(L.L_QUANTITY) AS   QUANTITY, O_ORDERPRIORITY FROM ORDERS AS O, LINEITEM AS L WHERE L.L_ORDERKEY=O.   O_ORDERKEY GROUP BY O_ORDERPRIORITY;
+=== "Output"
 
-    QUERY VERBOSE PLAN:
-
-    Node 1.
-      [SPU Sequential Scan table "ORDERS" as "O" {(O.O_ORDERKEY)}]
-          -- Estimated Rows = 1500000, Width = 27, Cost = 0.0 .. 1653.2, Conf = 100.    0
-          Projections:
-            1:O.O_TOTALPRICE  2:O.O_ORDERPRIORITY  3:O.O_ORDERKEY
-      [HashIt for Join]
-    Node 2.
-      [SPU Sequential Scan table "LINEITEM" as "L" {(L.L_ORDERKEY)}]
-          -- Estimated Rows = 6001215, Width = 12, Cost = 0.0 .. 6907.1, Conf = 100.    0
-          Projections:
-            1:L.L_QUANTITY  2:L.L_ORDERKEY
-    Node 3.
-      [SPU Hash Join Stream "Node 2" with Temp "Node 1" {(O.O_ORDERKEY,L.   L_ORDERKEY)}]
-          -- Estimated Rows = 90018225000, Width = 31, Cost = 1653.2 .. 892653.2,   Conf = 80.0
-          Restrictions:
-            (L.L_ORDERKEY = O.O_ORDERKEY)
-          Projections:
-            1:O.O_TOTALPRICE  2:L.L_QUANTITY  3:O.O_ORDERPRIORITY
-
-    ..<Rest of EXPLAIN Plan>..
-    ```
+	```
+	EXPLAIN VERBOSE SELECT AVG(O.O_TOTALPRICE) AS PRICE, AVG(L.L_QUANTITY) AS QUANTITY, O_ORDERPRIORITY FROM ORDERS AS O, LINEITEM AS L WHERE L.L_ORDERKEY=O.O_ORDERKEY GROUP BY O_ORDERPRIORITY;
+	
+	QUERY VERBOSE PLAN:
+	
+	Node 1.
+	  [SPU Sequential Scan table "ORDERS" as "O" {(O.O_ORDERKEY)}]
+	      -- Estimated Rows = 1500000, Width = 27, Cost = 0.0 .. 1653.2, Conf = 100.0
+	      Projections:
+	        1:O.O_TOTALPRICE  2:O.O_ORDERPRIORITY  3:O.O_ORDERKEY
+	  [HashIt for Join]
+	Node 2.
+	  [SPU Sequential Scan table "LINEITEM" as "L" {(L.L_ORDERKEY)}]
+	      -- Estimated Rows = 6001215, Width = 12, Cost = 0.0 .. 6907.1, Conf = 100.0
+	      Projections:
+	        1:L.L_QUANTITY  2:L.L_ORDERKEY
+	Node 3.
+	  [SPU Hash Join Stream "Node 2" with Temp "Node 1" {(O.O_ORDERKEY,L.L_ORDERKEY)}]
+	      -- Estimated Rows = 90018225000, Width = 31, Cost = 1653.2 .. 892653.2, Conf = 80.0
+	      Restrictions:
+	        (L.L_ORDERKEY = O.O_ORDERKEY)
+	      Projections:
+	        1:O.O_TOTALPRICE  2:L.L_QUANTITY  3:O.O_ORDERPRIORITY
+	
+	..<Rest of EXPLAIN Plan>..
+	```
 
 The query itself has not been changed. The only changes are in the
 distribution keys of the involved tables. You will again see a long
@@ -1055,8 +1102,9 @@ hundred rows which has no negative performance influence.
 
 9.  Finally execute the joined query again:
 
-!!! abstract "Input"
-    ```bash
+=== "Input"
+
+    ```
     \time
     SELECT AVG(O.O_TOTALPRICE) AS PRICE, AVG(L.L_QUANTITY) AS QUANTITY,O_ORDERPRIORITY 
     FROM ORDERS AS O, LINEITEM AS L 
@@ -1064,20 +1112,20 @@ hundred rows which has no negative performance influence.
     GROUP BY O_ORDERPRIORITY;
     ```
 
-!!! abstract "Output"
-    ```bash
-         PRICE     | QUANTITY  | O_ORDERPRIORITY
-    ---------------+-----------+-----------------
-     189219.594349 | 25.532474 | 5-LOW
-     189285.029553 | 25.526186 | 2-HIGH
-     189093.608965 | 25.513563 | 1-URGENT
-     189026.093657 | 25.494518 | 3-MEDIUM
-     188546.457203 | 25.472923 | 4-NOT SPECIFIED
-    (5 rows)
+=== "Output"
 
-    Elapsed time: 0m1.051s
-    ```
-
+	```
+	     PRICE     | QUANTITY  | O_ORDERPRIORITY
+	---------------+-----------+-----------------
+	 189219.594349 | 25.532474 | 5-LOW
+	 189285.029553 | 25.526186 | 2-HIGH
+	 189093.608965 | 25.513563 | 1-URGENT
+	 189026.093657 | 25.494518 | 3-MEDIUM
+	 188546.457203 | 25.472923 | 4-NOT SPECIFIED
+	(5 rows)
+	Elapsed time: 0m1.051s
+	```
+	
 The query should return the same results as in the previous section
 but run faster even in the VM environment. In a real Netezza
 Performance Server with 8, 16 or more SPUs the difference would be
@@ -1099,12 +1147,12 @@ c.  Since `ORDERS` is a parent table of `LINEITEM`, with a foreign key
 
 Now we will pick the distribution keys of the full schema.
 
-## Schema Creation
+## 6 Schema Creation
 
 Now that we have created the `ORDERS` and `LINEITEM` tables we need to pick
 the distribution keys for the remaining tables as well.
 
-### Investigation
+### 6.1 Investigation
 
 ![A close up of a map Description automatically
 generated](./nz-images/nz-03-Data-Distribution/media/image5.png)
@@ -1146,7 +1194,7 @@ And on the involved relationships:
 
 Given all that you heard in the presentation and lab, try to fill in the
 distribution keys in the chart below. Let's assume that we will not
-change the distribution keys for LINEITEM and ORDERS anymore.
+change the distribution keys for `LINEITEM` and `ORDERS` anymore.
 
  | **Table**                        | **Distribution Key (up to 4 columns) or Random** |
  |----------------------------------|------------------------------------|
@@ -1159,7 +1207,7 @@ change the distribution keys for LINEITEM and ORDERS anymore.
  | ORDERS                           | O_ORDERKEY                       |
  | LINEITEM                         | L_ORDERKEY                       |
 
-### Solution
+### 6.2 Solution
 
 It is important to note that there is no optimal way to pick
 distribution keys. It always depends on the queries that run against the
@@ -1187,11 +1235,11 @@ sense to distribute `PART` and `PARTSUPP` on the join key between these two
 tables.
 
 `CUSTOMER` is big as well and has two relationships. The first
-relationship is with the very small NATION table that is easily
+relationship is with the very small `NATION` table that is easily
 broadcasted by the system. The second relationship is with the `ORDERS`
 table which is big as well but already distributed by the order key. But
 as mentioned above a single redistribute is better than a double
-redistribute. Therefore, it makes sense to distribute the CUSTOMER table
+redistribute. Therefore, it makes sense to distribute the `CUSTOMER` table
 on the customer key, which is also the join key of this relationship.
 
 The situation is very similar for the `SUPPLIER` table. It has two very
@@ -1222,8 +1270,9 @@ Finally, we will load the remaining tables.
     recreate the NATION and REGION tables with a new distribution key.
     To drop the old table versions execute the following commands.
 
-!!! abstract "Input"
-    ```bash
+=== "Input"
+
+    ```
     DROP TABLE NATION;
     DROP TABLE REGION;
     ```
@@ -1239,58 +1288,64 @@ Finally, we will load the remaining tables.
 5.  Now create the remaining tables and load the data into it with the
     following script:
 
-!!! abstract "Input"
-    ```bash
+=== "Input"
+
+    ```
     ./create_remaining.sh
     ```
 
-!!! abstract "Output"
-    ```bash
-    ERROR:  relation does not exist LABDB.ADMIN.NATION
-    CREATE TABLE
-    CREATE TABLE
-    CREATE TABLE
-    CREATE TABLE
-    CREATE TABLE
-    CREATE TABLE
-    Load session of table 'NATION' completed successfully
-    Load session of table 'REGION' completed successfully
-    Load session of table 'CUSTOMER' completed successfully
-    Load session of table 'SUPPLIER' completed successfully
-    Load session of table 'PART' completed successfully
-    Load session of table 'PARTSUPP' completed successfully
-    ```
+=== "Output"
 
+	```
+	ERROR:  relation does not exist LABDB.ADMIN.NATION
+	CREATE TABLE
+	CREATE TABLE
+	CREATE TABLE
+	CREATE TABLE
+	CREATE TABLE
+	CREATE TABLE
+	Load session of table 'NATION' completed successfully
+	Load session of table 'REGION' completed successfully
+	Load session of table 'CUSTOMER' completed successfully
+	Load session of table 'SUPPLIER' completed successfully
+	Load session of table 'PART' completed successfully
+	Load session of table 'PARTSUPP' completed successfully
+	```
+	
 The error message at the top is expected since the script tries to
 clean up any old tables of the same name in case a reload is
 necessary. Also note that load logfiles have been created for these
 tables too. (`ls *.nzlog`). Review the load logfiles as time
 and interest permit.
  
-!!! abstract "Input"
-    ```bash
+=== "Input"
+
+    ```
     ls -l *.nzlog
     ```
 
-!!! abstract "Output"
-    ```bash
-    -rw-rw-r--. 1 nz nz 2315 Mar 30 03:55 CUSTOMER.ADMIN.LABDB.4178.nzlog
-    -rw-rw-r--. 1 nz nz 2321 Mar 29 13:51 LINEITEM.ADMIN.LABDB.29339.nzlog
-    -rw-rw-r--. 1 nz nz 2320 Mar 29 14:05 LINEITEM.ADMIN.LABDB.32336.nzlog
-    -rw-rw-r--. 1 nz nz 2320 Mar 30 03:16 LINEITEM.ADMIN.LABDB.370.nzlog
-    -rw-rw-r--. 1 nz nz 2320 Mar 29 15:49 LINEITEM.ADMIN.LABDB.9042.nzlog
-    -rw-rw-r--. 1 nz nz 2209 Mar 30 03:55 NATION.ADMIN.LABDB.4134.nzlog
-    -rw-rw-r--. 1 nz nz 2317 Mar 30 02:58 ORDERS.ADMIN.LABDB.31185.nzlog
-    -rw-rw-r--. 1 nz nz 2317 Mar 30 03:18 ORDERS.ADMIN.LABDB.581.nzlog
-    -rw-rw-r--. 1 nz nz 2306 Mar 30 03:55 PART.ADMIN.LABDB.4227.nzlog
-    -rw-rw-r--. 1 nz nz 2318 Mar 30 03:56 PARTSUPP.ADMIN.LABDB.4254.nzlog
-    -rw-rw-r--. 1 nz nz 2206 Mar 30 03:55 REGION.ADMIN.LABDB.4156.nzlog
-    -rw-rw-r--. 1 nz nz 2223 Mar 30 03:55 SUPPLIER.ADMIN.LABDB.4205.nzlog
-    ```
+=== "Output"
 
+	```
+	-rw-rw-r--. 1 nz nz 2315 Mar 30 03:55 CUSTOMER.ADMIN.LABDB.4178.nzlog
+	-rw-rw-r--. 1 nz nz 2321 Mar 29 13:51 LINEITEM.ADMIN.LABDB.29339.nzlog
+	-rw-rw-r--. 1 nz nz 2320 Mar 29 14:05 LINEITEM.ADMIN.LABDB.32336.nzlog
+	-rw-rw-r--. 1 nz nz 2320 Mar 30 03:16 LINEITEM.ADMIN.LABDB.370.nzlog
+	-rw-rw-r--. 1 nz nz 2320 Mar 29 15:49 LINEITEM.ADMIN.LABDB.9042.nzlog
+	-rw-rw-r--. 1 nz nz 2209 Mar 30 03:55 NATION.ADMIN.LABDB.4134.nzlog
+	-rw-rw-r--. 1 nz nz 2317 Mar 30 02:58 ORDERS.ADMIN.LABDB.31185.nzlog
+	-rw-rw-r--. 1 nz nz 2317 Mar 30 03:18 ORDERS.ADMIN.LABDB.581.nzlog
+	-rw-rw-r--. 1 nz nz 2306 Mar 30 03:55 PART.ADMIN.LABDB.4227.nzlog
+	-rw-rw-r--. 1 nz nz 2318 Mar 30 03:56 PARTSUPP.ADMIN.LABDB.4254.nzlog
+	-rw-rw-r--. 1 nz nz 2206 Mar 30 03:55 REGION.ADMIN.LABDB.4156.nzlog
+	-rw-rw-r--. 1 nz nz 2223 Mar 30 03:55 SUPPLIER.ADMIN.LABDB.4205.nzlog
+	```
+	
 
-Congratulations! You just have defined data distribution keys for a
-customer data schema in Netezza Performance Server. You can have a look
-at the created tables and their definitions with the commands you used
-in the previous chapters. We will continue to use the tables we created
-in the following labs.
+!!! Success
+	Congratulations! You just have defined data distribution keys for a
+	customer data schema in Netezza Performance Server. You can have a look
+	at the created tables and their definitions with the commands you used
+	in the previous chapters. We will continue to use the tables we created
+	in the following labs.
+	

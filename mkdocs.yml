@@ -31,12 +31,16 @@ theme:
     scheme: default
     primary: black
     accent: black
+  features:
+    - content.code.annotate 
 
 markdown_extensions:
   - admonition
   - pymdownx.details
   - pymdownx.superfences    
   - sane_lists
+  - pymdownx.tabbed:
+      alternate_style: true
 
 extra_css:
   - stylesheets/extra.css
