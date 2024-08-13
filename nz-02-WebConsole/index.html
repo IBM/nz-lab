@@ -438,7 +438,7 @@ manage various aspects of user databases, tables, and objects.</p>
 normal Netezza Performance Server. Each Netezza Performance Server has
 the Web Console running as an OpenShift containerized application on the
 control plane/master nodes. In this environment, the Web Console is
-running natively on the NPSVB virtual machine.</p>
+running natively on the <code>NPSVB</code> virtual machine.</p>
 <h1 id="2-lab-setup">2 Lab Setup</h1>
 <p>This lab uses an initial setup script to make sure the correct users and
 database exist for the remainder of the lab. Follow the instructions
@@ -503,7 +503,7 @@ Load session of table &#39;LINEITEM&#39; completed successfully
 </div>
 <p>While the setup script is running proceed to the next step.</p>
 <h2 id="21-starting-nps-web-console">2.1 Starting NPS Web Console</h2>
-<p>After booting up the NPSVB virtual machine with Virtual Box follow these
+<p>After booting up the <code>NPSVB</code> virtual machine with Virtual Box follow these
 steps to start the Web Console application inside the VM:</p>
 <ul>
 <li>
@@ -717,8 +717,8 @@ Navigation menu.<img alt="Image" src="../nz-images/nz-02-WebConsole/media/image1
 <p>This allows you to execute queries against a database. You can store the
 queries as well. In addition to the result of the query you can also
 look at the explain plan.</p>
-<p>Let’s create a query called <strong>testquery</strong> (1) against database LABDB (2)
-and schema ADMIN (3).</p>
+<p>Let’s create a query called <strong>testquery</strong> (1) against database <code>LABDB</code> (2)
+and schema <code>ADMIN</code> (3).</p>
 <p>Enter the following SQL statement (4) and click <strong>Run</strong> (5) to execute
 the query.</p>
 <div class="admonition abstract">
@@ -796,15 +796,15 @@ total, this database has 11 objects: three schemas and eight tables.</p>
 <p>Use the sort option of the view to find the table with the most rows,
 click <strong>Record count</strong> header.</p>
 <p><img alt="Image" src="../nz-images/nz-02-WebConsole/media/image29.png" /></p>
-<p>As you can see, table LINEITEM has over 6 million rows.</p>
+<p>As you can see, table <code>LINEITEM</code> has over 6 million rows.</p>
 <p>For the <strong>PART</strong> table select the Kebab (three dots) to the right. This
-allows you to run several operations against the table, like RENAME or
-GROOM.</p>
+allows you to run several operations against the table, like <code>RENAME</code> or
+<code>GROOM</code>.</p>
 <p><img alt="Image" src="../nz-images/nz-02-WebConsole/media/image30.png" /></p>
 <p>Click <strong>Groom</strong>. A new screen opens that allows you define the mode to
-be used by GROOM and if a reclaim backup set should be used.</p>
+be used by <code>GROOM</code> and if a reclaim backup set should be used.</p>
 <p><img alt="Image" src="../nz-images/nz-02-WebConsole/media/image31.png" /></p>
-<p>Do not start the GROOM, but instead go back to the main page of the
+<p>Do not start the <code>GROOM</code>, but instead go back to the main page of the
 database menu by clicking Databases from the breadcrumbs.</p>
 <p><img alt="Image" src="../nz-images/nz-02-WebConsole/media/image32.png" /></p>
 <p>Click <strong>Create database</strong> to open a new pane that allows you create a
@@ -813,13 +813,13 @@ new database.</p>
 and click <strong>Create</strong> (2)<strong>.</strong></p>
 <p><img alt="Image" src="../nz-images/nz-02-WebConsole/media/image33.png" /></p>
 <p>The console opens a new pane, with information on the database objects
-in the newly created database TESTDB.</p>
+in the newly created database <code>TESTDB</code>.</p>
 <p><img alt="Image" src="../nz-images/nz-02-WebConsole/media/image34.png" /></p>
 <p>Go to the <strong>Tables</strong> view of this screen.
 <img alt="Image" src="../nz-images/nz-02-WebConsole/media/image35.png" /></p>
 <p>Click <strong>Create table</strong> to add a new table. Choose <strong>ADMIN</strong> (1) as the
 schema and <strong>TESTTABLE</strong> (2) as the table name. Click Create + (3) in
-the columns section to add a column called <strong>C1</strong> (4) of type BIGINT.
+the columns section to add a column called <strong>C1</strong> (4) of type <code>BIGINT</code>.
 Enter a second column called <strong>D1</strong> (5) as type <strong>DATE</strong>. Select <strong>C1</strong>
 (6) as the distribution column.</p>
 <p><img alt="Image" src="../nz-images/nz-02-WebConsole/media/image36.png" /></p>
@@ -847,7 +847,7 @@ executed in NPS.</p>
 <p><img alt="Image" src="../nz-images/nz-02-WebConsole/media/image42.png" /></p>
 <p>On the left side of the screen, you can filter the result set. Filter to
 all by Status (Running, Success)<strong>, Database, User.</strong></p>
-<p>Select the following filters: Status: Success, Database: LABDB and User:
+<p>Select the following filters: Status: Success, Database: <code>LABDB</code> and User:
 ADMIN</p>
 <p><img alt="Image" src="../nz-images/nz-02-WebConsole/media/image43.png" /></p>
 <p>The result set is automatically filtered.</p>
@@ -873,6 +873,10 @@ the history database.</p>
 </ul>
 </li>
 </ul>
+<div class="admonition success">
+<p class="admonition-title">Congratulations on finishing the chapter!</p>
+<p>Congratulations on finishing the chapter on the NZ Web Console.</p>
+</div>
 
               
             </article>
