@@ -66,7 +66,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#query-optimization" class="md-skip">
+        <a href="#1-query-optimization" class="md-skip">
           Skip to content
         </a>
       
@@ -307,29 +307,36 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#objectives" class="md-nav__link">
-    Objectives
+  <a href="#11-objectives" class="md-nav__link">
+    1.1 Objectives
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#lab-setup" class="md-nav__link">
-    Lab Setup
+  <a href="#2-lab-setup" class="md-nav__link">
+    2 Lab Setup
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#generate-statistics" class="md-nav__link">
-    Generate Statistics
+  <a href="#3-generate-statistics" class="md-nav__link">
+    3 Generate Statistics
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#identifying-join-problems" class="md-nav__link">
-    Identifying Join Problems
+  <a href="#4-identifying-join-problems" class="md-nav__link">
+    4 Identifying Join Problems
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-html-explain" class="md-nav__link">
+    5 HTML Explain
   </a>
   
 </li>
@@ -476,29 +483,36 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#objectives" class="md-nav__link">
-    Objectives
+  <a href="#11-objectives" class="md-nav__link">
+    1.1 Objectives
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#lab-setup" class="md-nav__link">
-    Lab Setup
+  <a href="#2-lab-setup" class="md-nav__link">
+    2 Lab Setup
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#generate-statistics" class="md-nav__link">
-    Generate Statistics
+  <a href="#3-generate-statistics" class="md-nav__link">
+    3 Generate Statistics
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#identifying-join-problems" class="md-nav__link">
-    Identifying Join Problems
+  <a href="#4-identifying-join-problems" class="md-nav__link">
+    4 Identifying Join Problems
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-html-explain" class="md-nav__link">
+    5 HTML Explain
   </a>
   
 </li>
@@ -517,7 +531,7 @@
                 
 
 
-<h1 id="query-optimization">Query Optimization</h1>
+<h1 id="1-query-optimization">1 Query Optimization</h1>
 <p>Netezza Performance Server uses a cost-based optimizer to determine the
 best method for scan and join operations, join order, and data movement
 between SPUs (redistribute or broadcast operations if necessary). For
@@ -527,19 +541,19 @@ queries to improve query performance.</p>
 <p>The optimizer takes a SQL query as input and creates a detailed
 execution or query plan for the database system. For the optimizer to
 create the best execution plan that results in the best performance, it
-must have the most up-to-date statistics. You can use EXPLAIN, HTML
+must have the most up-to-date statistics. You can use <code>EXPLAIN</code>, HTML
 (also known as bubble), and text plans to analyze how the Netezza
 Performance Server system executes a query.</p>
 <p>Explain is a very useful tool to spot and identify performance problems,
 bad distribution keys, badly written SQL queries and out-of-date
 statistics.</p>
-<h2 id="objectives">Objectives</h2>
+<h2 id="11-objectives">1.1 Objectives</h2>
 <p>During our POC we have identified a couple of very long running customer
 queries that have significantly worse performance than the number of
 rows involved would suggest. In this lab we will use Explain
 functionality to identify the concrete bottlenecks and if possible, fix
 them to improve query performance.</p>
-<h2 id="lab-setup">Lab Setup</h2>
+<h2 id="2-lab-setup">2 Lab Setup</h2>
 <p>This lab uses an initial setup script to make sure the correct user and
 database exist for the remainder of the lab. Follow the instructions
 below to run the setup script.</p>
@@ -552,7 +566,7 @@ below to run the setup script.</p>
 </li>
 <li>
 <p>If you are continuing from the previous lab and are already
-    connected to NZSQL quit the NZSQL console with the \q
+    connected to <code>NZSQL</code> quit the <code>NZSQL</code> console with the <code>\q</code>
     command.</p>
 </li>
 <li>
@@ -560,58 +574,62 @@ below to run the setup script.</p>
     following two commands:</p>
 </li>
 </ol>
-<div class="admonition abstract">
-<p class="admonition-title">Input</p>
-<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>~/labs/queryOptimization/setupLab
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Input</label><label for="__tabbed_1_2">Output</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>cd ~/labs/queryOptimization/setupLab
 ./setupLab.sh
 </code></pre></div>
 </div>
-<div class="admonition abstract">
-<p class="admonition-title">Output</p>
-<div class="highlight"><pre><span></span><code>DROP<span class="w"> </span>DATABASE<span class="w">   </span>
-CREATE<span class="w"> </span>DATABASE<span class="w"> </span>
-DROP<span class="w"> </span>USER<span class="w">   </span>
-CREATE<span class="w"> </span>USER<span class="w"> </span>
-ALTER<span class="w"> </span>USER<span class="w">  </span>
-ALTER<span class="w"> </span>DATABASE<span class="w">  </span>
-CREATE<span class="w"> </span>TABLE<span class="w">    </span>
-CREATE<span class="w"> </span>TABLE<span class="w">    </span>
-CREATE<span class="w"> </span>TABLE<span class="w">    </span>
-CREATE<span class="w"> </span>TABLE<span class="w">    </span>
-CREATE<span class="w"> </span>TABLE<span class="w">    </span>
-CREATE<span class="w"> </span>TABLE<span class="w">    </span>
-CREATE<span class="w"> </span>TABLE<span class="w">    </span>
-CREATE<span class="w"> </span>TABLE<span class="w">    </span>
-Load<span class="w"> </span>session<span class="w"> </span>of<span class="w"> </span>table<span class="w"> </span><span class="s1">&#39;NATION&#39;</span><span class="w"> </span>completed<span class="w"> </span>successfully<span class="w">   </span>
-Load<span class="w"> </span>session<span class="w"> </span>of<span class="w"> </span>table<span class="w"> </span><span class="s1">&#39;REGION&#39;</span><span class="w"> </span>completed<span class="w"> </span>successfully<span class="w">   </span>
-Load<span class="w"> </span>session<span class="w"> </span>of<span class="w"> </span>table<span class="w"> </span><span class="s1">&#39;CUSTOMER&#39;</span><span class="w"> </span>completed<span class="w"> </span>successfully<span class="w"> </span>
-Load<span class="w"> </span>session<span class="w"> </span>of<span class="w"> </span>table<span class="w"> </span><span class="s1">&#39;SUPPLIER&#39;</span><span class="w"> </span>completed<span class="w"> </span>successfully<span class="w"> </span>
-Load<span class="w"> </span>session<span class="w"> </span>of<span class="w"> </span>table<span class="w"> </span><span class="s1">&#39;PART&#39;</span><span class="w"> </span>completed<span class="w"> </span>successfully<span class="w"> </span>
-Load<span class="w"> </span>session<span class="w"> </span>of<span class="w"> </span>table<span class="w"> </span><span class="s1">&#39;PARTSUPP&#39;</span><span class="w"> </span>completed<span class="w"> </span>successfully<span class="w"> </span>
-Load<span class="w"> </span>session<span class="w"> </span>of<span class="w"> </span>table<span class="w"> </span><span class="s1">&#39;ORDERS&#39;</span><span class="w"> </span>completed<span class="w"> </span>successfully<span class="w">   </span>
-Load<span class="w"> </span>session<span class="w"> </span>of<span class="w"> </span>table<span class="w"> </span><span class="s1">&#39;LINEITEM&#39;</span><span class="w"> </span>completed<span class="w"> </span>successfully<span class="w"> </span>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>DROP DATABASE   
+CREATE DATABASE 
+DROP USER   
+CREATE USER 
+ALTER USER  
+ALTER DATABASE  
+CREATE TABLE    
+CREATE TABLE    
+CREATE TABLE    
+CREATE TABLE    
+CREATE TABLE    
+CREATE TABLE    
+CREATE TABLE    
+CREATE TABLE    
+Load session of table &#39;NATION&#39; completed successfully   
+Load session of table &#39;REGION&#39; completed successfully   
+Load session of table &#39;CUSTOMER&#39; completed successfully 
+Load session of table &#39;SUPPLIER&#39; completed successfully 
+Load session of table &#39;PART&#39; completed successfully 
+Load session of table &#39;PARTSUPP&#39; completed successfully 
+Load session of table &#39;ORDERS&#39; completed successfully   
+Load session of table &#39;LINEITEM&#39; completed successfully 
 </code></pre></div>
+</div>
+</div>
 </div>
 <p>There may be error message at the beginning of the output since the
 script tries to clean up existing databases and users.</p>
 <ol start="4">
-<li>Switch to the lab directory ~/labs/queryOptimization. To do this
+<li>Switch to the lab directory <code>~/labs/queryOptimization</code>. To do this
     use the following command: (Notice that you can use bash auto
     complete by using the Tab key to complete folder and files names)</li>
 </ol>
-<div class="admonition abstract">
-<p class="admonition-title">Input</p>
-<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>~/labs/queryOptimization
+<div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">Input</label><label for="__tabbed_2_2">Output</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>cd ~/labs/queryOptimization
 </code></pre></div>
 </div>
-<div class="admonition abstract">
-<p class="admonition-title">Output</p>
-<div class="highlight"><pre><span></span><code><span class="o">[</span>nz@localhost<span class="w"> </span>queryOptimization<span class="o">]</span>$
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>[nz@localhost queryOptimization]$
 </code></pre></div>
+</div>
+</div>
 </div>
 <p>The command line prompt changes to reflect the directory you are in
-(queryOptimization).</p>
-<h2 id="generate-statistics">Generate Statistics</h2>
+(<code>queryOptimization</code>).</p>
+<h2 id="3-generate-statistics">3 Generate Statistics</h2>
 <p>Cost based optimizers depend on accurate information about the data in
 the tables in order to generate well optimized query plans. This part of
 the lab looks at the importance of having up to date statistics about
@@ -629,187 +647,198 @@ Explain functionality to find out why this is the case. The customer
 query in question:
 <div class="highlight"><pre><span></span><code>SELECT c.c_mktsegment, AVG(o.o_totalprice)
 FROM orders AS o, CUSTOMER as c
-WHERE EXTRACT(YEAR FROM o.o_orderdate) = 1996 AND o.o_orderpriority =
-&#39;1-URGENT&#39;
+WHERE EXTRACT(YEAR FROM o.o_orderdate) = 1996 AND o.o_orderpriority = &#39;1-URGENT&#39;
 GROUP BY c.c_mktsegment;
 </code></pre></div></p>
 <ol>
 <li>First, we will make sure that the system doesn't run a different
-    workload that could influence our tests. Use the following nzsession
+    workload that could influence our tests. Use the following <code>nzsession</code>
     command to verify that the system is free:</li>
 </ol>
-<div class="admonition abstract">
-<p class="admonition-title">Input</p>
-<div class="highlight"><pre><span></span><code>nzsession<span class="w"> </span>show
+<div class="tabbed-set tabbed-alternate" data-tabs="3:2"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1">Input</label><label for="__tabbed_3_2">Output</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>nzsession show
 </code></pre></div>
 </div>
-<div class="admonition abstract">
-<p class="admonition-title">Output</p>
-<div class="highlight"><pre><span></span><code>ID<span class="w">    </span>Type<span class="w"> </span>User<span class="w">  </span>Start<span class="w"> </span>Time<span class="w">              </span>PID<span class="w">   </span>Database<span class="w"> </span>Schema<span class="w"> </span>State<span class="w">  </span>Priority<span class="w">  </span>Name<span class="w"> </span>Client<span class="w"> </span>IP<span class="w"> </span>Client<span class="w"> </span>PID<span class="w"> </span>Command
------<span class="w"> </span>----<span class="w"> </span>-----<span class="w"> </span>-----------------------<span class="w"> </span>-----<span class="w"> </span>--------<span class="w"> </span>------<span class="w"> </span>------<span class="w">   </span>------------<span class="w"> </span>---------<span class="w"> </span>----------<span class="w"> </span>------------------------
-<span class="m">21920</span><span class="w"> </span>sql<span class="w">  </span>ADMIN<span class="w"> </span><span class="m">03</span>-Apr-20,<span class="w"> </span><span class="m">16</span>:35:54<span class="w"> </span>PDT<span class="w"> </span><span class="m">15500</span><span class="w"> </span>SYSTEM<span class="w">   </span>ADMIN<span class="w">  </span>active<span class="w">   </span>normal<span class="w">        </span><span class="m">127</span>.0.0.1<span class="w">      </span><span class="m">15497</span><span class="w"> </span>SELECT<span class="w"> </span>session_id,<span class="w"> </span>clien
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>ID    Type User  Start Time              PID   Database Schema State  Priority Name Client IP Client PID Command
+----- ---- ----- ----------------------- ----- -------- ------ ------ ------------- --------- ---------- ------------------------
+21920 sql  ADMIN 03-Apr-20, 16:35:54 PDT 15500 SYSTEM   ADMIN  active normal        127.0.0.1      15497 SELECT session_id, clien
 </code></pre></div>
+</div>
+</div>
 </div>
 <p>This result shows that there is currently only one session connected
-to the database, which is the nzsession command itself. Per default
-the database user in your VM image is ADMIN. Executing this command
+to the database, which is the <code>nzsession</code> command itself. Per default
+the database user in your VM image is <code>ADMIN</code>. Executing this command
 before doing any performance measurements ensures that other workloads
 are not influencing the performance of the system. You can use the
-nzsession command as well to abort bad or locked sessions.</p>
+<code>nzsession</code> command as well to abort bad or locked sessions.</p>
 <ol start="2">
 <li>After we verified that the system is free, we can start analyzing
     the query. Connect to the lab database with the following command:</li>
 </ol>
-<div class="admonition abstract">
-<p class="admonition-title">Input</p>
-<div class="highlight"><pre><span></span><code>nzsql<span class="w"> </span>labdb<span class="w"> </span>labadmin
+<div class="tabbed-set tabbed-alternate" data-tabs="4:2"><input checked="checked" id="__tabbed_4_1" name="__tabbed_4" type="radio" /><input id="__tabbed_4_2" name="__tabbed_4" type="radio" /><div class="tabbed-labels"><label for="__tabbed_4_1">Input</label><label for="__tabbed_4_2">Output</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>nzsql labdb labadmin
 </code></pre></div>
 </div>
-<p>!! abstract "Output"
-    <div class="highlight"><pre><span></span><code>Welcome<span class="w"> </span>to<span class="w"> </span>nzsql,<span class="w"> </span>the<span class="w"> </span>IBM<span class="w"> </span>Netezza<span class="w"> </span>SQL<span class="w"> </span>interactive<span class="w"> </span>terminal.<span class="w"> </span>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>Welcome to nzsql, the IBM Netezza SQL interactive terminal. 
 
-Type:<span class="w"> </span><span class="se">\h</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="nb">help</span><span class="w"> </span>with<span class="w"> </span>SQL<span class="w"> </span>commands<span class="w"> </span>
-<span class="se">\?</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="nb">help</span><span class="w"> </span>on<span class="w"> </span>internal<span class="w"> </span>slash<span class="w"> </span>commands<span class="w">  </span>
-<span class="se">\g</span><span class="w"> </span>or<span class="w"> </span>terminate<span class="w"> </span>with<span class="w"> </span>semicolon<span class="w"> </span>to<span class="w"> </span>execute<span class="w"> </span>query<span class="w"> </span>
-<span class="se">\q</span><span class="w"> </span>to<span class="w"> </span>quit<span class="w">  </span>
+Type: \h for help with SQL commands 
+\? for help on internal slash commands  
+\g or terminate with semicolon to execute query 
+\q to quit  
 
-LABDB.ADMIN<span class="o">(</span>LABADMIN<span class="o">)=</span>&gt;
-</code></pre></div></p>
+LABDB.ADMIN(LABADMIN)=&gt;
+</code></pre></div>
+</div>
+</div>
+</div>
 <ol start="3">
-<li>Let's first have a look at the two tables and the WHERE conditions
+<li>Let's first have a look at the two tables and the <code>WHERE</code> conditions
     to get an idea of the row numbers involved. Our query joins the
-    CUSTOMER table without any where condition applied to it and the
-    ORDERS table that has two where conditions restricting it on the
+    <code>CUSTOMER</code> table without any where condition applied to it and the
+    <code>ORDERS</code> table that has two where conditions restricting it on the
     date and order priority. From the data distribution lab, we know
-    that the CUSTOMER table has 150000 rows. To get the rows that are
-    involved from the ORDERS table Execute the following COUNT(*)
+    that the <code>CUSTOMER</code> table has 150000 rows. To get the rows that are
+    involved from the <code>ORDERS</code> table Execute the following <code>COUNT(*)</code>
     command:</li>
 </ol>
-<div class="admonition abstract">
-<p class="admonition-title">Input</p>
-<div class="highlight"><pre><span></span><code>SELECT<span class="w"> </span>COUNT<span class="o">(</span>*<span class="o">)</span><span class="w"> </span>FROM<span class="w"> </span>orders<span class="w"> </span>
-WHERE<span class="w"> </span>EXTRACT<span class="o">(</span>YEAR<span class="w"> </span>FROM<span class="w"> </span>o_orderdate<span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1996</span><span class="w"> </span>AND<span class="w"> </span><span class="nv">o_orderpriority</span><span class="w"> </span><span class="o">=</span><span class="w">   </span>
-<span class="s1">&#39;1-URGENT&#39;</span><span class="p">;</span>
+<div class="tabbed-set tabbed-alternate" data-tabs="5:2"><input checked="checked" id="__tabbed_5_1" name="__tabbed_5" type="radio" /><input id="__tabbed_5_2" name="__tabbed_5" type="radio" /><div class="tabbed-labels"><label for="__tabbed_5_1">Input</label><label for="__tabbed_5_2">Output</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>SELECT COUNT(*) FROM orders 
+WHERE EXTRACT(YEAR FROM o_orderdate) = 1996 AND 
+o_orderpriority = &#39;1-URGENT&#39;;
 </code></pre></div>
 </div>
-<div class="admonition abstract">
-<p class="admonition-title">Output</p>
-<div class="highlight"><pre><span></span><code>COUNT<span class="w">   </span>
--------<span class="w"> </span>
-<span class="m">46014</span><span class="w">   </span>
-<span class="o">(</span><span class="m">1</span><span class="w"> </span>row<span class="o">)</span>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>COUNT   
+------- 
+46014   
+(1 row)
 </code></pre></div>
 </div>
-<p>So, the ORDERS table has 46014 rows that fit the WHERE condition. We
-will use EXPLAIN functionality to check if the available Statistics
+</div>
+</div>
+<p>So, the <code>ORDERS</code> table has 46014 rows that fit the <code>WHERE</code> condition. We
+will use <code>EXPLAIN</code> functionality to check if the available Statistics
 allow the Netezza Performance Server optimizer to estimate this
 correctly for its plan creation.</p>
 <ol start="4">
 <li>The Netezza Performance Server optimizer uses statistics about the
     data in the system to estimate the number of rows that result from
-    WHERE conditions, joins, etc. Doing wrong approximations can lead to
+    <code>WHERE</code> conditions, joins, etc. Doing wrong approximations can lead to
     bad execution plans. For example, a huge result set could be
     broadcast for a join instead of doing a double redistribution. To
-    see its estimated rows for the WHERE conditions in our query run the
-    following EXPLAIN command:</li>
+    see its estimated rows for the <code>WHERE</code> conditions in our query run the
+    following <code>EXPLAIN</code> command:</li>
 </ol>
-<div class="admonition abstract">
-<p class="admonition-title">Input</p>
-<div class="highlight"><pre><span></span><code>EXPLAIN<span class="w"> </span>VERBOSE<span class="w"> </span>SELECT<span class="w"> </span>COUNT<span class="o">(</span>*<span class="o">)</span><span class="w"> </span>FROM<span class="w"> </span>orders<span class="w"> </span>
-WHERE<span class="w"> </span>EXTRACT<span class="o">(</span>YEAR<span class="w"> </span>FROM<span class="w"> </span>o_orderdate<span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1996</span><span class="w"> </span>AND<span class="w"> </span><span class="nv">o_orderpriority</span><span class="w"> </span><span class="o">=</span><span class="w">   </span>
-<span class="s1">&#39;1-URGENT&#39;</span><span class="p">;</span>
+<div class="tabbed-set tabbed-alternate" data-tabs="6:2"><input checked="checked" id="__tabbed_6_1" name="__tabbed_6" type="radio" /><input id="__tabbed_6_2" name="__tabbed_6" type="radio" /><div class="tabbed-labels"><label for="__tabbed_6_1">Input</label><label for="__tabbed_6_2">Output</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>EXPLAIN VERBOSE SELECT COUNT(*) FROM orders 
+WHERE EXTRACT(YEAR FROM o_orderdate) = 1996 AND o_orderpriority  = &#39;1-URGENT&#39;;
 </code></pre></div>
 </div>
-<div class="admonition abstract">
-<p class="admonition-title">Output</p>
-<div class="highlight"><pre><span></span><code>EXPLAIN<span class="w"> </span>VERBOSE<span class="w"> </span>SELECT<span class="w"> </span>COUNT<span class="o">(</span>*<span class="o">)</span><span class="w"> </span>FROM<span class="w"> </span>orders<span class="w"> </span>WHERE<span class="w"> </span>EXTRACT<span class="o">(</span>YEAR<span class="w"> </span>FROM<span class="w"> </span>
-o_orderdate<span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1996</span><span class="w"> </span>AND<span class="w"> </span><span class="nv">o_orderpriority</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;1-URGENT&#39;</span><span class="p">;</span><span class="w">   </span>
-QUERY<span class="w"> </span>VERBOSE<span class="w"> </span>PLAN:<span class="w"> </span>
-Node<span class="w"> </span><span class="m">1</span>.<span class="w"> </span>
-<span class="o">[</span>SPU<span class="w"> </span>Sequential<span class="w"> </span>Scan<span class="w"> </span>table<span class="w"> </span><span class="s2">&quot;ORDERS&quot;</span><span class="w"> </span><span class="o">{(</span>ORDERS.O_ORDERKEY<span class="o">)}]</span><span class="w">  </span>
---<span class="w"> </span>**Estimated<span class="w"> </span><span class="nv">Rows</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">150</span>**,<span class="w"> </span><span class="nv">Width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>,<span class="w"> </span><span class="nv">Cost</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>.0<span class="w"> </span>..<span class="w"> </span><span class="m">1653</span>.2,<span class="w"> </span><span class="nv">Conf</span><span class="w"> </span><span class="o">=</span><span class="w">    </span>
-<span class="m">64</span>.0<span class="w">    </span>
-Restrictions:<span class="w">   </span>
-<span class="o">((</span>ORDERS.O_ORDERPRIORITY<span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;1-URGENT&#39;</span>::BPCHAR<span class="o">)</span><span class="w"> </span>AND<span class="w">  </span>
-<span class="o">(</span>DATE_PART<span class="o">(</span><span class="s1">&#39;YEAR&#39;</span>::<span class="s2">&quot;VARCHAR&quot;</span>,<span class="w"> </span>ORDERS.O_ORDERDATE<span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1996</span><span class="o">))</span><span class="w">  </span>
-Projections:<span class="w">    </span>
-Node<span class="w"> </span><span class="m">2</span>.<span class="w"> </span>
-<span class="o">[</span>SPU<span class="w"> </span>Aggregate<span class="o">]</span><span class="w"> </span>
---<span class="w"> </span>Estimated<span class="w"> </span><span class="nv">Rows</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span>,<span class="w"> </span><span class="nv">Width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">8</span>,<span class="w"> </span><span class="nv">Cost</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1653</span>.2<span class="w"> </span>..<span class="w"> </span><span class="m">1653</span>.2,<span class="w"> </span><span class="nv">Conf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>.0<span class="w">   </span>
-Projections:<span class="w">    </span>
-<span class="m">1</span>:COUNT<span class="o">(</span>*<span class="o">)</span><span class="w">  </span>
-<span class="o">[</span>SPU<span class="w"> </span>Return<span class="o">]</span><span class="w">    </span>
-<span class="o">[</span>HOST<span class="w"> </span>Merge<span class="w"> </span>Aggs<span class="o">]</span><span class="w">   </span>
-<span class="o">[</span>Host<span class="w"> </span>Return<span class="o">]</span><span class="w">   </span>
-..&lt;Removed<span class="w"> </span>Plan<span class="w"> </span>Text&gt;..
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>EXPLAIN VERBOSE SELECT COUNT(*) FROM orders WHERE EXTRACT(YEAR FROM o_orderdate) = 1996 AND o_orderpriority = &#39;1-URGENT&#39;;
+
+QUERY VERBOSE PLAN:
+
+Node 1.
+  [SPU Sequential Scan table &quot;ORDERS&quot; {(ORDERS.O_ORDERKEY)}]
+      -- Estimated Rows = 150, Width = 0, Cost = 0.0 .. 1653.2, Conf = 64.0
+      Restrictions:
+        ((ORDERS.O_ORDERPRIORITY = &#39;1-URGENT&#39;::BPCHAR) AND (DATE_PART(&#39;YEAR&#39;::&quot;VARCHAR&quot;, ORDERS.O_ORDERDATE) = 1996))
+      Projections:
+Node 2.
+  [SPU Aggregate]
+      -- Estimated Rows = 1, Width = 8, Cost = 1653.2 .. 1653.2, Conf = 0.0
+      Projections:
+        1:COUNT(*)
+  [SPU Return]
+  [HOST Merge Aggs]
+  [Host Return]
+
+..&lt;Removed Plan Text&gt;..
 </code></pre></div>
+</div>
+</div>
 </div>
 <p>The execution plan of this query consists of two nodes or snippets.
-First the table is scanned and the WHERE conditions are applied, which
-can be seen in the Restrictions sub node. Since we use a COUNT(*) the
+First the table is scanned and the <code>WHERE</code> conditions are applied, which
+can be seen in the Restrictions sub node. Since we use a <code>COUNT(*)</code> the
 Projections node is empty. Then an Aggregation node (Node 2) is
 applied to count the rows that are returned by node 1.</p>
-<blockquote>
 <p>When we look at the estimated number of rows, we can see that it is
 way off the mark. The Netezza Performance Server Optimizer estimates
 from its available statistics that only 150 rows are returned by the
-WHERE conditions. We have seen before that in reality its 46014 or
+<code>WHERE</code> conditions. We have seen before that in reality its 46014 or
 roughly 300 times as many.</p>
-</blockquote>
 <ol start="5">
 <li>One way to help the optimizer in its estimates is the collection of
     detailed statistics about the involved tables. Execute the following
-    command to generate full, detailed statistics about the ORDERS
+    command to generate full, detailed statistics about the <code>ORDERS</code>
     table:</li>
 </ol>
-<p>!! abstract "Input"
-    <div class="highlight"><pre><span></span><code>GENERATE<span class="w"> </span>STATISTICS<span class="w"> </span>ON<span class="w"> </span>orders<span class="p">;</span>
-</code></pre></div></p>
-<div class="admonition abstract">
-<p class="admonition-title">Output</p>
-<div class="highlight"><pre><span></span><code>GENERATE<span class="w"> </span>STATISTICS
+<div class="tabbed-set tabbed-alternate" data-tabs="7:2"><input checked="checked" id="__tabbed_7_1" name="__tabbed_7" type="radio" /><input id="__tabbed_7_2" name="__tabbed_7" type="radio" /><div class="tabbed-labels"><label for="__tabbed_7_1">Input</label><label for="__tabbed_7_2">Output</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>GENERATE STATISTICS ON orders;
 </code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>GENERATE STATISTICS
+</code></pre></div>
+</div>
+</div>
 </div>
 <p>Since generating full statistics involves a table scan this command
 may take some time to execute, especially on a table with many rows
 and columns.</p>
 <ol start="6">
 <li>We will now check if generating statistics has improved the
-    estimates. Execute the EXPLAIN command again:</li>
+    estimates. Execute the <code>EXPLAIN</code> command again:</li>
 </ol>
-<div class="admonition abstract">
-<p class="admonition-title">Input</p>
-<div class="highlight"><pre><span></span><code>EXPLAIN<span class="w"> </span>VERBOSE<span class="w"> </span>SELECT<span class="w"> </span>COUNT<span class="o">(</span>*<span class="o">)</span><span class="w"> </span>FROM<span class="w"> </span>orders<span class="w"> </span>
-WHERE<span class="w"> </span>EXTRACT<span class="o">(</span>YEAR<span class="w"> </span>FROM<span class="w"> </span>o_orderdate<span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1996</span><span class="w"> </span>AND<span class="w"> </span><span class="nv">o_orderpriority</span><span class="w"> </span><span class="o">=</span><span class="w">   </span>
-<span class="s1">&#39;1-URGENT&#39;</span><span class="p">;</span>
+<div class="tabbed-set tabbed-alternate" data-tabs="8:2"><input checked="checked" id="__tabbed_8_1" name="__tabbed_8" type="radio" /><input id="__tabbed_8_2" name="__tabbed_8" type="radio" /><div class="tabbed-labels"><label for="__tabbed_8_1">Input</label><label for="__tabbed_8_2">Output</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>EXPLAIN VERBOSE SELECT COUNT(*) FROM orders 
+WHERE EXTRACT(YEAR FROM o_orderdate) = 1996 AND o_orderpriority = &#39;1-URGENT&#39;;
 </code></pre></div>
 </div>
-<div class="admonition abstract">
-<p class="admonition-title">Output</p>
-<div class="highlight"><pre><span></span><code>EXPLAIN<span class="w"> </span>VERBOSE<span class="w"> </span>SELECT<span class="w"> </span>COUNT<span class="o">(</span>*<span class="o">)</span><span class="w"> </span>FROM<span class="w"> </span>orders<span class="w"> </span>WHERE<span class="w"> </span>EXTRACT<span class="o">(</span>YEAR<span class="w"> </span>FROM<span class="w"> </span>
-o_orderdate<span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1996</span><span class="w"> </span>AND<span class="w"> </span><span class="nv">o_orderpriority</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;1-URGENT&#39;</span><span class="p">;</span><span class="w">   </span>
-QUERY<span class="w"> </span>VERBOSE<span class="w"> </span>PLAN:<span class="w"> </span>
-Node<span class="w"> </span><span class="m">1</span>.<span class="w"> </span>
-<span class="o">[</span>SPU<span class="w"> </span>Sequential<span class="w"> </span>Scan<span class="w"> </span>table<span class="w"> </span><span class="s2">&quot;ORDERS&quot;</span><span class="w"> </span><span class="o">{(</span>ORDERS.O_ORDERKEY<span class="o">)}]</span><span class="w">  </span>
---<span class="w"> </span>**Estimated<span class="w"> </span><span class="nv">Rows</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3000</span>**,<span class="w"> </span><span class="nv">Width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>,<span class="w"> </span><span class="nv">Cost</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>.0<span class="w"> </span>..<span class="w"> </span><span class="m">1653</span>.2,<span class="w"> </span><span class="nv">Conf</span><span class="w"> </span><span class="o">=</span><span class="w">   </span>
-<span class="m">64</span>.0<span class="w">    </span>
-Restrictions:<span class="w">   </span>
-<span class="o">((</span>ORDERS.O_ORDERPRIORITY<span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;1-URGENT&#39;</span>::BPCHAR<span class="o">)</span><span class="w"> </span>AND<span class="w">  </span>
-<span class="o">(</span>DATE_PART<span class="o">(</span><span class="s1">&#39;YEAR&#39;</span>::<span class="s2">&quot;VARCHAR&quot;</span>,<span class="w"> </span>ORDERS.O_ORDERDATE<span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1996</span><span class="o">))</span><span class="w">  </span>
-Projections:<span class="w">    </span>
-Node<span class="w"> </span><span class="m">2</span>.<span class="w"> </span>
-<span class="o">[</span>SPU<span class="w"> </span>Aggregate<span class="o">]</span><span class="w"> </span>
---<span class="w"> </span>Estimated<span class="w"> </span><span class="nv">Rows</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span>,<span class="w"> </span><span class="nv">Width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">8</span>,<span class="w"> </span><span class="nv">Cost</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1653</span>.4<span class="w"> </span>..<span class="w"> </span><span class="m">1653</span>.4,<span class="w"> </span><span class="nv">Conf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>.0<span class="w">   </span>
-Projections:<span class="w">    </span>
-<span class="m">1</span>:COUNT<span class="o">(</span>*<span class="o">)</span><span class="w">  </span>
-<span class="o">[</span>SPU<span class="w"> </span>Return<span class="o">]</span><span class="w">    </span>
-<span class="o">[</span>HOST<span class="w"> </span>Merge<span class="w"> </span>Aggs<span class="o">]</span><span class="w">   </span>
-<span class="o">[</span>Host<span class="w"> </span>Return<span class="o">]</span><span class="w">   </span>
-..&lt;<span class="w"> </span>Removed<span class="w"> </span>Plan<span class="w"> </span>Text<span class="w"> </span>&gt;..
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>EXPLAIN VERBOSE SELECT COUNT(*) FROM orders WHERE EXTRACT(YEAR FROM o_orderdate) = 1996 AND o_orderpriority = &#39;1-URGENT&#39;;
+
+QUERY VERBOSE PLAN:
+
+Node 1.
+  [SPU Sequential Scan table &quot;ORDERS&quot; {(ORDERS.O_ORDERKEY)}]
+      -- Estimated Rows = 3000, Width = 0, Cost = 0.0 .. 1653.2, Conf = 64.0
+      Restrictions:
+        ((ORDERS.O_ORDERPRIORITY = &#39;1-URGENT&#39;::BPCHAR) AND (DATE_PART(&#39;YEAR&#39;::&quot;VARCHAR&quot;, ORDERS.O_ORDERDATE) = 1996))
+      Projections:
+Node 2.
+  [SPU Aggregate]
+      -- Estimated Rows = 1, Width = 8, Cost = 1653.4 .. 1653.4, Conf = 0.0
+      Projections:
+        1:COUNT(*)
+  [SPU Return]
+  [HOST Merge Aggs]
+  [Host Return]
+
+..&lt; Removed Plan Text &gt;..
 </code></pre></div>
 </div>
-<p>As we can see the estimated rows of the SELECT query have improved
-drastically. The optimizer now assumes this WHERE condition will apply
+</div>
+</div>
+<p>As we can see the estimated rows of the <code>SELECT</code> query have improved
+drastically. The optimizer now assumes this <code>WHERE</code> condition will apply
 to 3000 rows of the order table. Still significantly off the true
 number of 46000 but by a factor of 20 better than the original
 estimate of 150.</p>
@@ -819,14 +848,14 @@ statistics about the involved columns. Statistics include min/max
 values, distinct values, numbers of null values etc. Some of these
 statistics are collected on the fly but the most detailed statistics can
 be generated manually with the Generate Statistics command (or the
-nz_genstats command with "full" option). Generating full statistics
+<code>nz_genstats</code> command with "full" option). Generating full statistics
 after loading a table or changing its content significantly is one of
 the most important administration tasks in Netezza Performance Server.
 The Netezza Performance Server appliance will automatically generate
 express statistics after many tasks like load operations and
 just-in-time statistics during planning. Nevertheless, full statistics
 should be generated on a regular basis.</p>
-<h2 id="identifying-join-problems">Identifying Join Problems</h2>
+<h2 id="4-identifying-join-problems">4 Identifying Join Problems</h2>
 <p>In the last chapter we have taken a first look at the tables involved in
 our join query and have improved optimizer estimates by generating
 statistics on the involved tables. Now we will have a look at the
@@ -836,65 +865,61 @@ distribution and involved join.</p>
 amount of time. It is taken much longer than you would expect from the
 involved data sizes. We will now analyze why this is the case.</p>
 <ol>
-<li>Let's analyze the execution plan for this query using the EXPLAIN
-    VERBOSE command:</li>
+<li>Let's analyze the execution plan for this query using the <code>EXPLAIN VERBOSE</code> command:</li>
 </ol>
-<div class="admonition abstract">
-<p class="admonition-title">Input</p>
-<div class="highlight"><pre><span></span><code>EXPLAIN<span class="w"> </span>VERBOSE<span class="w"> </span>SELECT<span class="w"> </span>c.c_mktsegment,<span class="w">  </span>
-AVG<span class="o">(</span>o.o_totalprice<span class="o">)</span><span class="w"> </span>FROM<span class="w"> </span>orders<span class="w"> </span>AS<span class="w"> </span>o,<span class="w"> </span>CUSTOMER<span class="w"> </span>as<span class="w"> </span>c<span class="w"> </span>WHERE<span class="w"> </span>EXTRACT<span class="o">(</span>YEAR<span class="w">  </span>
-FROM<span class="w"> </span>o.o_orderdate<span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1996</span><span class="w"> </span>AND<span class="w"> </span>o.o_orderpriority<span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;1-URGENT&#39;</span><span class="w"> </span>GROUP<span class="w"> </span>BY<span class="w">  </span>
-c.c_mktsegment<span class="p">;</span>
+<div class="tabbed-set tabbed-alternate" data-tabs="9:2"><input checked="checked" id="__tabbed_9_1" name="__tabbed_9" type="radio" /><input id="__tabbed_9_2" name="__tabbed_9" type="radio" /><div class="tabbed-labels"><label for="__tabbed_9_1">Input</label><label for="__tabbed_9_2">Output</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>EXPLAIN VERBOSE 
+SELECT c.c_mktsegment,  AVG(o.o_totalprice) 
+  FROM orders AS o, CUSTOMER as c 
+WHERE EXTRACT(YEAR  FROM o.o_orderdate) = 1996 AND o.o_orderpriority = &#39;1-URGENT&#39; 
+GROUP BY c.c_mktsegment;
 </code></pre></div>
 </div>
-<div class="admonition abstract">
-<p class="admonition-title">Output</p>
-<div class="highlight"><pre><span></span><code>EXPLAIN<span class="w"> </span>VERBOSE<span class="w"> </span>SELECT<span class="w"> </span>c.c_mktsegment,<span class="w"> </span>AVG<span class="o">(</span>o.o_totalprice<span class="o">)</span><span class="w"> </span>FROM<span class="w"> </span>orders<span class="w">  </span>
-AS<span class="w"> </span>o,<span class="w"> </span>CUSTOMER<span class="w"> </span>as<span class="w"> </span>c<span class="w"> </span>WHERE<span class="w"> </span>EXTRACT<span class="o">(</span>YEAR<span class="w"> </span>FROM<span class="w"> </span>o.o_orderdate<span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1996</span><span class="w"> </span>AND<span class="w">   </span>
-o.o_orderpriority<span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;1-URGENT&#39;</span><span class="w"> </span>GROUP<span class="w"> </span>BY<span class="w"> </span>c.c_mktsegment<span class="p">;</span><span class="w"> </span>
-QUERY<span class="w"> </span>VERBOSE<span class="w"> </span>PLAN:<span class="w"> </span>
-Node<span class="w"> </span><span class="m">1</span>.<span class="w"> </span>
-<span class="o">[</span>SPU<span class="w"> </span>Sequential<span class="w"> </span>Scan<span class="w"> </span>table<span class="w"> </span><span class="s2">&quot;CUSTOMER&quot;</span><span class="w"> </span>as<span class="w"> </span><span class="s2">&quot;C&quot;</span><span class="w"> </span><span class="o">{(</span>C.C_CUSTKEY<span class="o">)}]</span><span class="w">   </span>
---<span class="w"> </span>Estimated<span class="w"> </span><span class="nv">Rows</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">150000</span>,<span class="w"> </span><span class="nv">Width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span>,<span class="w"> </span><span class="nv">Cost</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>.0<span class="w"> </span>..<span class="w"> </span><span class="m">258</span>.4,<span class="w"> </span><span class="nv">Conf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>
-<span class="m">100</span>.0<span class="w">   </span>
-Projections:<span class="w">    </span>
-<span class="m">1</span>:C.C_MKTSEGMENT<span class="w">    </span>
-<span class="o">[</span>SPU<span class="w"> </span>Broadcast<span class="o">]</span><span class="w"> </span>
-Node<span class="w"> </span><span class="m">2</span>.<span class="w"> </span>
-<span class="o">[</span>SPU<span class="w"> </span>Sequential<span class="w"> </span>Scan<span class="w"> </span>table<span class="w"> </span><span class="s2">&quot;ORDERS&quot;</span><span class="w"> </span>as<span class="w"> </span><span class="s2">&quot;O&quot;</span><span class="w"> </span><span class="o">{(</span>O.O_ORDERKEY<span class="o">)}]</span><span class="w">    </span>
---<span class="w"> </span>Estimated<span class="w"> </span><span class="nv">Rows</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3000</span>,<span class="w"> </span><span class="nv">Width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">8</span>,<span class="w"> </span><span class="nv">Cost</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>.0<span class="w"> </span>..<span class="w"> </span><span class="m">1653</span>.2,<span class="w"> </span><span class="nv">Conf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">64</span>.0<span class="w">  </span>
-Restrictions:<span class="w">   </span>
-<span class="o">((</span>O.O_ORDERPRIORITY<span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;1-URGENT&#39;</span>::BPCHAR<span class="o">)</span><span class="w"> </span>AND<span class="w">   </span>
-<span class="o">(</span>DATE_PART<span class="o">(</span><span class="s1">&#39;YEAR&#39;</span>::<span class="s2">&quot;VARCHAR&quot;</span>,<span class="w"> </span>O.O_ORDERDATE<span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1996</span><span class="o">))</span><span class="w">   </span>
-Projections:<span class="w">    </span>
-<span class="m">1</span>:O.O_TOTALPRICE<span class="w">    </span>
-Node<span class="w"> </span><span class="m">3</span>.<span class="w"> </span>
-<span class="o">[</span>SPU<span class="w"> </span>Nested<span class="w"> </span>Loop<span class="w"> </span>Stream<span class="w"> </span><span class="s2">&quot;Node 2&quot;</span><span class="w"> </span>with<span class="w"> </span>Temp<span class="w"> </span><span class="s2">&quot;Node 1&quot;</span><span class="w"> </span>
-<span class="o">{(</span>O.O_ORDERKEY<span class="o">)}]</span><span class="w">   </span>
---<span class="w"> </span>Estimated<span class="w"> </span><span class="nv">Rows</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">450000007</span>,<span class="w"> </span><span class="nv">Width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">18</span>,<span class="w"> </span><span class="nv">Cost</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">660086</span>.9<span class="w"> </span>..<span class="w">   </span>
-<span class="m">7306828</span>.5,<span class="w"> </span><span class="nv">Conf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">64</span>.0<span class="w">  </span>
-Restrictions:<span class="w">   </span>
-<span class="s1">&#39;t&#39;</span>::BOOL<span class="w">   </span>
-Projections:<span class="w">    </span>
-<span class="m">1</span>:C.C_MKTSEGMENT<span class="w"> </span><span class="m">2</span>:O.O_TOTALPRICE<span class="w">   </span>
-Node<span class="w"> </span><span class="m">4</span>.<span class="w"> </span>
-<span class="o">[</span>SPU<span class="w"> </span>Group<span class="o">]</span><span class="w"> </span>
---<span class="w"> </span>Estimated<span class="w"> </span><span class="nv">Rows</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">100</span>,<span class="w"> </span><span class="nv">Width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">18</span>,<span class="w"> </span><span class="nv">Cost</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">660086</span>.9<span class="w"> </span>..<span class="w"> </span><span class="m">7341984</span>.7,<span class="w"> </span><span class="nv">Conf</span><span class="w"> </span>
-<span class="o">=</span><span class="w"> </span><span class="m">0</span>.0<span class="w">   </span>
-Projections:<span class="w">    </span>
-<span class="m">1</span>:C.C_MKTSEGMENT<span class="w"> </span><span class="m">2</span>:O.O_TOTALPRICE<span class="w">   </span>
-<span class="o">[</span>SPU<span class="w"> </span>Return<span class="o">]</span><span class="w">    </span>
-<span class="o">[</span>HOST<span class="w"> </span>Merge<span class="w"> </span>Group<span class="o">]</span><span class="w">  </span>
-Node<span class="w"> </span><span class="m">5</span>.<span class="w"> </span>
-<span class="o">[</span>Host<span class="w"> </span>Aggregate<span class="o">]</span><span class="w">    </span>
---<span class="w"> </span>Estimated<span class="w"> </span><span class="nv">Rows</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">100</span>,<span class="w"> </span><span class="nv">Width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">26</span>,<span class="w"> </span><span class="nv">Cost</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">660086</span>.9<span class="w"> </span>..<span class="w"> </span><span class="m">7341984</span>.7,<span class="w"> </span><span class="nv">Conf</span><span class="w"> </span>
-<span class="o">=</span><span class="w"> </span><span class="m">0</span>.0<span class="w">   </span>
-Projections:<span class="w">    </span>
-<span class="m">1</span>:C.C_MKTSEGMENT<span class="w"> </span><span class="m">2</span>:<span class="o">(</span>SUM<span class="o">(</span>O.O_TOTALPRICE<span class="o">)</span><span class="w"> </span>/<span class="w">   </span>
-<span class="s2">&quot;NUMERIC&quot;</span><span class="o">(</span>COUNT<span class="o">(</span>O.O_TOTALPRICE<span class="o">)))</span><span class="w">   </span>
-<span class="o">[</span>Host<span class="w"> </span>Return<span class="o">]</span><span class="w">   </span>
-..&lt;Removed<span class="w"> </span>Plan<span class="w"> </span>Text&gt;..
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>EXPLAIN VERBOSE SELECT c.c_mktsegment, AVG(o.o_totalprice) FROM orders AS o, CUSTOMER as c WHERE EXTRACT(YEAR FROM o.o_orderdate) = 1996 AND o.o_orderpriority = &#39;1-URGENT&#39; GROUP BY c.c_mktsegment;
+
+QUERY VERBOSE PLAN:
+
+Node 1.
+  [SPU Sequential Scan table &quot;CUSTOMER&quot; as &quot;C&quot; {(C.C_CUSTKEY)}]
+      -- Estimated Rows = 150000, Width = 10, Cost = 0.0 .. 258.4, Conf = 100.0
+      Projections:
+        1:C.C_MKTSEGMENT
+  [SPU Broadcast]
+Node 2.
+  [SPU Sequential Scan table &quot;ORDERS&quot; as &quot;O&quot; {(O.O_ORDERKEY)}]
+      -- Estimated Rows = 3000, Width = 8, Cost = 0.0 .. 1653.2, Conf = 64.0
+      Restrictions:
+        ((O.O_ORDERPRIORITY = &#39;1-URGENT&#39;::BPCHAR) AND (DATE_PART(&#39;YEAR&#39;::&quot;VARCHAR&quot;, O.O_ORDERDATE) = 1996))
+      Projections:
+        1:O.O_TOTALPRICE
+Node 3.
+  [SPU Nested Loop Stream &quot;Node 2&quot; with Temp &quot;Node 1&quot; {(O.O_ORDERKEY)}]
+      -- Estimated Rows = 450000007, Width = 18, Cost = 660086.9 .. 7306828.5, Conf = 64.0
+      Restrictions:
+        &#39;t&#39;::BOOL
+      Projections:
+        1:C.C_MKTSEGMENT  2:O.O_TOTALPRICE
+Node 4.
+  [SPU Group]
+      -- Estimated Rows = 100, Width = 18, Cost = 660086.9 .. 7341984.7, Conf = 0.0
+      Projections:
+        1:C.C_MKTSEGMENT  2:O.O_TOTALPRICE
+  [SPU Return]
+  [HOST Merge Group]
+Node 5.
+  [Host Aggregate]
+      -- Estimated Rows = 100, Width = 26, Cost = 660086.9 .. 7341984.7, Conf = 0.0
+      Projections:
+        1:C.C_MKTSEGMENT  2:(SUM(O.O_TOTALPRICE) / &quot;NUMERIC&quot;(COUNT(O.O_TOTALPRICE)))
+  [Host Return]
+
+..&lt;Removed Plan Text&gt;..
 </code></pre></div>
+</div>
+</div>
 </div>
 <ol start="2">
 <li>First try to answer the following questions through the execution
@@ -945,90 +970,68 @@ further computation nodes or snippets for a local join or local
 aggregation. No data is broadcast or redistributed in a stream
 operation.</p>
 <ol start="3">
-<li>So let's walk through the questions:</li>
-</ol>
-<p>a.  Which columns of Table CUSTOMER are used in further computations?</p>
+<li>
+<p>So let's walk through the questions:</p>
+<p>a.  Which columns of Table <code>CUSTOMER</code>are used in further computations?</p>
 <p>The first node in the execution plan does a sequential scan of the
-CUSTOMER table on the SPUs. It estimates that 150000 rows are returned
-which we know is the number of rows in the CUSTOMER table.
+<code>CUSTOMER</code> table on the SPUs. It estimates that 150000 rows are returned
+which we know is the number of rows in the <code>CUSTOMER</code> table.</p>
 <div class="highlight"><pre><span></span><code>Node 1.
-
-[SPU Sequential Scan table &quot;CUSTOMER&quot; as &quot;C&quot; {(C.C_CUSTKEY)}]
-
--- Estimated Rows = 150000, Width = 10, Cost = 0.0 .. 258.4, Conf =
-100.0
-
-**Projections:**
-
-**1:C.C_MKTSEGMENT**
-
-**[SPU Broadcast]**
+  [SPU Sequential Scan table &quot;CUSTOMER&quot; as &quot;C&quot; {(C.C_CUSTKEY)}]
+      -- Estimated Rows = 150000, Width = 10, Cost = 0.0 .. 258.4, Conf = 100.0
+      Projections:
+        1:C.C_MKTSEGMENT
+  [SPU Broadcast]
 </code></pre></div>
-The statement that tells us which columns are used in further
+<p>The statement that tells us which columns are used in further
 computations is the "Projections:" clause. We can see that only the
-C_MKTSEGMENT column is carried on from the CUSTOMER table. All other
-columns are thrown away. Since C_MKTSEGMENT is a CHAR(10) column the
+<code>C_MKTSEGMENT</code> column is carried on from the <code>CUSTOMER</code> table. All other
+columns are thrown away. Since <code>C_MKTSEGMENT</code> is a <code>CHAR(10)</code> column the
 returned result set has a width of 10.</p>
-<p>b.  Is Table CUSTOMER redistributed, broadcast or can it be joined
-    locally?</p>
-<p>During scan the CUSTOMER table is broadcast to the other SPUs as seen
+<p>b.  Is Table <code>CUSTOMER</code> redistributed, broadcast or can it be joined
+locally?</p>
+<p>During scan the <code>CUSTOMER</code> table is broadcast to the other SPUs as seen
 by the "[SPU Broadcast]" clause in Node 1. This means that a
-complete CUSTOMER table is assembled on the host and broadcast to each
+complete <code>CUSTOMER</code> table is assembled on the host and broadcast to each
 SPU for further computation of the query. This may seem surprising at
 first since we have a substantial number of rows. But since the width
 of the result set is only 10 Bytes we are talking about 150000 rows *
 10 Bytes = 1.5MB. This is a small amount of data for a warehousing
 system.</p>
-<p>c.  Is Table ORDERS redistributed, broadcast or can it be joined
-    locally?
+<p>c.  Is Table <code>ORDERS</code> redistributed, broadcast or can it be joined
+locally?
 <div class="highlight"><pre><span></span><code>Node 2.
-
-[SPU Sequential Scan table &quot;ORDERS&quot; as &quot;O&quot; {(O.O_ORDERKEY)}]
-
-**-- Estimated Rows = 3000**, Width = 8, Cost = 0.0 .. 1653.2, Conf =
-64.0
-
-**Restrictions:**
-
-**((O.O_ORDERPRIORITY = &#39;1-URGENT&#39;::BPCHAR) AND
-(DATE_PART(&#39;YEAR&#39;::&quot;VARCHAR&quot;, O.O_ORDERDATE) = 1996))**
-
-Projections:
-
-1:O.O_TOTALPRICE
+  [SPU Sequential Scan table &quot;ORDERS&quot; as &quot;O&quot; {(O.O_ORDERKEY)}]
+      -- Estimated Rows = 3000, Width = 8, Cost = 0.0 .. 1653.2, Conf = 64.0
+      Restrictions:
+        ((O.O_ORDERPRIORITY = &#39;1-URGENT&#39;::BPCHAR) AND (DATE_PART(&#39;YEAR&#39;::&quot;VARCHAR&quot;, O.O_ORDERDATE) = 1996))
+      Projections:
+        1:O.O_TOTALPRICE
 </code></pre></div>
-The second node of the execution plan does a scan of the ORDERS table.
-One column O_TOTALPRICE is projected and used in further computations.
+The second node of the execution plan does a scan of the <code>ORDERS</code> table.
+One column <code>O_TOTALPRICE</code> is projected and used in further computations.
 We cannot see any distribution or broadcast clauses so this table can
-be joined locally. This is true because the CUSTOMER table is
+be joined locally. This is true because the <code>CUSTOMER</code> table is
 broadcast to all SPUs. If one table of a join is broadcast the other
 table doesn't need any redistribution.</p>
-<p>d.  In which node are the WHERE conditions applied and how many rows
-    does Netezza Performance Server expect to fulfill the WHERE
+<p>d.  In which node are the <code>WHERE</code> conditions applied and how many rows
+    does Netezza Performance Server expect to fulfill the <code>WHERE</code>
     condition?</p>
-<p>We can see from the "Restrictions" clause in Node 2 that the WHERE
+<p>We can see from the "Restrictions" clause in Node 2 that the <code>WHERE</code>
 conditions of our query are applied here. This should be clear since
-both WHERE conditions are applied to the ORDERS table and the
-restriction of rows can occur during the scan of the ORDERS table. As
+both <code>WHERE</code> conditions are applied to the <code>ORDERS</code> table and the
+restriction of rows can occur during the scan of the <code>ORDERS</code> table. As
 we can see in the "Estimated Rows" clause, the optimizer estimates a
 returned set of 3000 rows. We know this is not a perfect estimate
 since we found 46014 rows are returned from this table.</p>
 <p>e.  What kind of join takes place and in which node?
 <div class="highlight"><pre><span></span><code>Node 3.
-
-**[SPU Nested Loop Stream &quot;Node 2&quot; with Temp &quot;Node 1&quot;
-{(O.O_ORDERKEY)}]**
-
-**-- Estimated Rows = 450000007**, Width = 18, **Cost = 660086.9 ..
-7306828.5**, Conf = 64.0
-
-Restrictions:
-
-&#39;t&#39;::BOOL
-
-Projections:
-
-1:C.C_MKTSEGMENT 2:O.O_TOTALPRICE
+  [SPU Nested Loop Stream &quot;Node 2&quot; with Temp &quot;Node 1&quot; {(O.O_ORDERKEY)}]
+      -- Estimated Rows = 450000007, Width = 18, Cost = 660086.9 .. 7306828.5, Conf = 64.0
+      Restrictions:
+        &#39;t&#39;::BOOL
+      Projections:
+        1:C.C_MKTSEGMENT  2:O.O_TOTALPRICE
 </code></pre></div>
 The third node of our execution plan contains the join between the two
 tables. It is a Nested Loop Join which means that every row of the
@@ -1059,68 +1062,68 @@ the join node 3.</p>
 that it is intended to compute the average order cost per market
 segment. This means we should join all customers to their
 corresponding order rows. But for this to happen we would need a join
-condition that joins the CUSTOMER table and the ORDERS table on the
+condition that joins the <code>CUSTOMER</code> table and the <code>ORDERS</code> table on the
 customer key. Instead the query performs a Cartesian Join, joining
 each customer row to each orders row. This is a very work intensive
 query that results in the behavior we have seen. The joined result set
 becomes huge. And the result does not answer the question that we
 intended to ask.</p>
-<ol start="4">
-<li>So how do we fix this? By adding a join condition to the query that
+</li>
+<li>
+<p>So how do we fix this? By adding a join condition to the query that
     makes sure that customers are only joined to their orders. This
-    additional join condition is O.O_CUSTKEY=C.C_CUSTKEY. Execute the
-    following EXPLAIN command for the modified query.</li>
-</ol>
-<div class="admonition abstract">
-<p class="admonition-title">Input</p>
-<div class="highlight"><pre><span></span><code>EXPLAIN<span class="w"> </span>VERBOSE<span class="w"> </span>SELECT<span class="w"> </span>c.c_mktsegment,<span class="w">  </span>
-AVG<span class="o">(</span>o.o_totalprice<span class="o">)</span><span class="w"> </span>FROM<span class="w"> </span>orders<span class="w"> </span>AS<span class="w"> </span>o,<span class="w"> </span>CUSTOMER<span class="w"> </span>as<span class="w"> </span>c<span class="w"> </span>WHERE<span class="w"> </span>EXTRACT<span class="o">(</span>YEAR<span class="w">  </span>
-FROM<span class="w"> </span>o.o_orderdate<span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1996</span><span class="w"> </span>AND<span class="w"> </span>o.o_orderpriority<span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;1-URGENT&#39;</span><span class="w"> </span>AND<span class="w">   </span>
-o.o_custkey<span class="w"> </span><span class="o">=</span><span class="w"> </span>c.c_custkey<span class="w"> </span>GROUP<span class="w"> </span>BY<span class="w"> </span>c.c_mktsegment<span class="p">;</span><span class="o">]</span>
+    additional join condition is <code>O.O_CUSTKEY=C.C_CUSTKEY</code>. Execute the
+    following <code>EXPLAIN</code> command for the modified query.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="10:2"><input checked="checked" id="__tabbed_10_1" name="__tabbed_10" type="radio" /><input id="__tabbed_10_2" name="__tabbed_10" type="radio" /><div class="tabbed-labels"><label for="__tabbed_10_1">Input</label><label for="__tabbed_10_2">Output</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>EXPLAIN VERBOSE 
+SELECT c.c_mktsegment, AVG(o.o_totalprice) 
+  FROM orders AS o, CUSTOMER as c 
+WHERE EXTRACT(YEAR  FROM o.o_orderdate) = 1996 AND o.o_orderpriority = &#39;1-URGENT&#39; AND   
+o.o_custkey = c.c_custkey 
+GROUP BY c.c_mktsegment;]
 </code></pre></div>
 </div>
-<div class="admonition abstract">
-<p class="admonition-title">Output</p>
-<div class="highlight"><pre><span></span><code>EXPLAIN<span class="w"> </span>VERBOSE<span class="w"> </span>SELECT<span class="w"> </span>c.c_mktsegment,<span class="w"> </span>AVG<span class="o">(</span>o.o_totalprice<span class="o">)</span><span class="w"> </span>FROM<span class="w"> </span>orders<span class="w">  </span>
-AS<span class="w"> </span>o,<span class="w"> </span>CUSTOMER<span class="w"> </span>as<span class="w"> </span>c<span class="w"> </span>WHERE<span class="w"> </span>EXTRACT<span class="o">(</span>YEAR<span class="w"> </span>FROM<span class="w"> </span>o.o_orderdate<span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1996</span><span class="w"> </span>AND<span class="w">   </span>
-o.o_orderpriority<span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;1-URGENT&#39;</span><span class="w"> </span>AND<span class="w"> </span>o.o_custkey<span class="w"> </span><span class="o">=</span><span class="w"> </span>c.c_custkey<span class="w"> </span>GROUP<span class="w"> </span>BY<span class="w">   </span>
-c.c_mktsegment<span class="p">;</span><span class="w"> </span>
-QUERY<span class="w"> </span>VERBOSE<span class="w"> </span>PLAN:<span class="w"> </span>
-Node<span class="w"> </span><span class="m">1</span>.<span class="w"> </span>
-<span class="o">[</span>SPU<span class="w"> </span>Sequential<span class="w"> </span>Scan<span class="w"> </span>table<span class="w"> </span><span class="s2">&quot;ORDERS&quot;</span><span class="w"> </span>as<span class="w"> </span><span class="s2">&quot;O&quot;</span><span class="w"> </span><span class="o">{(</span>O.O_ORDERKEY<span class="o">)}]</span><span class="w">    </span>
---<span class="w"> </span>Estimated<span class="w"> </span><span class="nv">Rows</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3000</span>,<span class="w"> </span><span class="nv">Width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">12</span>,<span class="w"> </span><span class="nv">Cost</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>.0<span class="w"> </span>..<span class="w"> </span><span class="m">1653</span>.2,<span class="w"> </span><span class="nv">Conf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">64</span>.0<span class="w"> </span>
-Restrictions:<span class="w">   </span>
-<span class="o">((</span>O.O_ORDERPRIORITY<span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;1-URGENT&#39;</span>::BPCHAR<span class="o">)</span><span class="w"> </span>AND<span class="w">   </span>
-<span class="o">(</span>DATE_PART<span class="o">(</span><span class="s1">&#39;YEAR&#39;</span>::<span class="s2">&quot;VARCHAR&quot;</span>,<span class="w"> </span>O.O_ORDERDATE<span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1996</span><span class="o">))</span><span class="w">   </span>
-Projections:<span class="w">    </span>
-<span class="m">1</span>:O.O_TOTALPRICE<span class="w"> </span>**2:O.O_CUSTKEY**<span class="w">  </span>
-Cardinality:<span class="w">    </span>
-O.O_CUSTKEY<span class="w"> </span><span class="m">3</span>.0K<span class="w"> </span><span class="o">(</span>Adjusted<span class="o">)</span><span class="w"> </span>
-**<span class="o">[</span>SPU<span class="w"> </span>Distribute<span class="w"> </span>on<span class="w"> </span><span class="o">{(</span>O.O_CUSTKEY<span class="o">)}]</span>**<span class="w"> </span>
-**<span class="o">[</span>HashIt<span class="w"> </span><span class="k">for</span><span class="w"> </span>Join<span class="o">]</span>**<span class="w">   </span>
-Node<span class="w"> </span><span class="m">2</span>.<span class="w"> </span>
-<span class="o">[</span>SPU<span class="w"> </span>Sequential<span class="w"> </span>Scan<span class="w"> </span>table<span class="w"> </span><span class="s2">&quot;CUSTOMER&quot;</span><span class="w"> </span>as<span class="w"> </span><span class="s2">&quot;C&quot;</span><span class="w"> </span><span class="o">{(</span>C.C_CUSTKEY<span class="o">)}]</span><span class="w">   </span>
---<span class="w"> </span>Estimated<span class="w"> </span><span class="nv">Rows</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">150000</span>,<span class="w"> </span><span class="nv">Width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">14</span>,<span class="w"> </span><span class="nv">Cost</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>.0<span class="w"> </span>..<span class="w"> </span><span class="m">258</span>.4,<span class="w"> </span><span class="nv">Conf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>
-<span class="m">100</span>.0<span class="w">   </span>
-Projections:<span class="w">    </span>
-<span class="m">1</span>:C.C_MKTSEGMENT<span class="w"> </span>**2:C.C_CUSTKEY**<span class="w">  </span>
-Node<span class="w"> </span><span class="m">3</span>.<span class="w"> </span>
-**<span class="o">[</span>SPU<span class="w"> </span>Hash<span class="w"> </span>Join<span class="w"> </span>Stream<span class="w"> </span><span class="s2">&quot;Node 2&quot;</span><span class="w"> </span>with<span class="w"> </span>Temp<span class="w"> </span><span class="s2">&quot;Node 1&quot;</span><span class="w"> </span>
-<span class="o">{(</span>O.O_CUSTKEY,C.C_CUSTKEY<span class="o">)}]</span>**<span class="w">  </span>
-**--<span class="w"> </span>Estimated<span class="w"> </span><span class="nv">Rows</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">150000</span>**,<span class="w"> </span><span class="nv">Width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">18</span>,<span class="w"> </span>**Cost<span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1653</span>.2<span class="w"> </span>..<span class="w">  </span>
-<span class="m">2015</span>.2**,<span class="w"> </span><span class="nv">Conf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">51</span>.2<span class="w">   </span>
-**Restrictions:**<span class="w">   </span>
-**<span class="o">(</span>C.C_CUSTKEY<span class="w"> </span><span class="o">=</span><span class="w"> </span>O.O_CUSTKEY<span class="o">)</span>**<span class="w"> </span>
-Projections:<span class="w">    </span>
-<span class="m">1</span>:C.C_MKTSEGMENT<span class="w"> </span><span class="m">2</span>:O.O_TOTALPRICE<span class="w">   </span>
-Cardinality:<span class="w">    </span>
-O.O_CUSTKEY<span class="w"> </span><span class="m">100</span><span class="w"> </span><span class="o">(</span>Adjusted<span class="o">)</span><span class="w">  </span>
-..&lt;Removed<span class="w"> </span>Plan<span class="w"> </span>Text&gt;..
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>EXPLAIN VERBOSE SELECT c.c_mktsegment, AVG(o.o_totalprice) FROM orders AS o, CUSTOMER as c WHERE EXTRACT(YEAR FROM o.o_orderdate) = 1996 AND o.o_orderpriority = &#39;1-URGENT&#39; AND o.o_custkey = c.c_custkey GROUP BY c.c_mktsegment;
+
+QUERY VERBOSE PLAN:
+
+Node 1.
+  [SPU Sequential Scan table &quot;ORDERS&quot; as &quot;O&quot; {(O.O_ORDERKEY)}]
+      -- Estimated Rows = 3000, Width = 12, Cost = 0.0 .. 1653.2, Conf = 64.0
+      Restrictions:
+        ((O.O_ORDERPRIORITY = &#39;1-URGENT&#39;::BPCHAR) AND (DATE_PART(&#39;YEAR&#39;::&quot;VARCHAR&quot;, O.O_ORDERDATE) = 1996))
+      Projections:
+        1:O.O_TOTALPRICE  2:O.O_CUSTKEY
+      Cardinality:
+        O.O_CUSTKEY 3.0K (Adjusted)
+  [SPU Distribute on {(O.O_CUSTKEY)}]
+  [HashIt for Join]
+Node 2.
+  [SPU Sequential Scan table &quot;CUSTOMER&quot; as &quot;C&quot; {(C.C_CUSTKEY)}]
+      -- Estimated Rows = 150000, Width = 14, Cost = 0.0 .. 258.4, Conf = 100.0
+      Projections:
+        1:C.C_MKTSEGMENT  2:C.C_CUSTKEY
+Node 3.
+  [SPU Hash Join Stream &quot;Node 2&quot; with Temp &quot;Node 1&quot; {(O.O_CUSTKEY,C.C_CUSTKEY)}]
+      -- Estimated Rows = 150000, Width = 18, Cost = 1653.2 .. 2015.2, Conf = 51.2
+      Restrictions:
+        (C.C_CUSTKEY = O.O_CUSTKEY)
+      Projections:
+        1:C.C_MKTSEGMENT  2:O.O_TOTALPRICE
+      Cardinality:
+        O.O_CUSTKEY 100 (Adjusted)
+
+..&lt;Removed Plan Text&gt;..
 </code></pre></div>
+</div>
+</div>
 </div>
 <p>As you can see there have been some changes to the execution plan. The
-ORDERS table is now scanned and distributed on the customer key rather
-than broadcast. The CUSTOMER table is already distributed on the
+<code>ORDERS</code> table is now scanned and distributed on the customer key rather
+than broadcast. The <code>CUSTOMER</code> table is already distributed on the
 customer key, so no redistribution needs to happen. Both tables are
 then joined in node 3 through a Hash Join on the customer key, as seen
 in the "Restrictions" clause. Also see how the join key of each table
@@ -1129,46 +1132,50 @@ is now projected in Node 1 and Node 2 so the join can be done in Node
 of customers. Since we have a 1:n relationship between customers and
 orders this is as we would expect. Also, the estimated cost of Node 3
 has come down by over a factor of 100!</p>
-<ol start="5">
+</li>
 <li>
 <p>Let's make sure that the query performance has indeed improved.
     Switch on the display of elapsed query time with the following
     command:</p>
-<div class="admonition abstract">
-<p class="admonition-title">Input</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="11:1"><input checked="checked" id="__tabbed_11_1" name="__tabbed_11" type="radio" /><div class="tabbed-labels"><label for="__tabbed_11_1">Input</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block"></div>
 </div>
-<div class="highlight"><pre><span></span><code><span class="se">\t</span>ime
+</div>
+<div class="highlight"><pre><span></span><code>\time
 </code></pre></div>
-</li>
-</ol>
 <p>If you want, you can later switch off the elapsed time display by
 executing the same command again. It is a toggle.</p>
-<ol start="6">
-<li>Now execute our modified query:</li>
+</li>
+<li>
+<p>Now execute our modified query:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="12:2"><input checked="checked" id="__tabbed_12_1" name="__tabbed_12" type="radio" /><input id="__tabbed_12_2" name="__tabbed_12" type="radio" /><div class="tabbed-labels"><label for="__tabbed_12_1">Input</label><label for="__tabbed_12_2">Output</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>SELECT c.c_mktsegment, AVG(o.o_totalprice)  
+FROM orders AS o,CUSTOMER as c 
+WHERE EXTRACT(YEAR FROM o.o_orderdate) = 1996 AND 
+o.o_orderpriority = &#39;1-URGENT&#39; AND 
+o.o_custkey = c.c_custkey   
+GROUP BY c.c_mktsegment;
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>C_MKTSEGMENT | AVG  
+--------------+---------------  
+BUILDING | 151275.977882    
+MACHINERY | 151348.971079   
+HOUSEHOLD | 150196.009267   
+FURNITURE | 150998.129771   
+AUTOMOBILE | 151488.825830  
+(5 rows)    
+Elapsed time: 0m0.796s
+</code></pre></div>
+</div>
+</div>
+</div>
+</li>
 </ol>
-<div class="admonition abstract">
-<p class="admonition-title">Input</p>
-<div class="highlight"><pre><span></span><code>SELECT<span class="w"> </span>c.c_mktsegment,<span class="w"> </span>AVG<span class="o">(</span>o.o_totalprice<span class="o">)</span><span class="w">  </span>
-FROM<span class="w"> </span>orders<span class="w"> </span>AS<span class="w"> </span>o,CUSTOMER<span class="w"> </span>as<span class="w"> </span>c<span class="w"> </span>
-WHERE<span class="w"> </span>EXTRACT<span class="o">(</span>YEAR<span class="w"> </span>FROM<span class="w"> </span>o.o_orderdate<span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1996</span><span class="w"> </span>AND<span class="w"> </span>
-o.o_orderpriority<span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;1-URGENT&#39;</span><span class="w"> </span>AND<span class="w"> </span>
-o.o_custkey<span class="w"> </span><span class="o">=</span><span class="w"> </span>c.c_custkey<span class="w">   </span>
-GROUP<span class="w"> </span>BY<span class="w"> </span>c.c_mktsegment<span class="p">;</span>
-</code></pre></div>
-</div>
-<div class="admonition abstract">
-<p class="admonition-title">Output</p>
-<div class="highlight"><pre><span></span><code>C_MKTSEGMENT<span class="w"> </span><span class="p">|</span><span class="w"> </span>AVG<span class="w">  </span>
---------------+---------------<span class="w">  </span>
-BUILDING<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">151275</span>.977882<span class="w">    </span>
-MACHINERY<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">151348</span>.971079<span class="w">   </span>
-HOUSEHOLD<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">150196</span>.009267<span class="w">   </span>
-FURNITURE<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">150998</span>.129771<span class="w">   </span>
-AUTOMOBILE<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">151488</span>.825830<span class="w">  </span>
-<span class="o">(</span><span class="m">5</span><span class="w"> </span>rows<span class="o">)</span><span class="w">    </span>
-Elapsed<span class="w"> </span>time:<span class="w"> </span>0m0.796s
-</code></pre></div>
-</div>
 <p>Before we made our changes the query took so long that we couldn't
 wait for it to finish. After our changes the execution time has
 improved to slightly under a second. In this relatively simple case we
@@ -1176,8 +1183,8 @@ might have been able to pinpoint the problem through analyzing the SQL
 on its own. But this can be almost impossible for complicated
 multi-join queries that are often used in warehousing. Reporting and
 BI tools tend to create very complicated portable SQL as well. In
-these cases, EXPLAIN can be a valuable tool to pinpoint the problem.</p>
-<h1 id="html-explain">HTML Explain</h1>
+these cases, <code>EXPLAIN</code> can be a valuable tool to pinpoint the problem.</p>
+<h2 id="5-html-explain">5 HTML Explain</h2>
 <p>In this section we will look at the HTML plangraph for the customer
 query that we just fixed. Besides the text descriptions of the exeution
 plan we used in the previous chapter, PureData System provides the
@@ -1185,108 +1192,112 @@ ability to generate a graphical query tree as well. This is done with
 the help of HTML. So plangraph files can be created and viewed in your
 internet browser. PureData System can be configured to save a HTML
 plangraph or plantext file for every executed SQL query. But in this
-chapter we will use the basic EXPLAIN PLANGRAPH command and use
+chapter we will use the basic <code>EXPLAIN PLANGRAPH</code> command and use
 Cut&amp;Paste to export the file to your host computer.</p>
 <ol>
-<li>Enter the query with the keyword EXPLAIN PLANGRAPH to generate the
+<li>Enter the query with the keyword <code>EXPLAIN PLANGRAPH</code> to generate the
     HTML plangraph:</li>
 </ol>
-<div class="admonition abstract">
-<p class="admonition-title">Input</p>
-<div class="highlight"><pre><span></span><code>EXPLAIN<span class="w"> </span>PLANGRAPH<span class="w"> </span>SELECT<span class="w"> </span>c.c_mktsegment,<span class="w">    </span>
-AVG<span class="o">(</span>o.o_totalprice<span class="o">)</span><span class="w"> </span>FROM<span class="w"> </span>orders<span class="w"> </span>AS<span class="w"> </span>o,<span class="w"> </span>CUSTOMER<span class="w"> </span>as<span class="w"> </span>c<span class="w"> </span>WHERE<span class="w"> </span>EXTRACT<span class="o">(</span>YEAR<span class="w">  </span>
-FROM<span class="w"> </span>o.o_orderdate<span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1996</span><span class="w"> </span>AND<span class="w"> </span>o.o_orderpriority<span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;1-URGENT&#39;</span><span class="w"> </span>AND<span class="w">   </span>
-o.o_custkey<span class="w"> </span><span class="o">=</span><span class="w"> </span>c.c_custkey<span class="w"> </span>GROUP<span class="w"> </span>BY<span class="w"> </span>c.c_mktsegment<span class="p">;</span>
+<div class="tabbed-set tabbed-alternate" data-tabs="13:2"><input checked="checked" id="__tabbed_13_1" name="__tabbed_13" type="radio" /><input id="__tabbed_13_2" name="__tabbed_13" type="radio" /><div class="tabbed-labels"><label for="__tabbed_13_1">Input</label><label for="__tabbed_13_2">Output</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>EXPLAIN PLANGRAPH 
+SELECT c.c_mktsegment,  AVG(o.o_totalprice) 
+  FROM orders AS o, CUSTOMER as c 
+WHERE EXTRACT(YEAR FROM o.o_orderdate) = 1996 AND o.o_orderpriority = &#39;1-URGENT&#39; AND    
+o.o_custkey = c.c_custkey 
+GROUP BY c.c_mktsegment;
 </code></pre></div>
 </div>
-<div class="admonition abstract">
-<p class="admonition-title">Output</p>
-<div class="highlight"><pre><span></span><code>NOTICE:<span class="w"> </span>QUERY<span class="w"> </span>PLAN:<span class="w"> </span>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>NOTICE: QUERY PLAN: 
 
-**&lt;html<span class="w"> </span>xmlns:v<span class="o">=</span><span class="s2">&quot;urn:schemas-microsoft-com:vml&quot;</span><span class="w"> </span>
-<span class="nv">xmlns</span><span class="o">=</span><span class="s2">&quot;http://www.w3.org/TR/REC-html40&quot;</span>&gt;**<span class="w">  </span>
-&lt;head&gt;<span class="w">  </span>
-&lt;meta<span class="w"> </span>http-equiv<span class="o">=</span><span class="s2">&quot;Content-Type&quot;</span><span class="w"> </span><span class="nv">content</span><span class="o">=</span><span class="s2">&quot;text/html; </span>
-<span class="s2">charset=utf-8&quot;</span>&gt;<span class="w"> </span>
-&lt;meta<span class="w"> </span>http-equiv<span class="o">=</span><span class="s2">&quot;Generator&quot;</span><span class="w"> </span><span class="nv">content</span><span class="o">=</span><span class="s2">&quot;Netezza Performance Server&quot;</span>&gt;<span class="w">  </span>
-&lt;style&gt;<span class="w"> </span>
-v<span class="se">\:</span>*<span class="w"> </span><span class="o">{</span>behavior:url<span class="o">(</span><span class="c1">#default#VML);}  </span>
-&lt;/style&gt;<span class="w">    </span>
-&lt;/head&gt;<span class="w"> </span>
-&lt;body<span class="w"> </span><span class="nv">lang</span><span class="o">=</span><span class="s2">&quot;en-US&quot;</span>&gt;<span class="w"> </span>
-&lt;pre<span class="w"> </span><span class="nv">style</span><span class="o">=</span><span class="s2">&quot;font:normal 68% </span>
-<span class="s2">verdana,arial,helvetica;background:#EEEEEE;margin-top:1em;margin-bottom:1em;margin-left:0px;padding:5pt;&quot;</span>&gt;<span class="w">  </span>
-EXPLAIN<span class="w"> </span>PLANGRAPH<span class="w"> </span>SELECT<span class="w"> </span>c.c_mktsegment,<span class="w"> </span>AVG<span class="o">(</span>o.o_totalprice<span class="o">)</span><span class="w"> </span>FROM<span class="w"> </span>orders<span class="w">    </span>
-AS<span class="w"> </span>o,<span class="w"> </span>CUSTOMER<span class="w"> </span>as<span class="w"> </span>c<span class="w"> </span>WHERE<span class="w"> </span>EXTRACT<span class="o">(</span>YEAR<span class="w"> </span>FROM<span class="w"> </span>o.o_orderdate<span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1996</span><span class="w"> </span>AND<span class="w">   </span>
-o.o_orderpriority<span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;1-URGENT&#39;</span><span class="w"> </span>AND<span class="w"> </span>o.o_custkey<span class="w"> </span><span class="o">=</span><span class="w"> </span>c.c_custkey<span class="w"> </span>GROUP<span class="w"> </span>BY<span class="w">   </span>
-c.c_mktsegment<span class="p">;</span><span class="w"> </span>
-&lt;/pre&gt;<span class="w">  </span>
-&lt;v:textbox<span class="w">  </span>
-<span class="nv">style</span><span class="o">=</span><span class="s2">&quot;position:absolute;margin-left:230pt;margin-top:19pt;width:80pt;height:25pt;z-index:10;&quot;</span>&gt;<span class="w"> </span>
-&lt;p<span class="w"> </span><span class="nv">style</span><span class="o">=</span><span class="s2">&quot;text-align:center;font-size:6pt;&quot;</span>&gt;AGG&lt;br/&gt;r<span class="o">=</span><span class="m">100</span><span class="w"> </span><span class="nv">w</span><span class="o">=</span><span class="m">26</span><span class="w">  </span>
-<span class="nv">s</span><span class="o">=</span><span class="m">2</span>.5KB&lt;/p&gt;&lt;/v:textbox&gt;<span class="w"> </span>
-&lt;v:oval<span class="w"> </span>
-<span class="nv">style</span><span class="o">=</span><span class="s2">&quot;position:absolute;margin-left:231pt;margin-top:15pt;width:78pt;height:25pt;z-index:9;&quot;</span><span class="w">   </span>
-<span class="nv">fillcolor</span><span class="o">=</span><span class="s2">&quot;#808080&quot;</span>&gt;&lt;/v:oval&gt;<span class="w">   </span>
-&lt;v:textbox<span class="w">  </span>
-<span class="nv">style</span><span class="o">=</span><span class="s2">&quot;position:absolute;margin-left:230pt;margin-top:0pt;width:80pt;height:25pt;z-index:10;&quot;</span>&gt;<span class="w">  </span>
-&lt;p<span class="w"> </span><span class="nv">style</span><span class="o">=</span><span class="s2">&quot;text-align:center;font-size:6pt;&quot;</span>&gt;ret&lt;/p&gt;&lt;/v:textbox&gt;<span class="w"> </span>
-&lt;v:textbox<span class="w">  </span>
-<span class="nv">style</span><span class="o">=</span><span class="s2">&quot;position:absolute;margin-left:230pt;margin-top:54pt;width:80pt;height:25pt;z-index:10;&quot;</span>&gt;<span class="w"> </span>
-&lt;p<span class="w"> </span><span class="nv">style</span><span class="o">=</span><span class="s2">&quot;text-align:center;font-size:6pt;&quot;</span>&gt;GROUP&lt;br/&gt;r<span class="o">=</span><span class="m">100</span><span class="w"> </span><span class="nv">w</span><span class="o">=</span><span class="m">18</span><span class="w">    </span>
-<span class="nv">s</span><span class="o">=</span><span class="m">1</span>.8KB&lt;/p&gt;&lt;/v:textbox&gt;<span class="w"> </span>
-&lt;v:oval<span class="w"> </span>
-<span class="nv">style</span><span class="o">=</span><span class="s2">&quot;position:absolute;margin-left:231pt;margin-top:50pt;width:78pt;height:25pt;z-index:9;&quot;</span>&gt;&lt;/v:oval&gt;<span class="w"> </span>
-&lt;v:line<span class="w"> </span><span class="nv">style</span><span class="o">=</span><span class="s2">&quot;position:absolute;z-index:8;&quot;</span><span class="w"> </span><span class="nv">from</span><span class="o">=</span><span class="s2">&quot;270pt,27pt&quot;</span><span class="w">  </span>
-<span class="nv">to</span><span class="o">=</span><span class="s2">&quot;270pt,62pt&quot;</span>/&gt;<span class="w">   </span>
-&lt;v:textbox<span class="w">  </span>
-<span class="nv">style</span><span class="o">=</span><span class="s2">&quot;position:absolute;margin-left:233pt;margin-top:42pt;width:80pt;height:25pt;z-index:10;&quot;</span>&gt;<span class="w"> </span>
-&lt;p<span class="w">  </span>
-<span class="nv">style</span><span class="o">=</span><span class="s2">&quot;text-align:center;font-size:6pt;&quot;</span>&gt;snd,m-grp&lt;/p&gt;&lt;/v:textbox&gt;<span class="w">  </span>
-&lt;v:textbox<span class="w">  </span>
-<span class="nv">style</span><span class="o">=</span><span class="s2">&quot;position:absolute;margin-left:230pt;margin-top:89pt;width:80pt;height:31pt;z-index:10;&quot;</span>&gt;<span class="w"> </span>
-&lt;p<span class="w"> </span><span class="nv">style</span><span class="o">=</span><span class="s2">&quot;text-align:center;font-size:6pt;&quot;</span>&gt;HASHJOIN&lt;br/&gt;r<span class="o">=</span><span class="m">150</span>.0K<span class="w">   </span>
-<span class="nv">w</span><span class="o">=</span><span class="m">18</span><span class="w"> </span><span class="nv">s</span><span class="o">=</span><span class="m">2</span>.6MB&lt;br/&gt;<span class="o">(</span><span class="nv">C_CUSTKEY</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>O_CUSTKEY<span class="o">)</span>&lt;/p&gt;&lt;/v:textbox&gt;<span class="w">    </span>
-&lt;v:oval<span class="w"> </span>
-<span class="nv">style</span><span class="o">=</span><span class="s2">&quot;position:absolute;margin-left:231pt;margin-top:85pt;width:78pt;height:31pt;z-index:9;&quot;</span>&gt;&lt;/v:oval&gt;<span class="w"> </span>
-&lt;v:line<span class="w"> </span><span class="nv">style</span><span class="o">=</span><span class="s2">&quot;position:absolute;z-index:8;&quot;</span><span class="w"> </span><span class="nv">from</span><span class="o">=</span><span class="s2">&quot;270pt,62pt&quot;</span><span class="w">  </span>
-<span class="nv">to</span><span class="o">=</span><span class="s2">&quot;270pt,100pt&quot;</span>/&gt;<span class="w">  </span>
-&lt;v:textbox<span class="w">  </span>
-<span class="nv">style</span><span class="o">=</span><span class="s2">&quot;position:absolute;margin-left:190pt;margin-top:124pt;width:80pt;height:31pt;z-index:10;&quot;</span>&gt;<span class="w">    </span>
-&lt;p<span class="w"> </span><span class="nv">style</span><span class="o">=</span><span class="s2">&quot;text-align:center;font-size:6pt;&quot;</span>&gt;SEQSCAN&lt;br/&gt;r<span class="o">=</span><span class="m">150</span>.0K<span class="w">    </span>
-<span class="nv">w</span><span class="o">=</span><span class="m">14</span><span class="w"> </span><span class="nv">s</span><span class="o">=</span><span class="m">2</span>.0MB&lt;br/&gt;C&lt;/p&gt;&lt;/v:textbox&gt;<span class="w">  </span>
-&lt;v:oval<span class="w"> </span>
-<span class="nv">style</span><span class="o">=</span><span class="s2">&quot;position:absolute;margin-left:191pt;margin-top:120pt;width:78pt;height:31pt;z-index:9;&quot;</span>&gt;&lt;/v:oval&gt;<span class="w">    </span>
-&lt;v:line<span class="w"> </span><span class="nv">style</span><span class="o">=</span><span class="s2">&quot;position:absolute;z-index:8;&quot;</span><span class="w"> </span><span class="nv">from</span><span class="o">=</span><span class="s2">&quot;270pt,97pt&quot;</span><span class="w">  </span>
-<span class="nv">to</span><span class="o">=</span><span class="s2">&quot;230pt,135pt&quot;</span>/&gt;<span class="w">  </span>
-&lt;v:textbox<span class="w">  </span>
-<span class="nv">style</span><span class="o">=</span><span class="s2">&quot;position:absolute;margin-left:270pt;margin-top:124pt;width:80pt;height:25pt;z-index:10;&quot;</span>&gt;<span class="w">    </span>
-&lt;p<span class="w"> </span><span class="nv">style</span><span class="o">=</span><span class="s2">&quot;text-align:center;font-size:6pt;&quot;</span>&gt;HASH&lt;br/&gt;r<span class="o">=</span><span class="m">3</span>.0K<span class="w"> </span><span class="nv">w</span><span class="o">=</span><span class="m">12</span><span class="w">    </span>
-<span class="nv">s</span><span class="o">=</span><span class="m">35</span>.2KB&lt;/p&gt;&lt;/v:textbox&gt;<span class="w">    </span>
-&lt;v:oval<span class="w"> </span>
-<span class="nv">style</span><span class="o">=</span><span class="s2">&quot;position:absolute;margin-left:271pt;margin-top:120pt;width:78pt;height:25pt;z-index:9;&quot;</span>&gt;&lt;/v:oval&gt;<span class="w">    </span>
-&lt;v:line<span class="w"> </span><span class="nv">style</span><span class="o">=</span><span class="s2">&quot;position:absolute;z-index:8;&quot;</span><span class="w"> </span><span class="nv">from</span><span class="o">=</span><span class="s2">&quot;270pt,97pt&quot;</span><span class="w">  </span>
-<span class="nv">to</span><span class="o">=</span><span class="s2">&quot;310pt,132pt&quot;</span>/&gt;<span class="w">  </span>
-&lt;v:textbox<span class="w">  </span>
-<span class="nv">style</span><span class="o">=</span><span class="s2">&quot;position:absolute;margin-left:253pt;margin-top:112pt;width:80pt;height:25pt;z-index:10;&quot;</span>&gt;<span class="w">    </span>
-&lt;p<span class="w">  </span>
-<span class="nv">style</span><span class="o">=</span><span class="s2">&quot;text-align:center;font-size:6pt;&quot;</span>&gt;dst<span class="o">{(</span>O_CUSTKEY<span class="o">)}</span>&lt;/p&gt;&lt;/v:textbox&gt;<span class="w">   </span>
-&lt;v:textbox<span class="w">  </span>
-<span class="nv">style</span><span class="o">=</span><span class="s2">&quot;position:absolute;margin-left:270pt;margin-top:159pt;width:80pt;height:31pt;z-index:10;&quot;</span>&gt;<span class="w">    </span>
-&lt;p<span class="w"> </span><span class="nv">style</span><span class="o">=</span><span class="s2">&quot;text-align:center;font-size:6pt;&quot;</span>&gt;SEQSCAN&lt;br/&gt;r<span class="o">=</span><span class="m">3</span>.0K<span class="w">  </span>
-<span class="nv">w</span><span class="o">=</span><span class="m">12</span><span class="w"> </span><span class="nv">s</span><span class="o">=</span><span class="m">35</span>.2KB&lt;br/&gt;O&lt;/p&gt;&lt;/v:textbox&gt;<span class="w"> </span>
-&lt;v:oval<span class="w"> </span>
-<span class="nv">style</span><span class="o">=</span><span class="s2">&quot;position:absolute;margin-left:271pt;margin-top:155pt;width:78pt;height:31pt;z-index:9;&quot;</span>&gt;&lt;/v:oval&gt;<span class="w">    </span>
-&lt;v:line<span class="w"> </span><span class="nv">style</span><span class="o">=</span><span class="s2">&quot;position:absolute;z-index:8;&quot;</span><span class="w"> </span><span class="nv">from</span><span class="o">=</span><span class="s2">&quot;310pt,132pt&quot;</span><span class="w"> </span>
-<span class="nv">to</span><span class="o">=</span><span class="s2">&quot;310pt,170pt&quot;</span>/&gt;<span class="w">  </span>
-&lt;/body&gt;<span class="w"> </span>
-**&lt;/html&gt;**<span class="w"> </span>
+**&lt;html xmlns:v=&quot;urn:schemas-microsoft-com:vml&quot; 
+xmlns=&quot;http://www.w3.org/TR/REC-html40&quot;&gt;**  
+&lt;head&gt;  
+&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; 
+charset=utf-8&quot;&gt; 
+&lt;meta http-equiv=&quot;Generator&quot; content=&quot;Netezza Performance Server&quot;&gt;  
+&lt;style&gt; 
+v\:* {behavior:url(#default#VML);}  
+&lt;/style&gt;    
+&lt;/head&gt; 
+&lt;body lang=&quot;en-US&quot;&gt; 
+&lt;pre style=&quot;font:normal 68% 
+verdana,arial,helvetica;background:#EEEEEE;margin-top:1em;margin-bottom:1em;margin-left:0px;padding:5pt;&quot;&gt;  
+EXPLAIN PLANGRAPH SELECT c.c_mktsegment, AVG(o.o_totalprice) FROM orders    
+AS o, CUSTOMER as c WHERE EXTRACT(YEAR FROM o.o_orderdate) = 1996 AND   
+o.o_orderpriority = &#39;1-URGENT&#39; AND o.o_custkey = c.c_custkey GROUP BY   
+c.c_mktsegment; 
+&lt;/pre&gt;  
+&lt;v:textbox  
+style=&quot;position:absolute;margin-left:230pt;margin-top:19pt;width:80pt;height:25pt;z-index:10;&quot;&gt; 
+&lt;p style=&quot;text-align:center;font-size:6pt;&quot;&gt;AGG&lt;br/&gt;r=100 w=26  
+s=2.5KB&lt;/p&gt;&lt;/v:textbox&gt; 
+&lt;v:oval 
+style=&quot;position:absolute;margin-left:231pt;margin-top:15pt;width:78pt;height:25pt;z-index:9;&quot;   
+fillcolor=&quot;#808080&quot;&gt;&lt;/v:oval&gt;   
+&lt;v:textbox  
+style=&quot;position:absolute;margin-left:230pt;margin-top:0pt;width:80pt;height:25pt;z-index:10;&quot;&gt;  
+&lt;p style=&quot;text-align:center;font-size:6pt;&quot;&gt;ret&lt;/p&gt;&lt;/v:textbox&gt; 
+&lt;v:textbox  
+style=&quot;position:absolute;margin-left:230pt;margin-top:54pt;width:80pt;height:25pt;z-index:10;&quot;&gt; 
+&lt;p style=&quot;text-align:center;font-size:6pt;&quot;&gt;GROUP&lt;br/&gt;r=100 w=18    
+s=1.8KB&lt;/p&gt;&lt;/v:textbox&gt; 
+&lt;v:oval 
+style=&quot;position:absolute;margin-left:231pt;margin-top:50pt;width:78pt;height:25pt;z-index:9;&quot;&gt;&lt;/v:oval&gt; 
+&lt;v:line style=&quot;position:absolute;z-index:8;&quot; from=&quot;270pt,27pt&quot;  
+to=&quot;270pt,62pt&quot;/&gt;   
+&lt;v:textbox  
+style=&quot;position:absolute;margin-left:233pt;margin-top:42pt;width:80pt;height:25pt;z-index:10;&quot;&gt; 
+&lt;p  
+style=&quot;text-align:center;font-size:6pt;&quot;&gt;snd,m-grp&lt;/p&gt;&lt;/v:textbox&gt;  
+&lt;v:textbox  
+style=&quot;position:absolute;margin-left:230pt;margin-top:89pt;width:80pt;height:31pt;z-index:10;&quot;&gt; 
+&lt;p style=&quot;text-align:center;font-size:6pt;&quot;&gt;HASHJOIN&lt;br/&gt;r=150.0K   
+w=18 s=2.6MB&lt;br/&gt;(C_CUSTKEY = O_CUSTKEY)&lt;/p&gt;&lt;/v:textbox&gt;    
+&lt;v:oval 
+style=&quot;position:absolute;margin-left:231pt;margin-top:85pt;width:78pt;height:31pt;z-index:9;&quot;&gt;&lt;/v:oval&gt; 
+&lt;v:line style=&quot;position:absolute;z-index:8;&quot; from=&quot;270pt,62pt&quot;  
+to=&quot;270pt,100pt&quot;/&gt;  
+&lt;v:textbox  
+style=&quot;position:absolute;margin-left:190pt;margin-top:124pt;width:80pt;height:31pt;z-index:10;&quot;&gt;    
+&lt;p style=&quot;text-align:center;font-size:6pt;&quot;&gt;SEQSCAN&lt;br/&gt;r=150.0K    
+w=14 s=2.0MB&lt;br/&gt;C&lt;/p&gt;&lt;/v:textbox&gt;  
+&lt;v:oval 
+style=&quot;position:absolute;margin-left:191pt;margin-top:120pt;width:78pt;height:31pt;z-index:9;&quot;&gt;&lt;/v:oval&gt;    
+&lt;v:line style=&quot;position:absolute;z-index:8;&quot; from=&quot;270pt,97pt&quot;  
+to=&quot;230pt,135pt&quot;/&gt;  
+&lt;v:textbox  
+style=&quot;position:absolute;margin-left:270pt;margin-top:124pt;width:80pt;height:25pt;z-index:10;&quot;&gt;    
+&lt;p style=&quot;text-align:center;font-size:6pt;&quot;&gt;HASH&lt;br/&gt;r=3.0K w=12    
+s=35.2KB&lt;/p&gt;&lt;/v:textbox&gt;    
+&lt;v:oval 
+style=&quot;position:absolute;margin-left:271pt;margin-top:120pt;width:78pt;height:25pt;z-index:9;&quot;&gt;&lt;/v:oval&gt;    
+&lt;v:line style=&quot;position:absolute;z-index:8;&quot; from=&quot;270pt,97pt&quot;  
+to=&quot;310pt,132pt&quot;/&gt;  
+&lt;v:textbox  
+style=&quot;position:absolute;margin-left:253pt;margin-top:112pt;width:80pt;height:25pt;z-index:10;&quot;&gt;    
+&lt;p  
+style=&quot;text-align:center;font-size:6pt;&quot;&gt;dst{(O_CUSTKEY)}&lt;/p&gt;&lt;/v:textbox&gt;   
+&lt;v:textbox  
+style=&quot;position:absolute;margin-left:270pt;margin-top:159pt;width:80pt;height:31pt;z-index:10;&quot;&gt;    
+&lt;p style=&quot;text-align:center;font-size:6pt;&quot;&gt;SEQSCAN&lt;br/&gt;r=3.0K  
+w=12 s=35.2KB&lt;br/&gt;O&lt;/p&gt;&lt;/v:textbox&gt; 
+&lt;v:oval 
+style=&quot;position:absolute;margin-left:271pt;margin-top:155pt;width:78pt;height:31pt;z-index:9;&quot;&gt;&lt;/v:oval&gt;    
+&lt;v:line style=&quot;position:absolute;z-index:8;&quot; from=&quot;310pt,132pt&quot; 
+to=&quot;310pt,170pt&quot;/&gt;  
+&lt;/body&gt; 
+**&lt;/html&gt;** 
 EXPLAIN
 </code></pre></div>
 </div>
+</div>
+</div>
 <p>Next open your host computer's text editor. If your workstation is
-windows open wordpad, if you use a Linux desktop use the default text
-editor like KEDIT, or GEDIT. Copy the output from the explain
+windows open <code>wordpad</code>, if you use a Linux desktop use the default text
+editor like <code>KEDIT,</code> or <code>GEDIT</code>. Copy the output from the explain
 plangraph from your putty window into notepad. Make sure that you only
 copy the HTML file from the <code>**&lt;html ..**</code> start tag to the
 <code>&lt;!--**html--&gt;**</code> end tag.</p>
@@ -1304,8 +1315,8 @@ copy the HTML file from the <code>**&lt;html ..**</code> start tag to the
 before. The left leg of the tree is the scan node of the Customer
 tables C, the right leg contains a scan of the Orders table O and a
 node hashing the result set from orders in preparation for the
-HASHJOIN node, that is joining the result sets of the two table scans
-on the customer key. After the join the result is fed into a GROUP
+<code>HASHJOIN</code> node, that is joining the result sets of the two table scans
+on the customer key. After the join the result is fed into a <code>GROUP</code>
 node and an Aggregation node that computes the Average total price,
 before being returned to the caller.</p>
 <p>A graphical representation of the execution plan can be valuable for
@@ -1317,36 +1328,51 @@ generated" src="../nz-images/nz-07-Query-Optimization/media/image7.png" /></p>
 <p>Open the NPS Web Console: <code>&lt;https://192.168.9.2:8443&gt;</code> from a browser. If
 the NPS Web Console doesn't start reinstall the console as follows:</p>
 <p><strong>Stop active containers:</strong></p>
-<div class="admonition abstract">
-<p class="admonition-title">Input</p>
-<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>ps
+<div class="tabbed-set tabbed-alternate" data-tabs="14:1"><input checked="checked" id="__tabbed_14_1" name="__tabbed_14" type="radio" /><div class="tabbed-labels"><label for="__tabbed_14_1">Input</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>docker ps
 </code></pre></div>
+</div>
+</div>
 </div>
 <p>Take note of the container IDs.</p>
 <p><strong>Stop active containers:</strong></p>
-<div class="admonition abstract">
-<p class="admonition-title">Input</p>
-<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>stop<span class="w"> </span>&lt;container-ID&gt;
+<div class="tabbed-set tabbed-alternate" data-tabs="15:1"><input checked="checked" id="__tabbed_15_1" name="__tabbed_15" type="radio" /><div class="tabbed-labels"><label for="__tabbed_15_1">Input</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>docker stop &lt;container-ID&gt;
 </code></pre></div>
+</div>
+</div>
 </div>
 <p><strong>Remove the inactive containers:</strong></p>
-<div class="admonition abstract">
-<p class="admonition-title">Input</p>
-<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>ps<span class="w"> </span>-a
+<div class="tabbed-set tabbed-alternate" data-tabs="16:1"><input checked="checked" id="__tabbed_16_1" name="__tabbed_16" type="radio" /><div class="tabbed-labels"><label for="__tabbed_16_1">Input</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>docker ps -a
 </code></pre></div>
+</div>
+</div>
 </div>
 <p>Take note of the container IDs.</p>
 <p><strong>Stop active containers:</strong></p>
-<div class="admonition abstract">
-<p class="admonition-title">Input</p>
-<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>rm<span class="w"> </span>&lt;container-ID&gt;
+<div class="tabbed-set tabbed-alternate" data-tabs="17:1"><input checked="checked" id="__tabbed_17_1" name="__tabbed_17" type="radio" /><div class="tabbed-labels"><label for="__tabbed_17_1">Input</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>docker rm &lt;container-ID&gt;
 </code></pre></div>
 </div>
+</div>
+</div>
 <p><strong>Reinstall NPS Console:</strong></p>
-<div class="admonition abstract">
-<p class="admonition-title">Input</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="18:1"><input checked="checked" id="__tabbed_18_1" name="__tabbed_18" type="radio" /><div class="tabbed-labels"><label for="__tabbed_18_1">Input</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>/root/cyclops_dockerrun/standalone-install.sh
 </code></pre></div>
+</div>
+</div>
 </div>
 <p><strong>In the Query Editor:</strong></p>
 <ol>
@@ -1360,10 +1386,13 @@ the NPS Web Console doesn't start reinstall the console as follows:</p>
 <p>set limit: <code>100</code></p>
 </li>
 <li>
-<p>Query: <code>SELECT c.c_mktsegment, AVG(o.o_totalprice) FROM orders AS o,
-    CUSTOMER as c WHERE EXTRACT(YEAR FROM o.o_orderdate) = 1996 AND
-    o.o_orderpriority = '1-URGENT' AND o.o_custkey = c.c_custkey GROUP
-    BY c.c_mktsegment;</code></p>
+<p>Query:</p>
+<div class="highlight"><pre><span></span><code>SELECT c.c_mktsegment, AVG(o.o_totalprice) 
+  FROM orders AS o, CUSTOMER as c 
+WHERE EXTRACT(YEAR FROM o.o_orderdate) = 1996 AND
+  o.o_orderpriority = &#39;1-URGENT&#39; AND o.o_custkey = c.c_custkey 
+GROUP BY c.c_mktsegment;
+</code></pre></div>
 </li>
 <li>
 <p>Click "Plan graph"</p>
@@ -1374,8 +1403,11 @@ the NPS Web Console doesn't start reinstall the console as follows:</p>
 </ol>
 <p><img alt="Graphical user interface Description automatically
 generated" src="../nz-images/nz-07-Query-Optimization/media/image8.png" /></p>
+<div class="admonition success">
+<p class="admonition-title">Congratulations on finishing the chapter!</p>
 <p>Congratulations in this lab you have used NPS system Explain
 functionality to analyze a query.</p>
+</div>
 
               
             </article>

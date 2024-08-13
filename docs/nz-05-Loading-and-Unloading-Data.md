@@ -29,7 +29,7 @@ This lab will help you explore the Netezza Performance Server framework
 components for loading data into the database and unloading data from
 the database. You will use the various commands to create external
 tables to unload and load data. You will also get a basic understanding
-of the nzload utility. In this lab the REGION and NATION tables in the
+of the nzload utility. In this lab the `REGION` and `NATION` tables in the
 LABDB database are used to illustrate the use of external tables and the
 nzload utility. After this lab you will have a good understanding on how
 to load and unload data from a Netezza Performance Server database
@@ -109,7 +109,7 @@ below to run the setup script.
 	```
 
 The error message at the beginning is expected since the script tries
-to clean up existing LINEITEM tables.
+to clean up existing `LINEITEM` tables.
 
 ## 5 External Tables
 
@@ -186,7 +186,7 @@ Change to the `/home/nz/labs/movingData` directory:
 	
 ### 5.1 Unloading Data using External Tables
 
-External tables will be used to unload rows from the LABDB database as
+External tables will be used to unload rows from the `LABDB` database as
 records into an external datasource file. Various methods to create and
 use external tables will be explored unloading rows from either `REGION`
 or `NATION` tables. Five different basic use cases are presented for you
@@ -560,8 +560,8 @@ difference is the Dataobjects field, since the filename is different.
 The other difference is the string used for the delimiter, since it is
 now '=' instead of the default, '|'.
 
-1.  Unload the data from the REGION table but only the data from columns
-    R_NAME and R_COMMENT.
+1.  Unload the data from the `REGION` table but only the data from columns
+    `R_NAME` and `R_COMMENT`.
 
 === "Input [Terminal 1]"
 	```
@@ -584,7 +584,7 @@ create external table et4_test
 ```
 
 2.  Using the second session review the file that was created,
-    et3_region_flat_file, in the /home/nz/labs/movingData directory.
+    `et3_region_flat_file`, in the `/home/nz/labs/movingData` directory.
 
 === "Input [Terminal 2]"
 	```
@@ -1153,7 +1153,7 @@ execute nzload.
 
 ### 6.1 Using the nzload Utility with Command Line Options
 
-The first method for using the nzload utility to load data in the REGION
+The first method for using the nzload utility to load data in the `REGION`
 table will specify options at the command line. We will only need to
 specify the datasource file and we will use default options for the
 rest. The datasource file will be the et1_region_flat_file that you
@@ -1161,7 +1161,7 @@ created in the External Tables section.
 
 **Sample Syntax**
 ```
-nzload -db <database> -u <username> --pw <password> -df <datasource filename>
+nzload -db <database> -u <username> -pw <password> -df <datasource filename>
 ```
 
 1.  As the `LABDB` database owner, `LABADMIN` first remove the rows in the
@@ -1199,7 +1199,7 @@ nzload -db <database> -u <username> --pw <password> -df <datasource filename>
 **Sample Syntax**
 ```
 -db <database name>, -u <user>, -pw <password>, -t <table name>,
--df <data file>, and --delimiter <string>:
+-df <data file>, and -delimiter <string>:
 ```
 
 === "Input [Terminal 2]"
@@ -1324,7 +1324,7 @@ values are acceptable.
 ```
 nzload -db labdb -u labadmin -pw password
 -t region
--df et1_region_flat_file --delimiter '|'
+-df et1_region_flat_file -delimiter '|'
 -outputDir '<current directory>'
 -lf <table>.<database>.nzlog -bf<table>.<database>.nzlog
 -compress false -format text
@@ -1359,7 +1359,7 @@ of a control file:
 
 **Sample Syntax**
 ```
-nzload --u <username> -pw <password> -cf <control file>
+nzload -u <username> -pw <password> -cf <control file>
 ```
 
 The `-u` and `-pw` options are optional if the `NZ_USER` and `NZ_PASSWORD`
@@ -1371,7 +1371,7 @@ In this session you will load rows into an empty `REGION` table using the
 nzload utility with a control file. The control file will set the
 following options: delimiter, logDir, logFile, and badFile, along with
 the database and table name. The datasource file to be used in this
-session is the region.del file.
+session is the `region.del` file.
 
 1.  As the `LABDB` database owner, `LABADMIN` first remove the rows in the
     `REGION` table:
@@ -1505,7 +1505,7 @@ the following options:
 	Load completed at: 03-Apr-20 03:38:32 PDT 
 	```
 	
-6.  Verify the rows in the REGION table in the first putty session with
+6.  Verify the rows in the `REGION` table in the first putty session with
     the nzsql console:
 
 === "Input [Terminal 1]"
@@ -1967,7 +1967,7 @@ The vi editor has two modes, a command mode used to save files, quit the
 editor etc. and an insert mode. Initially you will be in the command
 mode. To change the file, you need to switch into the insert mode by
 pressing "i". The editor will show an `-- INSERT --` at the bottom of the
-screen. Note: you can use gedit from the VM desktop (gedit nation.bad)
+screen. Note: you can use `gedit` from the VM desktop (`gedit nation.bad`)
 
 === "Input [Terminal 2]"
 	```
@@ -2065,5 +2065,5 @@ screen. Note: you can use gedit from the VM desktop (gedit nation.bad)
 The row in **bold** denotes the new row that was added to the table,
 which was the bad record you corrected.
 
-!!! success
+!!! success "Congratulations on finishing the chapter!"
 	Congratulations you have completed the lab.

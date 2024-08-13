@@ -520,7 +520,7 @@ slices.
     ```
 
 6.  We will now save our changes. Press `Esc` to switch back
-    into command mode. You should see that the `---INSERT---` string at
+    into command mode. You should see that the `-- INSERT --` string at
     the bottom of the screen vanishes. Enter `:wq!` and press
     enter to write the file and quit the editor without any questions.
     If you made a mistake editing and would like to undo it press `Esc`
@@ -851,9 +851,9 @@ following:
 	
 	```
 
-The EXPLAIN functionality will be covered in detail in a following
+The `EXPLAIN` functionality will be covered in detail in a following
 chapter, but it is easy to see what is happening here. What's happening
-is the system is redistributing both the ORDERS and LINEITEM tables so
+is the system is redistributing both the `ORDERS` and `LINEITEM` tables so
 that the rows can be joined together. This is very bad because both
 tables are of significant size so there is a considerable overhead. This
 inefficient double redistribution occurs because neither of the tables
@@ -866,7 +866,7 @@ costly data redistribution during join execution when the joined tables
 are not distributed on the join key. In this section we will reload the
 tables based on the mutual join key to enhance performance during joins.
 
-1.  Exit the NZSQL console with the [\\q command.
+1.  Exit the `NZSQL` console with the [\\q command.
 
 2.  If not already in the `dataDistribution` directory run the command `cd
     ~/labs/dataDistribution` to enter the directory.
@@ -877,12 +877,12 @@ tables based on the mutual join key to enhance performance during joins.
         by executing the command: `vi lineitem.sql` (`gedit
         lineitem.sql`).
 
-    b.  In vi switch to INSERT mode by pressing "i"
+    b.  In vi switch to `INSERT` mode by pressing "i"
 
     c.  Navigate with the cursor keys to the `DISTRIBUTE ON` clause and
         change it to `DISTRIBUTE ON (L_ORDERKEY)`
 
-    d.  Exit the INSERT mode by pressing ESC
+    d.  Exit the `INSERT` mode by pressing `ESC`
 
     e.  Enter `:wq!` In the command line of the vi editor and press enter.
         Before pressing enter your screen should look like the
@@ -917,12 +917,12 @@ tables based on the mutual join key to enhance performance during joins.
     a.  Open the file with the vi editor by executing the command: `vi
         orders.sql`
 
-    b.  Switch to INSERT mode by pressing "i"
+    b.  Switch to `INSERT` mode by pressing "i"
 
     c.  Navigate with the cursor keys to the `DISTRIBUTE ON` clause and
         change it to `DISTRIBUTE ON (O_ORDERKEY)`
 
-    d.  Exit the INSERT mode by pressing ESC
+    d.  Exit the `INSERT` mode by pressing `ESC`
 
     e.  Enter `:wq!` In the command line of the VI editor and
         Press Enter. Before pressing Enter your screen should look like
@@ -980,7 +980,7 @@ tables based on the mutual join key to enhance performance during joins.
 	Load session of table 'ORDERS' completed successfully
 	```
 
-7.  Enter the NZSQL console by executing the `nzsql labdb
+7.  Enter the `NZSQL` console by executing the `nzsql labdb
     labadmin` command and check the distribution key using the
     `\d lineitem` and `\d orders` commands.
 
@@ -1266,8 +1266,8 @@ distribution keys could be the following.
 
 Finally, we will load the remaining tables.
 
-1.  You should still be connected to the LABDB database. We now need to
-    recreate the NATION and REGION tables with a new distribution key.
+1.  You should still be connected to the `LABDB` database. We now need to
+    recreate the `NATION` and `REGION` tables with a new distribution key.
     To drop the old table versions execute the following commands.
 
 === "Input"
@@ -1277,7 +1277,7 @@ Finally, we will load the remaining tables.
     DROP TABLE REGION;
     ```
 
-2.  Quit the NZSQL console with the `\q` command.
+2.  Quit the `NZSQL` console with the `\q` command.
 
 3.  Navigate to the lab folder by executing the `cd
     ~/labs/dataDistribution` command.
@@ -1342,7 +1342,7 @@ and interest permit.
 	```
 	
 
-!!! Success
+!!! success "Congratulations on finishing the chapter!"
 	Congratulations! You just have defined data distribution keys for a
 	customer data schema in Netezza Performance Server. You can have a look
 	at the created tables and their definitions with the commands you used

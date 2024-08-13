@@ -14,8 +14,8 @@ include some of the following components:
 
   |User      |Password    |Description
   |----------|------------|-----------
-  |nz        |nz          | Linux user with login permission to the IBM       Netezza Performance Server host container. nz has ownership of various IPS files in the installation directory.
-  |root      |netezza     |Linux superuser with login permission to the IBM   Netezza Performance Server host container. Has ownership of various kernel and operating system files.
+  |nz        |nz          | Linux user with login permission to the IBM Netezza Performance Server host container. nz has ownership of various IPS files in the installation directory.
+  |root      |netezza     | Linux superuser with login permission to the IBM Netezza Performance Server host container. Has ownership of various kernel and operating system files.
   
 -   An IBM Netezza Performance Server database user named ADMIN is the
     database super-user, and has full access to all system functions and
@@ -23,7 +23,7 @@ include some of the following components:
 
   |User      |Password    |Description
   |----------|------------|-----------
-  |admin     |password    | IPS database superuser, with full access to all    database administration privileges and objects
+  |admin     |password    | IPS database superuser, with full access to all database administration privileges and objects
   
 -   A preconfigured database group named `PUBLIC`. All database users are
     automatically placed in the group `PUBLIC` and therefore inherit all
@@ -37,12 +37,12 @@ for the databases, as well as to query and modify the contents of the
 databases
 
 On a new IBM Netezza Performance Server system, there is typically one
-main database, SYSTEM, and a database template, MASTER_DB. IBM Netezza
-Performance Server uses the MASTER_DB as a template for all other user
-databases that are created on the system. Initially, only the ADMIN user
-can create new databases, but the ADMIN user can grant other users'
-permission to create databases as well. The ADMIN user can also make
-another user the owner of a database, which gives that user ADMIN-like
+main database, `SYSTEM`, and a database template, `MASTER_DB`. IBM Netezza
+Performance Server uses the `MASTER_DB` as a template for all other user
+databases that are created on the system. Initially, only the `ADMIN` user
+can create new databases, but the `ADMIN` user can grant other users'
+permission to create databases as well. The `ADMIN` user can also make
+another user the owner of a database, which gives that user `ADMIN`-like
 control over that database and its contents. The database creator
 becomes the default owner of the database. The owner can remove the
 database and all its objects, even if other users own objects within the
@@ -98,7 +98,7 @@ Errors are expected if this is the first time running this lab on this
 virtual machine.
 
 -   Connect to the system database as the IBM Netezza Performance Server
-    database super-user, ADMIN, using the nzsql interface:
+    database super-user, `ADMIN`, using the nzsql interface:
 
 === "Input"
 	```
@@ -174,11 +174,11 @@ Groups:
 The three new IBM Netezza Performance Server database users will be
 initially created using the `ADMIN` user. The `LABADMIN` user will be the
 full owner of the bootcamp database. The `LABUSER` user will be allowed to
-perform data manipulation language (DML) operations (INSERT, UPDATE,
-DELETE) against all of the tables in the database, but they will not be
+perform data manipulation language (DML) operations (`INSERT`, `UPDATE`,
+`DELETE`) against all of the tables in the database, but they will not be
 allowed to create new objects like tables in the database. And lastly,
 the `DBUSER` user will only be allowed to read tables in the database,
-that is, they will only have LIST and SELECT privilege against tables in
+that is, they will only have `LIST` and `SELECT` privilege against tables in
 the database.
 
 The basic syntax to create a user is:
@@ -186,7 +186,7 @@ The basic syntax to create a user is:
 CREATE USER username WITH PASSWORD 'string';
 ```
 
-1.  As the IBM Netezza Performance Server database super-user, ADMIN,
+1.  As the IBM Netezza Performance Server database super-user, `ADMIN`,
     you can now start to create the first user, `LABADMIN`, which will be
     the administrator of the database: (Note user and group names are
     not case sensitive) unless surrounded by quotes.
@@ -303,9 +303,9 @@ CREATE GROUP groupname;
 	```
 	
 2.  After the `LAGRP` group is created you will now add the `LABADMIN` user
-    to this group. This is accomplished by using the ALTER statement.
-    You can either ALTER the user or the group, for this task you will
-    ALTER the group to add the `LABADMIN` user to the `LAGRP` group:
+    to this group. This is accomplished by using the `ALTER` statement.
+    You can either `ALTER` the user or the group, for this task you will
+    `ALTER` the group to add the `LABADMIN` user to the `LAGRP` group:
 
 === "Input"
 	```
@@ -317,7 +317,7 @@ CREATE GROUP groupname;
 	ALTER GROUP
 	```
 	
-To ALTER the user, you would use the following command:
+To `ALTER` the user, you would use the following command:
 
 ```
 alter user LABADMIN with in group LAGRP;
@@ -430,7 +430,7 @@ CREATE DATABASE database_name;
 ```
 
 1.  As the Netezza Performance Server database super-user, `ADMIN`, you
-    will create the first database, `LABDB`, using the CREATE DATABASE
+    will create the first database, `LABDB`, using the `CREATE DATABASE`
     command:
 
 === "Input"
@@ -463,16 +463,15 @@ The database `LABDB` has been created.
 	```
 	
 The owner of the newly created `LABDB` database is the `ADMIN` user. The
-other databases are the default database SYSTEM and the template
-database MASTER_DB.
+other databases are the default database `SYSTEM` and the template
+database `MASTER_DB`.
 
 3.  At this point you could continue by creating new tables as the `ADMIN`
     user. However, the `ADMIN` user should only be used to create users,
     groups, and databases, and to assign authorities and privileges.
     Therefore, we will transfer ownership of the `LABDB` database from the
-    `ADMIN` user to the `LABADMIN` user we created previously. The ALTER
-    DATABASE command is used to transfer ownership of an existing
-    database:
+    `ADMIN` user to the `LABADMIN` user we created previously. The `ALTER DATABASE` 
+    command is used to transfer ownership of an existing database:
 
 === "Input"
 	```
@@ -485,7 +484,7 @@ database MASTER_DB.
 	```
 	
 This is the only method to transfer ownership of a database to an
-existing user. The CREATE DATABASE command does not include this
+existing user. The `CREATE DATABASE` command does not include this
 option.
 
 4.  Check that the owner of the `LABDB` database is now the `LABADMIN` user:
@@ -525,12 +524,12 @@ read data from the tables in the database. The privileges will be
 controlled by a combination of setting the privileges at the group and
 user level.
 
-The `LUGRP` user group will be granted LIST and SELECT privileges against
+The `LUGRP` user group will be granted `LIST` and `SELECT` privileges against
 the database and tables within the database. So any member of the `LUGRP`
 will have these privileges. The full data manipulation privileges will
 be granted individually to the `LABUSER` user.
 
-The GRANT command that is used to assign object privileges has the
+The `GRANT` command that is used to assign object privileges has the
 following syntax:
 ```
 GRANT object_privilege [, ...] ON object [, ...]
@@ -620,7 +619,7 @@ The `X` in the L column of the list denotes that the `LUGRP` group has
 4. With the current privileges set for the `LABUSER` and `DBUSER`, they can
     now view and connect to the `LABDB` database as members of the `LUGRP`
     group. But these two users have no privileges to access any of the
-    objects within the database. So you will grant LIST and SELECT
+    objects within the database. So you will grant `LIST` and `SELECT`
     privilege to the tables within the `LABDB` database to the members of
     the `LUGRP` :
 
@@ -727,8 +726,8 @@ remaining tables for the `LABDB` database schema will be created in the
 Data Distribution lab. Data Distribution is an important aspect that
 should be considered when creating tables. This concept is not covered
 in this lab since it is discussed separately in the Data Distribution
-presentation. The two tables that will be created are the REGION and
-NATION tables. These two tables will be populated with data in the next
+presentation. The two tables that will be created are the `REGION` and
+`NATION` tables. These two tables will be populated with data in the next
 section using `LABUSER` user. Two methods will be utilized to create these
 tables. The basic syntax to create a table is:
 
@@ -812,7 +811,7 @@ In further labs we will often leave out the password parameter since
 it has been set to the same value "password" for all users.
 
 2. Now you can create the first table in the `LABDB` database. The first
-    table you will create is the REGION table with the following columns
+    table you will create is the `REGION` table with the following columns
     and datatypes :
 
 | **Column Name**           | **Data Type**                            |
@@ -1041,7 +1040,7 @@ see any of the tables in the `LABDB` database.
     tables in the `LABDB` database. However, it was restricted on
     performing DDL operations against the database. Let's see what
     happens when you try create a new table, t1, with one column, C1,
-    using the INTEGER data type:
+    using the `INTEGER` data type:
 
 === "Input"
 	```
@@ -1059,7 +1058,7 @@ database.
 
 4. Let's continue by performing DML operations that the `LABUSER` user is
     allowed to perform against the tables in the `LABDB` database. Insert
-    a new row into the REGION table:
+    a new row into the `REGION` table:
 
 === "Input"
 	```
@@ -1070,10 +1069,10 @@ database.
 	INSERT 0 1
 	```
 
-As expected, this operation is successful. The output of the INSERT
+As expected, this operation is successful. The output of the `INSERT`
 gives feedback about the number of successfully inserted rows.
 
-5. Issue the SELECT statement against the REGION table to check the new
+5. Issue the `SELECT` statement against the `REGION` table to check the new
     row you just added to the table:
 
 === "Input"
@@ -1092,7 +1091,7 @@ gives feedback about the number of successfully inserted rows.
 
 6. Instead of typing DML statements at the nzsql command line, you can
     read and execute statements from a file. You will use this method to
-    add the following three rows to the REGION table:
+    add the following three rows to the `REGION` table:
 
 | R_REGIONKEY      | R_NAME         | R_COMMENT                        |
 |------------------|----------------|----------------------------------
@@ -1165,7 +1164,7 @@ You will notice that the username in the command prompt changes from
 `LABUSER` to `DBUSER`.
 
 9. Before trying to view rows from tables in the `LABDB` database, try to
-    add a new row to the REGION table:
+    add a new row to the `REGION` table:
 
 === "Input"
 	```
@@ -1177,11 +1176,11 @@ You will notice that the username in the command prompt changes from
 	ERROR: Permission denied on "REGION".
 	```
 	
-As expected, the INSERT statement is not allowed since the `DBUSER` does
+As expected, the `INSERT` statement is not allowed since the `DBUSER` does
 not have the privilege to add rows to any tables in the `LABDB`
 database.
 
-10. Now select all rows from the REGION table:
+10. Now select all rows from the `REGION` table:
 
 === "Input"
 	```
@@ -1202,9 +1201,9 @@ database.
 
 11. Finally let's run a slightly more complex query. We want to return
     all nation names in Asia Pacific, together with their region name.
-    To do this you need to execute a simple join using the NATION and
-    REGION tables. The join key will be the region key, and to restrict
-    results on the AP region you need to add a WHERE condition:
+    To do this you need to execute a simple join using the `NATION` and
+    `REGION` tables. The join key will be the region key, and to restrict
+    results on the AP region you need to add a `WHERE` condition:
 
 === "Input"
 	```
@@ -1263,7 +1262,7 @@ See the section: [Login to the NPS Command Line](#_Login_to_the) for
 details on how to access the command line for your given lab system.
 
 2. As the NPS database super-user, `ADMIN`, use nzsql to create the first
-    role, LAROLE, which will be the administrator of the system: (Note:
+    role, `LAROLE`, which will be the administrator of the system: (Note:
     roles are not case sensitive)
 
 === "Input"
@@ -1311,7 +1310,7 @@ through the use of a role.
 	CREATE USER
 	```
 	
-5. Connect to the system database as DBAUSER and CREATE a database:
+5. Connect to the system database as `DBAUSER` and `CREATE` a database:
 
 === "Input"
 	```
@@ -1334,7 +1333,7 @@ through the use of a role.
 	```
 	
 Notice that `DBUSER` cannot create a database as is expected since we
-didn't grant DATABASE permission to the `DBUSER`.
+didn't grant `DATABASE` permission to the `DBUSER`.
 
 6. Connect to the system database as `ADMIN`:
 
@@ -1351,7 +1350,7 @@ didn't grant DATABASE permission to the `DBUSER`.
 #### 7.1.4 Grant permission to use a role
 
 
-7. Grant LIST on DBAROLE to DBAUSER:
+7. Grant `LIST` on `DBAROLE` to `DBAUSER`:
 
 === "Input"
 	```
@@ -1363,8 +1362,8 @@ didn't grant DATABASE permission to the `DBUSER`.
 	GRANT
 	```
 	
-This gives the DBAUSER permission to use the role DBAROLE which has
-ADMIN rights.
+This gives the `DBAUSER` permission to use the role `DBAROLE` which has
+`ADMIN` rights.
 
 8. Connect to the system database as DBAUSER:
 
@@ -1596,7 +1595,7 @@ permissions to users and groups.
 You completed the section on Users, Groups and Roles. You should now
 understand how Users, Groups and Roles are all related and used.
 
-!!! success
+!!! success "Congratulations on finishing the chapter!"
 	Congratulations you have completed the lab. You have successfully
 	created the lab database, 2 tables, and database users, groups and roles
 	with various privileges. You also ran a couple of simple queries.

@@ -1177,7 +1177,7 @@ DISTRIBUTE ON (l_shipdate);
 <ol start="6">
 <li>
 <p>We will now save our changes. Press <code>Esc</code> to switch back
-    into command mode. You should see that the <code>---INSERT---</code> string at
+    into command mode. You should see that the <code>-- INSERT --</code> string at
     the bottom of the screen vanishes. Enter <code>:wq!</code> and press
     enter to write the file and quit the editor without any questions.
     If you made a mistake editing and would like to undo it press <code>Esc</code>
@@ -1506,9 +1506,9 @@ Node 3.
 </div>
 </div>
 </div>
-<p>The EXPLAIN functionality will be covered in detail in a following
+<p>The <code>EXPLAIN</code> functionality will be covered in detail in a following
 chapter, but it is easy to see what is happening here. What's happening
-is the system is redistributing both the ORDERS and LINEITEM tables so
+is the system is redistributing both the <code>ORDERS</code> and <code>LINEITEM</code> tables so
 that the rows can be joined together. This is very bad because both
 tables are of significant size so there is a considerable overhead. This
 inefficient double redistribution occurs because neither of the tables
@@ -1520,7 +1520,7 @@ are not distributed on the join key. In this section we will reload the
 tables based on the mutual join key to enhance performance during joins.</p>
 <ol>
 <li>
-<p>Exit the NZSQL console with the [\q command.</p>
+<p>Exit the <code>NZSQL</code> console with the [\q command.</p>
 </li>
 <li>
 <p>If not already in the <code>dataDistribution</code> directory run the command <code>cd
@@ -1531,10 +1531,10 @@ tables based on the mutual join key to enhance performance during joins.</p>
 <p>a.  Open the file with the vi editor (or gedit from the VM desktop)
     by executing the command: <code>vi lineitem.sql</code> (<code>gedit
     lineitem.sql</code>).</p>
-<p>b.  In vi switch to INSERT mode by pressing "i"</p>
+<p>b.  In vi switch to <code>INSERT</code> mode by pressing "i"</p>
 <p>c.  Navigate with the cursor keys to the <code>DISTRIBUTE ON</code> clause and
     change it to <code>DISTRIBUTE ON (L_ORDERKEY)</code></p>
-<p>d.  Exit the INSERT mode by pressing ESC</p>
+<p>d.  Exit the <code>INSERT</code> mode by pressing <code>ESC</code></p>
 <p>e.  Enter <code>:wq!</code> In the command line of the vi editor and press enter.
     Before pressing enter your screen should look like the
     following:</p>
@@ -1568,10 +1568,10 @@ DISTRIBUTE ON (l_orderkey);
 <p>Change the Distribution key in the <code>orders.sql</code> file to <code>O_ORDERKEY</code>.</p>
 <p>a.  Open the file with the vi editor by executing the command: <code>vi
     orders.sql</code></p>
-<p>b.  Switch to INSERT mode by pressing "i"</p>
+<p>b.  Switch to <code>INSERT</code> mode by pressing "i"</p>
 <p>c.  Navigate with the cursor keys to the <code>DISTRIBUTE ON</code> clause and
     change it to <code>DISTRIBUTE ON (O_ORDERKEY)</code></p>
-<p>d.  Exit the INSERT mode by pressing ESC</p>
+<p>d.  Exit the <code>INSERT</code> mode by pressing <code>ESC</code></p>
 <p>e.  Enter <code>:wq!</code> In the command line of the VI editor and
     Press Enter. Before pressing Enter your screen should look like
     the following:</p>
@@ -1631,7 +1631,7 @@ Load session of table &#39;ORDERS&#39; completed successfully
 </div>
 </div>
 <ol start="7">
-<li>Enter the NZSQL console by executing the <code>nzsql labdb
+<li>Enter the <code>NZSQL</code> console by executing the <code>nzsql labdb
     labadmin</code> command and check the distribution key using the
     <code>\d lineitem</code> and <code>\d orders</code> commands.</li>
 </ol>
@@ -2051,8 +2051,8 @@ distribution keys could be the following.</p>
 </table>
 <p>Finally, we will load the remaining tables.</p>
 <ol>
-<li>You should still be connected to the LABDB database. We now need to
-    recreate the NATION and REGION tables with a new distribution key.
+<li>You should still be connected to the <code>LABDB</code> database. We now need to
+    recreate the <code>NATION</code> and <code>REGION</code> tables with a new distribution key.
     To drop the old table versions execute the following commands.</li>
 </ol>
 <div class="tabbed-set tabbed-alternate" data-tabs="29:1"><input checked="checked" id="__tabbed_29_1" name="__tabbed_29" type="radio" /><div class="tabbed-labels"><label for="__tabbed_29_1">Input</label></div>
@@ -2066,7 +2066,7 @@ DROP TABLE REGION;
 </div>
 <ol start="2">
 <li>
-<p>Quit the NZSQL console with the <code>\q</code> command.</p>
+<p>Quit the <code>NZSQL</code> console with the <code>\q</code> command.</p>
 </li>
 <li>
 <p>Navigate to the lab folder by executing the <code>cd
@@ -2134,7 +2134,7 @@ and interest permit.</p>
 </div>
 </div>
 <div class="admonition success">
-<p class="admonition-title">Success</p>
+<p class="admonition-title">Congratulations on finishing the chapter!</p>
 <p>Congratulations! You just have defined data distribution keys for a
 customer data schema in Netezza Performance Server. You can have a look
 at the created tables and their definitions with the commands you used

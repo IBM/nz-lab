@@ -343,6 +343,75 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#2-lab-setup" class="md-nav__link">
+    2 Lab Setup
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-transactions" class="md-nav__link">
+    3 Transactions
+  </a>
+  
+    <nav class="md-nav" aria-label="3 Transactions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-insert-transaction" class="md-nav__link">
+    3.1 Insert Transaction
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-update-and-delete-transactions" class="md-nav__link">
+    3.2 Update and Delete Transactions
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-aborting-transactions" class="md-nav__link">
+    3.3 Aborting Transactions
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-cleaning-up" class="md-nav__link">
+    3.4 Cleaning up
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-grooming-logically-deleted-rows" class="md-nav__link">
+    4 Grooming Logically Deleted Rows
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-performance-benefits-of-groom" class="md-nav__link">
+    5 Performance Benefits of GROOM
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-changing-the-data-type-of-a-column" class="md-nav__link">
+    6 Changing the Data Type of a Column
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -461,6 +530,75 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#2-lab-setup" class="md-nav__link">
+    2 Lab Setup
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-transactions" class="md-nav__link">
+    3 Transactions
+  </a>
+  
+    <nav class="md-nav" aria-label="3 Transactions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-insert-transaction" class="md-nav__link">
+    3.1 Insert Transaction
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-update-and-delete-transactions" class="md-nav__link">
+    3.2 Update and Delete Transactions
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-aborting-transactions" class="md-nav__link">
+    3.3 Aborting Transactions
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-cleaning-up" class="md-nav__link">
+    3.4 Cleaning up
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-grooming-logically-deleted-rows" class="md-nav__link">
+    4 Grooming Logically Deleted Rows
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-performance-benefits-of-groom" class="md-nav__link">
+    5 Performance Benefits of GROOM
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-changing-the-data-type-of-a-column" class="md-nav__link">
+    6 Changing the Data Type of a Column
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -478,7 +616,7 @@
 <h1 id="1-data-grooming">1 Data Grooming</h1>
 <p>As part of your routine database maintenance activities, you should plan
 to recover disk space occupied by outdated or deleted rows. In normal
-Netezza Performance Server operation, an UPDATE or DELETE of a table row
+Netezza Performance Server operation, an <code>UPDATE</code> or <code>DELETE</code> of a table row
 does not remove the physical row on the hard disc. Instead the old row
 is marked as deleted together with a transaction id of the deleting
 transaction and in case of update a new row is created. This approach is
@@ -487,17 +625,17 @@ transactions with an older transaction id are still accessible. Over
 time however, the outdated or deleted rows are of no interest to any
 transaction anymore and need to be removed to free up hard disc space
 and improve performance. After the rows have been captured in a backup,
-you can reclaim the space they occupy using the SQL GROOM TABLE command.
-The GROOM TABLE command does not lock a table while it is running; you
-can continue to SELECT, UPDATE, and INSERT into the table while the
+you can reclaim the space they occupy using the SQL <code>GROOM TABLE</code> command.
+The <code>GROOM TABLE</code> command does not lock a table while it is running; you
+can continue to <code>SELECT,</code> <code>UPDATE,</code> and <code>INSERT</code> into the table while the
 table is being groomed.</p>
 <h2 id="11-objectives">1.1 Objectives</h2>
-<p>In this lab we will use the GROOM command to prepare our tables for the
+<p>In this lab we will use the <code>GROOM</code> command to prepare our tables for the
 customer. During the course of the POC we have deleted and update a
 number of rows. At the end of a POC it is sensible to clean up the
 system. Use Groom on the created tables, Generate Statistics, and other
 cleanup tasks.</p>
-<h1 id="2-lab-setup">2 Lab Setup</h1>
+<h2 id="2-lab-setup">2 Lab Setup</h2>
 <p>This lab uses an initial setup script to make sure the correct user and
 database exist for the remainder of the lab. Follow the instructions
 below to run the setup script.</p>
@@ -516,170 +654,182 @@ below to run the setup script.</p>
 <li>
 <p>Prepare for this lab by running the setup script. To do this use the
     following two commands:</p>
-</li>
-</ol>
-<div class="admonition abstract">
-<p class="admonition-title">Input</p>
-<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>~/labs/groom/setupLab
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Input</label><label for="__tabbed_1_2">Output</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>cd ~/labs/groom/setupLab
 ./setupLab.sh
 </code></pre></div>
 </div>
-<div class="admonition success">
-<p class="admonition-title">Output</p>
-<div class="highlight"><pre><span></span><code>DROP<span class="w"> </span>DATABASE
-CREATE<span class="w"> </span>DATABASE
-ERROR:<span class="w"> </span>CREATE<span class="w"> </span>USER:<span class="w"> </span>object<span class="w"> </span>LABADMIN<span class="w"> </span>already<span class="w"> </span>exists<span class="w"> </span>as<span class="w"> </span>a<span class="w"> </span>USER.
-ALTER<span class="w"> </span>USER
-ALTER<span class="w"> </span>DATABASE
-CREATE<span class="w"> </span>TABLE
-CREATE<span class="w"> </span>TABLE
-CREATE<span class="w"> </span>TABLE
-CREATE<span class="w"> </span>TABLE
-CREATE<span class="w"> </span>TABLE
-CREATE<span class="w"> </span>TABLE
-CREATE<span class="w"> </span>TABLE
-CREATE<span class="w"> </span>TABLE
-Load<span class="w"> </span>session<span class="w"> </span>of<span class="w"> </span>table<span class="w"> </span><span class="s1">&#39;NATION&#39;</span><span class="w"> </span>completed<span class="w"> </span>successfully
-Load<span class="w"> </span>session<span class="w"> </span>of<span class="w"> </span>table<span class="w"> </span><span class="s1">&#39;REGION&#39;</span><span class="w"> </span>completed<span class="w"> </span>successfully
-Load<span class="w"> </span>session<span class="w"> </span>of<span class="w"> </span>table<span class="w"> </span><span class="s1">&#39;CUSTOMER&#39;</span><span class="w"> </span>completed<span class="w"> </span>successfully
-Load<span class="w"> </span>session<span class="w"> </span>of<span class="w"> </span>table<span class="w"> </span><span class="s1">&#39;SUPPLIER&#39;</span><span class="w"> </span>completed<span class="w"> </span>successfully
-Load<span class="w"> </span>session<span class="w"> </span>of<span class="w"> </span>table<span class="w"> </span><span class="s1">&#39;PART&#39;</span><span class="w"> </span>completed<span class="w"> </span>successfully
-Load<span class="w"> </span>session<span class="w"> </span>of<span class="w"> </span>table<span class="w"> </span><span class="s1">&#39;PARTSUPP&#39;</span><span class="w"> </span>completed<span class="w"> </span>successfully
-Load<span class="w"> </span>session<span class="w"> </span>of<span class="w"> </span>table<span class="w"> </span><span class="s1">&#39;ORDERS&#39;</span><span class="w"> </span>completed<span class="w"> </span>successfully
-Load<span class="w"> </span>session<span class="w"> </span>of<span class="w"> </span>table<span class="w"> </span><span class="s1">&#39;LINEITEM&#39;</span><span class="w"> </span>completed<span class="w"> </span>successfully
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>DROP DATABASE
+CREATE DATABASE
+ERROR: CREATE USER: object LABADMIN already exists as a USER.
+ALTER USER
+ALTER DATABASE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+Load session of table &#39;NATION&#39; completed successfully
+Load session of table &#39;REGION&#39; completed successfully
+Load session of table &#39;CUSTOMER&#39; completed successfully
+Load session of table &#39;SUPPLIER&#39; completed successfully
+Load session of table &#39;PART&#39; completed successfully
+Load session of table &#39;PARTSUPP&#39; completed successfully
+Load session of table &#39;ORDERS&#39; completed successfully
+Load session of table &#39;LINEITEM&#39; completed successfully
 </code></pre></div>
+</div>
+</div>
 </div>
 <p>There may be error message at the beginning of the output since the
 script tries to clean up existing databases and users.</p>
-<h1 id="3-transactions">3 Transactions</h1>
+</li>
+</ol>
+<h2 id="3-transactions">3 Transactions</h2>
 <p>In this section we will show how transactions can leave logically
 deleted rows in a table which later as an administrative task need to be
 removed with the groom command. We will go through the different
 transaction types and show you what happens under the covers in an
 Netezza Performance Server Appliance.</p>
-<h2 id="31-insert-transaction">3.1 Insert Transaction</h2>
+<h3 id="31-insert-transaction">3.1 Insert Transaction</h3>
 <p>In this chapter we will add a new row to the regions table and review
 the hidden fields that are saved in the database. As you remember from
 the Transactions presentation, Netezza Performance Server uses a concept
 called multi-versioning for transactions. Each transaction has its own
 image of the table and doesn't influence other transactions. This is
 done by adding a number of hidden fields to the Netezza Performance
-Server table. The most important ones are the CREATEXID and the
-DELETEXID. Each Netezza Performance Server transaction has a unique
+Server table. The most important ones are the <code>CREATEXID</code> and the
+<code>DELETEXID</code>. Each Netezza Performance Server transaction has a unique
 transaction id that is increasing with each new transaction.</p>
-<p>In this subsection we will add a new row to the REGION table.</p>
+<p>In this subsection we will add a new row to the <code>REGION</code> table.</p>
 <ol>
 <li>
 <p>Connect to your NPS system using a terminal application (i.e.: PuTTY
-    or Terminal). Login to <code>&lt;ip-provided-by-your-instructor&gt;</code> as user nz
-    with password nz. (<code>&lt;ip-provided-by-your-instructor&gt;</code> is the default
-    IP address for a lab system).</p>
+        or Terminal). Login to <code>&lt;ip-provided-by-your-instructor&gt;</code> as user nz
+        with password nz. (<code>&lt;ip-provided-by-your-instructor&gt;</code> is the default
+        IP address for a lab system).</p>
 </li>
 <li>
 <p>Start nzsql from the Linux command line as following:</p>
-</li>
-</ol>
-<div class="admonition abstract">
-<p class="admonition-title">Input</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">Input</label><label for="__tabbed_2_2">Output</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>nzsql
 </code></pre></div>
 </div>
-<div class="admonition success">
-<p class="admonition-title">Output</p>
-<div class="highlight"><pre><span></span><code><span class="w">    </span>Welcome<span class="w"> </span>to<span class="w"> </span>nzsql,<span class="w"> </span>the<span class="w"> </span>IBM<span class="w"> </span>Netezza<span class="w"> </span>SQL<span class="w"> </span>interactive<span class="w"> </span>terminal.
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>    Welcome to nzsql, the IBM Netezza SQL interactive terminal.
 
-Type:<span class="w"> </span><span class="se">\h</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="nb">help</span><span class="w"> </span>with<span class="w"> </span>SQL<span class="w"> </span>commands
-<span class="w">      </span><span class="se">\?</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="nb">help</span><span class="w"> </span>on<span class="w"> </span>internal<span class="w"> </span>slash<span class="w"> </span>commands
-<span class="w">      </span><span class="se">\g</span><span class="w"> </span>or<span class="w"> </span>terminate<span class="w"> </span>with<span class="w"> </span>semicolon<span class="w"> </span>to<span class="w"> </span>execute<span class="w"> </span>query
-<span class="w">      </span><span class="se">\q</span><span class="w"> </span>to<span class="w"> </span>quit
+Type: \h for help with SQL commands
+      \? for help on internal slash commands
+      \g or terminate with semicolon to execute query
+      \q to quit
 
-SYSTEM.ADMIN<span class="o">(</span>ADMIN<span class="o">)=</span>&gt;
+SYSTEM.ADMIN(ADMIN)=&gt;
 </code></pre></div>
+</div>
+</div>
 </div>
 <p>You will be entered into the nzsql interactive terminal.</p>
-<ol start="3">
-<li>Connect to the database LABDB as user LABADMIN by typing the
-    following command:</li>
-</ol>
-<div class="admonition abstract">
-<p class="admonition-title">Input</p>
-<div class="highlight"><pre><span></span><code><span class="se">\c</span><span class="w"> </span>LABDB<span class="w"> </span>LABADMIN
+</li>
+<li>
+<p>Connect to the database <code>LABDB</code> as user <code>LABADMIN</code> by typing the
+        following command:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="3:2"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1">Input</label><label for="__tabbed_3_2">Output</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>\c LABDB LABADMIN
 </code></pre></div>
 </div>
-<div class="admonition success">
-<p class="admonition-title">Output</p>
-<div class="highlight"><pre><span></span><code>You<span class="w"> </span>are<span class="w"> </span>now<span class="w"> </span>connected<span class="w"> </span>to<span class="w"> </span>database<span class="w"> </span>LABDB<span class="w"> </span>as<span class="w"> </span>user<span class="w"> </span>LABADMIN.
-LABDB.ADMIN<span class="o">(</span>LABADMIN<span class="o">)=</span>&gt;
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>You are now connected to database LABDB as user LABADMIN.
+LABDB.ADMIN(LABADMIN)=&gt;
 </code></pre></div>
+</div>
+</div>
 </div>
 <p>Notice the prompt has changed to show the new connection information.</p>
-<ol start="4">
-<li>Select all rows from the REGION table:</li>
-</ol>
-<div class="admonition abstract">
-<p class="admonition-title">Input</p>
-<div class="highlight"><pre><span></span><code>SELECT<span class="w"> </span>*<span class="w"> </span>FROM<span class="w"> </span>REGION<span class="p">;</span>
+</li>
+<li>
+<p>Select all rows from the <code>REGION</code> table:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="4:2"><input checked="checked" id="__tabbed_4_1" name="__tabbed_4" type="radio" /><input id="__tabbed_4_2" name="__tabbed_4" type="radio" /><div class="tabbed-labels"><label for="__tabbed_4_1">Input</label><label for="__tabbed_4_2">Output</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>SELECT * FROM REGION;
 </code></pre></div>
 </div>
-<div class="admonition success">
-<p class="admonition-title">Output</p>
-<div class="highlight"><pre><span></span><code><span class="w"> </span>R_REGIONKEY<span class="w"> </span><span class="p">|</span><span class="w">          </span>R_NAME<span class="w">           </span><span class="p">|</span><span class="w">          </span>R_COMMENT
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code> R_REGIONKEY |          R_NAME           |          R_COMMENT
 -------------+---------------------------+-----------------------------
-<span class="w">           </span><span class="m">3</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>emea<span class="w">                      </span><span class="p">|</span><span class="w"> </span>europe,<span class="w"> </span>middle<span class="w"> </span>east,<span class="w"> </span>africa
-<span class="w">           </span><span class="m">1</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>na<span class="w">                        </span><span class="p">|</span><span class="w"> </span>north<span class="w"> </span>america
-<span class="w">           </span><span class="m">2</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sa<span class="w">                        </span><span class="p">|</span><span class="w"> </span>south<span class="w"> </span>america
-<span class="w">           </span><span class="m">4</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>ap<span class="w">                        </span><span class="p">|</span><span class="w"> </span>asia<span class="w"> </span>pacific
-<span class="o">(</span><span class="m">4</span><span class="w"> </span>rows<span class="o">)</span>
+           3 | emea                      | europe, middle east, africa
+           1 | na                        | north america
+           2 | sa                        | south america
+           4 | ap                        | asia pacific
+(4 rows)
 </code></pre></div>
+</div>
+</div>
 </div>
 <p>You should see the following output with 4 existing regions.</p>
-<ol start="5">
-<li>Insert a new row into the REGIONS table for the region Australia
-    with the following SQL command</li>
-</ol>
-<div class="admonition abstract">
-<p class="admonition-title">Input</p>
-<div class="highlight"><pre><span></span><code>INSERT<span class="w"> </span>INTO<span class="w"> </span>REGION<span class="w"> </span>VALUES<span class="w"> </span><span class="o">(</span><span class="m">5</span>,<span class="w"> </span><span class="s1">&#39;as&#39;</span>,<span class="w"> </span><span class="s1">&#39;australia&#39;</span><span class="o">)</span><span class="p">;</span>
+</li>
+<li>
+<p>Insert a new row into the <code>REGIONS</code> table for the region Australia
+        with the following SQL command</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="5:2"><input checked="checked" id="__tabbed_5_1" name="__tabbed_5" type="radio" /><input id="__tabbed_5_2" name="__tabbed_5" type="radio" /><div class="tabbed-labels"><label for="__tabbed_5_1">Input</label><label for="__tabbed_5_2">Output</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>INSERT INTO REGION VALUES (5, &#39;as&#39;, &#39;australia&#39;);
 </code></pre></div>
 </div>
-<div class="admonition success">
-<p class="admonition-title">Output</p>
-<div class="highlight"><pre><span></span><code>INSERTED<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">1</span>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>INSERTED 0 1
 </code></pre></div>
 </div>
-<ol start="6">
-<li>Now we will again do a select on the REGION table. But this time we
-    will also query the hidden fields CREATEXID, DELETEXID and ROWID:</li>
-</ol>
-<div class="admonition abstract">
-<p class="admonition-title">Input</p>
-<div class="highlight"><pre><span></span><code>SELECT<span class="w"> </span>CREATEXID,<span class="w"> </span>DELETEXID,<span class="w"> </span>ROWID,*<span class="w"> </span>FROM<span class="w"> </span>REGION<span class="p">;</span>
+</div>
+</div>
+</li>
+<li>
+<p>Now we will again do a select on the <code>REGION</code> table. But this time we
+        will also query the hidden fields <code>CREATEXID,</code> <code>DELETEXID</code> and <code>ROWID</code>:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="6:2"><input checked="checked" id="__tabbed_6_1" name="__tabbed_6" type="radio" /><input id="__tabbed_6_2" name="__tabbed_6" type="radio" /><div class="tabbed-labels"><label for="__tabbed_6_1">Input</label><label for="__tabbed_6_2">Output</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>SELECT CREATEXID, DELETEXID, ROWID,* FROM REGION;
 </code></pre></div>
 </div>
-<div class="admonition success">
-<p class="admonition-title">Output</p>
-<div class="highlight"><pre><span></span><code><span class="w"> </span>CREATEXID<span class="w"> </span><span class="p">|</span><span class="w"> </span>DELETEXID<span class="w"> </span><span class="p">|</span><span class="w">  </span>ROWID<span class="w">   </span><span class="p">|</span><span class="w"> </span>R_REGIONKEY<span class="w"> </span><span class="p">|</span><span class="w">          </span>R_NAME<span class="w">           </span><span class="p">|</span><span class="w">          </span>R_COMMENT
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code> CREATEXID | DELETEXID |  ROWID   | R_REGIONKEY |          R_NAME           |          R_COMMENT
 -----------+-----------+----------+-------------+---------------------------+-----------------------------
-<span class="w">     </span><span class="m">17498</span><span class="w"> </span><span class="p">|</span><span class="w">         </span><span class="m">0</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">28765000</span><span class="w"> </span><span class="p">|</span><span class="w">           </span><span class="m">3</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>emea<span class="w">                      </span><span class="p">|</span><span class="w"> </span>europe,<span class="w"> </span>middle<span class="w"> </span>east,<span class="w"> </span>africa
-<span class="w">     </span><span class="m">17498</span><span class="w"> </span><span class="p">|</span><span class="w">         </span><span class="m">0</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">28765001</span><span class="w"> </span><span class="p">|</span><span class="w">           </span><span class="m">1</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>na<span class="w">                        </span><span class="p">|</span><span class="w"> </span>north<span class="w"> </span>america
-<span class="w">     </span><span class="m">17498</span><span class="w"> </span><span class="p">|</span><span class="w">         </span><span class="m">0</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">28765002</span><span class="w"> </span><span class="p">|</span><span class="w">           </span><span class="m">2</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sa<span class="w">                        </span><span class="p">|</span><span class="w"> </span>south<span class="w"> </span>america
-<span class="w">     </span><span class="m">17498</span><span class="w"> </span><span class="p">|</span><span class="w">         </span><span class="m">0</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">28765003</span><span class="w"> </span><span class="p">|</span><span class="w">           </span><span class="m">4</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>ap<span class="w">                        </span><span class="p">|</span><span class="w"> </span>asia<span class="w"> </span>pacific
-<span class="w">     </span><span class="m">17514</span><span class="w"> </span><span class="p">|</span><span class="w">         </span><span class="m">0</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">37428000</span><span class="w"> </span><span class="p">|</span><span class="w">           </span><span class="m">5</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>as<span class="w">                        </span><span class="p">|</span><span class="w"> </span>australia
-<span class="o">(</span><span class="m">5</span><span class="w"> </span>rows<span class="o">)</span>
+     17498 |         0 | 28765000 |           3 | emea                      | europe, middle east, africa
+     17498 |         0 | 28765001 |           1 | na                        | north america
+     17498 |         0 | 28765002 |           2 | sa                        | south america
+     17498 |         0 | 28765003 |           4 | ap                        | asia pacific
+     17514 |         0 | 37428000 |           5 | as                        | australia
+(5 rows)
 </code></pre></div>
 </div>
-<p>As you can see, we now have five rows in the REGION table. The new row
-for Australia has the ID of the last transaction as CREATEXID and 0 as
+</div>
+</div>
+<p>As you can see, we now have five rows in the <code>REGION</code> table. The new row
+for Australia has the ID of the last transaction as <code>CREATEXID</code> and 0 as
 DELETEXID since it has not yet been deleted. Other transactions with a
 lower transaction ID that might still be running will not be able to
-see this new row. Note also that each row has a unique ROWID. ROWIDs
+see this new row. Note also that each row has a unique <code>ROWID</code>. <code>ROWID</code>s
 do not need to be consecutive, but they are unique across all data
 slices for one table.</p>
-<h2 id="32-update-and-delete-transactions">3.2 Update and Delete Transactions</h2>
+</li>
+</ol>
+<h3 id="32-update-and-delete-transactions">3.2 Update and Delete Transactions</h3>
 <p>Delete transactions in Netezza Performance Server do not physically
-remove rows but update the DELETEXID field of a row to mark it as
+remove rows but update the <code>DELETEXID</code> field of a row to mark it as
 logically deleted. These logically deleted rows need to be removed
-regularly with the administrative GROOM command.</p>
+regularly with the administrative <code>GROOM</code> command.</p>
 <p>Update transactions in Netezza Performance Server consist of a logical
 delete of the old row and an insert of a new row with the updated
 fields. To show this effectively we will need to change a system
@@ -701,673 +851,745 @@ below.</p>
 <ol>
 <li>
 <p>First, we will change the system variable that allows us to see
-    deleted rows in the system, to do this exit the console with <code>\q</code>.</p>
+        deleted rows in the system, to do this exit the console with <code>\q</code>.</p>
 </li>
 <li>
 <p>Check the Netezza Performance Server system registry for the
-    parameters host.fpgaAllowXIDOverride and system.useFpgaPrep, each
-    should be set to yes:</p>
+        parameters host.fpgaAllowXIDOverride and system.useFpgaPrep, each
+        should be set to yes:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="7:2"><input checked="checked" id="__tabbed_7_1" name="__tabbed_7" type="radio" /><input id="__tabbed_7_2" name="__tabbed_7" type="radio" /><div class="tabbed-labels"><label for="__tabbed_7_1">Input</label><label for="__tabbed_7_2">Output</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>nzsystem showregistry | grep -iE &#39;fpgaAllowXIDOverride|useFpgaPrep&#39;
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>host.fpgaAllowXIDOverride = no
+system.useFpgaPrep = yes
+</code></pre></div>
+</div>
+</div>
+</div>
 </li>
-</ol>
-<div class="admonition abstract">
-<p class="admonition-title">Input</p>
-<div class="highlight"><pre><span></span><code>nzsystem<span class="w"> </span>showregistry<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-iE<span class="w"> </span><span class="s1">&#39;fpgaAllowXIDOverride|useFpgaPrep&#39;</span>
+<li>
+<p>To change these system parameters, first pause the system with the
+        following command:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="8:1"><input checked="checked" id="__tabbed_8_1" name="__tabbed_8" type="radio" /><div class="tabbed-labels"><label for="__tabbed_8_1">Input</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>nzsystem pause
+Are you sure you want to pause the system (y|n)? [n] y
 </code></pre></div>
 </div>
-<div class="admonition success">
-<p class="admonition-title">Output</p>
-<div class="highlight"><pre><span></span><code>host.fpgaAllowXIDOverride<span class="w"> </span><span class="o">=</span><span class="w"> </span>no
-system.useFpgaPrep<span class="w"> </span><span class="o">=</span><span class="w"> </span>yes
+</div>
+</div>
+</li>
+<li>
+<p>Next, update the system parameters with the following command:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="9:1"><input checked="checked" id="__tabbed_9_1" name="__tabbed_9" type="radio" /><div class="tabbed-labels"><label for="__tabbed_9_1">Input</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>nzsystem set -arg host.fpgaAllowXIDOverride=yes
+Are you sure you want to change the system configuration (y|n)? [n] y
 </code></pre></div>
 </div>
-<ol start="3">
-<li>To change these system parameters, first pause the system with the
-    following command:</li>
-</ol>
-<div class="admonition abstract">
-<p class="admonition-title">Input</p>
-<div class="highlight"><pre><span></span><code>nzsystem<span class="w"> </span>pause
-Are<span class="w"> </span>you<span class="w"> </span>sure<span class="w"> </span>you<span class="w"> </span>want<span class="w"> </span>to<span class="w"> </span>pause<span class="w"> </span>the<span class="w"> </span>system<span class="w"> </span><span class="o">(</span>y<span class="p">|</span>n<span class="o">)</span>?<span class="w"> </span><span class="o">[</span>n<span class="o">]</span><span class="w"> </span>y
-</code></pre></div>
 </div>
-<ol start="4">
-<li>Next, update the system parameters with the following command:</li>
-</ol>
-<div class="admonition abstract">
-<p class="admonition-title">Input</p>
-<div class="highlight"><pre><span></span><code>nzsystem<span class="w"> </span><span class="nb">set</span><span class="w"> </span>-arg<span class="w"> </span>host.fpgaAllowXIDOverride<span class="o">=</span>yes
-Are<span class="w"> </span>you<span class="w"> </span>sure<span class="w"> </span>you<span class="w"> </span>want<span class="w"> </span>to<span class="w"> </span>change<span class="w"> </span>the<span class="w"> </span>system<span class="w"> </span>configuration<span class="w"> </span><span class="o">(</span>y<span class="p">|</span>n<span class="o">)</span>?<span class="w"> </span><span class="o">[</span>n<span class="o">]</span><span class="w"> </span>y
-</code></pre></div>
 </div>
 <p>Ensure both parameters <code>host.fpgaAllowXIDOverride</code> and
 <code>system.useFpgaPrep</code> are set to <code>yes</code>.</p>
-<ol start="5">
-<li>Resume the system with the following command:</li>
-</ol>
-<div class="admonition abstract">
-<p class="admonition-title">Input</p>
-<div class="highlight"><pre><span></span><code>nzsystem<span class="w"> </span>resume
+</li>
+<li>
+<p>Resume the system with the following command:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="10:1"><input checked="checked" id="__tabbed_10_1" name="__tabbed_10" type="radio" /><div class="tabbed-labels"><label for="__tabbed_10_1">Input</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>nzsystem resume
 </code></pre></div>
 </div>
-<ol start="6">
-<li>Re-check the Netezza Performance Server system registry for the
-    parameters <code>host.fpgaAllowXIDOverride</code> and <code>system.useFpgaPrep</code>, each
-    should be set to yes:</li>
-</ol>
-<div class="admonition abstract">
-<p class="admonition-title">Input</p>
-<div class="highlight"><pre><span></span><code>nzsystem<span class="w"> </span>showregistry<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-iE<span class="w"> </span><span class="s1">&#39;fpgaAllowXIDOverride|useFpgaPrep&#39;</span>
+</div>
+</div>
+</li>
+<li>
+<p>Re-check the Netezza Performance Server system registry for the
+        parameters <code>host.fpgaAllowXIDOverride</code> and <code>system.useFpgaPrep</code>, each
+        should be set to yes:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="11:2"><input checked="checked" id="__tabbed_11_1" name="__tabbed_11" type="radio" /><input id="__tabbed_11_2" name="__tabbed_11" type="radio" /><div class="tabbed-labels"><label for="__tabbed_11_1">Input</label><label for="__tabbed_11_2">Output</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>nzsystem showregistry | grep -iE &#39;fpgaAllowXIDOverride|useFpgaPrep&#39;
 </code></pre></div>
 </div>
-<div class="admonition success">
-<p class="admonition-title">Output</p>
-<div class="highlight"><pre><span></span><code>host.fpgaAllowXIDOverride<span class="w"> </span><span class="o">=</span><span class="w"> </span>yes
-system.useFpgaPrep<span class="w"> </span><span class="o">=</span><span class="w"> </span>yes
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>host.fpgaAllowXIDOverride = yes
+system.useFpgaPrep = yes
 </code></pre></div>
 </div>
-<ol start="7">
-<li>Start nzsql from the Linux command line as following:</li>
-</ol>
-<div class="admonition abstract">
-<p class="admonition-title">Input</p>
-<div class="highlight"><pre><span></span><code>nzsql<span class="w"> </span>labdb<span class="w"> </span>labadmin<span class="w"> </span>password
+</div>
+</div>
+</li>
+<li>
+<p>Start <code>nzsql</code> from the Linux command line as following:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="12:1"><input checked="checked" id="__tabbed_12_1" name="__tabbed_12" type="radio" /><div class="tabbed-labels"><label for="__tabbed_12_1">Input</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>nzsql labdb labadmin password
 </code></pre></div>
 </div>
-<ol start="8">
-<li>Now we will update the row we inserted in the last chapter to the
-    REGION table:</li>
-</ol>
-<div class="admonition abstract">
-<p class="admonition-title">Input</p>
-<div class="highlight"><pre><span></span><code>UPDATE<span class="w"> </span>REGION<span class="w"> </span>SET<span class="w"> </span><span class="nv">R_COMMENT</span><span class="o">=</span><span class="s1">&#39;Australia&#39;</span><span class="w"> </span>WHERE<span class="w"> </span><span class="nv">R_REGIONKEY</span><span class="o">=</span><span class="m">5</span><span class="p">;</span>
+</div>
+</div>
+</li>
+<li>
+<p>Now we will update the row we inserted in the last chapter to the
+        <code>REGION</code> table:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="13:1"><input checked="checked" id="__tabbed_13_1" name="__tabbed_13" type="radio" /><div class="tabbed-labels"><label for="__tabbed_13_1">Input</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>UPDATE REGION SET R_COMMENT=&#39;Australia&#39; WHERE R_REGIONKEY=5;
 </code></pre></div>
 </div>
-<ol start="9">
-<li>Do a SELECT on the REGION table again:</li>
-</ol>
-<div class="admonition abstract">
-<p class="admonition-title">Input</p>
-<div class="highlight"><pre><span></span><code>SELECT<span class="w"> </span>CREATEXID,<span class="w"> </span>DELETEXID,<span class="w"> </span>ROWID,*<span class="w"> </span>FROM<span class="w"> </span>REGION<span class="p">;</span>
+</div>
+</div>
+</li>
+<li>
+<p>Do a <code>SELECT</code> on the <code>REGION</code> table again:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="14:2"><input checked="checked" id="__tabbed_14_1" name="__tabbed_14" type="radio" /><input id="__tabbed_14_2" name="__tabbed_14" type="radio" /><div class="tabbed-labels"><label for="__tabbed_14_1">Input</label><label for="__tabbed_14_2">Output</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>SELECT CREATEXID, DELETEXID, ROWID,* FROM REGION;
 </code></pre></div>
 </div>
-<div class="admonition success">
-<p class="admonition-title">Output</p>
-<div class="highlight"><pre><span></span><code><span class="w"> </span>CREATEXID<span class="w"> </span><span class="p">|</span><span class="w"> </span>DELETEXID<span class="w"> </span><span class="p">|</span><span class="w">  </span>ROWID<span class="w">   </span><span class="p">|</span><span class="w"> </span>R_REGIONKEY<span class="w"> </span><span class="p">|</span><span class="w">          </span>R_NAME<span class="w">           </span><span class="p">|</span><span class="w">          </span>R_COMMENT
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code> CREATEXID | DELETEXID |  ROWID   | R_REGIONKEY |          R_NAME           |          R_COMMENT
 -----------+-----------+----------+-------------+---------------------------+-----------------------------
-<span class="w">     </span><span class="m">17498</span><span class="w"> </span><span class="p">|</span><span class="w">         </span><span class="m">0</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">28765000</span><span class="w"> </span><span class="p">|</span><span class="w">           </span><span class="m">3</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>emea<span class="w">                      </span><span class="p">|</span><span class="w"> </span>europe,<span class="w"> </span>middle<span class="w"> </span>east,<span class="w"> </span>africa
-<span class="w">     </span><span class="m">17498</span><span class="w"> </span><span class="p">|</span><span class="w">         </span><span class="m">0</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">28765001</span><span class="w"> </span><span class="p">|</span><span class="w">           </span><span class="m">1</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>na<span class="w">                        </span><span class="p">|</span><span class="w"> </span>north<span class="w"> </span>america
-<span class="w">     </span><span class="m">17498</span><span class="w"> </span><span class="p">|</span><span class="w">         </span><span class="m">0</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">28765002</span><span class="w"> </span><span class="p">|</span><span class="w">           </span><span class="m">2</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sa<span class="w">                        </span><span class="p">|</span><span class="w"> </span>south<span class="w"> </span>america
-<span class="w">     </span><span class="m">17498</span><span class="w"> </span><span class="p">|</span><span class="w">         </span><span class="m">0</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">28765003</span><span class="w"> </span><span class="p">|</span><span class="w">           </span><span class="m">4</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>ap<span class="w">                        </span><span class="p">|</span><span class="w"> </span>asia<span class="w"> </span>pacific
-<span class="w">     </span><span class="m">17514</span><span class="w"> </span><span class="p">|</span><span class="w">     </span><span class="m">21506</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">37428000</span><span class="w"> </span><span class="p">|</span><span class="w">           </span><span class="m">5</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>as<span class="w">                        </span><span class="p">|</span><span class="w"> </span>australia
-<span class="w">     </span><span class="m">21506</span><span class="w"> </span><span class="p">|</span><span class="w">         </span><span class="m">0</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">37428000</span><span class="w"> </span><span class="p">|</span><span class="w">           </span><span class="m">5</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>as<span class="w">                        </span><span class="p">|</span><span class="w"> </span>Australia
-<span class="o">(</span><span class="m">6</span><span class="w"> </span>rows<span class="o">)</span>
+     17498 |         0 | 28765000 |           3 | emea                      | europe, middle east, africa
+     17498 |         0 | 28765001 |           1 | na                        | north america
+     17498 |         0 | 28765002 |           2 | sa                        | south america
+     17498 |         0 | 28765003 |           4 | ap                        | asia pacific
+     17514 |     21506 | 37428000 |           5 | as                        | australia
+     21506 |         0 | 37428000 |           5 | as                        | Australia
+(6 rows)
 </code></pre></div>
+</div>
+</div>
 </div>
 <p>Normally you would now see 5 rows with the update value. But since we
-disabled the invisibility lists you now see 6 rows in the REGION
+disabled the invisibility lists you now see 6 rows in the <code>REGION</code>
 table. Our transaction that updated the row had the transaction id
 369666. You can see that the original row with the lowercase australia
-in the comment column is still there and now has a DELETXID field that
+in the comment column is still there and now has a <code>DELETXID</code> field that
 contains the transaction id of the transaction that deleted it.
 Transactions with a higher transaction id will not see a row with a
-DELETEXID that indicates that it has been logically deleted before the
+<code>DELETEXID</code> that indicates that it has been logically deleted before the
 transaction is run.</p>
 <p>We also see a newly inserted row with the new comment value Australia.
-It has the same ROWID as the deleted row and the same CREATEXID as the
+It has the same <code>ROWID</code> as the deleted row and the same <code>CREATEXID</code> as the
 transaction that did the insert.</p>
-<ol start="10">
-<li>Finally let's clean up the table again by deleting the Australia
-    row:</li>
-</ol>
-<div class="admonition abstract">
-<p class="admonition-title">Input</p>
-<div class="highlight"><pre><span></span><code>DELETE<span class="w"> </span>FROM<span class="w"> </span>REGION<span class="w"> </span>WHERE<span class="w"> </span><span class="nv">R_REGIONKEY</span><span class="o">=</span><span class="m">5</span><span class="p">;</span>
+</li>
+<li>
+<p>Finally let's clean up the table again by deleting the Australia
+        row:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="15:2"><input checked="checked" id="__tabbed_15_1" name="__tabbed_15" type="radio" /><input id="__tabbed_15_2" name="__tabbed_15" type="radio" /><div class="tabbed-labels"><label for="__tabbed_15_1">Input</label><label for="__tabbed_15_2">Output</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>DELETE FROM REGION WHERE R_REGIONKEY=5;
 </code></pre></div>
 </div>
-<div class="admonition success">
-<p class="admonition-title">Output</p>
-<div class="highlight"><pre><span></span><code>DELETE<span class="w"> </span><span class="m">1</span>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>DELETE 1
 </code></pre></div>
 </div>
-<ol start="11">
-<li>Do a SELECT on the REGION table again:</li>
-</ol>
-<div class="admonition abstract">
-<p class="admonition-title">Input</p>
-<div class="highlight"><pre><span></span><code>SELECT<span class="w"> </span>CREATEXID,<span class="w"> </span>DELETEXID,<span class="w"> </span>ROWID,*<span class="w"> </span>FROM<span class="w"> </span>REGION<span class="p">;</span>
+</div>
+</div>
+</li>
+<li>
+<p>Do a <code>SELECT</code> on the <code>REGION</code> table again:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="16:2"><input checked="checked" id="__tabbed_16_1" name="__tabbed_16" type="radio" /><input id="__tabbed_16_2" name="__tabbed_16" type="radio" /><div class="tabbed-labels"><label for="__tabbed_16_1">Input</label><label for="__tabbed_16_2">Output</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>SELECT CREATEXID, DELETEXID, ROWID,* FROM REGION;
 </code></pre></div>
 </div>
-<div class="admonition success">
-<p class="admonition-title">Output</p>
-<div class="highlight"><pre><span></span><code><span class="w"> </span>CREATEXID<span class="w"> </span><span class="p">|</span><span class="w"> </span>DELETEXID<span class="w"> </span><span class="p">|</span><span class="w">  </span>ROWID<span class="w">   </span><span class="p">|</span><span class="w"> </span>R_REGIONKEY<span class="w"> </span><span class="p">|</span><span class="w">          </span>R_NAME<span class="w">           </span><span class="p">|</span><span class="w">          </span>R_COMMENT
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code> CREATEXID | DELETEXID |  ROWID   | R_REGIONKEY |          R_NAME           |          R_COMMENT
 -----------+-----------+----------+-------------+---------------------------+-----------------------------
-<span class="w">     </span><span class="m">17498</span><span class="w"> </span><span class="p">|</span><span class="w">         </span><span class="m">0</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">28765000</span><span class="w"> </span><span class="p">|</span><span class="w">           </span><span class="m">3</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>emea<span class="w">                      </span><span class="p">|</span><span class="w"> </span>europe,<span class="w"> </span>middle<span class="w"> </span>east,<span class="w"> </span>africa
-<span class="w">     </span><span class="m">17498</span><span class="w"> </span><span class="p">|</span><span class="w">         </span><span class="m">0</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">28765001</span><span class="w"> </span><span class="p">|</span><span class="w">           </span><span class="m">1</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>na<span class="w">                        </span><span class="p">|</span><span class="w"> </span>north<span class="w"> </span>america
-<span class="w">     </span><span class="m">17498</span><span class="w"> </span><span class="p">|</span><span class="w">         </span><span class="m">0</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">28765002</span><span class="w"> </span><span class="p">|</span><span class="w">           </span><span class="m">2</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sa<span class="w">                        </span><span class="p">|</span><span class="w"> </span>south<span class="w"> </span>america
-<span class="w">     </span><span class="m">17498</span><span class="w"> </span><span class="p">|</span><span class="w">         </span><span class="m">0</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">28765003</span><span class="w"> </span><span class="p">|</span><span class="w">           </span><span class="m">4</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>ap<span class="w">                        </span><span class="p">|</span><span class="w"> </span>asia<span class="w"> </span>pacific
-<span class="w">     </span><span class="m">17514</span><span class="w"> </span><span class="p">|</span><span class="w">     </span><span class="m">21506</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">37428000</span><span class="w"> </span><span class="p">|</span><span class="w">           </span><span class="m">5</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>as<span class="w">                        </span><span class="p">|</span><span class="w"> </span>australia
-<span class="w">     </span><span class="m">21506</span><span class="w"> </span><span class="p">|</span><span class="w">     </span><span class="m">21510</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">37428000</span><span class="w"> </span><span class="p">|</span><span class="w">           </span><span class="m">5</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>as<span class="w">                        </span><span class="p">|</span><span class="w"> </span>Australia
-<span class="o">(</span><span class="m">6</span><span class="w"> </span>rows<span class="o">)</span>
+     17498 |         0 | 28765000 |           3 | emea                      | europe, middle east, africa
+     17498 |         0 | 28765001 |           1 | na                        | north america
+     17498 |         0 | 28765002 |           2 | sa                        | south america
+     17498 |         0 | 28765003 |           4 | ap                        | asia pacific
+     17514 |     21506 | 37428000 |           5 | as                        | australia
+     21506 |     21510 | 37428000 |           5 | as                        | Australia
+(6 rows)
 </code></pre></div>
+</div>
+</div>
 </div>
 <p>We can now see that we have logically deleted our updated row as well.
-It has now a DELETEXID field with the value of the new transaction.
+It has now a <code>DELETEXID</code> field with the value of the new transaction.
 New transactions will see the original table from the start of this
 lab again.</p>
-<blockquote>
-<p>If you do a SELECT, the FPGA will filter out all rows that:</p>
-</blockquote>
+<p>If you do a <code>SELECT</code>, the FPGA will filter out all rows that:</p>
 <ul>
 <li>
-<p>have a CREATEXID which is bigger than the current transaction id.</p>
+<p>have a <code>CREATEXID</code> which is bigger than the current transaction id.</p>
 </li>
 <li>
-<p>have a CREATEXID of an uncommitted transaction.</p>
+<p>have a <code>CREATEXID</code> of an uncommitted transaction.</p>
 </li>
 <li>
-<p>have a DELETENXID which is smaller than the current transaction, but
-    only if the transaction of the DELETEXID field is committed.</p>
+<p>have a <code>DELETENXID</code> which is smaller than the current transaction, but
+    only if the transaction of the <code>DELETEXID</code> field is committed.</p>
 </li>
 <li>
-<p>have a DELETEXID of 1 which means that the insert has been aborted.</p>
+<p>have a <code>DELETEXID</code> of 1 which means that the insert has been aborted.</p>
 </li>
 </ul>
-<h2 id="33-aborting-transactions">3.3 Aborting Transactions</h2>
+</li>
+</ol>
+<h3 id="33-aborting-transactions">3.3 Aborting Transactions</h3>
 <p>Netezza Performance Server never deletes a row during transactions even
 if transactions are rolled back. In this section we will show what
 happens if a transaction is rolled back. Since an update transaction
-consists of a DELETE and INSERT transaction, we will demonstrate the
+consists of a <code>DELETE</code> and <code>INSERT</code> transaction, we will demonstrate the
 behavior for all tree transaction types with this.</p>
 <ol>
-<li>To start a transaction that we can later rollback we need to use the
-    BEGIN keyword.</li>
-</ol>
-<div class="admonition abstract">
-<p class="admonition-title">Input</p>
-<div class="highlight"><pre><span></span><code>BEGIN<span class="p">;</span>
+<li>
+<p>To start a transaction that we can later rollback we need to use the
+        <code>BEGIN</code> keyword.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="17:2"><input checked="checked" id="__tabbed_17_1" name="__tabbed_17" type="radio" /><input id="__tabbed_17_2" name="__tabbed_17" type="radio" /><div class="tabbed-labels"><label for="__tabbed_17_1">Input</label><label for="__tabbed_17_2">Output</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>BEGIN;
 </code></pre></div>
 </div>
-<div class="admonition success">
-<p class="admonition-title">Output</p>
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>BEGIN
 </code></pre></div>
 </div>
+</div>
+</div>
 <p>Per default all SQL statements entered into the nzsql console are
-auto-committed. To start a multi command transaction the BEGIN keyword
+auto-committed. To start a multi command transaction the <code>BEGIN</code> keyword
 needs to be used. All SQL statements that are executed after it will
 belong to a single transaction. To end the transaction two keywords
-can be used COMMIT to commit the transaction or ROLLBACK to rollback
-the transaction and all changes since the BEGIN statement was
+can be used <code>COMMIT</code> to commit the transaction or <code>ROLLBACK</code> to rollback
+the transaction and all changes since the <code>BEGIN</code> statement was
 executed.</p>
-<ol start="2">
-<li>Update the row for the AP region:</li>
-</ol>
-<div class="admonition abstract">
-<p class="admonition-title">Input</p>
-<div class="highlight"><pre><span></span><code>UPDATE<span class="w"> </span>REGION<span class="w"> </span>SET<span class="w"> </span><span class="nv">R_COMMENT</span><span class="o">=</span><span class="s1">&#39;AP&#39;</span><span class="w"> </span>WHERE<span class="w"> </span><span class="nv">R_REGIONKEY</span><span class="o">=</span><span class="m">4</span><span class="p">;</span>
+</li>
+<li>
+<p>Update the row for the AP region:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="18:2"><input checked="checked" id="__tabbed_18_1" name="__tabbed_18" type="radio" /><input id="__tabbed_18_2" name="__tabbed_18" type="radio" /><div class="tabbed-labels"><label for="__tabbed_18_1">Input</label><label for="__tabbed_18_2">Output</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>UPDATE REGION SET R_COMMENT=&#39;AP&#39; WHERE R_REGIONKEY=4;
 </code></pre></div>
 </div>
-<div class="admonition success">
-<p class="admonition-title">Output</p>
-<div class="highlight"><pre><span></span><code>UPDATE<span class="w"> </span><span class="m">1</span>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>UPDATE 1
 </code></pre></div>
 </div>
-<ol start="3">
-<li>Do a SELECT on the REGION table again:</li>
-</ol>
-<div class="admonition abstract">
-<p class="admonition-title">Input</p>
-<div class="highlight"><pre><span></span><code>SELECT<span class="w"> </span>CREATEXID,<span class="w"> </span>DELETEXID,<span class="w"> </span>ROWID,*<span class="w"> </span>FROM<span class="w"> </span>REGION<span class="p">;</span>
+</div>
+</div>
+</li>
+<li>
+<p>Do a <code>SELECT</code> on the <code>REGION</code> table again:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="19:2"><input checked="checked" id="__tabbed_19_1" name="__tabbed_19" type="radio" /><input id="__tabbed_19_2" name="__tabbed_19" type="radio" /><div class="tabbed-labels"><label for="__tabbed_19_1">Input</label><label for="__tabbed_19_2">Output</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>SELECT CREATEXID, DELETEXID, ROWID,* FROM REGION;
 </code></pre></div>
 </div>
-<div class="admonition success">
-<p class="admonition-title">Output</p>
-<div class="highlight"><pre><span></span><code><span class="w"> </span>CREATEXID<span class="w"> </span><span class="p">|</span><span class="w"> </span>DELETEXID<span class="w"> </span><span class="p">|</span><span class="w">  </span>ROWID<span class="w">   </span><span class="p">|</span><span class="w"> </span>R_REGIONKEY<span class="w"> </span><span class="p">|</span><span class="w">          </span>R_NAME<span class="w">           </span><span class="p">|</span><span class="w">          </span>R_COMMENT
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code> CREATEXID | DELETEXID |  ROWID   | R_REGIONKEY |          R_NAME           |          R_COMMENT
 -----------+-----------+----------+-------------+---------------------------+-----------------------------
-<span class="w">     </span><span class="m">17498</span><span class="w"> </span><span class="p">|</span><span class="w">         </span><span class="m">0</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">28765000</span><span class="w"> </span><span class="p">|</span><span class="w">           </span><span class="m">3</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>emea<span class="w">                      </span><span class="p">|</span><span class="w"> </span>europe,<span class="w"> </span>middle<span class="w"> </span>east,<span class="w"> </span>africa
-<span class="w">     </span><span class="m">17498</span><span class="w"> </span><span class="p">|</span><span class="w">         </span><span class="m">0</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">28765001</span><span class="w"> </span><span class="p">|</span><span class="w">           </span><span class="m">1</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>na<span class="w">                        </span><span class="p">|</span><span class="w"> </span>north<span class="w"> </span>america
-<span class="w">     </span><span class="m">17498</span><span class="w"> </span><span class="p">|</span><span class="w">         </span><span class="m">0</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">28765002</span><span class="w"> </span><span class="p">|</span><span class="w">           </span><span class="m">2</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sa<span class="w">                        </span><span class="p">|</span><span class="w"> </span>south<span class="w"> </span>america
-<span class="w">     </span><span class="m">17498</span><span class="w"> </span><span class="p">|</span><span class="w">     </span><span class="m">21514</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">28765003</span><span class="w"> </span><span class="p">|</span><span class="w">           </span><span class="m">4</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>ap<span class="w">                        </span><span class="p">|</span><span class="w"> </span>asia<span class="w"> </span>pacific
-<span class="w">     </span><span class="m">17514</span><span class="w"> </span><span class="p">|</span><span class="w">     </span><span class="m">21506</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">37428000</span><span class="w"> </span><span class="p">|</span><span class="w">           </span><span class="m">5</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>as<span class="w">                        </span><span class="p">|</span><span class="w"> </span>australia
-<span class="w">     </span><span class="m">21506</span><span class="w"> </span><span class="p">|</span><span class="w">     </span><span class="m">21510</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">37428000</span><span class="w"> </span><span class="p">|</span><span class="w">           </span><span class="m">5</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>as<span class="w">                        </span><span class="p">|</span><span class="w"> </span>Australia
-<span class="w">     </span><span class="m">21514</span><span class="w"> </span><span class="p">|</span><span class="w">         </span><span class="m">0</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">28765003</span><span class="w"> </span><span class="p">|</span><span class="w">           </span><span class="m">4</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>ap<span class="w">                        </span><span class="p">|</span><span class="w"> </span>AP
-<span class="o">(</span><span class="m">7</span><span class="w"> </span>rows<span class="o">)</span>
+     17498 |         0 | 28765000 |           3 | emea                      | europe, middle east, africa
+     17498 |         0 | 28765001 |           1 | na                        | north america
+     17498 |         0 | 28765002 |           2 | sa                        | south america
+     17498 |     21514 | 28765003 |           4 | ap                        | asia pacific
+     17514 |     21506 | 37428000 |           5 | as                        | australia
+     21506 |     21510 | 37428000 |           5 | as                        | Australia
+     21514 |         0 | 28765003 |           4 | ap                        | AP
+(7 rows)
 </code></pre></div>
+</div>
+</div>
 </div>
 <p>Note: we have the same results as in the last chapter, the original
-row for the AP region was logically deleted by updating its DELETEXID
-field, and a new row with the updated comment and new ROWID has been
-added. Note that its CREATEXID is the same as the DELETEXID of the old
+row for the AP region was logically deleted by updating its <code>DELETEXID</code>
+field, and a new row with the updated comment and new <code>ROWID</code> has been
+added. Note that its <code>CREATEXID</code> is the same as the <code>DELETEXID</code> of the old
 row, since they were updated by the same transaction.</p>
-<ol start="4">
-<li>Now let's rollback the transaction:</li>
-</ol>
-<div class="admonition abstract">
-<p class="admonition-title">Input</p>
-<div class="highlight"><pre><span></span><code>ROLLBACK<span class="p">;</span>
+</li>
+<li>
+<p>Now let's rollback the transaction:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="20:2"><input checked="checked" id="__tabbed_20_1" name="__tabbed_20" type="radio" /><input id="__tabbed_20_2" name="__tabbed_20" type="radio" /><div class="tabbed-labels"><label for="__tabbed_20_1">Input</label><label for="__tabbed_20_2">Output</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>ROLLBACK;
 </code></pre></div>
 </div>
-<div class="admonition success">
-<p class="admonition-title">Output</p>
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>ROLLBACK
 </code></pre></div>
 </div>
-<ol start="5">
-<li>Do a SELECT on the REGION table again:</li>
-</ol>
-<div class="admonition abstract">
-<p class="admonition-title">Input</p>
-<div class="highlight"><pre><span></span><code>SELECT<span class="w"> </span>CREATEXID,<span class="w"> </span>DELETEXID,<span class="w"> </span>ROWID,*<span class="w"> </span>FROM<span class="w"> </span>REGION<span class="p">;</span>
+</div>
+</div>
+</li>
+<li>
+<p>Do a <code>SELECT</code> on the <code>REGION</code> table again:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="21:2"><input checked="checked" id="__tabbed_21_1" name="__tabbed_21" type="radio" /><input id="__tabbed_21_2" name="__tabbed_21" type="radio" /><div class="tabbed-labels"><label for="__tabbed_21_1">Input</label><label for="__tabbed_21_2">Output</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>SELECT CREATEXID, DELETEXID, ROWID,* FROM REGION;
 </code></pre></div>
 </div>
-<div class="admonition success">
-<p class="admonition-title">Output</p>
-<div class="highlight"><pre><span></span><code><span class="w"> </span>CREATEXID<span class="w"> </span><span class="p">|</span><span class="w"> </span>DELETEXID<span class="w"> </span><span class="p">|</span><span class="w">  </span>ROWID<span class="w">   </span><span class="p">|</span><span class="w"> </span>R_REGIONKEY<span class="w"> </span><span class="p">|</span><span class="w">          </span>R_NAME<span class="w">           </span><span class="p">|</span><span class="w">          </span>R_COMMENT
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code> CREATEXID | DELETEXID |  ROWID   | R_REGIONKEY |          R_NAME           |          R_COMMENT
 -----------+-----------+----------+-------------+---------------------------+-----------------------------
-<span class="w">     </span><span class="m">17498</span><span class="w"> </span><span class="p">|</span><span class="w">         </span><span class="m">0</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">28765000</span><span class="w"> </span><span class="p">|</span><span class="w">           </span><span class="m">3</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>emea<span class="w">                      </span><span class="p">|</span><span class="w"> </span>europe,<span class="w"> </span>middle<span class="w"> </span>east,<span class="w"> </span>africa
-<span class="w">     </span><span class="m">17498</span><span class="w"> </span><span class="p">|</span><span class="w">         </span><span class="m">0</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">28765001</span><span class="w"> </span><span class="p">|</span><span class="w">           </span><span class="m">1</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>na<span class="w">                        </span><span class="p">|</span><span class="w"> </span>north<span class="w"> </span>america
-<span class="w">     </span><span class="m">17498</span><span class="w"> </span><span class="p">|</span><span class="w">         </span><span class="m">0</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">28765002</span><span class="w"> </span><span class="p">|</span><span class="w">           </span><span class="m">2</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sa<span class="w">                        </span><span class="p">|</span><span class="w"> </span>south<span class="w"> </span>america
-<span class="w">     </span><span class="m">17498</span><span class="w"> </span><span class="p">|</span><span class="w">         </span><span class="m">0</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">28765003</span><span class="w"> </span><span class="p">|</span><span class="w">           </span><span class="m">4</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>ap<span class="w">                        </span><span class="p">|</span><span class="w"> </span>asia<span class="w"> </span>pacific
-<span class="w">     </span><span class="m">17514</span><span class="w"> </span><span class="p">|</span><span class="w">     </span><span class="m">21506</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">37428000</span><span class="w"> </span><span class="p">|</span><span class="w">           </span><span class="m">5</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>as<span class="w">                        </span><span class="p">|</span><span class="w"> </span>australia
-<span class="w">     </span><span class="m">21506</span><span class="w"> </span><span class="p">|</span><span class="w">     </span><span class="m">21510</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">37428000</span><span class="w"> </span><span class="p">|</span><span class="w">           </span><span class="m">5</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>as<span class="w">                        </span><span class="p">|</span><span class="w"> </span>Australia
-<span class="w">     </span><span class="m">21514</span><span class="w"> </span><span class="p">|</span><span class="w">         </span><span class="m">1</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">28765003</span><span class="w"> </span><span class="p">|</span><span class="w">           </span><span class="m">4</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>ap<span class="w">                        </span><span class="p">|</span><span class="w"> </span>AP
-<span class="o">(</span><span class="m">7</span><span class="w"> </span>rows<span class="o">)</span>
+     17498 |         0 | 28765000 |           3 | emea                      | europe, middle east, africa
+     17498 |         0 | 28765001 |           1 | na                        | north america
+     17498 |         0 | 28765002 |           2 | sa                        | south america
+     17498 |         0 | 28765003 |           4 | ap                        | asia pacific
+     17514 |     21506 | 37428000 |           5 | as                        | australia
+     21506 |     21510 | 37428000 |           5 | as                        | Australia
+     21514 |         1 | 28765003 |           4 | ap                        | AP
+(7 rows)
 </code></pre></div>
 </div>
-<p>We can see that the transaction has been rolled back. The DELETEXID of
+</div>
+</div>
+<p>We can see that the transaction has been rolled back. The <code>DELETEXID</code> of
 the old version of the row has been reset to 0, which means that it is
-a valid row that can be seen by other transactions, and the DELETEXID
+a valid row that can be seen by other transactions, and the <code>DELETEXID</code>
 of the new row has been set to 1 which marks it as aborted.</p>
-<h2 id="34-cleaning-up">3.4 Cleaning up</h2>
-<p>In this section we will use the GROOM command to remove the logically
+</li>
+</ol>
+<h3 id="34-cleaning-up">3.4 Cleaning up</h3>
+<p>In this section we will use the <code>GROOM</code> command to remove the logically
 deleted rows we have entered, and we will remove the system parameter
-from the configuration file. The Groom command will be used in more
+from the configuration file. The <code>GROOM</code> command will be used in more
 detail in the next chapter. It is the main maintenance command in
 Netezza Performance Server, and we have already used it in the
 Cluster-based Table labs to reorder a CBT. It also removes all logically
 deleted rows from a table and frees up the space on the machine again.</p>
 <ol>
-<li>Execute the GROOM command on the REGION table:</li>
-</ol>
-<div class="admonition abstract">
-<p class="admonition-title">Input</p>
-<div class="highlight"><pre><span></span><code>GROOM<span class="w"> </span>TABLE<span class="w"> </span>REGION<span class="p">;</span>
+<li>
+<p>Execute the <code>GROOM</code> command on the <code>REGION</code> table:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="22:2"><input checked="checked" id="__tabbed_22_1" name="__tabbed_22" type="radio" /><input id="__tabbed_22_2" name="__tabbed_22" type="radio" /><div class="tabbed-labels"><label for="__tabbed_22_1">Input</label><label for="__tabbed_22_2">Output</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>GROOM TABLE REGION;
 </code></pre></div>
 </div>
-<div class="admonition success">
-<p class="admonition-title">Output</p>
-<div class="highlight"><pre><span></span><code>NOTICE:<span class="w"> </span>Groom<span class="w"> </span>will<span class="w"> </span>not<span class="w"> </span>purge<span class="w"> </span>records<span class="w"> </span>deleted<span class="w"> </span>by<span class="w"> </span>transactions<span class="w"> </span>that
-started<span class="w"> </span>after<span class="w"> </span><span class="m">2020</span>-04-02<span class="w"> </span><span class="m">19</span>:18:49.
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>NOTICE: Groom will not purge records deleted by transactions that
+started after 2020-04-02 19:18:49.
 
-NOTICE:<span class="w"> </span>Groom<span class="w"> </span>processed<span class="w"> </span><span class="m">1</span><span class="w"> </span>pages<span class="p">;</span><span class="w"> </span>purged<span class="w"> </span><span class="m">3</span><span class="w"> </span>records<span class="p">;</span><span class="w"> </span>scan<span class="w"> </span>size<span class="w"> </span>unchanged<span class="p">;</span>
-table<span class="w"> </span>size<span class="w"> </span>unchanged.
+NOTICE: Groom processed 1 pages; purged 3 records; scan size unchanged;
+table size unchanged.
 
-GROOM<span class="w"> </span>RECORDS<span class="w"> </span>ALL
+GROOM RECORDS ALL
 </code></pre></div>
 </div>
-<p>You can see that the GROOM command purged 3 rows, exactly the number
+</div>
+</div>
+<p>You can see that the <code>GROOM</code> command purged 3 rows, exactly the number
 of aborted and logically deleted rows we have generated in the
 previous chapter.</p>
-<ol start="2">
-<li>Now select the rows from the REGION table again.</li>
-</ol>
-<div class="admonition abstract">
-<p class="admonition-title">Input</p>
-<div class="highlight"><pre><span></span><code>SELECT<span class="w"> </span>CREATEXID,<span class="w"> </span>DELETEXID,<span class="w"> </span>ROWID,*<span class="w"> </span>FROM<span class="w"> </span>REGION<span class="p">;</span>
+</li>
+<li>
+<p>Now select the rows from the <code>REGION</code> table again.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="23:2"><input checked="checked" id="__tabbed_23_1" name="__tabbed_23" type="radio" /><input id="__tabbed_23_2" name="__tabbed_23" type="radio" /><div class="tabbed-labels"><label for="__tabbed_23_1">Input</label><label for="__tabbed_23_2">Output</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>SELECT CREATEXID, DELETEXID, ROWID,* FROM REGION;
 </code></pre></div>
 </div>
-<div class="admonition success">
-<p class="admonition-title">Output</p>
-<div class="highlight"><pre><span></span><code><span class="w"> </span>CREATEXID<span class="w"> </span><span class="p">|</span><span class="w"> </span>DELETEXID<span class="w"> </span><span class="p">|</span><span class="w">  </span>ROWID<span class="w">   </span><span class="p">|</span><span class="w"> </span>R_REGIONKEY<span class="w"> </span><span class="p">|</span><span class="w">          </span>R_NAME<span class="w">           </span><span class="p">|</span><span class="w">          </span>R_COMMENT
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code> CREATEXID | DELETEXID |  ROWID   | R_REGIONKEY |          R_NAME           |          R_COMMENT
 -----------+-----------+----------+-------------+---------------------------+-----------------------------
-<span class="w">     </span><span class="m">17498</span><span class="w"> </span><span class="p">|</span><span class="w">         </span><span class="m">0</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">28765000</span><span class="w"> </span><span class="p">|</span><span class="w">           </span><span class="m">3</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>emea<span class="w">                      </span><span class="p">|</span><span class="w"> </span>europe,<span class="w"> </span>middle<span class="w"> </span>east,<span class="w"> </span>africa
-<span class="w">     </span><span class="m">17498</span><span class="w"> </span><span class="p">|</span><span class="w">         </span><span class="m">0</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">28765001</span><span class="w"> </span><span class="p">|</span><span class="w">           </span><span class="m">1</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>na<span class="w">                        </span><span class="p">|</span><span class="w"> </span>north<span class="w"> </span>america
-<span class="w">     </span><span class="m">17498</span><span class="w"> </span><span class="p">|</span><span class="w">         </span><span class="m">0</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">28765002</span><span class="w"> </span><span class="p">|</span><span class="w">           </span><span class="m">2</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sa<span class="w">                        </span><span class="p">|</span><span class="w"> </span>south<span class="w"> </span>america
-<span class="w">     </span><span class="m">17498</span><span class="w"> </span><span class="p">|</span><span class="w">         </span><span class="m">0</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">28765003</span><span class="w"> </span><span class="p">|</span><span class="w">           </span><span class="m">4</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>ap<span class="w">                        </span><span class="p">|</span><span class="w"> </span>asia<span class="w"> </span>pacific
-<span class="o">(</span><span class="m">4</span><span class="w"> </span>rows<span class="o">)</span>
+     17498 |         0 | 28765000 |           3 | emea                      | europe, middle east, africa
+     17498 |         0 | 28765001 |           1 | na                        | north america
+     17498 |         0 | 28765002 |           2 | sa                        | south america
+     17498 |         0 | 28765003 |           4 | ap                        | asia pacific
+(4 rows)
 </code></pre></div>
 </div>
-<p>You can see that the GROOM command has removed all logically deleted
+</div>
+</div>
+<p>You can see that the <code>GROOM</code> command has removed all logically deleted
 rows from the table. Remember that we still have the parameter
 switched on that allows us to see any logically deleted rows.
 Especially in tables that are heavily changed with lots and updates
 and deletes running the groom command will free up hard drive space
 and increase performance.</p>
-<ol start="3">
+</li>
 <li>
 <p>Finally, we will change the system variables back to the original
-    settings, to do this exit the console with <code>\q</code>.</p>
+        settings, to do this exit the console with <code>\q</code>.</p>
 </li>
 <li>
 <p>To change these system parameters, first pause the system with the
-    following command:</p>
+        following command:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="24:1"><input checked="checked" id="__tabbed_24_1" name="__tabbed_24" type="radio" /><div class="tabbed-labels"><label for="__tabbed_24_1">Input</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>nzsystem pause
+Are you sure you want to pause the system (y|n)? [n]  y
+</code></pre></div>
+</div>
+</div>
+</div>
+</li>
+<li>
+<p>Next, update the system parameters with the following command:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="25:1"><input checked="checked" id="__tabbed_25_1" name="__tabbed_25" type="radio" /><div class="tabbed-labels"><label for="__tabbed_25_1">Input</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>nzsystem set -arg host.fpgaAllowXIDOverride=no
+Are you sure you want to change the system configuration (y|n)? [n] y
+</code></pre></div>
+</div>
+</div>
+</div>
+<p>Ensure both parameters <code>host.fpgaAllowXIDOverride=no</code> and
+<code>system.useFpgaPrep=yes</code>.</p>
+</li>
+<li>
+<p>Resume the system with the following command:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="26:1"><input checked="checked" id="__tabbed_26_1" name="__tabbed_26" type="radio" /><div class="tabbed-labels"><label for="__tabbed_26_1">Input</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>nzsystem resume
+</code></pre></div>
+</div>
+</div>
+</div>
+</li>
+<li>
+<p>Re-check the Netezza Performance Server system registry for the
+        parameters <code>host.fpgaAllowXIDOverride</code> and <code>system.useFpgaPrep</code>, each
+        should be set to yes:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="27:2"><input checked="checked" id="__tabbed_27_1" name="__tabbed_27" type="radio" /><input id="__tabbed_27_2" name="__tabbed_27" type="radio" /><div class="tabbed-labels"><label for="__tabbed_27_1">Input</label><label for="__tabbed_27_2">Output</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>nzsystem showregistry | grep -iE &#39;fpgaAllowXIDOverride|useFpgaPrep&#39;
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>host.fpgaAllowXIDOverride = no
+system.useFpgaPrep = yes
+</code></pre></div>
+</div>
+</div>
+</div>
 </li>
 </ol>
-<div class="admonition abstract">
-<p class="admonition-title">Input</p>
-<div class="highlight"><pre><span></span><code>nzsystem<span class="w"> </span>pause
-Are<span class="w"> </span>you<span class="w"> </span>sure<span class="w"> </span>you<span class="w"> </span>want<span class="w"> </span>to<span class="w"> </span>pause<span class="w"> </span>the<span class="w"> </span>system<span class="w"> </span><span class="o">(</span>y<span class="p">|</span>n<span class="o">)</span>?<span class="w"> </span><span class="o">[</span>n<span class="o">]</span><span class="w">  </span>y
-</code></pre></div>
-</div>
-<ol start="5">
-<li>Next, update the system parameters with the following command:</li>
-</ol>
-<div class="admonition abstract">
-<p class="admonition-title">Input</p>
-<div class="highlight"><pre><span></span><code>nzsystem<span class="w"> </span><span class="nb">set</span><span class="w"> </span>-arg<span class="w"> </span>host.fpgaAllowXIDOverride<span class="o">=</span>no
-Are<span class="w"> </span>you<span class="w"> </span>sure<span class="w"> </span>you<span class="w"> </span>want<span class="w"> </span>to<span class="w"> </span>change<span class="w"> </span>the<span class="w"> </span>system<span class="w"> </span>configuration<span class="w"> </span><span class="o">(</span>y<span class="p">|</span>n<span class="o">)</span>?<span class="w"> </span><span class="o">[</span>n<span class="o">]</span><span class="w"> </span>y
-</code></pre></div>
-</div>
-<p>Ensure both parameters host.fpgaAllowXIDOverride=no and
-system.useFpgaPrep=yes.</p>
-<ol start="6">
-<li>Resume the system with the following command:</li>
-</ol>
-<div class="admonition abstract">
-<p class="admonition-title">Input</p>
-<div class="highlight"><pre><span></span><code>nzsystem<span class="w"> </span>resume
-</code></pre></div>
-</div>
-<ol start="7">
-<li>Re-check the Netezza Performance Server system registry for the
-    parameters host.fpgaAllowXIDOverride and system.useFpgaPrep, each
-    should be set to yes:</li>
-</ol>
-<div class="admonition abstract">
-<p class="admonition-title">Input</p>
-<div class="highlight"><pre><span></span><code>nzsystem<span class="w"> </span>showregistry<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-iE<span class="w"> </span><span class="s1">&#39;fpgaAllowXIDOverride|useFpgaPrep&#39;</span>
-</code></pre></div>
-</div>
-<div class="admonition success">
-<p class="admonition-title">Output</p>
-<div class="highlight"><pre><span></span><code>host.fpgaAllowXIDOverride<span class="w"> </span><span class="o">=</span><span class="w"> </span>no
-system.useFpgaPrep<span class="w"> </span><span class="o">=</span><span class="w"> </span>yes
-</code></pre></div>
-</div>
-<h1 id="4-grooming-logically-deleted-rows">4 Grooming Logically Deleted Rows</h1>
+<h2 id="4-grooming-logically-deleted-rows">4 Grooming Logically Deleted Rows</h2>
 <p>In this section we will delete rows and determine that they have not
-really been deleted from the disk. Then using GROOM we will physically
+really been deleted from the disk. Then using <code>GROOM</code> we will physically
 delete the rows.</p>
 <ol>
-<li>First determine the physical size on disk of the table ORDERS using
-    the following command:</li>
-</ol>
+<li>
+<p>First determine the physical size on disk of the table <code>ORDERS</code> using
+        the following command:</p>
 <p>You should see the following results:</p>
-<div class="admonition abstract">
-<p class="admonition-title">Input</p>
-<div class="highlight"><pre><span></span><code>/nz/support/bin/nz_db_size<span class="w"> </span>LABDB
+<div class="tabbed-set tabbed-alternate" data-tabs="28:2"><input checked="checked" id="__tabbed_28_1" name="__tabbed_28" type="radio" /><input id="__tabbed_28_2" name="__tabbed_28" type="radio" /><div class="tabbed-labels"><label for="__tabbed_28_1">Input</label><label for="__tabbed_28_2">Output</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>/nz/support/bin/nz_db_size LABDB
 </code></pre></div>
 </div>
-<div class="admonition success">
-<p class="admonition-title">Output</p>
-<div class="highlight"><pre><span></span><code><span class="w">  </span>Object<span class="w">   </span><span class="p">|</span><span class="w">               </span>Name<span class="w">               </span><span class="p">|</span><span class="w">        </span>Bytes<span class="w">         </span><span class="p">|</span><span class="w">        </span>KB<span class="w">        </span><span class="p">|</span><span class="w">      </span>MB<span class="w">      </span><span class="p">|</span><span class="w">     </span>GB<span class="w">     </span><span class="p">|</span><span class="w">   </span>TB
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>  Object   |               Name               |        Bytes         |        KB        |      MB      |     GB     |   TB
 -----------+----------------------------------+----------------------+------------------+--------------+------------+--------
-<span class="w"> </span>Appliance<span class="w"> </span><span class="p">|</span><span class="w"> </span>localhost<span class="w">                        </span><span class="p">|</span><span class="w">          </span><span class="m">452</span>,984,832<span class="w"> </span><span class="p">|</span><span class="w">          </span><span class="m">442</span>,368<span class="w"> </span><span class="p">|</span><span class="w">          </span><span class="m">432</span><span class="w"> </span><span class="p">|</span><span class="w">         </span>.4<span class="w"> </span><span class="p">|</span><span class="w">     </span>.0
-<span class="w"> </span>Database<span class="w">  </span><span class="p">|</span><span class="w"> </span>LABDB<span class="w">                            </span><span class="p">|</span><span class="w">          </span><span class="m">452</span>,984,832<span class="w"> </span><span class="p">|</span><span class="w">          </span><span class="m">442</span>,368<span class="w"> </span><span class="p">|</span><span class="w">          </span><span class="m">432</span><span class="w"> </span><span class="p">|</span><span class="w">         </span>.4<span class="w"> </span><span class="p">|</span><span class="w">     </span>.0
-<span class="w">   </span>.schema<span class="w"> </span><span class="p">|</span><span class="w"> </span>ADMIN<span class="w">                            </span><span class="p">|</span><span class="w">          </span><span class="m">452</span>,984,832<span class="w"> </span><span class="p">|</span><span class="w">          </span><span class="m">442</span>,368<span class="w"> </span><span class="p">|</span><span class="w">          </span><span class="m">432</span><span class="w"> </span><span class="p">|</span><span class="w">         </span>.4<span class="w"> </span><span class="p">|</span><span class="w">     </span>.0
-<span class="w"> </span>Table<span class="w">     </span><span class="p">|</span><span class="w"> </span>CUSTOMER<span class="w">                         </span><span class="p">|</span><span class="w">           </span><span class="m">13</span>,107,200<span class="w"> </span><span class="p">|</span><span class="w">           </span><span class="m">12</span>,800<span class="w"> </span><span class="p">|</span><span class="w">           </span><span class="m">13</span><span class="w"> </span><span class="p">|</span><span class="w">         </span>.0<span class="w"> </span><span class="p">|</span><span class="w">     </span>.0
-<span class="w"> </span>Table<span class="w">     </span><span class="p">|</span><span class="w"> </span>LINEITEM<span class="w">                         </span><span class="p">|</span><span class="w">          </span><span class="m">284</span>,688,384<span class="w"> </span><span class="p">|</span><span class="w">          </span><span class="m">278</span>,016<span class="w"> </span><span class="p">|</span><span class="w">          </span><span class="m">272</span><span class="w"> </span><span class="p">|</span><span class="w">         </span>.3<span class="w"> </span><span class="p">|</span><span class="w">     </span>.0
-<span class="w"> </span>Table<span class="w">     </span><span class="p">|</span><span class="w"> </span>NATION<span class="w">                           </span><span class="p">|</span><span class="w">              </span><span class="m">131</span>,072<span class="w"> </span><span class="p">|</span><span class="w">              </span><span class="m">128</span><span class="w"> </span><span class="p">|</span><span class="w">            </span><span class="m">0</span><span class="w"> </span><span class="p">|</span><span class="w">         </span>.0<span class="w"> </span><span class="p">|</span><span class="w">     </span>.0
-<span class="w"> </span>Table<span class="w">     </span><span class="p">|</span><span class="w"> </span>ORDERS<span class="w">                           </span><span class="p">|</span><span class="w">           </span><span class="m">76</span>,283,904<span class="w"> </span><span class="p">|</span><span class="w">           </span><span class="m">74</span>,496<span class="w"> </span><span class="p">|</span><span class="w">           </span><span class="m">73</span><span class="w"> </span><span class="p">|</span><span class="w">         </span>.1<span class="w"> </span><span class="p">|</span><span class="w">     </span>.0
-<span class="w"> </span>Table<span class="w">     </span><span class="p">|</span><span class="w"> </span>PART<span class="w">                             </span><span class="p">|</span><span class="w">           </span><span class="m">11</span>,534,336<span class="w"> </span><span class="p">|</span><span class="w">           </span><span class="m">11</span>,264<span class="w"> </span><span class="p">|</span><span class="w">           </span><span class="m">11</span><span class="w"> </span><span class="p">|</span><span class="w">         </span>.0<span class="w"> </span><span class="p">|</span><span class="w">     </span>.0
-<span class="w"> </span>Table<span class="w">     </span><span class="p">|</span><span class="w"> </span>PARTSUPP<span class="w">                         </span><span class="p">|</span><span class="w">           </span><span class="m">66</span>,322,432<span class="w"> </span><span class="p">|</span><span class="w">           </span><span class="m">64</span>,768<span class="w"> </span><span class="p">|</span><span class="w">           </span><span class="m">63</span><span class="w"> </span><span class="p">|</span><span class="w">         </span>.1<span class="w"> </span><span class="p">|</span><span class="w">     </span>.0
-<span class="w"> </span>Table<span class="w">     </span><span class="p">|</span><span class="w"> </span>REGION<span class="w">                           </span><span class="p">|</span><span class="w">              </span><span class="m">131</span>,072<span class="w"> </span><span class="p">|</span><span class="w">              </span><span class="m">128</span><span class="w"> </span><span class="p">|</span><span class="w">            </span><span class="m">0</span><span class="w"> </span><span class="p">|</span><span class="w">         </span>.0<span class="w"> </span><span class="p">|</span><span class="w">     </span>.0
-<span class="w"> </span>Table<span class="w">     </span><span class="p">|</span><span class="w"> </span>SUPPLIER<span class="w">                         </span><span class="p">|</span><span class="w">              </span><span class="m">786</span>,432<span class="w"> </span><span class="p">|</span><span class="w">              </span><span class="m">768</span><span class="w"> </span><span class="p">|</span><span class="w">            </span><span class="m">1</span><span class="w"> </span><span class="p">|</span><span class="w">         </span>.0<span class="w"> </span><span class="p">|</span><span class="w">     </span>.0
+ Appliance | localhost                        |          452,984,832 |          442,368 |          432 |         .4 |     .0
+ Database  | LABDB                            |          452,984,832 |          442,368 |          432 |         .4 |     .0
+   .schema | ADMIN                            |          452,984,832 |          442,368 |          432 |         .4 |     .0
+ Table     | CUSTOMER                         |           13,107,200 |           12,800 |           13 |         .0 |     .0
+ Table     | LINEITEM                         |          284,688,384 |          278,016 |          272 |         .3 |     .0
+ Table     | NATION                           |              131,072 |              128 |            0 |         .0 |     .0
+ Table     | ORDERS                           |           76,283,904 |           74,496 |           73 |         .1 |     .0
+ Table     | PART                             |           11,534,336 |           11,264 |           11 |         .0 |     .0
+ Table     | PARTSUPP                         |           66,322,432 |           64,768 |           63 |         .1 |     .0
+ Table     | REGION                           |              131,072 |              128 |            0 |         .0 |     .0
+ Table     | SUPPLIER                         |              786,432 |              768 |            1 |         .0 |     .0
 </code></pre></div>
 </div>
-<p>Notice that the ORDERS table is 75 MB in size.</p>
-<ol start="2">
-<li>Now we are going to delete some rows from ORDERS table. Delete all
-    rows where the ORDERSTATUS is marked as F for finished using the
-    following command:</li>
-</ol>
-<div class="admonition abstract">
-<p class="admonition-title">Input</p>
-<div class="highlight"><pre><span></span><code>nzsql<span class="w"> </span>LABDB<span class="w"> </span>LABADMIN<span class="w"> </span>password
-DELETE<span class="w"> </span>FROM<span class="w"> </span>ORDERS<span class="w"> </span>WHERE<span class="w"> </span><span class="nv">O_ORDERSTATUS</span><span class="o">=</span><span class="s1">&#39;F&#39;</span><span class="p">;</span>
+</div>
+</div>
+<p>Notice that the <code>ORDERS</code> table is 75 MB in size.</p>
+</li>
+<li>
+<p>Now we are going to delete some rows from <code>ORDERS</code> table. Delete all
+        rows where the <code>ORDERSTATUS</code> is marked as F for finished using the
+        following command:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="29:2"><input checked="checked" id="__tabbed_29_1" name="__tabbed_29" type="radio" /><input id="__tabbed_29_2" name="__tabbed_29" type="radio" /><div class="tabbed-labels"><label for="__tabbed_29_1">Input</label><label for="__tabbed_29_2">Output</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>nzsql LABDB LABADMIN password
+DELETE FROM ORDERS WHERE O_ORDERSTATUS=&#39;F&#39;;
 </code></pre></div>
 </div>
-<div class="admonition success">
-<p class="admonition-title">Output</p>
-<div class="highlight"><pre><span></span><code>DELETE<span class="w"> </span><span class="m">729413</span>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>DELETE 729413
 </code></pre></div>
 </div>
-<ol start="3">
-<li>Now check the physical table size for ORDERS and see if the size
-    decreased using the same command as before. You must first exit
-    nzsql to shell using \q.</li>
-</ol>
-<div class="admonition abstract">
-<p class="admonition-title">Input</p>
-<div class="highlight"><pre><span></span><code><span class="se">\q</span>
-/nz/support/bin/nz_db_size<span class="w"> </span>LABDB
+</div>
+</div>
+</li>
+<li>
+<p>Now check the physical table size for <code>ORDERS</code> and see if the size
+        decreased using the same command as before. You must first exit
+        nzsql to shell using <code>\q</code>.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="30:2"><input checked="checked" id="__tabbed_30_1" name="__tabbed_30" type="radio" /><input id="__tabbed_30_2" name="__tabbed_30" type="radio" /><div class="tabbed-labels"><label for="__tabbed_30_1">Input</label><label for="__tabbed_30_2">Output</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>\q
+/nz/support/bin/nz_db_size LABDB
 </code></pre></div>
 </div>
-<div class="admonition success">
-<p class="admonition-title">Output</p>
-<div class="highlight"><pre><span></span><code><span class="w">  </span>Object<span class="w">   </span><span class="p">|</span><span class="w">               </span>Name<span class="w">               </span><span class="p">|</span><span class="w">        </span>Bytes<span class="w">         </span><span class="p">|</span><span class="w">        </span>KB<span class="w">        </span><span class="p">|</span><span class="w">      </span>MB<span class="w">      </span><span class="p">|</span><span class="w">     </span>GB<span class="w">     </span><span class="p">|</span><span class="w">   </span>TB
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>  Object   |               Name               |        Bytes         |        KB        |      MB      |     GB     |   TB
 -----------+----------------------------------+----------------------+------------------+--------------+------------+--------
-<span class="w"> </span>Appliance<span class="w"> </span><span class="p">|</span><span class="w"> </span>localhost<span class="w">                        </span><span class="p">|</span><span class="w">          </span><span class="m">452</span>,984,832<span class="w"> </span><span class="p">|</span><span class="w">          </span><span class="m">442</span>,368<span class="w"> </span><span class="p">|</span><span class="w">          </span><span class="m">432</span><span class="w"> </span><span class="p">|</span><span class="w">         </span>.4<span class="w"> </span><span class="p">|</span><span class="w">     </span>.0
-<span class="w"> </span>Database<span class="w">  </span><span class="p">|</span><span class="w"> </span>LABDB<span class="w">                            </span><span class="p">|</span><span class="w">          </span><span class="m">452</span>,984,832<span class="w"> </span><span class="p">|</span><span class="w">          </span><span class="m">442</span>,368<span class="w"> </span><span class="p">|</span><span class="w">          </span><span class="m">432</span><span class="w"> </span><span class="p">|</span><span class="w">         </span>.4<span class="w"> </span><span class="p">|</span><span class="w">     </span>.0
-<span class="w">   </span>.schema<span class="w"> </span><span class="p">|</span><span class="w"> </span>ADMIN<span class="w">                            </span><span class="p">|</span><span class="w">          </span><span class="m">452</span>,984,832<span class="w"> </span><span class="p">|</span><span class="w">          </span><span class="m">442</span>,368<span class="w"> </span><span class="p">|</span><span class="w">          </span><span class="m">432</span><span class="w"> </span><span class="p">|</span><span class="w">         </span>.4<span class="w"> </span><span class="p">|</span><span class="w">     </span>.0
-<span class="w"> </span>Table<span class="w">     </span><span class="p">|</span><span class="w"> </span>CUSTOMER<span class="w">                         </span><span class="p">|</span><span class="w">           </span><span class="m">13</span>,107,200<span class="w"> </span><span class="p">|</span><span class="w">           </span><span class="m">12</span>,800<span class="w"> </span><span class="p">|</span><span class="w">           </span><span class="m">13</span><span class="w"> </span><span class="p">|</span><span class="w">         </span>.0<span class="w"> </span><span class="p">|</span><span class="w">     </span>.0
-<span class="w"> </span>Table<span class="w">     </span><span class="p">|</span><span class="w"> </span>LINEITEM<span class="w">                         </span><span class="p">|</span><span class="w">          </span><span class="m">284</span>,688,384<span class="w"> </span><span class="p">|</span><span class="w">          </span><span class="m">278</span>,016<span class="w"> </span><span class="p">|</span><span class="w">          </span><span class="m">272</span><span class="w"> </span><span class="p">|</span><span class="w">         </span>.3<span class="w"> </span><span class="p">|</span><span class="w">     </span>.0
-<span class="w"> </span>Table<span class="w">     </span><span class="p">|</span><span class="w"> </span>NATION<span class="w">                           </span><span class="p">|</span><span class="w">              </span><span class="m">131</span>,072<span class="w"> </span><span class="p">|</span><span class="w">              </span><span class="m">128</span><span class="w"> </span><span class="p">|</span><span class="w">            </span><span class="m">0</span><span class="w"> </span><span class="p">|</span><span class="w">         </span>.0<span class="w"> </span><span class="p">|</span><span class="w">     </span>.0
-<span class="w"> </span>Table<span class="w">     </span><span class="p">|</span><span class="w"> </span>ORDERS<span class="w">                           </span><span class="p">|</span><span class="w">           </span><span class="m">76</span>,283,904<span class="w"> </span><span class="p">|</span><span class="w">           </span><span class="m">74</span>,496<span class="w"> </span><span class="p">|</span><span class="w">           </span><span class="m">73</span><span class="w"> </span><span class="p">|</span><span class="w">         </span>.1<span class="w"> </span><span class="p">|</span><span class="w">     </span>.0
-<span class="w"> </span>Table<span class="w">     </span><span class="p">|</span><span class="w"> </span>PART<span class="w">                             </span><span class="p">|</span><span class="w">           </span><span class="m">11</span>,534,336<span class="w"> </span><span class="p">|</span><span class="w">           </span><span class="m">11</span>,264<span class="w"> </span><span class="p">|</span><span class="w">           </span><span class="m">11</span><span class="w"> </span><span class="p">|</span><span class="w">         </span>.0<span class="w"> </span><span class="p">|</span><span class="w">     </span>.0
-<span class="w"> </span>Table<span class="w">     </span><span class="p">|</span><span class="w"> </span>PARTSUPP<span class="w">                         </span><span class="p">|</span><span class="w">           </span><span class="m">66</span>,322,432<span class="w"> </span><span class="p">|</span><span class="w">           </span><span class="m">64</span>,768<span class="w"> </span><span class="p">|</span><span class="w">           </span><span class="m">63</span><span class="w"> </span><span class="p">|</span><span class="w">         </span>.1<span class="w"> </span><span class="p">|</span><span class="w">     </span>.0
-<span class="w"> </span>Table<span class="w">     </span><span class="p">|</span><span class="w"> </span>REGION<span class="w">                           </span><span class="p">|</span><span class="w">              </span><span class="m">131</span>,072<span class="w"> </span><span class="p">|</span><span class="w">              </span><span class="m">128</span><span class="w"> </span><span class="p">|</span><span class="w">            </span><span class="m">0</span><span class="w"> </span><span class="p">|</span><span class="w">         </span>.0<span class="w"> </span><span class="p">|</span><span class="w">     </span>.0
-<span class="w"> </span>Table<span class="w">     </span><span class="p">|</span><span class="w"> </span>SUPPLIER<span class="w">                         </span><span class="p">|</span><span class="w">              </span><span class="m">786</span>,432<span class="w"> </span><span class="p">|</span><span class="w">              </span><span class="m">768</span><span class="w"> </span><span class="p">|</span><span class="w">            </span><span class="m">1</span><span class="w"> </span><span class="p">|</span><span class="w">         </span>.0<span class="w"> </span><span class="p">|</span><span class="w">     </span>.0
+ Appliance | localhost                        |          452,984,832 |          442,368 |          432 |         .4 |     .0
+ Database  | LABDB                            |          452,984,832 |          442,368 |          432 |         .4 |     .0
+   .schema | ADMIN                            |          452,984,832 |          442,368 |          432 |         .4 |     .0
+ Table     | CUSTOMER                         |           13,107,200 |           12,800 |           13 |         .0 |     .0
+ Table     | LINEITEM                         |          284,688,384 |          278,016 |          272 |         .3 |     .0
+ Table     | NATION                           |              131,072 |              128 |            0 |         .0 |     .0
+ Table     | ORDERS                           |           76,283,904 |           74,496 |           73 |         .1 |     .0
+ Table     | PART                             |           11,534,336 |           11,264 |           11 |         .0 |     .0
+ Table     | PARTSUPP                         |           66,322,432 |           64,768 |           63 |         .1 |     .0
+ Table     | REGION                           |              131,072 |              128 |            0 |         .0 |     .0
+ Table     | SUPPLIER                         |              786,432 |              768 |            1 |         .0 |     .0
 </code></pre></div>
 </div>
-<p>The output should be the same as above showing that the ORDERS table
+</div>
+</div>
+<p>The output should be the same as above showing that the <code>ORDERS</code> table
 did not change in size and is still 75 MB. This is because the deleted
 rows were logically deleted but are still left on disk. The rows will
-still accessible to transactions that started before the DELETE
+still accessible to transactions that started before the <code>DELETE</code>
 statement which we just executed. (i.e. have a lower transaction id)</p>
-<ol start="4">
-<li>Next let's physically delete what we just logically deleted using
-    the GROOM TABLE command and specifying table ORDERS. When you run
-    the GROOM TABLE command, it removes outdated and deleted records
-    from tables.</li>
-</ol>
-<div class="admonition abstract">
-<p class="admonition-title">Input</p>
-<div class="highlight"><pre><span></span><code>nzsql<span class="w"> </span>LABDB<span class="w"> </span>LABADMIN<span class="w"> </span>password
-GROOM<span class="w"> </span>TABLE<span class="w"> </span>ORDERS<span class="p">;</span>
+</li>
+<li>
+<p>Next let's physically delete what we just logically deleted using
+        the <code>GROOM TABLE</code> command and specifying table <code>ORDERS</code>. When you run
+        the <code>GROOM TABLE</code> command, it removes outdated and deleted records
+        from tables.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="31:2"><input checked="checked" id="__tabbed_31_1" name="__tabbed_31" type="radio" /><input id="__tabbed_31_2" name="__tabbed_31" type="radio" /><div class="tabbed-labels"><label for="__tabbed_31_1">Input</label><label for="__tabbed_31_2">Output</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>nzsql LABDB LABADMIN password
+GROOM TABLE ORDERS;
 </code></pre></div>
 </div>
-<div class="admonition success">
-<p class="admonition-title">Output</p>
-<div class="highlight"><pre><span></span><code>NOTICE:<span class="w"> </span>Groom<span class="w"> </span>will<span class="w"> </span>not<span class="w"> </span>purge<span class="w"> </span>records<span class="w"> </span>deleted<span class="w"> </span>by<span class="w"> </span>transactions<span class="w"> </span>that
-started<span class="w"> </span>after<span class="w"> </span><span class="m">2020</span>-04-02<span class="w"> </span><span class="m">19</span>:56:57.
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>NOTICE: Groom will not purge records deleted by transactions that
+started after 2020-04-02 19:56:57.
 
-NOTICE:<span class="w"> </span>Groom<span class="w"> </span>processed<span class="w"> </span><span class="m">582</span><span class="w"> </span>pages<span class="p">;</span><span class="w"> </span>purged<span class="w"> </span><span class="m">729413</span><span class="w"> </span>records<span class="p">;</span><span class="w"> </span>scan<span class="w"> </span>size
-shrunk<span class="w"> </span>by<span class="w"> </span><span class="m">280</span><span class="w"> </span>pages<span class="p">;</span><span class="w"> </span>table<span class="w"> </span>size<span class="w"> </span>shrunk<span class="w"> </span>by<span class="w"> </span><span class="m">12</span><span class="w"> </span>extents.
+NOTICE: Groom processed 582 pages; purged 729413 records; scan size
+shrunk by 280 pages; table size shrunk by 12 extents.
 
-GROOM<span class="w"> </span>RECORDS<span class="w"> </span>ALL
+GROOM RECORDS ALL
 </code></pre></div>
+</div>
+</div>
 </div>
 <p>You can see that 729413 rows were removed from disk resulting in the
 table size shrinking by 12 extents. Notice that this is the same
 number of rows we deleted in the previous step.</p>
-<ol start="5">
-<li>Check if the ORDERS table size on disk has shrunk using the
-    nz_db_size command. You must first exit nzsql to shell using \q.</li>
-</ol>
-<div class="admonition abstract">
-<p class="admonition-title">Input</p>
-<div class="highlight"><pre><span></span><code><span class="se">\q</span>
-/nz/support/bin/nz_db_size<span class="w"> </span>LABDB
+</li>
+<li>
+<p>Check if the <code>ORDERS</code> table size on disk has shrunk using the
+        <code>nz_db_size</code> command. You must first exit <code>nzsql</code> to shell using <code>\q</code>.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="32:2"><input checked="checked" id="__tabbed_32_1" name="__tabbed_32" type="radio" /><input id="__tabbed_32_2" name="__tabbed_32" type="radio" /><div class="tabbed-labels"><label for="__tabbed_32_1">Input</label><label for="__tabbed_32_2">Output</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>\q
+/nz/support/bin/nz_db_size LABDB
 </code></pre></div>
 </div>
-<div class="admonition success">
-<p class="admonition-title">Output</p>
-<div class="highlight"><pre><span></span><code><span class="w">  </span>Object<span class="w">   </span><span class="p">|</span><span class="w">               </span>Name<span class="w">               </span><span class="p">|</span><span class="w">        </span>Bytes<span class="w">         </span><span class="p">|</span><span class="w">        </span>KB<span class="w">        </span><span class="p">|</span><span class="w">      </span>MB<span class="w">      </span><span class="p">|</span><span class="w">     </span>GB<span class="w">     </span><span class="p">|</span><span class="w">   </span>TB
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>  Object   |               Name               |        Bytes         |        KB        |      MB      |     GB     |   TB
 -----------+----------------------------------+----------------------+------------------+--------------+------------+--------
-<span class="w"> </span>Appliance<span class="w"> </span><span class="p">|</span><span class="w"> </span>localhost<span class="w">                        </span><span class="p">|</span><span class="w">          </span><span class="m">416</span>,284,672<span class="w"> </span><span class="p">|</span><span class="w">          </span><span class="m">406</span>,528<span class="w"> </span><span class="p">|</span><span class="w">          </span><span class="m">397</span><span class="w"> </span><span class="p">|</span><span class="w">         </span>.4<span class="w"> </span><span class="p">|</span><span class="w">     </span>.0
-<span class="w"> </span>Database<span class="w">  </span><span class="p">|</span><span class="w"> </span>LABDB<span class="w">                            </span><span class="p">|</span><span class="w">          </span><span class="m">416</span>,284,672<span class="w"> </span><span class="p">|</span><span class="w">          </span><span class="m">406</span>,528<span class="w"> </span><span class="p">|</span><span class="w">          </span><span class="m">397</span><span class="w"> </span><span class="p">|</span><span class="w">         </span>.4<span class="w"> </span><span class="p">|</span><span class="w">     </span>.0
-<span class="w">   </span>.schema<span class="w"> </span><span class="p">|</span><span class="w"> </span>ADMIN<span class="w">                            </span><span class="p">|</span><span class="w">          </span><span class="m">416</span>,284,672<span class="w"> </span><span class="p">|</span><span class="w">          </span><span class="m">406</span>,528<span class="w"> </span><span class="p">|</span><span class="w">          </span><span class="m">397</span><span class="w"> </span><span class="p">|</span><span class="w">         </span>.4<span class="w"> </span><span class="p">|</span><span class="w">     </span>.0
-<span class="w"> </span>Table<span class="w">     </span><span class="p">|</span><span class="w"> </span>CUSTOMER<span class="w">                         </span><span class="p">|</span><span class="w">           </span><span class="m">13</span>,107,200<span class="w"> </span><span class="p">|</span><span class="w">           </span><span class="m">12</span>,800<span class="w"> </span><span class="p">|</span><span class="w">           </span><span class="m">13</span><span class="w"> </span><span class="p">|</span><span class="w">         </span>.0<span class="w"> </span><span class="p">|</span><span class="w">     </span>.0
-<span class="w"> </span>Table<span class="w">     </span><span class="p">|</span><span class="w"> </span>LINEITEM<span class="w">                         </span><span class="p">|</span><span class="w">          </span><span class="m">284</span>,688,384<span class="w"> </span><span class="p">|</span><span class="w">          </span><span class="m">278</span>,016<span class="w"> </span><span class="p">|</span><span class="w">          </span><span class="m">272</span><span class="w"> </span><span class="p">|</span><span class="w">         </span>.3<span class="w"> </span><span class="p">|</span><span class="w">     </span>.0
-<span class="w"> </span>Table<span class="w">     </span><span class="p">|</span><span class="w"> </span>NATION<span class="w">                           </span><span class="p">|</span><span class="w">              </span><span class="m">131</span>,072<span class="w"> </span><span class="p">|</span><span class="w">              </span><span class="m">128</span><span class="w"> </span><span class="p">|</span><span class="w">            </span><span class="m">0</span><span class="w"> </span><span class="p">|</span><span class="w">         </span>.0<span class="w"> </span><span class="p">|</span><span class="w">     </span>.0
-<span class="w"> </span>Table<span class="w">     </span><span class="p">|</span><span class="w"> </span>ORDERS<span class="w">                           </span><span class="p">|</span><span class="w">           </span><span class="m">39</span>,583,744<span class="w"> </span><span class="p">|</span><span class="w">           </span><span class="m">38</span>,656<span class="w"> </span><span class="p">|</span><span class="w">           </span><span class="m">38</span><span class="w"> </span><span class="p">|</span><span class="w">         </span>.0<span class="w"> </span><span class="p">|</span><span class="w">     </span>.0
-<span class="w"> </span>Table<span class="w">     </span><span class="p">|</span><span class="w"> </span>PART<span class="w">                             </span><span class="p">|</span><span class="w">           </span><span class="m">11</span>,534,336<span class="w"> </span><span class="p">|</span><span class="w">           </span><span class="m">11</span>,264<span class="w"> </span><span class="p">|</span><span class="w">           </span><span class="m">11</span><span class="w"> </span><span class="p">|</span><span class="w">         </span>.0<span class="w"> </span><span class="p">|</span><span class="w">     </span>.0
-<span class="w"> </span>Table<span class="w">     </span><span class="p">|</span><span class="w"> </span>PARTSUPP<span class="w">                         </span><span class="p">|</span><span class="w">           </span><span class="m">66</span>,322,432<span class="w"> </span><span class="p">|</span><span class="w">           </span><span class="m">64</span>,768<span class="w"> </span><span class="p">|</span><span class="w">           </span><span class="m">63</span><span class="w"> </span><span class="p">|</span><span class="w">         </span>.1<span class="w"> </span><span class="p">|</span><span class="w">     </span>.0
-<span class="w"> </span>Table<span class="w">     </span><span class="p">|</span><span class="w"> </span>REGION<span class="w">                           </span><span class="p">|</span><span class="w">              </span><span class="m">131</span>,072<span class="w"> </span><span class="p">|</span><span class="w">              </span><span class="m">128</span><span class="w"> </span><span class="p">|</span><span class="w">            </span><span class="m">0</span><span class="w"> </span><span class="p">|</span><span class="w">         </span>.0<span class="w"> </span><span class="p">|</span><span class="w">     </span>.0
-<span class="w"> </span>Table<span class="w">     </span><span class="p">|</span><span class="w"> </span>SUPPLIER<span class="w">                         </span><span class="p">|</span><span class="w">              </span><span class="m">786</span>,432<span class="w"> </span><span class="p">|</span><span class="w">              </span><span class="m">768</span><span class="w"> </span><span class="p">|</span><span class="w">            </span><span class="m">1</span><span class="w"> </span><span class="p">|</span><span class="w">         </span>.0<span class="w"> </span><span class="p">|</span><span class="w">     </span>.0
+ Appliance | localhost                        |          416,284,672 |          406,528 |          397 |         .4 |     .0
+ Database  | LABDB                            |          416,284,672 |          406,528 |          397 |         .4 |     .0
+   .schema | ADMIN                            |          416,284,672 |          406,528 |          397 |         .4 |     .0
+ Table     | CUSTOMER                         |           13,107,200 |           12,800 |           13 |         .0 |     .0
+ Table     | LINEITEM                         |          284,688,384 |          278,016 |          272 |         .3 |     .0
+ Table     | NATION                           |              131,072 |              128 |            0 |         .0 |     .0
+ Table     | ORDERS                           |           39,583,744 |           38,656 |           38 |         .0 |     .0
+ Table     | PART                             |           11,534,336 |           11,264 |           11 |         .0 |     .0
+ Table     | PARTSUPP                         |           66,322,432 |           64,768 |           63 |         .1 |     .0
+ Table     | REGION                           |              131,072 |              128 |            0 |         .0 |     .0
+ Table     | SUPPLIER                         |              786,432 |              768 |            1 |         .0 |     .0
 </code></pre></div>
 </div>
-<p>Notice the reduced size of the ORDERS table. We can see that GROOM did
-purge the deleted rows from disk. GROOM reported that the table size
+</div>
+</div>
+<p>Notice the reduced size of the <code>ORDERS</code> table. We can see that <code>GROOM</code> did
+purge the deleted rows from disk. <code>GROOM</code> reported that the table size
 was reduced by 12 extents and we can confirm this because we can see
 that the size of the table reduced by 36MB which is the correct size
 for 12 extents. (1 extent's size is 3 MB).</p>
-<h1 id="5-performance-benefits-of-groom">5 Performance Benefits of GROOM</h1>
+</li>
+</ol>
+<h2 id="5-performance-benefits-of-groom">5 Performance Benefits of GROOM</h2>
 <p>In this section we will show that grooming a table can also result in a
 performance benefit because the amount of data that needs to be scanned
 is smaller. Outdated rows are still present on the hard disc. They can
 be dismissed by the FPGA but the system still needs to read them from
 disc. In this example we need for accounting reasons increase the order
 price of all columns. This means that we need to update every row in the
-ORDERS table. We will measure query performance before and after
+<code>ORDERS</code> table. We will measure query performance before and after
 Grooming the table.</p>
 <ol>
-<li>Update the ORDERS table so that the price of everything is increased
-    by $1. Do this using the following command:</li>
-</ol>
-<div class="admonition abstract">
-<p class="admonition-title">Input</p>
-<div class="highlight"><pre><span></span><code>nzsql<span class="w"> </span>LABDB<span class="w"> </span>LABADMIN<span class="w"> </span>password
-UPDATE<span class="w"> </span>ORDERS<span class="w"> </span>SET<span class="w"> </span><span class="nv">O_TOTALPRICE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>O_TOTALPRICE+1<span class="p">;</span>
+<li>
+<p>Update the <code>ORDERS</code> table so that the price of everything is increased
+        by $1. Do this using the following command:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="33:2"><input checked="checked" id="__tabbed_33_1" name="__tabbed_33" type="radio" /><input id="__tabbed_33_2" name="__tabbed_33" type="radio" /><div class="tabbed-labels"><label for="__tabbed_33_1">Input</label><label for="__tabbed_33_2">Output</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>nzsql LABDB LABADMIN password
+UPDATE ORDERS SET O_TOTALPRICE = O_TOTALPRICE+1;
 </code></pre></div>
 </div>
-<div class="admonition success">
-<p class="admonition-title">Output</p>
-<div class="highlight"><pre><span></span><code>UPDATE<span class="w"> </span><span class="m">770587</span>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>UPDATE 770587
 </code></pre></div>
+</div>
+</div>
 </div>
 <p>All rows will be affected by the update resulting in a doubled number
-of physical rows in the table. This is because the UPDATE operation
-leaves a copy of the rows before the UPDATE occurred in case a
+of physical rows in the table. This is because the <code>UPDATE</code> operation
+leaves a copy of the rows before the <code>UPDATE</code> occurred in case a
 transaction is still operating on the rows. New rows are created, and
-the results of the UPDATE are put in these rows. The old rows that are
+the results of the <code>UPDATE</code> are put in these rows. The old rows that are
 left on disk are marked as logically deleted.</p>
-<ol start="2">
-<li>To measure the performance of our test query, we can configure the
-    nzsql console to show the elapsed execution time using the following
-    command:</li>
-</ol>
-<div class="admonition abstract">
-<p class="admonition-title">Input</p>
-<div class="highlight"><pre><span></span><code><span class="se">\t</span>ime
+</li>
+<li>
+<p>To measure the performance of our test query, we can configure the
+        nzsql console to show the elapsed execution time using the following
+        command:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="34:2"><input checked="checked" id="__tabbed_34_1" name="__tabbed_34" type="radio" /><input id="__tabbed_34_2" name="__tabbed_34" type="radio" /><div class="tabbed-labels"><label for="__tabbed_34_1">Input</label><label for="__tabbed_34_2">Output</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>\time
 </code></pre></div>
 </div>
-<div class="admonition success">
-<p class="admonition-title">Output</p>
-<div class="highlight"><pre><span></span><code>Query<span class="w"> </span><span class="nb">time</span><span class="w"> </span>printout<span class="w"> </span>on
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>Query time printout on
 </code></pre></div>
 </div>
-<ol start="3">
-<li>Run our given test query and note the performance:</li>
-</ol>
-<div class="admonition abstract">
-<p class="admonition-title">Input</p>
-<div class="highlight"><pre><span></span><code>SELECT<span class="w"> </span>COUNT<span class="o">(</span>*<span class="o">)</span><span class="w"> </span>FROM<span class="w"> </span>ORDERS<span class="p">;</span>
+</div>
+</div>
+</li>
+<li>
+<p>Run our given test query and note the performance:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="35:2"><input checked="checked" id="__tabbed_35_1" name="__tabbed_35" type="radio" /><input id="__tabbed_35_2" name="__tabbed_35" type="radio" /><div class="tabbed-labels"><label for="__tabbed_35_1">Input</label><label for="__tabbed_35_2">Output</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>SELECT COUNT(*) FROM ORDERS;
 </code></pre></div>
 </div>
-<div class="admonition success">
-<p class="admonition-title">Output</p>
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>COUNT
 --------
-<span class="m">770587</span>
-<span class="o">(</span><span class="m">1</span><span class="w"> </span>row<span class="o">)</span>
+770587
+(1 row)
 
-Elapsed<span class="w"> </span>time:<span class="w"> </span>0m0.641s
+Elapsed time: 0m0.641s
 </code></pre></div>
 </div>
-<ol start="4">
-<li>Please rerun the query once or twice more to see roughly what a
-    consistent query time is on your machine.</li>
-</ol>
-<div class="admonition abstract">
-<p class="admonition-title">Input</p>
-<div class="highlight"><pre><span></span><code>SELECT<span class="w"> </span>COUNT<span class="o">(</span>*<span class="o">)</span><span class="w"> </span>FROM<span class="w"> </span>ORDERS<span class="p">;</span>
+</div>
+</div>
+</li>
+<li>
+<p>Please rerun the query once or twice more to see roughly what a
+        consistent query time is on your machine.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="36:1"><input checked="checked" id="__tabbed_36_1" name="__tabbed_36" type="radio" /><div class="tabbed-labels"><label for="__tabbed_36_1">Input</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>SELECT COUNT(*) FROM ORDERS;
 </code></pre></div>
 </div>
-<div class="admonition success">
-<p class="admonition-title">Output</p>
-<div class="highlight"><pre><span></span><code>?????
+</div>
+</div>
+</li>
+<li>
+<p>Now run the <code>GROOM TABLE</code> command on the <code>ORDER</code> table again:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="37:2"><input checked="checked" id="__tabbed_37_1" name="__tabbed_37" type="radio" /><input id="__tabbed_37_2" name="__tabbed_37" type="radio" /><div class="tabbed-labels"><label for="__tabbed_37_1">Input</label><label for="__tabbed_37_2">Output</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>GROOM TABLE ORDERS;
 </code></pre></div>
 </div>
-<ol start="5">
-<li>Now run the GROOM TABLE command on the ORDER table again:</li>
-</ol>
-<div class="admonition abstract">
-<p class="admonition-title">Input</p>
-<div class="highlight"><pre><span></span><code>GROOM<span class="w"> </span>TABLE<span class="w"> </span>ORDERS<span class="p">;</span>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>NOTICE: Groom will not purge records deleted by transactions that
+started after 2020-04-02 20:12:07.
+
+NOTICE: Groom processed 604 pages; purged 770587 records; scan size
+shrunk by 302 pages; table size shrunk by 13 extents.
+
+GROOM RECORDS ALL
+
+Elapsed time: 0m2.026s
 </code></pre></div>
 </div>
-<div class="admonition success">
-<p class="admonition-title">Output</p>
-<div class="highlight"><pre><span></span><code>NOTICE:<span class="w"> </span>Groom<span class="w"> </span>will<span class="w"> </span>not<span class="w"> </span>purge<span class="w"> </span>records<span class="w"> </span>deleted<span class="w"> </span>by<span class="w"> </span>transactions<span class="w"> </span>that
-started<span class="w"> </span>after<span class="w"> </span><span class="m">2020</span>-04-02<span class="w"> </span><span class="m">20</span>:12:07.
-
-NOTICE:<span class="w"> </span>Groom<span class="w"> </span>processed<span class="w"> </span><span class="m">604</span><span class="w"> </span>pages<span class="p">;</span><span class="w"> </span>purged<span class="w"> </span><span class="m">770587</span><span class="w"> </span>records<span class="p">;</span><span class="w"> </span>scan<span class="w"> </span>size
-shrunk<span class="w"> </span>by<span class="w"> </span><span class="m">302</span><span class="w"> </span>pages<span class="p">;</span><span class="w"> </span>table<span class="w"> </span>size<span class="w"> </span>shrunk<span class="w"> </span>by<span class="w"> </span><span class="m">13</span><span class="w"> </span>extents.
-
-GROOM<span class="w"> </span>RECORDS<span class="w"> </span>ALL
-
-Elapsed<span class="w"> </span>time:<span class="w"> </span>0m2.026s
-</code></pre></div>
+</div>
 </div>
 <p>Can you tell how much disk space this saved? (It's the number of
 extents times 3MB)</p>
-<ol start="6">
-<li>Now run our chosen test query again and you should see a difference
-    in performance:</li>
-</ol>
-<div class="admonition abstract">
-<p class="admonition-title">Input</p>
-<div class="highlight"><pre><span></span><code>SELECT<span class="w"> </span>COUNT<span class="o">(</span>*<span class="o">)</span><span class="w"> </span>FROM<span class="w"> </span>ORDERS<span class="p">;</span>
+</li>
+<li>
+<p>Now run our chosen test query again and you should see a difference
+        in performance:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="38:2"><input checked="checked" id="__tabbed_38_1" name="__tabbed_38" type="radio" /><input id="__tabbed_38_2" name="__tabbed_38" type="radio" /><div class="tabbed-labels"><label for="__tabbed_38_1">Input</label><label for="__tabbed_38_2">Output</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>SELECT COUNT(*) FROM ORDERS;
 </code></pre></div>
 </div>
-<div class="admonition success">
-<p class="admonition-title">Output</p>
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>COUNT
 --------
-<span class="m">770587</span>
-<span class="o">(</span><span class="m">1</span><span class="w"> </span>row<span class="o">)</span>
-Elapsed<span class="w"> </span>time:<span class="w"> </span>0m0.082s
+770587
+(1 row)
+Elapsed time: 0m0.082s
 </code></pre></div>
 </div>
+</div>
+</div>
 <p>You should see that the query ran faster than before. This is because
-GROOM reduced the number of rows that must be scanned to complete the
-query. The COUNT(*) command on the table will return the same number
-of rows before and after the GROOM command was run since it can only
+<code>GROOM</code> reduced the number of rows that must be scanned to complete the
+query. The <code>COUNT(*)</code> command on the table will return the same number
+of rows before and after the <code>GROOM</code> command was run since it can only
 see the current version of the table, which means all rows that have
-not been deleted by a lower transaction id. Since our UPDATE command
+not been deleted by a lower transaction id. Since our <code>UPDATE</code> command
 hasn't changed the number of logical rows this will not change.</p>
 <p>Nevertheless, the outdated rows, which have been logically deleted by
-our UPDATE command, are still present on disk. The COUNT(*) query
+our <code>UPDATE</code> command, are still present on disk. The <code>COUNT(*)</code> query
 cannot access these rows but they do take up space on disk and need to
-be scanned. GROOM is used to purge these logically deleted rows from
-disk which increase disk usage and scan distance. You should GROOM
+be scanned. <code>GROOM</code> is used to purge these logically deleted rows from
+disk which increase disk usage and scan distance. You should <code>GROOM</code>
 tables that receive frequent updates or deletes more often than tables
 that are seldom updated. You might want to schedule tasks that
-routinely GROOM the frequently updated tables or run a GROOM command
+routinely <code>GROOM</code> the frequently updated tables or run a <code>GROOM</code> command
 as part of you ETL process.</p>
-<h1 id="6-changing-the-data-type-of-a-column">6 Changing the Data Type of a Column</h1>
+</li>
+</ol>
+<h2 id="6-changing-the-data-type-of-a-column">6 Changing the Data Type of a Column</h2>
 <p>In some situations, you will realize that the initially used data types
 are not suitable for long-term use, for example because new entries
 exceed the range of an initially picked integer value. You cannot
-directly change the data type by using the ALTER statement but there are
+directly change the data type by using the <code>ALTER</code> statement but there are
 two approaches that allow you to do it without loading and unloading the
 data.</p>
 <p>The first approach is to:</p>
 <ul>
 <li>
-<p>Create a CTAS table from the old table with a CAST to the new
+<p>Create a CTAS table from the old table with a <code>CAST</code> to the new
     datatype for the column you want to change</p>
 </li>
 <li>
@@ -1379,7 +1601,7 @@ data.</p>
 </ul>
 <p>In general, this is a good approach because it lets you keep the order
 of the columns. But in this example, we will use a second approach to
-highlight the groom command and its role during ADD and DROP column
+highlight the groom command and its role during <code>ADD</code> and <code>DROP</code> column
 commands. Its disadvantages are that the order of the columns will
 change, which may result in difficulties for third party applications
 that access columns by their order.</p>
@@ -1389,7 +1611,7 @@ that access columns by their order.</p>
 <p>Add a new column to the table with the new datatype</p>
 </li>
 <li>
-<p>Copy over all values from the old row to the new one with an UPDATE
+<p>Copy over all values from the old row to the new one with an <code>UPDATE</code>
     command</p>
 </li>
 <li>
@@ -1404,394 +1626,425 @@ that access columns by their order.</p>
 </li>
 </ul>
 <p>For our example we find out that we have a new Region we want to add to
-our REGIONS table which has a name that exceeds the limits of the
-CHAR(25) field R_NAME. "Australia, New Zealand, and Tasmania". And we
-decide to increase the R_NAME field to a CHAR(40) field.</p>
+our <code>REGIONS</code> table which has a name that exceeds the limits of the
+<code>CHAR(25)</code> field <code>R_NAME</code>. "Australia, New Zealand, and Tasmania". And we
+decide to increase the <code>R_NAME</code> field to a <code>CHAR(40)</code> field.</p>
 <ol>
-<li>Add a new column to the region table with name R_NAME_TEMP and data
-    type CHAR(40)</li>
-</ol>
-<div class="admonition abstract">
-<p class="admonition-title">Input</p>
-<div class="highlight"><pre><span></span><code><span class="se">\t</span>ime
+<li>
+<p>Add a new column to the region table with name <code>R_NAME_TEMP</code> and data
+        type <code>CHAR(40)</code></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="39:4"><input checked="checked" id="__tabbed_39_1" name="__tabbed_39" type="radio" /><input id="__tabbed_39_2" name="__tabbed_39" type="radio" /><input id="__tabbed_39_3" name="__tabbed_39" type="radio" /><input id="__tabbed_39_4" name="__tabbed_39" type="radio" /><div class="tabbed-labels"><label for="__tabbed_39_1">Input</label><label for="__tabbed_39_2">Output</label><label for="__tabbed_39_3">Input</label><label for="__tabbed_39_4">Output</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>\time
 </code></pre></div>
 </div>
-<div class="admonition success">
-<p class="admonition-title">Output</p>
-<div class="highlight"><pre><span></span><code>Query<span class="w"> </span><span class="nb">time</span><span class="w"> </span>printout<span class="w"> </span>on
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>Query time printout on
 </code></pre></div>
 </div>
-<div class="admonition abstract">
-<p class="admonition-title">Input</p>
-<div class="highlight"><pre><span></span><code>ALTER<span class="w"> </span>TABLE<span class="w"> </span>REGION<span class="w"> </span>ADD<span class="w"> </span>COLUMN<span class="w"> </span>R_NAME_TEMP<span class="w"> </span>CHAR<span class="o">(</span><span class="m">40</span><span class="o">)</span><span class="p">;</span>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>ALTER TABLE REGION ADD COLUMN R_NAME_TEMP CHAR(40);
 </code></pre></div>
 </div>
-<div class="admonition success">
-<p class="admonition-title">Output</p>
-<div class="highlight"><pre><span></span><code>ALTER<span class="w"> </span>TABLE
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>ALTER TABLE
 </code></pre></div>
 </div>
-<p>Notice that the ALTER command is practically instantaneous. This even
+</div>
+</div>
+<p>Notice that the <code>ALTER</code> command is practically instantaneous. This even
 holds true for huge tables. Under the cover the system will create a
 new empty version of the table. It will not lock and change the whole
 table.</p>
-<ol start="2">
-<li>Let's insert a row into the table using the new name column</li>
-</ol>
-<div class="admonition abstract">
-<p class="admonition-title">Input</p>
-<div class="highlight"><pre><span></span><code>INSERT<span class="w"> </span>INTO<span class="w"> </span>REGION<span class="w"> </span>VALUES
-<span class="w">    </span><span class="o">(</span><span class="m">5</span>,<span class="s1">&#39;&#39;</span>,<span class="w"> </span><span class="s1">&#39;South Pacific Region&#39;</span>,
-<span class="w">    </span><span class="s1">&#39;Australia, New Zealand, and Tasmania&#39;</span><span class="o">)</span><span class="p">;</span>
+</li>
+<li>
+<p>Let's insert a row into the table using the new name column</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="40:2"><input checked="checked" id="__tabbed_40_1" name="__tabbed_40" type="radio" /><input id="__tabbed_40_2" name="__tabbed_40" type="radio" /><div class="tabbed-labels"><label for="__tabbed_40_1">Input</label><label for="__tabbed_40_2">Output</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>INSERT INTO REGION VALUES
+    (5,&#39;&#39;, &#39;South Pacific Region&#39;,
+    &#39;Australia, New Zealand, and Tasmania&#39;);
 </code></pre></div>
 </div>
-<div class="admonition success">
-<p class="admonition-title">Output</p>
-<div class="highlight"><pre><span></span><code>INSERT<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">1</span>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>INSERT 0 1
 </code></pre></div>
 </div>
-<ol start="3">
-<li>Now do a select on the table:</li>
-</ol>
-<div class="admonition abstract">
-<p class="admonition-title">Input</p>
-<div class="highlight"><pre><span></span><code>SELECT<span class="w"> </span>*<span class="w"> </span>FROM<span class="w"> </span>REGION<span class="p">;</span>
+</div>
+</div>
+</li>
+<li>
+<p>Now do a select on the table:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="41:2"><input checked="checked" id="__tabbed_41_1" name="__tabbed_41" type="radio" /><input id="__tabbed_41_2" name="__tabbed_41" type="radio" /><div class="tabbed-labels"><label for="__tabbed_41_1">Input</label><label for="__tabbed_41_2">Output</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>SELECT * FROM REGION;
 </code></pre></div>
 </div>
-<div class="admonition success">
-<p class="admonition-title">Output</p>
-<div class="highlight"><pre><span></span><code>R_REGIONKEY<span class="w">  </span><span class="p">|</span><span class="w">          </span>R_NAME<span class="w">           </span><span class="p">|</span><span class="w">          </span>R_COMMENT<span class="w">          </span><span class="p">|</span><span class="w">               </span>R_NAME_TEMP
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>R_REGIONKEY  |          R_NAME           |          R_COMMENT          |               R_NAME_TEMP
 -------------+---------------------------+-----------------------------+------------------------------------------
-<span class="w">           </span><span class="m">3</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>emea<span class="w">                      </span><span class="p">|</span><span class="w"> </span>europe,<span class="w"> </span>middle<span class="w"> </span>east,<span class="w"> </span>africa<span class="w"> </span><span class="p">|</span>
-<span class="w">           </span><span class="m">1</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>na<span class="w">                        </span><span class="p">|</span><span class="w"> </span>north<span class="w"> </span>america<span class="w">               </span><span class="p">|</span>
-<span class="w">           </span><span class="m">2</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sa<span class="w">                        </span><span class="p">|</span><span class="w"> </span>south<span class="w"> </span>america<span class="w">               </span><span class="p">|</span>
-<span class="w">           </span><span class="m">4</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>ap<span class="w">                        </span><span class="p">|</span><span class="w"> </span>asia<span class="w"> </span>pacific<span class="w">                </span><span class="p">|</span>
-<span class="w">           </span><span class="m">5</span><span class="w"> </span><span class="p">|</span><span class="w">                           </span><span class="p">|</span><span class="w"> </span>South<span class="w"> </span>Pacific<span class="w"> </span>Region<span class="w">        </span><span class="p">|</span><span class="w"> </span>Australia,<span class="w"> </span>New<span class="w"> </span>Zealand,<span class="w"> </span>and<span class="w"> </span>Tasmania
-<span class="o">(</span><span class="m">5</span><span class="w"> </span>rows<span class="o">)</span>
+           3 | emea                      | europe, middle east, africa |
+           1 | na                        | north america               |
+           2 | sa                        | south america               |
+           4 | ap                        | asia pacific                |
+           5 |                           | South Pacific Region        | Australia, New Zealand, and Tasmania
+(5 rows)
 </code></pre></div>
+</div>
+</div>
 </div>
 <p>You can see that the results are exactly as you would expect them to
 be, but how does the system actually achieve this. Remember inside the
 Netezza Performance Server appliances we have two versions of the
 table, one containing the old columns and rows and one containing the
 new row column.</p>
-<ol start="4">
-<li>Let's do an EXPLAIN on the SELECT query</li>
-</ol>
-<div class="admonition abstract">
-<p class="admonition-title">Input</p>
-<div class="highlight"><pre><span></span><code>EXPLAIN<span class="w"> </span>VERBOSE<span class="w"> </span>SELECT<span class="w"> </span>*<span class="w"> </span>FROM<span class="w"> </span>REGION<span class="p">;</span>
+</li>
+<li>
+<p>Let's do an <code>EXPLAIN</code> on the <code>SELECT</code> query</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="42:2"><input checked="checked" id="__tabbed_42_1" name="__tabbed_42" type="radio" /><input id="__tabbed_42_2" name="__tabbed_42" type="radio" /><div class="tabbed-labels"><label for="__tabbed_42_1">Input</label><label for="__tabbed_42_2">Output</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>EXPLAIN VERBOSE SELECT * FROM REGION;
 </code></pre></div>
 </div>
-<div class="admonition success">
-<p class="admonition-title">Output</p>
-<div class="highlight"><pre><span></span><code>NOTICE:<span class="w">  </span>QUERY<span class="w"> </span>PLAN:
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>NOTICE:  QUERY PLAN:
 
 
-QUERY<span class="w"> </span>SQL:
+QUERY SQL:
 
-EXPLAIN<span class="w"> </span>VERBOSE<span class="w"> </span>SELECT<span class="w"> </span>*<span class="w"> </span>FROM<span class="w"> </span>REGION<span class="p">;</span>
-
-
-
-QUERY<span class="w"> </span>VERBOSE<span class="w"> </span>PLAN:
-
-Node<span class="w"> </span><span class="m">1</span>.
-<span class="w">  </span><span class="o">[</span>SPU<span class="w"> </span>Sequential<span class="w"> </span>Scan<span class="w"> </span>table<span class="w"> </span><span class="s2">&quot;&quot;</span>_TV_203063_2<span class="s2">&quot;&quot;</span><span class="w"> </span><span class="o">{(</span><span class="s2">&quot;_TV_203063_2&quot;</span>.R_REGIONKEY<span class="o">)}]</span>
-<span class="w">      </span>--<span class="w"> </span>Estimated<span class="w"> </span><span class="nv">Rows</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span>,<span class="w"> </span><span class="nv">Width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">221</span>,<span class="w"> </span><span class="nv">Cost</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>.0<span class="w"> </span>..<span class="w"> </span><span class="m">0</span>.0,<span class="w"> </span><span class="nv">Conf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">100</span>.0
-<span class="w">      </span>User<span class="w"> </span>table:<span class="w"> </span>REGION<span class="w"> </span>version<span class="w"> </span><span class="m">2</span>
-<span class="w">      </span>Projections:
-<span class="w">        </span><span class="m">1</span>:<span class="s2">&quot;_TV_203063_2&quot;</span>.R_REGIONKEY<span class="w">  </span><span class="m">2</span>:<span class="s2">&quot;_TV_203063_2&quot;</span>.R_NAME
-<span class="w">        </span><span class="m">3</span>:<span class="s2">&quot;_TV_203063_2&quot;</span>.R_COMMENT<span class="w">  </span><span class="m">4</span>:<span class="s2">&quot;_TV_203063_2&quot;</span>.R_NAME_TEMP
-Node<span class="w"> </span><span class="m">2</span>.
-<span class="w">  </span><span class="o">[</span>SPU<span class="w"> </span>Sub-query<span class="w"> </span>Scan<span class="w"> </span>table<span class="w"> </span><span class="s2">&quot;*SELECT* 1&quot;</span><span class="w"> </span>Node<span class="w"> </span><span class="s2">&quot;1&quot;</span><span class="w"> </span><span class="o">{(</span><span class="m">0</span>.<span class="s2">&quot;1&quot;</span><span class="o">)}]</span>
-<span class="w">      </span>--<span class="w"> </span>Estimated<span class="w"> </span><span class="nv">Rows</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span>,<span class="w"> </span><span class="nv">Width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">221</span>,<span class="w"> </span><span class="nv">Cost</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>.0<span class="w"> </span>..<span class="w"> </span><span class="m">0</span>.0,<span class="w"> </span><span class="nv">Conf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>.0
-<span class="w">      </span>Projections:
-<span class="w">        </span><span class="m">1</span>:0.<span class="s2">&quot;1&quot;</span><span class="w">  </span><span class="m">2</span>:0.<span class="s2">&quot;2&quot;</span><span class="w">  </span><span class="m">3</span>:0.<span class="s2">&quot;3&quot;</span><span class="w">  </span><span class="m">4</span>:0.<span class="s2">&quot;4&quot;</span>
-Node<span class="w"> </span><span class="m">3</span>.
-<span class="w">  </span><span class="o">[</span>SPU<span class="w"> </span>Sequential<span class="w"> </span>Scan<span class="w"> </span>table<span class="w"> </span><span class="s2">&quot;&quot;</span>_TV_203063_1<span class="s2">&quot;&quot;</span><span class="w"> </span><span class="o">{(</span><span class="s2">&quot;_TV_203063_1&quot;</span>.R_REGIONKEY<span class="o">)}]</span>
-<span class="w">      </span>--<span class="w"> </span>Estimated<span class="w"> </span><span class="nv">Rows</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">4</span>,<span class="w"> </span><span class="nv">Width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">221</span>,<span class="w"> </span><span class="nv">Cost</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>.0<span class="w"> </span>..<span class="w"> </span><span class="m">0</span>.0,<span class="w"> </span><span class="nv">Conf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">100</span>.0
-<span class="w">      </span>User<span class="w"> </span>table:<span class="w"> </span>REGION<span class="w"> </span>version<span class="w"> </span><span class="m">1</span>
-<span class="w">      </span>Projections:
-<span class="w">        </span><span class="m">1</span>:<span class="s2">&quot;_TV_203063_1&quot;</span>.R_REGIONKEY<span class="w">  </span><span class="m">2</span>:<span class="s2">&quot;_TV_203063_1&quot;</span>.R_NAME
-<span class="w">        </span><span class="m">3</span>:<span class="s2">&quot;_TV_203063_1&quot;</span>.R_COMMENT<span class="w">  </span><span class="m">4</span>:<span class="o">(</span>NULL::BPCHAR<span class="o">)</span>::CHAR<span class="o">(</span><span class="m">40</span><span class="o">)</span>
-Node<span class="w"> </span><span class="m">4</span>.
-<span class="w">  </span><span class="o">[</span>SPU<span class="w"> </span>Sub-query<span class="w"> </span>Scan<span class="w"> </span>table<span class="w"> </span><span class="s2">&quot;*SELECT* 2&quot;</span><span class="w"> </span>Node<span class="w"> </span><span class="s2">&quot;3&quot;</span><span class="w"> </span><span class="o">{(</span><span class="m">0</span>.<span class="s2">&quot;1&quot;</span><span class="o">)}]</span>
-<span class="w">      </span>--<span class="w"> </span>Estimated<span class="w"> </span><span class="nv">Rows</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">4</span>,<span class="w"> </span><span class="nv">Width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">221</span>,<span class="w"> </span><span class="nv">Cost</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>.0<span class="w"> </span>..<span class="w"> </span><span class="m">0</span>.0,<span class="w"> </span><span class="nv">Conf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>.0
-<span class="w">      </span>Projections:
-<span class="w">        </span><span class="m">1</span>:0.<span class="s2">&quot;1&quot;</span><span class="w">  </span><span class="m">2</span>:0.<span class="s2">&quot;2&quot;</span><span class="w">  </span><span class="m">3</span>:0.<span class="s2">&quot;3&quot;</span><span class="w">  </span><span class="m">4</span>:0.<span class="s2">&quot;4&quot;</span>
-Node<span class="w"> </span><span class="m">5</span>.
-<span class="w">  </span><span class="o">[</span>SPU<span class="w"> </span>Append<span class="w"> </span>Nodes:<span class="w"> </span>,<span class="w"> </span><span class="s2">&quot;2&quot;</span>,<span class="w"> </span><span class="s2">&quot;4 (stream)&quot;</span><span class="w"> </span><span class="o">{(</span><span class="m">0</span>.<span class="s2">&quot;1&quot;</span><span class="o">)}]</span>
-<span class="w">      </span>--<span class="w"> </span>Estimated<span class="w"> </span><span class="nv">Rows</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">5</span>,<span class="w"> </span><span class="nv">Width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">221</span>,<span class="w"> </span><span class="nv">Cost</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>.0<span class="w"> </span>..<span class="w"> </span><span class="m">0</span>.0,<span class="w"> </span><span class="nv">Conf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>.0
-<span class="w">      </span>Projections:
-<span class="w">        </span><span class="m">1</span>:0.<span class="s2">&quot;1&quot;</span><span class="w">  </span><span class="m">2</span>:0.<span class="s2">&quot;2&quot;</span><span class="w">  </span><span class="m">3</span>:0.<span class="s2">&quot;3&quot;</span><span class="w">  </span><span class="m">4</span>:0.<span class="s2">&quot;4&quot;</span>
-Node<span class="w"> </span><span class="m">6</span>.
-<span class="w">  </span><span class="o">[</span>SPU<span class="w"> </span>Sub-query<span class="w"> </span>Scan<span class="w"> </span>table<span class="w"> </span><span class="s2">&quot;_BV_203063&quot;</span><span class="w"> </span>Node<span class="w"> </span><span class="s2">&quot;5&quot;</span><span class="w"> </span><span class="o">{(</span><span class="s2">&quot;_BV_203063&quot;</span>.R_REGIONKEY<span class="o">)}]</span>
-<span class="w">      </span>--<span class="w"> </span>Estimated<span class="w"> </span><span class="nv">Rows</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">5</span>,<span class="w"> </span><span class="nv">Width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">221</span>,<span class="w"> </span><span class="nv">Cost</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>.0<span class="w"> </span>..<span class="w"> </span><span class="m">0</span>.0,<span class="w"> </span><span class="nv">Conf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">100</span>.0
-<span class="w">      </span>Projections:
-<span class="w">        </span><span class="m">1</span>:<span class="s2">&quot;_BV_203063&quot;</span>.R_REGIONKEY<span class="w">  </span><span class="m">2</span>:<span class="s2">&quot;_BV_203063&quot;</span>.R_NAME<span class="w">  </span><span class="m">3</span>:<span class="s2">&quot;_BV_203063&quot;</span>.R_COMMENT
-<span class="w">        </span><span class="m">4</span>:<span class="s2">&quot;_BV_203063&quot;</span>.R_NAME_TEMP
-<span class="w">  </span><span class="o">[</span>SPU<span class="w"> </span>Return<span class="o">]</span>
-<span class="w">  </span><span class="o">[</span>Host<span class="w"> </span>Return<span class="o">]</span>
+EXPLAIN VERBOSE SELECT * FROM REGION;
 
 
-QUERY<span class="w"> </span>PLANTEXT:
 
-Sub-query<span class="w"> </span>Scan<span class="w"> </span>table<span class="w"> </span><span class="s2">&quot;_BV_203063&quot;</span><span class="w"> </span><span class="o">(</span><span class="nv">cost</span><span class="o">=</span><span class="m">0</span>.0..0.0<span class="w"> </span><span class="nv">rows</span><span class="o">=</span><span class="m">5</span><span class="w"> </span><span class="nv">width</span><span class="o">=</span><span class="m">221</span><span class="w"> </span><span class="nv">conf</span><span class="o">=</span><span class="m">100</span><span class="o">)</span><span class="w"> </span><span class="o">{(</span><span class="s2">&quot;_BV_203063&quot;</span>.R_REGIONKEY<span class="o">)}</span>
-<span class="o">(</span>xpath_none,<span class="w"> </span><span class="nv">locus</span><span class="o">=</span>spu<span class="w"> </span><span class="nv">subject</span><span class="o">=</span>self<span class="o">)</span>
-<span class="o">(</span>xpath_none,<span class="w"> </span><span class="nv">locus</span><span class="o">=</span>spu<span class="w"> </span><span class="nv">subject</span><span class="o">=</span>self<span class="o">)</span>
-<span class="o">(</span>xpath_none,<span class="w"> </span><span class="nv">locus</span><span class="o">=</span>spu<span class="w"> </span><span class="nv">subject</span><span class="o">=</span>self<span class="o">)</span>
-<span class="o">(</span>spu_send,<span class="w"> </span><span class="nv">locus</span><span class="o">=</span>host<span class="w"> </span><span class="nv">subject</span><span class="o">=</span>self<span class="o">)</span>
-<span class="o">(</span>host_return,<span class="w"> </span><span class="nv">locus</span><span class="o">=</span>host<span class="w"> </span><span class="nv">subject</span><span class="o">=</span>self<span class="o">)</span>
-<span class="w">   </span>l:<span class="w"> </span>Append<span class="w"> </span><span class="o">(</span><span class="nv">cost</span><span class="o">=</span><span class="m">0</span>.0..0.0<span class="w"> </span><span class="nv">rows</span><span class="o">=</span><span class="m">5</span><span class="w"> </span><span class="nv">width</span><span class="o">=</span><span class="m">221</span><span class="w"> </span><span class="nv">conf</span><span class="o">=</span><span class="m">0</span><span class="o">)</span><span class="w"> </span><span class="o">{(</span><span class="m">0</span>.<span class="s2">&quot;1&quot;</span><span class="o">)}</span>
-<span class="w">      </span><span class="o">(</span>xpath_none,<span class="w"> </span><span class="nv">locus</span><span class="o">=</span>spu<span class="w"> </span><span class="nv">subject</span><span class="o">=</span>self<span class="o">)</span>
-<span class="w">      </span><span class="o">(</span>xpath_none,<span class="w"> </span><span class="nv">locus</span><span class="o">=</span>spu<span class="w"> </span><span class="nv">subject</span><span class="o">=</span>self<span class="o">)</span>
-<span class="w">      </span>a:<span class="w"> </span>Sub-query<span class="w"> </span>Scan<span class="w"> </span>table<span class="w"> </span><span class="s2">&quot;*SELECT* 1&quot;</span><span class="w"> </span><span class="o">(</span><span class="nv">cost</span><span class="o">=</span><span class="m">0</span>.0..0.0<span class="w"> </span><span class="nv">rows</span><span class="o">=</span><span class="m">1</span><span class="w"> </span><span class="nv">width</span><span class="o">=</span><span class="m">221</span><span class="w"> </span><span class="nv">conf</span><span class="o">=</span><span class="m">0</span><span class="o">)</span><span class="w"> </span><span class="o">{(</span><span class="m">0</span>.<span class="s2">&quot;1&quot;</span><span class="o">)}</span>
-<span class="w">         </span><span class="o">(</span>xpath_none,<span class="w"> </span><span class="nv">locus</span><span class="o">=</span>spu<span class="w"> </span><span class="nv">subject</span><span class="o">=</span>self<span class="o">)</span>
-<span class="w">         </span>l:<span class="w"> </span>Sequential<span class="w"> </span>Scan<span class="w"> </span>table<span class="w"> </span><span class="s2">&quot;&quot;</span>_TV_203063_2<span class="s2">&quot;&quot;</span><span class="w"> </span><span class="o">(</span><span class="nv">cost</span><span class="o">=</span><span class="m">0</span>.0..0.0<span class="w"> </span><span class="nv">rows</span><span class="o">=</span><span class="m">1</span><span class="w"> </span><span class="nv">width</span><span class="o">=</span><span class="m">221</span><span class="w"> </span><span class="nv">conf</span><span class="o">=</span><span class="m">100</span><span class="o">)</span><span class="w">  </span><span class="o">{(</span><span class="s2">&quot;_TV_203063_2&quot;</span>.R_REGIONKEY<span class="o">)}</span>
-<span class="w">            </span><span class="o">(</span>User<span class="w"> </span>table:<span class="w"> </span>REGION<span class="w"> </span>version<span class="w"> </span><span class="m">2</span><span class="o">)</span>
-<span class="w">            </span><span class="o">(</span>xpath_none,<span class="w"> </span><span class="nv">locus</span><span class="o">=</span>spu<span class="w"> </span><span class="nv">subject</span><span class="o">=</span>self<span class="o">)</span>
-<span class="w">      </span>a:<span class="w"> </span>Sub-query<span class="w"> </span>Scan<span class="w"> </span>table<span class="w"> </span><span class="s2">&quot;*SELECT* 2&quot;</span><span class="w"> </span><span class="o">(</span><span class="nv">cost</span><span class="o">=</span><span class="m">0</span>.0..0.0<span class="w"> </span><span class="nv">rows</span><span class="o">=</span><span class="m">4</span><span class="w"> </span><span class="nv">width</span><span class="o">=</span><span class="m">221</span><span class="w"> </span><span class="nv">conf</span><span class="o">=</span><span class="m">0</span><span class="o">)</span><span class="w"> </span><span class="o">{(</span><span class="m">0</span>.<span class="s2">&quot;1&quot;</span><span class="o">)}</span>
-<span class="w">         </span><span class="o">(</span>xpath_none,<span class="w"> </span><span class="nv">locus</span><span class="o">=</span>spu<span class="w"> </span><span class="nv">subject</span><span class="o">=</span>self<span class="o">)</span>
-<span class="w">         </span>l:<span class="w"> </span>Sequential<span class="w"> </span>Scan<span class="w"> </span>table<span class="w"> </span><span class="s2">&quot;&quot;</span>_TV_203063_1<span class="s2">&quot;&quot;</span><span class="w"> </span><span class="o">(</span><span class="nv">cost</span><span class="o">=</span><span class="m">0</span>.0..0.0<span class="w"> </span><span class="nv">rows</span><span class="o">=</span><span class="m">4</span><span class="w"> </span><span class="nv">width</span><span class="o">=</span><span class="m">221</span><span class="w"> </span><span class="nv">conf</span><span class="o">=</span><span class="m">100</span><span class="o">)</span><span class="w">  </span><span class="o">{(</span><span class="s2">&quot;_TV_203063_1&quot;</span>.R_REGIONKEY<span class="o">)}</span>
-<span class="w">            </span><span class="o">(</span>User<span class="w"> </span>table:<span class="w"> </span>REGION<span class="w"> </span>version<span class="w"> </span><span class="m">1</span><span class="o">)</span>
-<span class="w">            </span><span class="o">(</span>xpath_none,<span class="w"> </span><span class="nv">locus</span><span class="o">=</span>spu<span class="w"> </span><span class="nv">subject</span><span class="o">=</span>self<span class="o">)</span>
+QUERY VERBOSE PLAN:
+
+Node 1.
+  [SPU Sequential Scan table &quot;&quot;_TV_203063_2&quot;&quot; {(&quot;_TV_203063_2&quot;.R_REGIONKEY)}]
+      -- Estimated Rows = 1, Width = 221, Cost = 0.0 .. 0.0, Conf = 100.0
+      User table: REGION version 2
+      Projections:
+        1:&quot;_TV_203063_2&quot;.R_REGIONKEY  2:&quot;_TV_203063_2&quot;.R_NAME
+        3:&quot;_TV_203063_2&quot;.R_COMMENT  4:&quot;_TV_203063_2&quot;.R_NAME_TEMP
+Node 2.
+  [SPU Sub-query Scan table &quot;*SELECT* 1&quot; Node &quot;1&quot; {(0.&quot;1&quot;)}]
+      -- Estimated Rows = 1, Width = 221, Cost = 0.0 .. 0.0, Conf = 0.0
+      Projections:
+        1:0.&quot;1&quot;  2:0.&quot;2&quot;  3:0.&quot;3&quot;  4:0.&quot;4&quot;
+Node 3.
+  [SPU Sequential Scan table &quot;&quot;_TV_203063_1&quot;&quot; {(&quot;_TV_203063_1&quot;.R_REGIONKEY)}]
+      -- Estimated Rows = 4, Width = 221, Cost = 0.0 .. 0.0, Conf = 100.0
+      User table: REGION version 1
+      Projections:
+        1:&quot;_TV_203063_1&quot;.R_REGIONKEY  2:&quot;_TV_203063_1&quot;.R_NAME
+        3:&quot;_TV_203063_1&quot;.R_COMMENT  4:(NULL::BPCHAR)::CHAR(40)
+Node 4.
+  [SPU Sub-query Scan table &quot;*SELECT* 2&quot; Node &quot;3&quot; {(0.&quot;1&quot;)}]
+      -- Estimated Rows = 4, Width = 221, Cost = 0.0 .. 0.0, Conf = 0.0
+      Projections:
+        1:0.&quot;1&quot;  2:0.&quot;2&quot;  3:0.&quot;3&quot;  4:0.&quot;4&quot;
+Node 5.
+  [SPU Append Nodes: , &quot;2&quot;, &quot;4 (stream)&quot; {(0.&quot;1&quot;)}]
+      -- Estimated Rows = 5, Width = 221, Cost = 0.0 .. 0.0, Conf = 0.0
+      Projections:
+        1:0.&quot;1&quot;  2:0.&quot;2&quot;  3:0.&quot;3&quot;  4:0.&quot;4&quot;
+Node 6.
+  [SPU Sub-query Scan table &quot;_BV_203063&quot; Node &quot;5&quot; {(&quot;_BV_203063&quot;.R_REGIONKEY)}]
+      -- Estimated Rows = 5, Width = 221, Cost = 0.0 .. 0.0, Conf = 100.0
+      Projections:
+        1:&quot;_BV_203063&quot;.R_REGIONKEY  2:&quot;_BV_203063&quot;.R_NAME  3:&quot;_BV_203063&quot;.R_COMMENT
+        4:&quot;_BV_203063&quot;.R_NAME_TEMP
+  [SPU Return]
+  [Host Return]
+
+
+QUERY PLANTEXT:
+
+Sub-query Scan table &quot;_BV_203063&quot; (cost=0.0..0.0 rows=5 width=221 conf=100) {(&quot;_BV_203063&quot;.R_REGIONKEY)}
+(xpath_none, locus=spu subject=self)
+(xpath_none, locus=spu subject=self)
+(xpath_none, locus=spu subject=self)
+(spu_send, locus=host subject=self)
+(host_return, locus=host subject=self)
+   l: Append (cost=0.0..0.0 rows=5 width=221 conf=0) {(0.&quot;1&quot;)}
+      (xpath_none, locus=spu subject=self)
+      (xpath_none, locus=spu subject=self)
+      a: Sub-query Scan table &quot;*SELECT* 1&quot; (cost=0.0..0.0 rows=1 width=221 conf=0) {(0.&quot;1&quot;)}
+         (xpath_none, locus=spu subject=self)
+         l: Sequential Scan table &quot;&quot;_TV_203063_2&quot;&quot; (cost=0.0..0.0 rows=1 width=221 conf=100)  {(&quot;_TV_203063_2&quot;.R_REGIONKEY)}
+            (User table: REGION version 2)
+            (xpath_none, locus=spu subject=self)
+      a: Sub-query Scan table &quot;*SELECT* 2&quot; (cost=0.0..0.0 rows=4 width=221 conf=0) {(0.&quot;1&quot;)}
+         (xpath_none, locus=spu subject=self)
+         l: Sequential Scan table &quot;&quot;_TV_203063_1&quot;&quot; (cost=0.0..0.0 rows=4 width=221 conf=100)  {(&quot;_TV_203063_1&quot;.R_REGIONKEY)}
+            (User table: REGION version 1)
+            (xpath_none, locus=spu subject=self)
 
 
 
 EXPLAIN
 </code></pre></div>
+</div>
+</div>
 </div>
 <p>Normally the query would result in a single table scan node. But now
 we see a more complicated query plan. The Optimizer automatically
-translates the simple SELECT into a UNION of two tables. The two
-tables are internal and are called <strong>_TV_203063_2</strong>, which is the old
-version of the table before the ALTER statement. And
-<strong>_TV_203063_2</strong>, which is the new version of the table after the
-table statement containing the new column R_NAME_TEMP.</p>
-<p>Notice that in the old table a 4^th^ column of CHAR(40) with default
-value NULL is added. This is necessary for the UNION to succeed. The
+translates the simple <code>SELECT</code> into a <code>UNION</code> of two tables. The two
+tables are internal and are called <code>TV_203063_1</code>, which is the old
+version of the table before the <code>ALTER</code> statement. And
+<code>TV_203063_2</code>, which is the new version of the table after the
+table statement containing the new column <code>R_NAME_TEMP</code>.</p>
+<p>Notice that in the old table a 4th column of <code>CHAR(40)</code> with default
+value <code>NULL</code> is added. This is necessary for the <code>UNION</code> to succeed. The
 merger of those tables is done in Node 5, which takes both result sets
 and appends them.</p>
 <p>But let's proceed with our data type change operation.</p>
-<ol start="5">
-<li>Let's remove the new row again.</li>
-</ol>
-<div class="admonition abstract">
-<p class="admonition-title">Input</p>
-<div class="highlight"><pre><span></span><code>DELETE<span class="w"> </span>FROM<span class="w"> </span>REGION<span class="w"> </span>WHERE<span class="w"> </span>R_REGIONKEY<span class="w"> </span>&gt;<span class="w"> </span><span class="m">4</span><span class="p">;</span>
+</li>
+<li>
+<p>Let's remove the new row again.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="43:2"><input checked="checked" id="__tabbed_43_1" name="__tabbed_43" type="radio" /><input id="__tabbed_43_2" name="__tabbed_43" type="radio" /><div class="tabbed-labels"><label for="__tabbed_43_1">Input</label><label for="__tabbed_43_2">Output</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>DELETE FROM REGION WHERE R_REGIONKEY &gt; 4;
 </code></pre></div>
 </div>
-<div class="admonition success">
-<p class="admonition-title">Output</p>
-<div class="highlight"><pre><span></span><code>DELETE<span class="w"> </span><span class="m">1</span>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>DELETE 1
 </code></pre></div>
 </div>
-<ol start="6">
-<li>Now we will move all values of the R_NAME column to the R_NAME_TEMP
-    column by updating them</li>
-</ol>
-<div class="admonition abstract">
-<p class="admonition-title">Input</p>
-<div class="highlight"><pre><span></span><code>UPDATE<span class="w"> </span>REGION<span class="w"> </span>SET<span class="w"> </span><span class="nv">R_NAME_TEMP</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>R_NAME<span class="p">;</span>
+</div>
+</div>
+</li>
+<li>
+<p>Now we will move all values of the <code>R_NAME</code> column to the <code>R_NAME_TEMP</code>
+        column by updating them</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="44:2"><input checked="checked" id="__tabbed_44_1" name="__tabbed_44" type="radio" /><input id="__tabbed_44_2" name="__tabbed_44" type="radio" /><div class="tabbed-labels"><label for="__tabbed_44_1">Input</label><label for="__tabbed_44_2">Output</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>UPDATE REGION SET R_NAME_TEMP = R_NAME;
 </code></pre></div>
 </div>
-<div class="admonition success">
-<p class="admonition-title">Output</p>
-<div class="highlight"><pre><span></span><code>UPDATE<span class="w"> </span><span class="m">4</span>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>UPDATE 4
 </code></pre></div>
 </div>
-<ol start="7">
-<li>Let's have a look at the table again:</li>
-</ol>
-<div class="admonition abstract">
-<p class="admonition-title">Input</p>
-<div class="highlight"><pre><span></span><code>SELECT<span class="w"> </span>*<span class="w"> </span>FROM<span class="w"> </span>REGION<span class="p">;</span>
+</div>
+</div>
+</li>
+<li>
+<p>Let's have a look at the table again:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="45:2"><input checked="checked" id="__tabbed_45_1" name="__tabbed_45" type="radio" /><input id="__tabbed_45_2" name="__tabbed_45" type="radio" /><div class="tabbed-labels"><label for="__tabbed_45_1">Input</label><label for="__tabbed_45_2">Output</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>SELECT * FROM REGION;
 </code></pre></div>
 </div>
-<div class="admonition success">
-<p class="admonition-title">Output</p>
-<div class="highlight"><pre><span></span><code>R_REGIONKEY<span class="w">  </span><span class="p">|</span><span class="w">          </span>R_NAME<span class="w">           </span><span class="p">|</span><span class="w">          </span>R_COMMENT<span class="w">          </span><span class="p">|</span><span class="w">               </span>R_NAME_TEMP
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>R_REGIONKEY  |          R_NAME           |          R_COMMENT          |               R_NAME_TEMP
 -------------+---------------------------+-----------------------------+------------------------------------------
-<span class="w">           </span><span class="m">3</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>emea<span class="w">                      </span><span class="p">|</span><span class="w"> </span>europe,<span class="w"> </span>middle<span class="w"> </span>east,<span class="w"> </span>africa<span class="w"> </span><span class="p">|</span><span class="w"> </span>emea
-<span class="w">           </span><span class="m">1</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>na<span class="w">                        </span><span class="p">|</span><span class="w"> </span>north<span class="w"> </span>america<span class="w">               </span><span class="p">|</span><span class="w"> </span>na
-<span class="w">           </span><span class="m">2</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sa<span class="w">                        </span><span class="p">|</span><span class="w"> </span>south<span class="w"> </span>america<span class="w">               </span><span class="p">|</span><span class="w"> </span>sa
-<span class="w">           </span><span class="m">4</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>ap<span class="w">                        </span><span class="p">|</span><span class="w"> </span>asia<span class="w"> </span>pacific<span class="w">                </span><span class="p">|</span><span class="w"> </span>ap
-<span class="o">(</span><span class="m">4</span><span class="w"> </span>rows<span class="o">)</span>
+           3 | emea                      | europe, middle east, africa | emea
+           1 | na                        | north america               | na
+           2 | sa                        | south america               | sa
+           4 | ap                        | asia pacific                | ap
+(4 rows)
 </code></pre></div>
 </div>
-<ol start="8">
-<li>Now let's remove the old column:</li>
-</ol>
-<div class="admonition abstract">
-<p class="admonition-title">Input</p>
-<div class="highlight"><pre><span></span><code>ALTER<span class="w"> </span>TABLE<span class="w"> </span>REGION<span class="w"> </span>DROP<span class="w"> </span>COLUMN<span class="w"> </span>R_NAME<span class="w"> </span>RESTRICT<span class="p">;</span>
+</div>
+</div>
+</li>
+<li>
+<p>Now let's remove the old column:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="46:2"><input checked="checked" id="__tabbed_46_1" name="__tabbed_46" type="radio" /><input id="__tabbed_46_2" name="__tabbed_46" type="radio" /><div class="tabbed-labels"><label for="__tabbed_46_1">Input</label><label for="__tabbed_46_2">Output</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>ALTER TABLE REGION DROP COLUMN R_NAME RESTRICT;
 </code></pre></div>
 </div>
-<div class="admonition success">
-<p class="admonition-title">Output</p>
-<div class="highlight"><pre><span></span><code>ALTER<span class="w"> </span>TABLE
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>ALTER TABLE
 </code></pre></div>
 </div>
-<ol start="9">
-<li>Rename the column name R_NAME_TEMP to R_NAME</li>
-</ol>
-<div class="admonition abstract">
-<p class="admonition-title">Input</p>
-<div class="highlight"><pre><span></span><code>ALTER<span class="w"> </span>TABLE<span class="w"> </span>REGION<span class="w"> </span>RENAME<span class="w"> </span>COLUMN<span class="w"> </span>R_NAME_TEMP<span class="w"> </span>TO<span class="w"> </span>R_NAME<span class="p">;</span>
+</div>
+</div>
+</li>
+<li>
+<p>Rename the column name <code>R_NAME_TEMP</code> to <code>R_NAME</code></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="47:2"><input checked="checked" id="__tabbed_47_1" name="__tabbed_47" type="radio" /><input id="__tabbed_47_2" name="__tabbed_47" type="radio" /><div class="tabbed-labels"><label for="__tabbed_47_1">Input</label><label for="__tabbed_47_2">Output</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>ALTER TABLE REGION RENAME COLUMN R_NAME_TEMP TO R_NAME;
 </code></pre></div>
 </div>
-<div class="admonition success">
-<p class="admonition-title">Output</p>
-<div class="highlight"><pre><span></span><code>ALTER<span class="w"> </span>TABLE
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>ALTER TABLE
 </code></pre></div>
 </div>
-<ol start="10">
-<li>Let's have a look at the table again:</li>
-</ol>
-<div class="admonition abstract">
-<p class="admonition-title">Input</p>
-<div class="highlight"><pre><span></span><code>SELECT<span class="w"> </span>*<span class="w"> </span>FROM<span class="w"> </span>REGION<span class="p">;</span>
+</div>
+</div>
+</li>
+<li>
+<p>Let's have a look at the table again:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="48:2"><input checked="checked" id="__tabbed_48_1" name="__tabbed_48" type="radio" /><input id="__tabbed_48_2" name="__tabbed_48" type="radio" /><div class="tabbed-labels"><label for="__tabbed_48_1">Input</label><label for="__tabbed_48_2">Output</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>SELECT * FROM REGION;
 </code></pre></div>
 </div>
-<div class="admonition success">
-<p class="admonition-title">Output</p>
-<div class="highlight"><pre><span></span><code>R_REGIONKEY<span class="w">  </span><span class="p">|</span><span class="w">          </span>R_COMMENT<span class="w">          </span><span class="p">|</span><span class="w">                  </span>R_NAME
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>R_REGIONKEY  |          R_COMMENT          |                  R_NAME
 -------------+-----------------------------+------------------------------------------
-<span class="w">           </span><span class="m">3</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>europe,<span class="w"> </span>middle<span class="w"> </span>east,<span class="w"> </span>africa<span class="w"> </span><span class="p">|</span><span class="w"> </span>emea
-<span class="w">           </span><span class="m">1</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>north<span class="w"> </span>america<span class="w">               </span><span class="p">|</span><span class="w"> </span>na
-<span class="w">           </span><span class="m">2</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>south<span class="w"> </span>america<span class="w">               </span><span class="p">|</span><span class="w"> </span>sa
-<span class="w">           </span><span class="m">4</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>asia<span class="w"> </span>pacific<span class="w">                </span><span class="p">|</span><span class="w"> </span>ap
-<span class="o">(</span><span class="m">4</span><span class="w"> </span>rows<span class="o">)</span>
+           3 | europe, middle east, africa | emea
+           1 | north america               | na
+           2 | south america               | sa
+           4 | asia pacific                | ap
+(4 rows)
 </code></pre></div>
 </div>
-<p>We have achieved to change the data type of the R_NAME column. The
-column order has changed but our R_NAME column has the same values as
+</div>
+</div>
+<p>We have achieved to change the data type of the <code>R_NAME</code> column. The
+column order has changed but our <code>R_NAME</code> column has the same values as
 before and now supports longer region names.</p>
-<blockquote>
 <p>But we have one last step to do. Under the cover the system now has
 three different versions of the table which are merged for each call
-against the REGION table. This not only uses up space it is also bad
+against the <code>REGION</code> table. This not only uses up space it is also bad
 for the query performance. So, we have to materialize these table
-changes with the GROOM command.</p>
-</blockquote>
-<ol start="11">
-<li>GROOM the REGION table with the VERSIONS keyword to merge table
-    versions:</li>
-</ol>
-<div class="admonition abstract">
-<p class="admonition-title">Input</p>
-<div class="highlight"><pre><span></span><code>GROOM<span class="w"> </span>TABLE<span class="w"> </span>REGION<span class="w"> </span>VERSIONS<span class="p">;</span>
+changes with the <code>GROOM</code> command.</p>
+</li>
+<li>
+<p><code>GROOM</code> the <code>REGION</code> table with the <code>VERSIONS</code> keyword to merge table
+        versions:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="49:2"><input checked="checked" id="__tabbed_49_1" name="__tabbed_49" type="radio" /><input id="__tabbed_49_2" name="__tabbed_49" type="radio" /><div class="tabbed-labels"><label for="__tabbed_49_1">Input</label><label for="__tabbed_49_2">Output</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>GROOM TABLE REGION VERSIONS;
 </code></pre></div>
 </div>
-<div class="admonition success">
-<p class="admonition-title">Output</p>
-<div class="highlight"><pre><span></span><code>NOTICE:<span class="w"> </span>Groom<span class="w"> </span>will<span class="w"> </span>not<span class="w"> </span>purge<span class="w"> </span>records<span class="w"> </span>deleted<span class="w"> </span>by<span class="w"> </span>transactions<span class="w"> </span>that
-started<span class="w"> </span>after<span class="w"> </span><span class="m">2020</span>-04-03<span class="w"> </span><span class="m">04</span>:04:56.
-NOTICE:<span class="w"> </span>If<span class="w"> </span>this<span class="w"> </span>process<span class="w"> </span>is<span class="w"> </span>interrupted<span class="w"> </span>please<span class="w"> </span>either<span class="w"> </span>repeat<span class="w"> </span>GROOM
-VERSIONS<span class="w"> </span>or<span class="w"> </span>issue<span class="w"> </span><span class="s1">&#39;GENERATE STATISTICS ON &quot;REGION&quot;&#39;</span>
-NOTICE:<span class="w"> </span>Groom<span class="w"> </span>processed<span class="w"> </span><span class="m">2</span><span class="w"> </span>pages<span class="p">;</span><span class="w"> </span>purged<span class="w"> </span><span class="m">5</span><span class="w"> </span>records<span class="p">;</span><span class="w"> </span>scan<span class="w"> </span>size<span class="w"> </span>shrunk<span class="w"> </span>by<span class="w"> </span><span class="m">1</span>
-pages<span class="p">;</span><span class="w"> </span>table<span class="w"> </span>size<span class="w"> </span>shrunk<span class="w"> </span>by<span class="w"> </span><span class="m">1</span><span class="w"> </span>extents.
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>NOTICE: Groom will not purge records deleted by transactions that
+started after 2020-04-03 04:04:56.
+NOTICE: If this process is interrupted please either repeat GROOM
+VERSIONS or issue &#39;GENERATE STATISTICS ON &quot;REGION&quot;&#39;
+NOTICE: Groom processed 2 pages; purged 5 records; scan size shrunk by 1
+pages; table size shrunk by 1 extents.
 
-GROOM<span class="w"> </span>VERSIONS
+GROOM VERSIONS
 </code></pre></div>
 </div>
-<ol start="45">
-<li>Finally, we will look at the EXPLAIN output again:</li>
-</ol>
-<div class="admonition abstract">
-<p class="admonition-title">Input</p>
-<div class="highlight"><pre><span></span><code>EXPLAIN<span class="w"> </span>VERBOSE<span class="w"> </span>SELECT<span class="w"> </span>*<span class="w"> </span>FROM<span class="w"> </span>REGION<span class="p">;</span>
+</div>
+</div>
+</li>
+<li>
+<p>Finally, we will look at the <code>EXPLAIN</code> output again:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="50:2"><input checked="checked" id="__tabbed_50_1" name="__tabbed_50" type="radio" /><input id="__tabbed_50_2" name="__tabbed_50" type="radio" /><div class="tabbed-labels"><label for="__tabbed_50_1">Input</label><label for="__tabbed_50_2">Output</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>EXPLAIN VERBOSE SELECT * FROM REGION;
 </code></pre></div>
 </div>
-<div class="admonition success">
-<p class="admonition-title">Output</p>
-<div class="highlight"><pre><span></span><code>NOTICE:<span class="w">  </span>QUERY<span class="w"> </span>PLAN:
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>NOTICE:  QUERY PLAN:
 
 
-QUERY<span class="w"> </span>SQL:
+QUERY SQL:
 
-EXPLAIN<span class="w"> </span>VERBOSE<span class="w"> </span>SELECT<span class="w"> </span>*<span class="w"> </span>FROM<span class="w"> </span>REGION<span class="p">;</span>
-
-
-QUERY<span class="w"> </span>VERBOSE<span class="w"> </span>PLAN:
-
-Node<span class="w"> </span><span class="m">1</span>.
-<span class="w">  </span><span class="o">[</span>SPU<span class="w"> </span>Sequential<span class="w"> </span>Scan<span class="w"> </span>table<span class="w"> </span><span class="s2">&quot;REGION&quot;</span><span class="w"> </span><span class="o">{(</span>REGION.R_REGIONKEY<span class="o">)}]</span>
-<span class="w">      </span>--<span class="w"> </span>Estimated<span class="w"> </span><span class="nv">Rows</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">4</span>,<span class="w"> </span><span class="nv">Width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">196</span>,<span class="w"> </span><span class="nv">Cost</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>.0<span class="w"> </span>..<span class="w"> </span><span class="m">0</span>.0,<span class="w"> </span><span class="nv">Conf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">100</span>.0
-<span class="w">      </span>Projections:
-<span class="w">        </span><span class="m">1</span>:REGION.R_REGIONKEY<span class="w">  </span><span class="m">2</span>:REGION.R_COMMENT<span class="w">  </span><span class="m">3</span>:REGION.R_NAME
-<span class="w">  </span><span class="o">[</span>SPU<span class="w"> </span>Return<span class="o">]</span>
-<span class="w">  </span><span class="o">[</span>Host<span class="w"> </span>Return<span class="o">]</span>
+EXPLAIN VERBOSE SELECT * FROM REGION;
 
 
-QUERY<span class="w"> </span>PLANTEXT:
+QUERY VERBOSE PLAN:
 
-Sequential<span class="w"> </span>Scan<span class="w"> </span>table<span class="w"> </span><span class="s2">&quot;REGION&quot;</span><span class="w"> </span><span class="o">(</span><span class="nv">cost</span><span class="o">=</span><span class="m">0</span>.0..0.0<span class="w"> </span><span class="nv">rows</span><span class="o">=</span><span class="m">4</span><span class="w"> </span><span class="nv">width</span><span class="o">=</span><span class="m">196</span><span class="w"> </span><span class="nv">conf</span><span class="o">=</span><span class="m">100</span><span class="o">)</span><span class="w">  </span><span class="o">{(</span>REGION.R_REGIONKEY<span class="o">)}</span>
-<span class="o">(</span>xpath_none,<span class="w"> </span><span class="nv">locus</span><span class="o">=</span>spu<span class="w"> </span><span class="nv">subject</span><span class="o">=</span>self<span class="o">)</span>
-<span class="o">(</span>spu_send,<span class="w"> </span><span class="nv">locus</span><span class="o">=</span>host<span class="w"> </span><span class="nv">subject</span><span class="o">=</span>self<span class="o">)</span>
-<span class="o">(</span>host_return,<span class="w"> </span><span class="nv">locus</span><span class="o">=</span>host<span class="w"> </span><span class="nv">subject</span><span class="o">=</span>self<span class="o">)</span>
+Node 1.
+  [SPU Sequential Scan table &quot;REGION&quot; {(REGION.R_REGIONKEY)}]
+      -- Estimated Rows = 4, Width = 196, Cost = 0.0 .. 0.0, Conf = 100.0
+      Projections:
+        1:REGION.R_REGIONKEY  2:REGION.R_COMMENT  3:REGION.R_NAME
+  [SPU Return]
+  [Host Return]
+
+
+QUERY PLANTEXT:
+
+Sequential Scan table &quot;REGION&quot; (cost=0.0..0.0 rows=4 width=196 conf=100)  {(REGION.R_REGIONKEY)}
+(xpath_none, locus=spu subject=self)
+(spu_send, locus=host subject=self)
+(host_return, locus=host subject=self)
 
 
 EXPLAIN
 </code></pre></div>
 </div>
+</div>
+</div>
 <p>Now this is much nicer. As we would expect we only have a single table
-scan snippet in the query plan and a single version of the REGION
+scan snippet in the query plan and a single version of the <code>REGION</code>
 table.</p>
-<ol start="13">
-<li>Finally, we will return the REGION table to the old column ordering
-    to not interfere with future labs, to do this we will use a CTAS
-    statement</li>
-</ol>
-<div class="admonition abstract">
-<p class="admonition-title">Input</p>
-<div class="highlight"><pre><span></span><code>CREATE<span class="w"> </span>TABLE<span class="w"> </span>REGION_NEW<span class="w"> </span>AS
-<span class="w">  </span>SELECT<span class="w"> </span>R.R_REGIONKEY,<span class="w"> </span>R.R_NAME,<span class="w"> </span>R.R_COMMENT
-FROM<span class="w"> </span>REGION<span class="w"> </span>R<span class="p">;</span>
+</li>
+<li>
+<p>Finally, we will return the <code>REGION</code> table to the old column ordering
+        to not interfere with future labs, to do this we will use a CTAS
+        statement</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="51:2"><input checked="checked" id="__tabbed_51_1" name="__tabbed_51" type="radio" /><input id="__tabbed_51_2" name="__tabbed_51" type="radio" /><div class="tabbed-labels"><label for="__tabbed_51_1">Input</label><label for="__tabbed_51_2">Output</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>CREATE TABLE REGION_NEW AS
+  SELECT R.R_REGIONKEY, R.R_NAME, R.R_COMMENT
+FROM REGION R;
 </code></pre></div>
 </div>
-<div class="admonition success">
-<p class="admonition-title">Output</p>
-<div class="highlight"><pre><span></span><code>INSERT<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">4</span>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>INSERT 0 4
 </code></pre></div>
 </div>
-<ol start="47">
-<li>Now drop the REGION table:</li>
-</ol>
-<div class="admonition abstract">
-<p class="admonition-title">Input</p>
-<div class="highlight"><pre><span></span><code>DROP<span class="w"> </span>TABLE<span class="w"> </span>REGION<span class="p">;</span>
+</div>
+</div>
+</li>
+<li>
+<p>Now drop the <code>REGION</code> table:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="52:2"><input checked="checked" id="__tabbed_52_1" name="__tabbed_52" type="radio" /><input id="__tabbed_52_2" name="__tabbed_52" type="radio" /><div class="tabbed-labels"><label for="__tabbed_52_1">Input</label><label for="__tabbed_52_2">Output</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>DROP TABLE REGION;
 </code></pre></div>
 </div>
-<div class="admonition success">
-<p class="admonition-title">Output</p>
-<div class="highlight"><pre><span></span><code>DROP<span class="w"> </span>TABLE
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>DROP TABLE
 </code></pre></div>
 </div>
-<ol start="15">
-<li>Finally, rename the REGION_NEW table to make the transformation
-    complete:</li>
-</ol>
-<div class="admonition abstract">
-<p class="admonition-title">Input</p>
-<div class="highlight"><pre><span></span><code>ALTER<span class="w"> </span>TABLE<span class="w"> </span>REGION_NEW<span class="w"> </span>RENAME<span class="w"> </span>TO<span class="w"> </span>REGION<span class="p">;</span>
+</div>
+</div>
+</li>
+<li>
+<p>Finally, rename the <code>REGION_NEW</code> table to make the transformation
+        complete:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="53:2"><input checked="checked" id="__tabbed_53_1" name="__tabbed_53" type="radio" /><input id="__tabbed_53_2" name="__tabbed_53" type="radio" /><div class="tabbed-labels"><label for="__tabbed_53_1">Input</label><label for="__tabbed_53_2">Output</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>ALTER TABLE REGION_NEW RENAME TO REGION;
 </code></pre></div>
 </div>
-<div class="admonition success">
-<p class="admonition-title">Output</p>
-<div class="highlight"><pre><span></span><code>ALTER<span class="w"> </span>TABLE
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>ALTER TABLE
 </code></pre></div>
+</div>
+</div>
 </div>
 <p>If a table can be inaccessible for a short period of time using CTAS
 tables can be the better solution to change data types than using an
-ALTER TABLE statement.</p>
+<code>ALTER TABLE</code> statement.</p>
+</li>
+</ol>
+<div class="admonition success">
+<p class="admonition-title">Congratulations on finishing the chapter!</p>
 <p>In this lab you have looked behind the scenes of the Netezza Performance
 Server appliances. You have seen how transactions are implemented and we
 have shown different reasons for using the groom command. It not only
-removes logically deleted rows from INSERT and UPDATE operations,
-aborted INSERTS and Loads, it also materializes table changes and
+removes logically deleted rows from <code>INSERT</code> and <code>UPDATE</code> operations,
+aborted <code>INSERTS</code> and Loads, it also materializes table changes and
 reorders cluster-based tables.</p>
+</div>
 
               
             </article>

@@ -9,7 +9,7 @@ The VMWare image we are using in the labs differs significantly from a
 normal Netezza Performance Server. Each Netezza Performance Server has
 the Web Console running as an OpenShift containerized application on the
 control plane/master nodes. In this environment, the Web Console is
-running natively on the NPSVB virtual machine.
+running natively on the `NPSVB` virtual machine.
 
 # 2 Lab Setup
 
@@ -69,7 +69,7 @@ While the setup script is running proceed to the next step.
 
 ## 2.1 Starting NPS Web Console
 
-After booting up the NPSVB virtual machine with Virtual Box follow these
+After booting up the `NPSVB` virtual machine with Virtual Box follow these
 steps to start the Web Console application inside the VM:
 
 -   Open a terminal application from the VM Desktop or remotely with
@@ -298,8 +298,8 @@ This allows you to execute queries against a database. You can store the
 queries as well. In addition to the result of the query you can also
 look at the explain plan.
 
-Let’s create a query called **testquery** (1) against database LABDB (2)
-and schema ADMIN (3).
+Let’s create a query called **testquery** (1) against database `LABDB` (2)
+and schema `ADMIN` (3).
 
 Enter the following SQL statement (4) and click **Run** (5) to execute
 the query.
@@ -394,20 +394,20 @@ click **Record count** header.
 
 ![Image](nz-images/nz-02-WebConsole/media/image29.png)
 
-As you can see, table LINEITEM has over 6 million rows.
+As you can see, table `LINEITEM` has over 6 million rows.
 
 For the **PART** table select the Kebab (three dots) to the right. This
-allows you to run several operations against the table, like RENAME or
-GROOM.
+allows you to run several operations against the table, like `RENAME` or
+`GROOM`.
 
 ![Image](nz-images/nz-02-WebConsole/media/image30.png)
 
 Click **Groom**. A new screen opens that allows you define the mode to
-be used by GROOM and if a reclaim backup set should be used.
+be used by `GROOM` and if a reclaim backup set should be used.
 
 ![Image](nz-images/nz-02-WebConsole/media/image31.png)
 
-Do not start the GROOM, but instead go back to the main page of the
+Do not start the `GROOM`, but instead go back to the main page of the
 database menu by clicking Databases from the breadcrumbs.
 
 ![Image](nz-images/nz-02-WebConsole/media/image32.png)
@@ -421,7 +421,7 @@ and click **Create** (2)**.**
 ![Image](nz-images/nz-02-WebConsole/media/image33.png)
 
 The console opens a new pane, with information on the database objects
-in the newly created database TESTDB.
+in the newly created database `TESTDB`.
 
 ![Image](nz-images/nz-02-WebConsole/media/image34.png)
 
@@ -430,7 +430,7 @@ Go to the **Tables** view of this screen.
 
 Click **Create table** to add a new table. Choose **ADMIN** (1) as the
 schema and **TESTTABLE** (2) as the table name. Click Create + (3) in
-the columns section to add a column called **C1** (4) of type BIGINT.
+the columns section to add a column called **C1** (4) of type `BIGINT`.
 Enter a second column called **D1** (5) as type **DATE**. Select **C1**
 (6) as the distribution column.
 
@@ -477,7 +477,7 @@ executed in NPS.
 On the left side of the screen, you can filter the result set. Filter to
 all by Status (Running, Success)**, Database, User.**
 
-Select the following filters: Status: Success, Database: LABDB and User:
+Select the following filters: Status: Success, Database: `LABDB` and User:
 ADMIN
 
 ![Image](nz-images/nz-02-WebConsole/media/image43.png)
@@ -511,3 +511,6 @@ the history database.
     -   Event rules
     -   Scheduler rules
     -   History configuration
+
+!!! success "Congratulations on finishing the chapter!"
+	Congratulations on finishing the chapter on the NZ Web Console.

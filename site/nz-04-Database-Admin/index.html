@@ -777,12 +777,12 @@ include some of the following components:</p>
 <tr>
 <td>nz</td>
 <td>nz</td>
-<td>Linux user with login permission to the IBM       Netezza Performance Server host container. nz has ownership of various IPS files in the installation directory.</td>
+<td>Linux user with login permission to the IBM Netezza Performance Server host container. nz has ownership of various IPS files in the installation directory.</td>
 </tr>
 <tr>
 <td>root</td>
 <td>netezza</td>
-<td>Linux superuser with login permission to the IBM   Netezza Performance Server host container. Has ownership of various kernel and operating system files.</td>
+<td>Linux superuser with login permission to the IBM Netezza Performance Server host container. Has ownership of various kernel and operating system files.</td>
 </tr>
 </tbody>
 </table>
@@ -803,7 +803,7 @@ include some of the following components:</p>
 <tr>
 <td>admin</td>
 <td>password</td>
-<td>IPS database superuser, with full access to all    database administration privileges and objects</td>
+<td>IPS database superuser, with full access to all database administration privileges and objects</td>
 </tr>
 </tbody>
 </table>
@@ -819,12 +819,12 @@ IBM Netezza Performance Server databases, user access, and permissions
 for the databases, as well as to query and modify the contents of the
 databases</p>
 <p>On a new IBM Netezza Performance Server system, there is typically one
-main database, SYSTEM, and a database template, MASTER_DB. IBM Netezza
-Performance Server uses the MASTER_DB as a template for all other user
-databases that are created on the system. Initially, only the ADMIN user
-can create new databases, but the ADMIN user can grant other users'
-permission to create databases as well. The ADMIN user can also make
-another user the owner of a database, which gives that user ADMIN-like
+main database, <code>SYSTEM</code>, and a database template, <code>MASTER_DB</code>. IBM Netezza
+Performance Server uses the <code>MASTER_DB</code> as a template for all other user
+databases that are created on the system. Initially, only the <code>ADMIN</code> user
+can create new databases, but the <code>ADMIN</code> user can grant other users'
+permission to create databases as well. The <code>ADMIN</code> user can also make
+another user the owner of a database, which gives that user <code>ADMIN</code>-like
 control over that database and its contents. The database creator
 becomes the default owner of the database. The owner can remove the
 database and all its objects, even if other users own objects within the
@@ -883,7 +883,7 @@ nzsql:drop/drop_groups:2: ERROR:  DROP GROUP: object LUGRP does not exist.
 virtual machine.</p>
 <ul>
 <li>Connect to the system database as the IBM Netezza Performance Server
-    database super-user, ADMIN, using the nzsql interface:</li>
+    database super-user, <code>ADMIN</code>, using the nzsql interface:</li>
 </ul>
 <div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">Input</label><label for="__tabbed_2_2">Output</label></div>
 <div class="tabbed-content">
@@ -953,17 +953,17 @@ IBM Netezza Performance Server database users and two groups:</p>
 <p>The three new IBM Netezza Performance Server database users will be
 initially created using the <code>ADMIN</code> user. The <code>LABADMIN</code> user will be the
 full owner of the bootcamp database. The <code>LABUSER</code> user will be allowed to
-perform data manipulation language (DML) operations (INSERT, UPDATE,
-DELETE) against all of the tables in the database, but they will not be
+perform data manipulation language (DML) operations (<code>INSERT</code>, <code>UPDATE</code>,
+<code>DELETE</code>) against all of the tables in the database, but they will not be
 allowed to create new objects like tables in the database. And lastly,
 the <code>DBUSER</code> user will only be allowed to read tables in the database,
-that is, they will only have LIST and SELECT privilege against tables in
+that is, they will only have <code>LIST</code> and <code>SELECT</code> privilege against tables in
 the database.</p>
 <p>The basic syntax to create a user is:
 <div class="highlight"><pre><span></span><code>CREATE USER username WITH PASSWORD &#39;string&#39;;
 </code></pre></div></p>
 <ol>
-<li>As the IBM Netezza Performance Server database super-user, ADMIN,
+<li>As the IBM Netezza Performance Server database super-user, <code>ADMIN</code>,
     you can now start to create the first user, <code>LABADMIN</code>, which will be
     the administrator of the database: (Note user and group names are
     not case sensitive) unless surrounded by quotes.</li>
@@ -1084,9 +1084,9 @@ and then the users. The basic command to create a group is:</p>
 </div>
 <ol start="2">
 <li>After the <code>LAGRP</code> group is created you will now add the <code>LABADMIN</code> user
-    to this group. This is accomplished by using the ALTER statement.
-    You can either ALTER the user or the group, for this task you will
-    ALTER the group to add the <code>LABADMIN</code> user to the <code>LAGRP</code> group:</li>
+    to this group. This is accomplished by using the <code>ALTER</code> statement.
+    You can either <code>ALTER</code> the user or the group, for this task you will
+    <code>ALTER</code> the group to add the <code>LABADMIN</code> user to the <code>LAGRP</code> group:</li>
 </ol>
 <div class="tabbed-set tabbed-alternate" data-tabs="8:2"><input checked="checked" id="__tabbed_8_1" name="__tabbed_8" type="radio" /><input id="__tabbed_8_2" name="__tabbed_8" type="radio" /><div class="tabbed-labels"><label for="__tabbed_8_1">Input</label><label for="__tabbed_8_2">Output</label></div>
 <div class="tabbed-content">
@@ -1100,7 +1100,7 @@ and then the users. The basic command to create a group is:</p>
 </div>
 </div>
 </div>
-<p>To ALTER the user, you would use the following command:</p>
+<p>To <code>ALTER</code> the user, you would use the following command:</p>
 <div class="highlight"><pre><span></span><code>alter user LABADMIN with in group LAGRP;
 </code></pre></div>
 <ol start="3">
@@ -1215,7 +1215,7 @@ syntax to create a database is:
 </code></pre></div></p>
 <ol>
 <li>As the Netezza Performance Server database super-user, <code>ADMIN</code>, you
-    will create the first database, <code>LABDB</code>, using the CREATE DATABASE
+    will create the first database, <code>LABDB</code>, using the <code>CREATE DATABASE</code>
     command:</li>
 </ol>
 <div class="tabbed-set tabbed-alternate" data-tabs="13:2"><input checked="checked" id="__tabbed_13_1" name="__tabbed_13" type="radio" /><input id="__tabbed_13_2" name="__tabbed_13" type="radio" /><div class="tabbed-labels"><label for="__tabbed_13_1">Input</label><label for="__tabbed_13_2">Output</label></div>
@@ -1252,16 +1252,15 @@ syntax to create a database is:
 </div>
 </div>
 <p>The owner of the newly created <code>LABDB</code> database is the <code>ADMIN</code> user. The
-other databases are the default database SYSTEM and the template
-database MASTER_DB.</p>
+other databases are the default database <code>SYSTEM</code> and the template
+database <code>MASTER_DB</code>.</p>
 <ol start="3">
 <li>At this point you could continue by creating new tables as the <code>ADMIN</code>
     user. However, the <code>ADMIN</code> user should only be used to create users,
     groups, and databases, and to assign authorities and privileges.
     Therefore, we will transfer ownership of the <code>LABDB</code> database from the
-    <code>ADMIN</code> user to the <code>LABADMIN</code> user we created previously. The ALTER
-    DATABASE command is used to transfer ownership of an existing
-    database:</li>
+    <code>ADMIN</code> user to the <code>LABADMIN</code> user we created previously. The <code>ALTER DATABASE</code> 
+    command is used to transfer ownership of an existing database:</li>
 </ol>
 <div class="tabbed-set tabbed-alternate" data-tabs="15:2"><input checked="checked" id="__tabbed_15_1" name="__tabbed_15" type="radio" /><input id="__tabbed_15_2" name="__tabbed_15" type="radio" /><div class="tabbed-labels"><label for="__tabbed_15_1">Input</label><label for="__tabbed_15_2">Output</label></div>
 <div class="tabbed-content">
@@ -1276,7 +1275,7 @@ database MASTER_DB.</p>
 </div>
 </div>
 <p>This is the only method to transfer ownership of a database to an
-existing user. The CREATE DATABASE command does not include this
+existing user. The <code>CREATE DATABASE</code> command does not include this
 option.</p>
 <ol start="4">
 <li>Check that the owner of the <code>LABDB</code> database is now the <code>LABADMIN</code> user:</li>
@@ -1314,11 +1313,11 @@ have more restricted access in the database and will only be allowed to
 read data from the tables in the database. The privileges will be
 controlled by a combination of setting the privileges at the group and
 user level.</p>
-<p>The <code>LUGRP</code> user group will be granted LIST and SELECT privileges against
+<p>The <code>LUGRP</code> user group will be granted <code>LIST</code> and <code>SELECT</code> privileges against
 the database and tables within the database. So any member of the <code>LUGRP</code>
 will have these privileges. The full data manipulation privileges will
 be granted individually to the <code>LABUSER</code> user.</p>
-<p>The GRANT command that is used to assign object privileges has the
+<p>The <code>GRANT</code> command that is used to assign object privileges has the
 following syntax:
 <div class="highlight"><pre><span></span><code>GRANT object_privilege [, ...] ON object [, ...]
     TO { PUBLIC | GROUP group | username } [ WITH GRANT OPTION ]
@@ -1414,7 +1413,7 @@ Administration Privilege
 <li>With the current privileges set for the <code>LABUSER</code> and <code>DBUSER</code>, they can
     now view and connect to the <code>LABDB</code> database as members of the <code>LUGRP</code>
     group. But these two users have no privileges to access any of the
-    objects within the database. So you will grant LIST and SELECT
+    objects within the database. So you will grant <code>LIST</code> and <code>SELECT</code>
     privilege to the tables within the <code>LABDB</code> database to the members of
     the <code>LUGRP</code> :</li>
 </ol>
@@ -1527,8 +1526,8 @@ remaining tables for the <code>LABDB</code> database schema will be created in t
 Data Distribution lab. Data Distribution is an important aspect that
 should be considered when creating tables. This concept is not covered
 in this lab since it is discussed separately in the Data Distribution
-presentation. The two tables that will be created are the REGION and
-NATION tables. These two tables will be populated with data in the next
+presentation. The two tables that will be created are the <code>REGION</code> and
+<code>NATION</code> tables. These two tables will be populated with data in the next
 section using <code>LABUSER</code> user. Two methods will be utilized to create these
 tables. The basic syntax to create a table is:</p>
 <p><strong>General syntax:</strong>
@@ -1603,7 +1602,7 @@ export NZ_PASSWORD=password
 it has been set to the same value "password" for all users.</p>
 <ol start="2">
 <li>Now you can create the first table in the <code>LABDB</code> database. The first
-    table you will create is the REGION table with the following columns
+    table you will create is the <code>REGION</code> table with the following columns
     and datatypes :</li>
 </ol>
 <table>
@@ -1887,7 +1886,7 @@ see any of the tables in the <code>LABDB</code> database.</p>
     tables in the <code>LABDB</code> database. However, it was restricted on
     performing DDL operations against the database. Let's see what
     happens when you try create a new table, t1, with one column, C1,
-    using the INTEGER data type:</li>
+    using the <code>INTEGER</code> data type:</li>
 </ol>
 <div class="tabbed-set tabbed-alternate" data-tabs="34:2"><input checked="checked" id="__tabbed_34_1" name="__tabbed_34" type="radio" /><input id="__tabbed_34_2" name="__tabbed_34" type="radio" /><div class="tabbed-labels"><label for="__tabbed_34_1">Input</label><label for="__tabbed_34_2">Output</label></div>
 <div class="tabbed-content">
@@ -1907,7 +1906,7 @@ database.</p>
 <ol start="4">
 <li>Let's continue by performing DML operations that the <code>LABUSER</code> user is
     allowed to perform against the tables in the <code>LABDB</code> database. Insert
-    a new row into the REGION table:</li>
+    a new row into the <code>REGION</code> table:</li>
 </ol>
 <div class="tabbed-set tabbed-alternate" data-tabs="35:2"><input checked="checked" id="__tabbed_35_1" name="__tabbed_35" type="radio" /><input id="__tabbed_35_2" name="__tabbed_35" type="radio" /><div class="tabbed-labels"><label for="__tabbed_35_1">Input</label><label for="__tabbed_35_2">Output</label></div>
 <div class="tabbed-content">
@@ -1921,10 +1920,10 @@ insert into region values (1, 'NA', 'north america');</p>
 </div>
 </div>
 </div>
-<p>As expected, this operation is successful. The output of the INSERT
+<p>As expected, this operation is successful. The output of the <code>INSERT</code>
 gives feedback about the number of successfully inserted rows.</p>
 <ol start="5">
-<li>Issue the SELECT statement against the REGION table to check the new
+<li>Issue the <code>SELECT</code> statement against the <code>REGION</code> table to check the new
     row you just added to the table:</li>
 </ol>
 <div class="tabbed-set tabbed-alternate" data-tabs="36:2"><input checked="checked" id="__tabbed_36_1" name="__tabbed_36" type="radio" /><input id="__tabbed_36_2" name="__tabbed_36" type="radio" /><div class="tabbed-labels"><label for="__tabbed_36_1">Input</label><label for="__tabbed_36_2">Output</label></div>
@@ -1945,7 +1944,7 @@ gives feedback about the number of successfully inserted rows.</p>
 <ol start="6">
 <li>Instead of typing DML statements at the nzsql command line, you can
     read and execute statements from a file. You will use this method to
-    add the following three rows to the REGION table:</li>
+    add the following three rows to the <code>REGION</code> table:</li>
 </ol>
 <table>
 <thead>
@@ -2040,7 +2039,7 @@ presentation and lab.</p>
 <code>LABUSER</code> to <code>DBUSER</code>.</p>
 <ol start="9">
 <li>Before trying to view rows from tables in the <code>LABDB</code> database, try to
-    add a new row to the REGION table:</li>
+    add a new row to the <code>REGION</code> table:</li>
 </ol>
 <div class="tabbed-set tabbed-alternate" data-tabs="40:2"><input checked="checked" id="__tabbed_40_1" name="__tabbed_40" type="radio" /><input id="__tabbed_40_2" name="__tabbed_40" type="radio" /><div class="tabbed-labels"><label for="__tabbed_40_1">Input</label><label for="__tabbed_40_2">Output</label></div>
 <div class="tabbed-content">
@@ -2054,11 +2053,11 @@ presentation and lab.</p>
 </div>
 </div>
 </div>
-<p>As expected, the INSERT statement is not allowed since the <code>DBUSER</code> does
+<p>As expected, the <code>INSERT</code> statement is not allowed since the <code>DBUSER</code> does
 not have the privilege to add rows to any tables in the <code>LABDB</code>
 database.</p>
 <ol start="10">
-<li>Now select all rows from the REGION table:</li>
+<li>Now select all rows from the <code>REGION</code> table:</li>
 </ol>
 <div class="tabbed-set tabbed-alternate" data-tabs="41:2"><input checked="checked" id="__tabbed_41_1" name="__tabbed_41" type="radio" /><input id="__tabbed_41_2" name="__tabbed_41" type="radio" /><div class="tabbed-labels"><label for="__tabbed_41_1">Input</label><label for="__tabbed_41_2">Output</label></div>
 <div class="tabbed-content">
@@ -2081,9 +2080,9 @@ database.</p>
 <ol start="11">
 <li>Finally let's run a slightly more complex query. We want to return
     all nation names in Asia Pacific, together with their region name.
-    To do this you need to execute a simple join using the NATION and
-    REGION tables. The join key will be the region key, and to restrict
-    results on the AP region you need to add a WHERE condition:</li>
+    To do this you need to execute a simple join using the <code>NATION</code> and
+    <code>REGION</code> tables. The join key will be the region key, and to restrict
+    results on the AP region you need to add a <code>WHERE</code> condition:</li>
 </ol>
 <div class="tabbed-set tabbed-alternate" data-tabs="42:2"><input checked="checked" id="__tabbed_42_1" name="__tabbed_42" type="radio" /><input id="__tabbed_42_2" name="__tabbed_42" type="radio" /><div class="tabbed-labels"><label for="__tabbed_42_1">Input</label><label for="__tabbed_42_2">Output</label></div>
 <div class="tabbed-content">
@@ -2135,7 +2134,7 @@ can be used.</p>
 details on how to access the command line for your given lab system.</p>
 <ol start="2">
 <li>As the NPS database super-user, <code>ADMIN</code>, use nzsql to create the first
-    role, LAROLE, which will be the administrator of the system: (Note:
+    role, <code>LAROLE</code>, which will be the administrator of the system: (Note:
     roles are not case sensitive)</li>
 </ol>
 <div class="tabbed-set tabbed-alternate" data-tabs="43:2"><input checked="checked" id="__tabbed_43_1" name="__tabbed_43" type="radio" /><input id="__tabbed_43_2" name="__tabbed_43" type="radio" /><div class="tabbed-labels"><label for="__tabbed_43_1">Input</label><label for="__tabbed_43_2">Output</label></div>
@@ -2189,7 +2188,7 @@ through the use of a role.</p>
 </div>
 </div>
 <ol start="5">
-<li>Connect to the system database as DBAUSER and CREATE a database:</li>
+<li>Connect to the system database as <code>DBAUSER</code> and <code>CREATE</code> a database:</li>
 </ol>
 <div class="tabbed-set tabbed-alternate" data-tabs="46:4"><input checked="checked" id="__tabbed_46_1" name="__tabbed_46" type="radio" /><input id="__tabbed_46_2" name="__tabbed_46" type="radio" /><input id="__tabbed_46_3" name="__tabbed_46" type="radio" /><input id="__tabbed_46_4" name="__tabbed_46" type="radio" /><div class="tabbed-labels"><label for="__tabbed_46_1">Input</label><label for="__tabbed_46_2">Output</label><label for="__tabbed_46_3">Input</label><label for="__tabbed_46_4">Output</label></div>
 <div class="tabbed-content">
@@ -2212,7 +2211,7 @@ through the use of a role.</p>
 </div>
 </div>
 <p>Notice that <code>DBUSER</code> cannot create a database as is expected since we
-didn't grant DATABASE permission to the <code>DBUSER</code>.</p>
+didn't grant <code>DATABASE</code> permission to the <code>DBUSER</code>.</p>
 <ol start="6">
 <li>Connect to the system database as <code>ADMIN</code>:</li>
 </ol>
@@ -2230,7 +2229,7 @@ didn't grant DATABASE permission to the <code>DBUSER</code>.</p>
 </div>
 <h4 id="714-grant-permission-to-use-a-role">7.1.4 Grant permission to use a role</h4>
 <ol start="7">
-<li>Grant LIST on DBAROLE to DBAUSER:</li>
+<li>Grant <code>LIST</code> on <code>DBAROLE</code> to <code>DBAUSER</code>:</li>
 </ol>
 <div class="tabbed-set tabbed-alternate" data-tabs="48:2"><input checked="checked" id="__tabbed_48_1" name="__tabbed_48" type="radio" /><input id="__tabbed_48_2" name="__tabbed_48" type="radio" /><div class="tabbed-labels"><label for="__tabbed_48_1">Input</label><label for="__tabbed_48_2">Output</label></div>
 <div class="tabbed-content">
@@ -2244,8 +2243,8 @@ didn't grant DATABASE permission to the <code>DBUSER</code>.</p>
 </div>
 </div>
 </div>
-<p>This gives the DBAUSER permission to use the role DBAROLE which has
-ADMIN rights.</p>
+<p>This gives the <code>DBAUSER</code> permission to use the role <code>DBAROLE</code> which has
+<code>ADMIN</code> rights.</p>
 <ol start="8">
 <li>Connect to the system database as DBAUSER:</li>
 </ol>
@@ -2508,7 +2507,7 @@ permissions to users and groups.</p>
 <p>You completed the section on Users, Groups and Roles. You should now
 understand how Users, Groups and Roles are all related and used.</p>
 <div class="admonition success">
-<p class="admonition-title">Success</p>
+<p class="admonition-title">Congratulations on finishing the chapter!</p>
 <p>Congratulations you have completed the lab. You have successfully
 created the lab database, 2 tables, and database users, groups and roles
 with various privileges. You also ran a couple of simple queries.</p>

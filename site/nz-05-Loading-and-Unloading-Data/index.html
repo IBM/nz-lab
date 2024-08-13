@@ -760,7 +760,7 @@ from external tables.</p>
 components for loading data into the database and unloading data from
 the database. You will use the various commands to create external
 tables to unload and load data. You will also get a basic understanding
-of the nzload utility. In this lab the REGION and NATION tables in the
+of the nzload utility. In this lab the <code>REGION</code> and <code>NATION</code> tables in the
 LABDB database are used to illustrate the use of external tables and the
 nzload utility. After this lab you will have a good understanding on how
 to load and unload data from a Netezza Performance Server database
@@ -839,7 +839,7 @@ Load session of table &#39;PART&#39; completed successfully
 </div>
 </div>
 <p>The error message at the beginning is expected since the script tries
-to clean up existing LINEITEM tables.</p>
+to clean up existing <code>LINEITEM</code> tables.</p>
 <h2 id="5-external-tables">5 External Tables</h2>
 <p>An external table allows Netezza Performance Server to treat an external
 file as a database table. An external table has a definition, a table
@@ -910,7 +910,7 @@ Application.</p>
 </div>
 </div>
 <h3 id="51-unloading-data-using-external-tables">5.1 Unloading Data using External Tables</h3>
-<p>External tables will be used to unload rows from the LABDB database as
+<p>External tables will be used to unload rows from the <code>LABDB</code> database as
 records into an external datasource file. Various methods to create and
 use external tables will be explored unloading rows from either <code>REGION</code>
 or <code>NATION</code> tables. Five different basic use cases are presented for you
@@ -1276,8 +1276,8 @@ difference is the Dataobjects field, since the filename is different.
 The other difference is the string used for the delimiter, since it is
 now '=' instead of the default, '|'.</p>
 <ol>
-<li>Unload the data from the REGION table but only the data from columns
-    R_NAME and R_COMMENT.</li>
+<li>Unload the data from the <code>REGION</code> table but only the data from columns
+    <code>R_NAME</code> and <code>R_COMMENT</code>.</li>
 </ol>
 <div class="tabbed-set tabbed-alternate" data-tabs="16:2"><input checked="checked" id="__tabbed_16_1" name="__tabbed_16" type="radio" /><input id="__tabbed_16_2" name="__tabbed_16" type="radio" /><div class="tabbed-labels"><label for="__tabbed_16_1">Input [Terminal 1]</label><label for="__tabbed_16_2">Output</label></div>
 <div class="tabbed-content">
@@ -1300,7 +1300,7 @@ the data in one step using the following command:</p>
 </code></pre></div></p>
 <ol start="2">
 <li>Using the second session review the file that was created,
-    et3_region_flat_file, in the /home/nz/labs/movingData directory.</li>
+    <code>et3_region_flat_file</code>, in the <code>/home/nz/labs/movingData</code> directory.</li>
 </ol>
 <div class="tabbed-set tabbed-alternate" data-tabs="17:2"><input checked="checked" id="__tabbed_17_1" name="__tabbed_17" type="radio" /><input id="__tabbed_17_2" name="__tabbed_17" type="radio" /><div class="tabbed-labels"><label for="__tabbed_17_1">Input [Terminal 2]</label><label for="__tabbed_17_2">Output</label></div>
 <div class="tabbed-content">
@@ -1899,13 +1899,13 @@ commands, for example to review tables after load operations</p>
 <p>Session Two, which will be used for operating system commands such as
 execute nzload.</p>
 <h3 id="61-using-the-nzload-utility-with-command-line-options">6.1 Using the nzload Utility with Command Line Options</h3>
-<p>The first method for using the nzload utility to load data in the REGION
+<p>The first method for using the nzload utility to load data in the <code>REGION</code>
 table will specify options at the command line. We will only need to
 specify the datasource file and we will use default options for the
 rest. The datasource file will be the et1_region_flat_file that you
 created in the External Tables section.</p>
 <p><strong>Sample Syntax</strong>
-<div class="highlight"><pre><span></span><code>nzload -db &lt;database&gt; -u &lt;username&gt; --pw &lt;password&gt; -df &lt;datasource filename&gt;
+<div class="highlight"><pre><span></span><code>nzload -db &lt;database&gt; -u &lt;username&gt; -pw &lt;password&gt; -df &lt;datasource filename&gt;
 </code></pre></div></p>
 <ol>
 <li>As the <code>LABDB</code> database owner, <code>LABADMIN</code> first remove the rows in the
@@ -1948,7 +1948,7 @@ created in the External Tables section.</p>
 </ol>
 <p><strong>Sample Syntax</strong>
 <div class="highlight"><pre><span></span><code>-db &lt;database name&gt;, -u &lt;user&gt;, -pw &lt;password&gt;, -t &lt;table name&gt;,
--df &lt;data file&gt;, and --delimiter &lt;string&gt;:
+-df &lt;data file&gt;, and -delimiter &lt;string&gt;:
 </code></pre></div></p>
 <div class="tabbed-set tabbed-alternate" data-tabs="38:2"><input checked="checked" id="__tabbed_38_1" name="__tabbed_38" type="radio" /><input id="__tabbed_38_2" name="__tabbed_38" type="radio" /><div class="tabbed-labels"><label for="__tabbed_38_1">Input [Terminal 2]</label><label for="__tabbed_38_2">Output</label></div>
 <div class="tabbed-content">
@@ -2079,7 +2079,7 @@ values are acceptable.</p>
 <p><strong>Sample Syntax</strong>
 <div class="highlight"><pre><span></span><code>nzload -db labdb -u labadmin -pw password
 -t region
--df et1_region_flat_file --delimiter &#39;|&#39;
+-df et1_region_flat_file -delimiter &#39;|&#39;
 -outputDir &#39;&lt;current directory&gt;&#39;
 -lf &lt;table&gt;.&lt;database&gt;.nzlog -bf&lt;table&gt;.&lt;database&gt;.nzlog
 -compress false -format text
@@ -2106,7 +2106,7 @@ operation. A nzload control file has the following basic structure:</p>
 <p>The <code>-cf</code> option is used at the <code>nzload</code> command line to indicate the use
 of a control file:</p>
 <p><strong>Sample Syntax</strong>
-<div class="highlight"><pre><span></span><code>nzload --u &lt;username&gt; -pw &lt;password&gt; -cf &lt;control file&gt;
+<div class="highlight"><pre><span></span><code>nzload -u &lt;username&gt; -pw &lt;password&gt; -cf &lt;control file&gt;
 </code></pre></div></p>
 <p>The <code>-u</code> and <code>-pw</code> options are optional if the <code>NZ_USER</code> and <code>NZ_PASSWORD</code>
 environment variables are set to the appropriate user and password.
@@ -2116,7 +2116,7 @@ environment variables.</p>
 nzload utility with a control file. The control file will set the
 following options: delimiter, logDir, logFile, and badFile, along with
 the database and table name. The datasource file to be used in this
-session is the region.del file.</p>
+session is the <code>region.del</code> file.</p>
 <ol>
 <li>As the <code>LABDB</code> database owner, <code>LABADMIN</code> first remove the rows in the
     <code>REGION</code> table:</li>
@@ -2288,7 +2288,7 @@ Load completed at: 03-Apr-20 03:38:32 PDT
 </div>
 </div>
 <ol start="6">
-<li>Verify the rows in the REGION table in the first putty session with
+<li>Verify the rows in the <code>REGION</code> table in the first putty session with
     the nzsql console:</li>
 </ol>
 <div class="tabbed-set tabbed-alternate" data-tabs="46:2"><input checked="checked" id="__tabbed_46_1" name="__tabbed_46" type="radio" /><input id="__tabbed_46_2" name="__tabbed_46" type="radio" /><div class="tabbed-labels"><label for="__tabbed_46_1">Input [Terminal 1]</label><label for="__tabbed_46_2">Output</label></div>
@@ -2763,7 +2763,7 @@ nation.bad file and change the '2t' to '24' in the first field.</p>
 editor etc. and an insert mode. Initially you will be in the command
 mode. To change the file, you need to switch into the insert mode by
 pressing "i". The editor will show an <code>-- INSERT --</code> at the bottom of the
-screen. Note: you can use gedit from the VM desktop (gedit nation.bad)</p>
+screen. Note: you can use <code>gedit</code> from the VM desktop (<code>gedit nation.bad</code>)</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="57:2"><input checked="checked" id="__tabbed_57_1" name="__tabbed_57" type="radio" /><input id="__tabbed_57_2" name="__tabbed_57" type="radio" /><div class="tabbed-labels"><label for="__tabbed_57_1">Input [Terminal 2]</label><label for="__tabbed_57_2">Output before changes</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
@@ -2875,7 +2875,7 @@ screen. Note: you can use gedit from the VM desktop (gedit nation.bad)</p>
 <p>The row in <strong>bold</strong> denotes the new row that was added to the table,
 which was the bad record you corrected.</p>
 <div class="admonition success">
-<p class="admonition-title">Success</p>
+<p class="admonition-title">Congratulations on finishing the chapter!</p>
 <p>Congratulations you have completed the lab.</p>
 </div>
 
