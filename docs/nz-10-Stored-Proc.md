@@ -47,7 +47,7 @@ below to run the setup script.
 	
 	
 2.  If you are continuing from the previous lab and are already
-	    connected to NZSQL quit the NZSQL console with the [\\q]
+	    connected to NZSQL quit the NZSQL console with the `\q`
 	    command.
 	
 3.  Prepare for this lab by running the setup script. To do this use the
@@ -261,14 +261,14 @@ with password nz.
 	compiled when they are first executed not when they are created,
 	therefore errors in the code can only be seen during execution.
 	
-11.	Exit the nzsql console by executing the \\q command.
+11.	Exit the nzsql console by executing the `\q` command:
 	
 	=== "Input"
 		```
 		\q
 		```
 	
-12.  Edit the `addCustomer.sql` file with vi with the following command
+12.  Edit the `addCustomer.sql` file with vi with the following command:
 
 	=== "Input"
 		```
@@ -279,7 +279,7 @@ with password nz.
 	into the customer table. But first we will add some variables that alias
 	the input variables `\$1`, `\$2` etc. After the `BEGIN_PROC` statement enter
 	the following lines (open a line by pressing o while the cursor is
-	positioned on the line `BEGIN_PROC`, this will enter you into the INSERT
+	positioned on the line `BEGIN_PROC`, this will enter you into the `INSERT`
 	mode of vi.):
 	
 	=== "Input"
@@ -300,11 +300,12 @@ with password nz.
 	Be careful not to use variable names that are restricted by Netezza
 	Performance Server system, for example `NAME`.
 	
-14.  Next we will add the `BEGIN..END` block with the `INSERT` statement.
-		=== "Input"
+14.  Next we will add the `BEGIN..END` block with the `INSERT` statement:
+
+	=== "Input"
 		```
 		BEGIN
-		   INSERT INTO CUSTOMER VALUES (C_KEY, C_NAME, '', N_KEY, PHONE, 0, '', '');
+	   		INSERT INTO CUSTOMER VALUES (C_KEY, C_NAME, '', N_KEY, PHONE, 0, '', '');
 		END;
 		```
 		
@@ -335,7 +336,7 @@ with password nz.
 	entering `wq!` and pressing enter. This will bring you back to the Linux
 	command line.
 	
-17. Enter NZSQL and connect to `LABDB` as user `LABADMIN`.
+17. Enter NZSQL and connect to `LABDB` as user `LABADMIN`:
 	
 	=== "Input"
 		```
@@ -343,7 +344,7 @@ with password nz.
 		```
 			
 18. Execute the stored procedure script with the following command: `\i
-	addCustomer.sql`.
+	addCustomer.sql`:
 	
 	=== "Input"
 		```
@@ -382,7 +383,7 @@ with password nz.
 	
 	=== "Output"
 		```
-		C_CUSTKEY |   C_NAME   | C_ADDRESS | C_NATIONKEY |     C_PHONE     | C_ACCTBAL | C_MKTSEGMENT | C_COMMENT
+		 C_CUSTKEY |   C_NAME   | C_ADDRESS | C_NATIONKEY |     C_PHONE     | C_ACCTBAL | C_MKTSEGMENT | C_COMMENT
 		-----------+------------+-----------+-------------+-----------------+-----------+--------------+-----------
 		    999999 | John Smith |           |           2 | 555-5555        |      0.00 |              |
 		(1 row)
@@ -404,19 +405,19 @@ customer is inserted for a nation that doesn't exist. If any of these
 conditions aren't met the procedure will abort and display an error
 message.
 
-1.  Exit the `nzsql` console by executing the \\q command.
+1.  Exit the `nzsql` console by executing the `\q` command.
 	
 	=== "Input"
-	```
-	\q
-	```
+		```
+		\q
+		```
 	
-2.  Edit the `addCustomer.sql` file with vi with the following command.
+2.  Edit the `addCustomer.sql` file with `vi` with the following command.
 
 	=== "Input"
-	```	
-	vi addCustomer.sql
-	```
+		```	
+		vi addCustomer.sql
+		```
 	
 	In case of a message warning about duplicate files press enter.
 	
@@ -485,12 +486,12 @@ message.
 	mode:
 	
 	=== "Input"
-	```	
-	   SELECT * INTO REC FROM NATION WHERE N_NATIONKEY = N_KEY;
-	   IF NOT FOUND REC THEN
-	       RAISE EXCEPTION 'No Nation with nation key %', N_KEY;
-	   END IF;
-	```
+		```	
+	   	SELECT * INTO REC FROM NATION WHERE N_NATIONKEY = N_KEY;
+	   	IF NOT FOUND REC THEN
+	   	    RAISE EXCEPTION 'No Nation with nation key %', N_KEY;
+	   	END IF;
+		```
 	
 	This is very similar to the last check, only that we this time check if
 	a record was `NOT FOUND`. Notice that we can reuse the REC record since it
@@ -530,7 +531,7 @@ message.
 	Save the stored procedure by pressing `ESC,` and then entering `wq!` and
 	pressing `Enter`.
 	
-7. Enter nzsql and connect to `LABDB` as user `ADMIN`.
+7. Enter nzsql and connect to `LABDB` as user `ADMIN`:
 	
 	=== "Input"
 		```
@@ -539,7 +540,7 @@ message.
 	
 8.  In `nzsql` create the stored procedure from the script by executing the
 	following command (remember that you can cycle through previous commands
-	by pressing the UP key)
+	by pressing the UP key):
 	
 	=== "Input"
 		```
@@ -639,7 +640,7 @@ them.
 
 1.  First, we will create a user `CUSTADMIN` database ID will be
     responsible for adding customers, to do this we will need to switch
-    to the admin user since users are global objects. Enter nzsql and
+    to the admin user since users are global objects. Enter `nzsql` and
     connect to `LABDB` as user `ADMIN`.
 
 	=== "Input"
@@ -780,7 +781,7 @@ production environment.
 	The user should be able to select the row from the `CUSTOMER` table.
 
 10.  Now connect as the `ADMIN` user to give `CUSTADMIN` the rights to
-    execute the stored procedure:
+     execute the stored procedure:
 	
 	=== "Input"
 		```
@@ -856,150 +857,190 @@ production environment.
 14. Test procedure as `CUSTADMIN` user, first connect to `LABDB` with the
     following command:
 
-=== "Input"
+	=== "Input"
+		```
+		\c labdb custadmin password
+		```
+	=== "Output"
+		```
+		You are now connected to database labdb as user custadmin.
+		```
 
-	\c labdb custadmin password]
 
-=== "Output"
+15. `INSERT` another customer to the `CUSTOMER` table:
 
-You are now connected to database labdb as user custadmin.
-
-LABDB.ADMIN(CUSTADMIN)=\>
-
-14. `INSERT` another customer to the `CUSTOMER` table:
-
-=== "Input"
-
-call addcustomer(999997,'Jake Jones', 2, '555-5554');
-
-=== "Output"
-
-ADDCUSTOMER
--------------
-
-(1 row)
-
+	=== "Input"
+		```
+		call addcustomer(999997,'Jake Jones', 2, '555-5554');
+		```
+	
+	=== "Output"
+		```
+		ADDCUSTOMER
+		-------------
+		
+		(1 row)
+		```
 
 The insert will have been successful, and you will have another row in
 your table, you can check this with a `SELECT` query if you want.
 
-15\. Now make some changes to the stored procedure to do this connect to
+16. Now make some changes to the stored procedure to do this connect to
 `LABDB` as `ADMIN`:
+		
+	=== "Input"
+		```
+		\c labdb admin
+		```
+		
+	=== "Output"
+		```
+		You are now connected to database labdb as user admin.
+		```
+		
 
-=== "Input"
+17. Modify the stored procedure but first look at the details:
 
-\c labdb admin]
+	=== "Input"
+		```		
+		show procedure addcustomer verbose;
+		```
+	=== "Output"
+		```
+		 SCHEMA | RESULT  |  PROCEDURE  | BUILTIN |                            ARGUMENTS                             |  OWNER   | EXECUTEDASOWNER | VARARGS | DESCRIPTION |                                                                                                                                                                                                                                                                       PROCEDURESOURCE
+		--------+---------+-------------+---------+------------------------------------------------------------------+----------+-----------------+---------+-------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+		 ADMIN  | INTEGER | ADDCUSTOMER | f       | (INTEGER, CHARACTER VARYING(25), INTEGER, CHARACTER VARYING(15)) | LABADMIN | t               | f       |             |
+		DECLARE
+		  C_KEY ALIAS FOR $1;
+		  C_NAME ALIAS FOR $2;
+		  N_KEY ALIAS FOR $3;
+		  PHONE ALIAS FOR $4;
+		  REC RECORD;
+		BEGIN
+		
+		--   SELECT * INTO REC FROM CUSTOMER WHERE C_CUSTKEY = C_KEY;
+		--   IF FOUND REC THEN
+		--       RAISE EXCEPTION 'Customer with key % already exists', C_KEY;
+		--   END IF;
+		--
+		--   SELECT * INTO REC FROM NATION WHERE N_NATIONKEY = N_KEY;
+		--   IF NOT FOUND REC THEN
+		--       RAISE EXCEPTION 'No Nation with nation key %', N_KEY;
+		--   END IF;
+		
+		   INSERT INTO CUSTOMER VALUES (C_KEY, C_NAME, '', N_KEY, PHONE, 0 ,'', '');
+		
+		END;
+		
+		(1 row)
+		
+		```
+		
+	You can see the input and output arguments, procedure name, owner, if it
+	is executed as owner or caller and other details. Verbose also shows you
+	the source code of the stored procedure. We see that the description
+	field is still empty so lets add a comment to the stored procedure. This
+	is important to do if you have a big number of stored procedures in your
+	system.
 
-=== "Output"
+18. Add a description to the stored procedure:
 
-You are now connected to database labdb as user admin.
+	It is necessary to specify the exact stored procedure signature
+	including the input arguments, these can be cut and pasted from the output
+	of the show procedures command. The `COMMENT ON` command can be used to
+	add descriptions to more or less all database objects you own from
+	procedures, tables till columns.
 
+19. Verify that your description has been set:
 
-15. Modify the stored procedure but first look at the details.
-
-=== "Input"
-
-show procedure addcustomer verbose;
-
-=== "Output"
-
- SCHEMA | RESULT  |  PROCEDURE  | BUILTIN |                            ARGUMENTS                             |  OWNER   | EXECUTEDASOWNER | VARARGS | DESCRIPTION |                                                                                                                                                                                                                                                                       PROCEDURESOURCE
---------+---------+-------------+---------+------------------------------------------------------------------+----------+-----------------+---------+-------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
- ADMIN  | INTEGER | ADDCUSTOMER | f       | (INTEGER, CHARACTER VARYING(25), INTEGER, CHARACTER VARYING(15)) | LABADMIN | t               | f       |             |
-DECLARE
-  C_KEY ALIAS FOR $1;
-  C_NAME ALIAS FOR $2;
-  N_KEY ALIAS FOR $3;
-  PHONE ALIAS FOR $4;
-  REC RECORD;
-BEGIN
-
---   SELECT * INTO REC FROM CUSTOMER WHERE C_CUSTKEY = C_KEY;
---   IF FOUND REC THEN
---       RAISE EXCEPTION 'Customer with key % already exists', C_KEY;
---   END IF;
---
---   SELECT * INTO REC FROM NATION WHERE N_NATIONKEY = N_KEY;
---   IF NOT FOUND REC THEN
---       RAISE EXCEPTION 'No Nation with nation key %', N_KEY;
---   END IF;
-
-   INSERT INTO CUSTOMER VALUES (C_KEY, C_NAME, '', N_KEY, PHONE, 0 ,'', '');
-
-END;
-
-(1 row)
-
-
-You can see the input and output arguments, procedure name, owner, if it
-is executed as owner or caller and other details. Verbose also shows you
-the source code of the stored procedure. We see that the description
-field is still empty so lets add a comment to the stored procedure. This
-is important to do if you have a big number of stored procedures in your
-system.
-
-16. Add a description to the stored procedure:
-
-It is necessary to specify the exact stored procedure signature
-including the input arguments, these can be cut& pasted from the output
-of the show procedures command. The `COMMENT ON` command can be used to
-add descriptions to more or less all database objects you own from
-procedures, tables till columns.
-
-17. Verify that your description has been set:
-
-show procedure addcustomer verbose;
-
-The description field will now contain your comment:
-
-18. We will now alter the stored procedure to be executed as the caller
+	=== "Input"
+		```
+		show procedure addcustomer verbose;
+		```
+		
+	=== "Output"
+		```
+		The description field will now contain your comment.
+		```
+		
+20. We will now alter the stored procedure to be executed as the caller
     instead of the owner. This means that whoever executes the stored
     procedure needs to have access rights to all the objects that are
     touched in the stored procedure otherwise it will fail. This should
     be the default for stored procedures that encapsulate business logic
     and do not do extensive data checking:
+    
 	=== "Input"
-	```
-alter procedure addcustomer(INTEGER, CHARACTER VARYING(25), 
-  INTEGER,CHARACTER VARYING(15)) execute as caller;
-
-20. Since the admin user has access to the customer table he will be
+		```
+		alter procedure addcustomer(INTEGER, CHARACTER VARYING(25), 
+  		  INTEGER,CHARACTER VARYING(15)) execute as caller;
+  		```
+  	=== "Output"
+  		```
+  		ALTER PROCEDURE
+  		```
+  		
+21. Since the admin user has access to the customer table, they will be
 able to execute the stored procedure:
+
 	=== "Input"
-	```
-call addCustomer(999996,'Karl Schwarz', 2, '555-5553');
+		```
+		call addCustomer(999996,'Karl Schwarz', 2, '555-5553');
+		```
+	=== "Output"
+		```
+		ADDCUSTOMER
+		-------------
+		
+		(1 row)
+		```		
 
-19. Switch to the CUSTADMIN user:
+22. Switch to the `CUSTADMIN` user:
+
 	=== "Input"
-	```
-\c labdb custadmin]
+		```
+		\c labdb custadmin
+		```
+		
+22. Try to add another customer as CUSTADMIN:
 
-20. Try to add another customer as CUSTADMIN:
 	=== "Input"
-	```
-call addCustomer(999995, 'John Schwarz', 2, '555-5553');
+		```
+		call addCustomer(999995, 'John Schwarz', 2, '555-5553');
+		```
+		
+	=== "Output"
+		```
+		ERROR: EXECUTE PROC: Permission denied.
+		```
 
-You should see the following results:
+	As expected, the stored procedure fails now. The user `custadmin` has read
+	access to the `CUSTOMER` table but no read access to the `NATION` table,
+	therefore this check results in an exception. While `EXECUTE AS CALLER` is
+	more secure in some circumstances it doesn't fit our usecase where we
+	specifically want to expose some data modification ability to a user who
+	shouldn't be able to modify a table otherwise. Therefore we will change
+	the stored procedure back:
 
-As expected, the stored procedure fails now. The user custadmin has read
-access to the CUSTOMER table but no read access to the `NATION` table,
-therefore this check results in an exception. While `EXECUTE AS CALLER` is
-more secure in some circumstances it doesn't fit our usecase where we
-specifically want to expose some data modification ability to a user who
-shouldn't be able to modify a table otherwise. Therefore we will change
-the stored procedure back:
+23. First switch back to the admin user:
 
-21. First switch back to the admin user:
 	=== "Input"
-	```
-\c labdb admin
+		```
+		\c labdb admin
+		```
 
 24. Change the stored procedure back to being executed as owner:
-	=== "Input"
-	```
-alter procedure addcustomer(INTEGER, CHARACTER VARYING(25), 
-INTEGER,CHARACTER VARYING(15)) execute as owner;
 
+	=== "Input"
+		```
+		alter procedure addcustomer(INTEGER, CHARACTER VARYING(25), 
+		  INTEGER,CHARACTER VARYING(15)) execute as owner;
+		```
+	=== "Output"
+		```
+		ALTER PROCEDURE
+		```
+		
 In this chapter you setup the permissions for the `addCustomer` stored
 procedure and the user `CUSTADMIN` who is supposed to use it. You also
 added comments to the stored procedure.
@@ -1034,365 +1075,395 @@ create queries on the fly.
 1.  Exit the NZSQL console by executing the `\q` command and open the
     already existing empty file `checkRegion.sql` with the following
     command (note you can tab out the filename):
+    
 	=== "Input"
-	```
-vi checkRegion.sql
+		```
+		vi checkRegion.sql
+		```
 
 2.  You are now in the familiar vi interface and you can edit the file.
-    Switch to `INSERT` mode by pressing i
+    Switch to `INSERT` mode by pressing `i`.
 
 3.  First, we will define the stored procedure header similar to the
     last procedure. It will be very simple since we will not use any
     input arguments. Enter the following code to the editor:
-
-Let's have a detailed look at the `RETURNS` section. We want to return a
-result set but do not have to describe the column names or datatypes of
-the table object that is returned. Instead we reference an existing
-table, which needs to exist at the time the stored procedure is created.
-This means we will need to create the table TB1 before executing the
-CREATE `PROCEDURE` command.
-
-Once the stored procedure is executed the stored procedure will create
-under the cover an empty temporary table that has the same definition as
-the referenced table. So, the results will not actually be saved in the
-referenced table, which is only used for the definition. This means that
-multiple stored procedures can be executed at the same time without
-influencing each other. Since the created table is temporary it will be
-cleaned up once the connection to the database is aborted.
-
-Note: If the referenced table contains rows they will neither be changed
-nor copied over to the temporary table, the table is strictly used for
-reference.
+    
+    === "Input"
+    	```
+		CREATE OR REPLACE PROCEDURE checkRegions() LANGUAGE NZPLSQL 
+			RETURNS REFTABLE(tb1) AS
+		BEGIN_PROC
+		END_PROC;
+		```
+    
+	Let's have a detailed look at the `RETURNS` section. We want to return a
+	result set but do not have to describe the column names or datatypes of
+	the table object that is returned. Instead we reference an existing
+	table, which needs to exist at the time the stored procedure is created.
+	This means we will need to create the table `TB1` before executing the
+	`CREATE PROCEDURE` command.
+	
+	Once the stored procedure is executed, the stored procedure will create
+	under the cover an empty temporary table that has the same definition as
+	the referenced table. So, the results will not actually be saved in the
+	referenced table, which is only used for the definition. This means that
+	multiple stored procedures can be executed at the same time without
+	influencing each other. Since the created table is temporary it will be
+	cleaned up once the connection to the database is aborted.
+	
+	Note: If the referenced table contains rows they will neither be changed
+	nor copied over to the temporary table, the table is strictly used for
+	reference.
 
 4.  For our stored procedure we need four variables, add the following
     lines after the `BEGIN_PROC` statement:
+    
 	=== "Input"
-	```
-DECLARE
-rec RECORD;
-errorRows INTEGER;
-fieldEmpty BOOLEAN;
-descUpper BOOLEAN;
-
-
-The four variables needed for our stored procedure:
-
--   rec, is a `RECORD` structure while we loop through the rows of the
-    table we will use it to save and access the values of each row and
-    check them with our constraints
-
--   errorRows will be used to contain the total number of rows that
-    violate our constraints
-
--   fieldEmpty will be used to store if the row violates either the
-    constraint that the name is empty or the record code is smaller than
-    1, this is appropriate since values of -1 or 0 in the region code
-    are used to denote that it is empty
-
--   descUpper will be true if a record violates the constraint that the
-    description needs to be lowercase
+		```
+		DECLARE
+		rec RECORD;
+		errorRows INTEGER;
+		fieldEmpty BOOLEAN;
+		descUpper BOOLEAN;
+		```
+		
+	The four variables needed for our stored procedure:
+	
+	-   `rec`, is a `RECORD` structure while we loop through the rows of the
+	    table we will use it to save and access the values of each row and
+	    check them with our constraints
+	
+	-   `errorRows` will be used to contain the total number of rows that
+	    violate our constraints
+	
+	-   `fieldEmpty` will be used to store if the row violates either the
+	    constraint that the name is empty or the record code is smaller than
+	    1, this is appropriate since values of -1 or 0 in the region code
+	    are used to denote that it is empty
+	
+	-   `descUpper` will be true if a record violates the constraint that the
+	    description needs to be lowercase
 
 5.  We will now add the main `BEGIN..END` clause and initialize the
     errorRows variable. Add the following rows after the `DECLARE`
     section:
+    
 	=== "Input"
-	```
-BEGIN
-RAISE NOTICE 'Start check of Region';
-errorRows := 0;
-END;
-
-
-Each stored procedure must at least contain one `BEGIN..END` clause, which
-encapsulates the executed commands. We also initially set the number of
-error rows to 0 and display a short sentence.
+		```
+		BEGIN
+		RAISE NOTICE 'Start check of Region';
+		errorRows := 0;
+		END;
+		```
+		
+	Each stored procedure must at least contain one `BEGIN..END` clause, which
+	encapsulates the executed commands. We also initially set the number of
+	error rows to 0 and display a short sentence.
 
 6.  We will now add the main loop. It will iterate through all rows of
     the `REGION` table and store each row in the rec variable. Add the
-    following lines before the `END` statement
+    following lines before the `END` statement:
+    
 	=== "Input"
-	```
-FOR rec IN SELECT * FROM REGION ORDER BY R_REGIONKEY LOOP
-fieldEmpty := false;
-descUpper := false;
-END LOOP;
-RAISE NOTICE ' % rows had an error see result set', errorRows;
+		```
+		FOR rec IN SELECT * FROM REGION ORDER BY R_REGIONKEY LOOP
+			fieldEmpty := false;
+			descUpper := false;
+		END LOOP;
+		RAISE NOTICE ' % rows had an error see result set', errorRows;
+		```
 
-The `FOR` rec IN expression `LOOP..END LOOP` command is used to iterate
-through a result set, in our case a `SELECT *` on the `REGION` table. The
-loop body is executed once for every row in the expression and the
-current row is saved in the rec field. The loop needs to be ended with
-the `END LOOP` keyword.
-
-There are many other types of loops in NZPLSQL, for a complete set refer
-to the stored procedure guide.
-
-For each iteration of the loop we initially set the value of the
-fieldEmpty and descUpper to false. Variables can be assigned with the :=
-operator. Finally, we will display a notice that shows the number of
-rows that either had an empty field or upper case expression. This
-number will be saved in the errorRows variable.
-
+	The `FOR` rec IN expression `LOOP..END LOOP` command is used to iterate
+	through a result set, in our case a `SELECT *` on the `REGION` table. The
+	loop body is executed once for every row in the expression and the
+	current row is saved in the rec field. The loop needs to be ended with
+	the `END LOOP` keyword.
+	
+	There are many other types of loops in NZPLSQL, for a complete set refer
+	to the stored procedure guide.
+	
+	For each iteration of the loop we initially set the value of the
+	`fieldEmpty` and `descUpper` to false. Variables can be assigned with the `:=`
+	operator. Finally, we will display a notice that shows the number of
+	rows that either had an empty field or upper case expression. This
+	number will be saved in the errorRows variable.
+	
 7.  Now it's time to check the rows for our constraints and set our
     variables accordingly. Enter the following rows behind the variable
     initialization and before the `END LOOP` keyword:
+    
 	=== "Input"
-	```
-IF rec.R_NAME = '' OR rec.R_REGIONKEY < 1 THEN
-fieldEmpty := true;
-END IF;
-IF rec.R_COMMENT <> LOWER(rec.R_COMMENT) THEN
-descUpper := true;
-END IF;
-IF (fieldEmpty = true) OR (descUpper = true) THEN
-errorRows := errorRows + 1;
-END IF;
-
-
-In this section we check our constraints for each row and set our three
-variables accordingly. First, we check if the name field of the row is
-the empty string or if the region key is smaller than one. In that case
-the fieldEmpty field is set to true.
-
-Note how we can access the fields by adding the fieldname to our loop
-record.
-
-The second IF statement checks if the comment field of the row is
-different to the lower case version of the comment field. This would be
-the case if it contains uppercase characters.
-
-Note that we can use the available Netezza Performance Server functions
-like `LOWER` in the stored procedure, as if it were a SQL statement.
-
-Finally, if one of these variables has been set to true by the previous
-checks, we increase the value of the errorRows variable by one. The
-final number will in the end be displayed by the `RAISE NOTICE` statement
-we already added to the stored procedure.
-
+		```
+		IF rec.R_NAME = '' OR rec.R_REGIONKEY < 1 THEN
+			fieldEmpty := true;
+		END IF;
+		IF rec.R_COMMENT <> LOWER(rec.R_COMMENT) THEN
+			descUpper := true;
+		END IF;
+		IF (fieldEmpty = true) OR (descUpper = true) THEN
+			errorRows := errorRows + 1;
+		END IF;
+		```
+		
+	In this section we check our constraints for each row and set our three
+	variables accordingly. First, we check if the name field of the row is
+	the empty string or if the region key is smaller than one. In that case
+	the fieldEmpty field is set to true.
+	
+	Note how we can access the fields by adding the fieldname to our loop
+	record.
+	
+	The second IF statement checks if the comment field of the row is
+	different to the lower case version of the comment field. This would be
+	the case if it contains uppercase characters.
+	
+	Note that we can use the available Netezza Performance Server functions
+	like `LOWER` in the stored procedure, as if it were a SQL statement.
+	
+	Finally, if one of these variables has been set to true by the previous
+	checks, we increase the value of the errorRows variable by one. The
+	final number will in the end be displayed by the `RAISE NOTICE` statement
+	we already added to the stored procedure.
+	
 8.  Finally add the following lines after the lines you just added and
     before the `END LOOP` statement:
+    
 	=== "Input"
-	```
-EXECUTE IMMEDIATE 'INSERT INTO '|| REFTABLENAME ||' VALUES ('
-|| rec.R_REGIONKEY ||','''
-|| trim(rec.R_NAME) ||''','''
-|| trim(rec.R_COMMENT) ||''','
-|| fieldEmpty ||','
-|| descUpper ||')';
-
-
-These lines add the row of the `REGION` table to the result set of our
-stored procedure adding two columns containing the fieldEmpty and
-descUpper flags for this row. There are a couple of important points
-here:
-
-For each call of a stored procedure with a result set as return value a
-temporary table is created that is later returned to the caller. Since
-the name is unique it needs to be referenced through a variable. This is
-the `REFTABLENAME` variable. Apart from that, adding values to the result
-set is identical to other `INSERT` operations.
-
-Since the name of the table is dynamic we need to execute the `INSERT`
-operations as a dynamic statement. This means that the `EXECUTE IMMEDIATE`
-statement is used with a string that contains the query that is to be
-executed.
-
-To add variable values to the string the pipe symbol \|\| is used. Note
-that the values for `R_NAME` and `R_COMMENT` are inserted as strings, which
-means they need to be surrounded by quotes. To add quotes to a string
-they need to be escaped with a second quote character. This is the
-reason that `R_NAME` and `R_COMMENT` is surrounded by triple quotes. Apart
-from that we trim them, so the inserted `VARCHAR` values are not blown up
-with empty characters.
-
-It can be tricky to construct a string like that and you will see the
-error only once it is executed. For debugging it can be useful to
-construct the string and display it with a `RAISE NOTICE` statement.
-
+		```
+		EXECUTE IMMEDIATE 'INSERT INTO '|| REFTABLENAME ||' VALUES ('
+		|| rec.R_REGIONKEY ||','''
+		|| trim(rec.R_NAME) ||''','''
+		|| trim(rec.R_COMMENT) ||''','
+		|| fieldEmpty ||','
+		|| descUpper ||')';
+		```
+		
+	These lines add the row of the `REGION` table to the result set of our
+	stored procedure adding two columns containing the fieldEmpty and
+	descUpper flags for this row. There are a couple of important points
+	here:
+	
+	For each call of a stored procedure with a result set as return value a
+	temporary table is created that is later returned to the caller. Since
+	the name is unique it needs to be referenced through a variable. This is
+	the `REFTABLENAME` variable. Apart from that, adding values to the result
+	set is identical to other `INSERT` operations.
+	
+	Since the name of the table is dynamic we need to execute the `INSERT`
+	operations as a dynamic statement. This means that the `EXECUTE IMMEDIATE`
+	statement is used with a string that contains the query that is to be
+	executed.
+	
+	To add variable values to the string the pipe symbol \|\| is used. Note
+	that the values for `R_NAME` and `R_COMMENT` are inserted as strings, which
+	means they need to be surrounded by quotes. To add quotes to a string
+	they need to be escaped with a second quote character. This is the
+	reason that `R_NAME` and `R_COMMENT` is surrounded by triple quotes. Apart
+	from that we trim them, so the inserted `VARCHAR` values are not blown up
+	with empty characters.
+	
+	It can be tricky to construct a string like that and you will see the
+	error only once it is executed. For debugging it can be useful to
+	construct the string and display it with a `RAISE NOTICE` statement.
+	
 9.  Your vi should now look like that, containing the complete stored
     procedure:
+    
 	=== "Input"
-	```
-CREATE OR REPLACE PROCEDURE checkRegions() LANGUAGE NZPLSQL RETURNS REFTABLE(tb1) AS
-BEGIN_PROC
-DECLARE
-rec RECORD;
-errorRows INTEGER;
-fieldEmpty BOOLEAN;
-descUpper BOOLEAN;
-BEGIN
-RAISE NOTICE 'Start check of Region';
-errorRows := 0;
-FOR rec IN SELECT * FROM REGION ORDER BY R_REGIONKEY LOOP
-fieldEmpty := false;
-descUpper := false;
-IF rec.R_NAME = '' OR rec.R_REGIONKEY < 1 THEN
-fieldEmpty := true;
-END IF;
-IF rec.R_COMMENT <> lower(rec.R_COMMENT) THEN
-descUpper := true;
-END IF;
-IF (fieldEmpty = true) OR (descUpper = true) THEN errorRows := errorRows + 1;
-END IF;
-EXECUTE IMMEDIATE 'INSERT INTO '|| REFTABLENAME ||' VALUES ('
-|| rec.R_REGIONKEY ||','''
-|| trim(rec.R_NAME) ||''','''
-|| trim(rec.R_COMMENT) ||''','
-|| fieldEmpty ||','
-|| descUpper ||')';
-END LOOP;
-RAISE NOTICE ' % rows had an error see result set', errorRows;
-END;
-END_PROC;
-
-
+		```
+		CREATE OR REPLACE PROCEDURE checkRegions() LANGUAGE NZPLSQL 
+			RETURNS REFTABLE(tb1) AS
+		BEGIN_PROC
+		DECLARE
+			rec RECORD;
+			errorRows INTEGER;
+			fieldEmpty BOOLEAN;
+			descUpper BOOLEAN;
+		BEGIN
+			RAISE NOTICE 'Start check of Region';
+			errorRows := 0;
+			FOR rec IN SELECT * FROM REGION ORDER BY R_REGIONKEY LOOP
+				fieldEmpty := false;
+				descUpper := false;
+				IF rec.R_NAME = '' OR rec.R_REGIONKEY < 1 THEN
+					fieldEmpty := true;
+				END IF;
+				IF rec.R_COMMENT <> lower(rec.R_COMMENT) THEN
+					descUpper := true;
+				END IF;
+				IF (fieldEmpty = true) OR (descUpper = true) THEN 
+					errorRows := errorRows + 1;
+				END IF;
+				EXECUTE IMMEDIATE 'INSERT INTO '|| REFTABLENAME ||' VALUES ('
+					|| rec.R_REGIONKEY ||','''
+					|| trim(rec.R_NAME) ||''','''
+					|| trim(rec.R_COMMENT) ||''','
+					|| fieldEmpty ||','
+					|| descUpper ||')';
+			END LOOP;
+			RAISE NOTICE ' % rows had an error see result set', errorRows;
+		END;
+		END_PROC;
+		```
+		
 10. Save and exit vi. Press `ESC` to enter the command mode, enter :wq! to
     save and force quit and press enter.
 
-11. Enter nzsql and connect to `LABDB` as user `LABADMIN`.
-	=== "Input"
-	```
-nzsql LABDB ADMIN
+11. Enter nzsql and connect to `LABDB` as user `LABADMIN`:
 
-12. To create the stored procedure the table reference TB1 needs to
+	=== "Input"
+		```
+		nzsql LABDB ADMIN
+		```
+
+12. To create the stored procedure the table reference `TB1` needs to
     exist. Create the table with the following statement:
+    
 	=== "Input"
-	```
-create table TB1 as select *, false AS FIELDEMPTY, false as DESCUPPER 
-from region limit 0;
+		```
+		create` table TB1 as select *, false AS FIELDEMPTY, false as DESCUPPER 
+			from region limit 0;
+		```
 
-This command creates a table `TB1` that has all the rows of the `REGION`
-table and two additional `BOOLEAN` fields
+	This command creates a table `TB1` that has all the rows of the `REGION`
+	table and two additional `BOOLEAN` fields `FIELDNULL` and `DESCUPPER`. 
+	It will also be empty because we used the `LIMIT 0` clause.
 
-`FIELDNULL` and `DESCUPPER`. It will also be empty because we used the `LIMIT
-0` clause.
+13. Describe the reference table:
 
-13. Describe the reference table with
 	=== "Input"
-	```
-\d TB1
-
-You should see the following result:
-	=== "Input"
-	```
-Table "TB1"
-   Attribute | Type                   | Modifier | Default Value
--------------+------------------------+----------+---------------
- R_REGIONKEY | INTEGER                | NOT NULL |
- R_NAME      | CHARACTER(40)          |          |
- R_COMMENT   | CHARACTER VARYING(152) |          |
- FIELDEMPTY  | BOOLEAN                |          |
- DESCUPPER   | BOOLEAN                |          |
-Distributed on hash: "R_REGIONKEY"
-
-
-You can see the three columns of the `REGION` table and the two additional
-BOOLEAN fields that will contain for each row if the row violates the
-specified constraints.
-
-Note this table needs to exist before the procedure can be created.
-
+		```
+		\d TB1
+		```
+		
+	=== "Output"
+		```
+		Table "TB1"
+		   Attribute | Type                   | Modifier | Default Value
+		-------------+------------------------+----------+---------------
+		 R_REGIONKEY | INTEGER                | NOT NULL |
+		 R_NAME      | CHARACTER(40)          |          |
+		 R_COMMENT   | CHARACTER VARYING(152) |          |
+		 FIELDEMPTY  | BOOLEAN                |          |
+		 DESCUPPER   | BOOLEAN                |          |
+		Distributed on hash: "R_REGIONKEY"
+		```
+		
+	You can see the three columns of the `REGION` table and the two additional
+	`BOOLEAN` fields that will contain for each row if the row violates the
+	specified constraints.
+	
+	Note this table needs to exist before the procedure can be created.
+	
 14. Now create the stored procedure. Execute the script you just created
     with the following command:
+    
 	=== "Input"
-	```
-\i checkRegion.sql
+		```
+		\i checkRegion.sql
+		```
 
-You should successfully create your stored procedure.
+		You should successfully create your stored procedure.
 
 15. Now let's have a look at our `REGION` table, select all rows:
+
 	=== "Input"
-	```
-LABDB(ADMIN)=\> SELECT \* FROM REGION;
-
-You will get the following results:
-
-SELECT * FROM REGION;
-	=== "Input"
-
-LABDB(ADMIN)=> SELECT * FROM REGION;
-R_REGIONKEY  | R_NAME                    | R_COMMENT
--------------+---------------------------+-----------------------------
-           2 | sa                        | south america
-           1 | na                        | north america
-           4 | ap                        | asia pacific
-           3 | emea                      | europe, middle east, africa
-(4 rows)
-
-
-We can see that none of the rows would violate the constraints we
-defined which would be pretty boring. So lets test our stored procedure
-by adding two rows that violate our constraints.
+		```
+		SELECT * FROM REGION;
+		```
+		
+	=== "Output"
+		```
+		R_REGIONKEY  | R_NAME                    | R_COMMENT
+		-------------+---------------------------+-----------------------------
+		           2 | sa                        | south america
+		           1 | na                        | north america
+		           4 | ap                        | asia pacific
+		           3 | emea                      | europe, middle east, africa
+		(4 rows)
+		```
+		
+	We can see that none of the rows would violate the constraints we
+	defined which would be pretty boring. So lets test our stored procedure
+	by adding two rows that violate our constraints.
 
 16. Add the two violating rows with the following commands:
+
 	=== "Input"
-	```
-INSERT INTO REGION VALUES (0, 'as', 'Australia');
+		```
+		INSERT INTO REGION VALUES (0, 'as', 'Australia');
+		```
 
-This row violates the lower case constraints for the comment field and
-the empty field constraint for the region key
+	This row violates the lower case constraints for the comment field and
+	the empty field constraint for the region key.
+	
 	=== "Input"
-	```
-INSERT INTO REGION VALUES (6, '', 'mongolia');
+		```
+		INSERT INTO REGION VALUES (6, '', 'mongolia');
+		```
 
-This row violates the empty field constraint for the region name.
+	This row violates the empty field constraint for the region name.
 
-17. Now finally let's try our checkRegions stored procedure:
+17. Now finally let's try our `checkRegions` stored procedure:
+
 	=== "Input"
-	```
-call checkRegions();
+		```
+		call checkRegions();
+		```
 
-You should see the following output:
-	=== "Input"
-	```
-NOTICE: Start check of Region
-NOTICE: 2 rows had an error see result set
-R_REGIONKEY  |       R_NAME              |       R_COMMENT             | FIELDEMPTY | DESCUPPER
--------------+---------------------------+-----------------------------+------------+-----------
-           1 | na                        | north america               | f          | f
-           3 | emea                      | europe, middle east, africa | f          | f
-           0 | as                        | Australia                   | t          | t
-           4 | ap                        | asia pacific                | f          | f
-           2 | sa                        | south america               | f          | f
-           6 |                           | mongolia                    | t          | f
-(6 rows)
-
-You can see the expected results. Our stored procedure has found two
-rows that violated the constraints we check for. In the FIELDNULL and
-DESCUPPER columns we can easily see that the row with the key 0 has both
-an empty field and uppercase comment. We can also see that row 6 only
-violated the empty field constraint.
-
-Note that the `TB1` table we created doesn't contain any rows, it is only
-used as a template.
+	=== "Output"
+		```
+		NOTICE: Start check of Region
+		NOTICE: 2 rows had an error see result set
+		R_REGIONKEY  |       R_NAME              |       R_COMMENT             | FIELDEMPTY | DESCUPPER
+		-------------+---------------------------+-----------------------------+------------+-----------
+		           1 | na                        | north america               | f          | f
+		           3 | emea                      | europe, middle east, africa | f          | f
+		           0 | as                        | Australia                   | t          | t
+		           4 | ap                        | asia pacific                | f          | f
+		           2 | sa                        | south america               | f          | f
+		           6 |                           | mongolia                    | t          | f
+		(6 rows)
+		```
+		
+	You can see the expected results. Our stored procedure has found two
+	rows that violated the constraints we check for. In the `FIELDNULL` and
+	`DESCUPPER` columns we can easily see that the row with the key 0 has both
+	an empty field and uppercase comment. We can also see that row 6 only
+	violated the empty field constraint.
+	
+	Note that the `TB1` table we created doesn't contain any rows, it is only
+	used as a template.
 
 18. Finally let's cleanup our `REGION` table again:
+
 	=== "Input"
-	```
-DELETE FROM REGION WHERE R_REGIONKEY = 0 OR R_REGIONKEY = 6;
+		```
+		DELETE FROM REGION WHERE R_REGIONKEY = 0 OR R_REGIONKEY = 6;
+		```
 
+19. And let's run our `checkRegions` procedure again:
 
-19. And let's run our checkRegions procedure again:
 	=== "Input"
-	```
-call checkRegions();
+		```
+		call checkRegions();
+		```
 
-You will see the following results:
-	=== "Input"
-	```
-NOTICE: Start check of Region
-NOTICE: 0 rows had an error see result set
-R_REGIONKEY  |        R_NAME.            |        R_COMMENT            | FIELDEMPTY | DESCUPPER
--------------+---------------------------+-----------------------------+------------+-----------
-           3 | emea                      | europe, middle east, africa | f          | f
-           4 | ap                        | asia pacific.               | f          | f
-           1 | na                        | north America               | f          | f
-           2 | sa.                       | south america               | f          | f
-(4 rows)
-
-
-You can see that the table now is error free and all constraint
-violation fields are false.
+	=== "Output"
+		```
+		NOTICE: Start check of Region
+		NOTICE: 0 rows had an error see result set
+		R_REGIONKEY  |        R_NAME.            |        R_COMMENT            | FIELDEMPTY | DESCUPPER
+		-------------+---------------------------+-----------------------------+------------+-----------
+		           3 | emea                      | europe, middle east, africa | f          | f
+		           4 | ap                        | asia pacific.               | f          | f
+		           1 | na                        | north America               | f          | f
+		           2 | sa.                       | south america               | f          | f
+		(4 rows)
+		```
+		
+	You can see that the table now is error free and all constraint
+	violation fields are false.
 
 !!! success "Congratulations on finishing the chapter!"
 	Congratulations you have finished the stored procedure lab and created

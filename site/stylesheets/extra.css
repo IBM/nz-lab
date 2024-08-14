@@ -1,22 +1,22 @@
 .md-typeset .admonition.abstract,
 .md-typeset details.abstract {
-  font-size: 16px;
+  font-size: 14px;
 }
 .md-typeset .admonition.success,
 .md-typeset details.success {
-  font-size: 16px;
+  font-size: 14px;
 }
 .md-typeset .admonition.warning,
 .md-typeset details.warning {
-  font-size: 16px;
+  font-size: 14px;
 }
 .md-typeset .admonition.info,
 .md-typeset details.info {
-  font-size: 16px;
+  font-size: 14px;
 }
 .md-typeset .admonition.note,
 .md-typeset details.note {
-  font-size: 16px;
+  font-size: 14px;
 }
 .highlight .sb {
   color: #0FF1CE;

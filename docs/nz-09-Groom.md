@@ -1,4 +1,4 @@
-# 1 Data Grooming
+# Data Grooming
 
 As part of your routine database maintenance activities, you should plan
 to recover disk space occupied by outdated or deleted rows. In normal
@@ -16,7 +16,7 @@ The `GROOM TABLE` command does not lock a table while it is running; you
 can continue to `SELECT,` `UPDATE,` and `INSERT` into the table while the
 table is being groomed.
 
-## 1.1 Objectives
+## 1 Objectives
 
 In this lab we will use the `GROOM` command to prepare our tables for the
 customer. During the course of the POC we have deleted and update a
@@ -222,14 +222,15 @@ environment variable, but this has some restrictions.
 To see deleted rows without changing the system registry parameters do
 the following:
 
-```
-nzsql labdb labadmin password
-
-set show_deleted_records = true;
-select * from table_with_deleted_rows;
-set show_deleted_records = false;
-```
-
+=== "Registry Parameters"
+	```
+	nzsql labdb labadmin password
+	
+	set show_deleted_records = true;
+	select * from table_with_deleted_rows;
+	set show_deleted_records = false;
+	```
+	
 The above method is not used in this lab, please follow the steps
 below.
 

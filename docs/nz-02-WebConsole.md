@@ -1,4 +1,11 @@
-# 1 Web Console
+# Web Console
+
+With the Netezza Performance Server web console, you can access database information, 
+do backup and restore operations, obtain details about queries, and understand how 
+you are using system resources. You can also manage users and groups, 
+set event and scheduler rules, and view details about recovery events. 
+
+## 1 Objectives
 
 In this lab we will explore the features of the IBM Netezza Performance
 Server console. The console is a HTML-based application that allows
@@ -11,7 +18,7 @@ the Web Console running as an OpenShift containerized application on the
 control plane/master nodes. In this environment, the Web Console is
 running natively on the `NPSVB` virtual machine.
 
-# 2 Lab Setup
+## 2 Lab Setup
 
 This lab uses an initial setup script to make sure the correct users and
 database exist for the remainder of the lab. Follow the instructions
@@ -34,40 +41,40 @@ line.
 3.  Prepare for this lab by running the setup script. To do this use the
     following commands:
 
-!!! abstract "Input"
-    ```
-    cd ~/labs/console/setupLab/
-    ./setupLab.sh
-    ```
+	=== "Input"
+	    ```
+	    cd ~/labs/console/setupLab/
+	    ./setupLab.sh
+	    ```
+	
+	=== "Output"
+	    ```
+	    DROP DATABASE
+	    CREATE DATABASE
+	    ERROR: CREATE USER: object LABADMIN does not exist.
+	    ALTER USER
+	    ALTER DATABASE
+	    CREATE TABLE
+	    CREATE TABLE
+	    CREATE TABLE
+	    CREATE TABLE
+	    CREATE TABLE
+	    CREATE TABLE
+	    CREATE TABLE
+	    CREATE TABLE
+	    Load session of table 'NATION' completed successfully
+	    Load session of table 'REGION' completed successfully
+	    Load session of table 'CUSTOMER' completed successfully
+	    Load session of table 'SUPPLIER' completed successfully
+	    Load session of table 'PART' completed successfully
+	    Load session of table 'PARTSUPP' completed successfully
+	    Load session of table 'ORDERS' completed successfully
+	    Load session of table 'LINEITEM' completed successfully
+	    ```
 
-!!! success "Output"
-    ```
-    DROP DATABASE
-    CREATE DATABASE
-    ERROR: CREATE USER: object LABADMIN does not exist.
-    ALTER USER
-    ALTER DATABASE
-    CREATE TABLE
-    CREATE TABLE
-    CREATE TABLE
-    CREATE TABLE
-    CREATE TABLE
-    CREATE TABLE
-    CREATE TABLE
-    CREATE TABLE
-    Load session of table 'NATION' completed successfully
-    Load session of table 'REGION' completed successfully
-    Load session of table 'CUSTOMER' completed successfully
-    Load session of table 'SUPPLIER' completed successfully
-    Load session of table 'PART' completed successfully
-    Load session of table 'PARTSUPP' completed successfully
-    Load session of table 'ORDERS' completed successfully
-    Load session of table 'LINEITEM' completed successfully
-    ```
+	While the setup script is running proceed to the next step.
 
-While the setup script is running proceed to the next step.
-
-## 2.1 Starting NPS Web Console
+### 2.1 Starting NPS Web Console
 
 After booting up the `NPSVB` virtual machine with Virtual Box follow these
 steps to start the Web Console application inside the VM:
@@ -81,27 +88,27 @@ steps to start the Web Console application inside the VM:
 ![Image](./nz-images/nz-02-WebConsole/media/image2.png)
 
 -   **VM Desktop**: switch to the `root` user
-!!! abstract ""
+=== "Input"
     ```
     su –
     password: netezza
     ```
 
 -   Remotely via ssh 
-!!! abstract ""
+=== "Input"
     ```
     ssh root@192.168.9.2
     password: netezza
     ```
 
 -   Start the service pods
-!!! abstract ""
+=== "Input"
     ```
     start-cyclops.sh
     ```
 
 -   Check that the two pods are running
-!!! abstract ""
+=== "Input"
     ```
     docker ps
     ```
@@ -113,7 +120,7 @@ steps to start the Web Console application inside the VM:
     docker stop <container-id>
     ```
 
-## 2.2 Launch the NPS Console
+### 2.2 Launch the NPS Console
 
 If you already configured the access to the NPS in the Setup Lab, you
 can skip this chapter.
@@ -223,13 +230,13 @@ options:
 
 !!! success "Congratulations you now have access to the NPS Console running inside the NPS VM."
 
-# 3 Troubleshooting the Web Console
+## 3 Troubleshooting the Web Console
 
 If you receive this error when attempting to access the NPS Console:
 “This site can’t be reached” follow these steps to resolve the issue.
 
 **Stop active containers:**
-!!! abstract ""
+=== "Input"
     ```
     docker ps
     ```
@@ -237,13 +244,13 @@ If you receive this error when attempting to access the NPS Console:
 Take note of the container IDs.
 
 **Stop active containers:**
-!!! abstract ""
+=== "Input"
     ```
     docker stop <container-ID>
     ```
 
 **Remove the inactive containers:**
-!!! abstract ""
+=== "Input"
     ```
     docker ps -a
     ```
@@ -251,18 +258,18 @@ Take note of the container IDs.
 Take note of the container IDs.
 
 **Stop active containers:**
-!!! abstract ""
+=== "Input"
     ```
     docker rm <container-ID>
     ```
 
 **Reinstall NPS Console:**
-!!! abstract ""
+=== "Input"
     ```
     /root/cyclops\_dockerrun/standalone-install.sh
     ```
 
-# 4 Monitor System Performance
+## 4 Monitor System Performance
 
 At this point you should be connected to the NPS console. The main
 screen after logging on displays information on the system usage and
@@ -369,7 +376,7 @@ Slices**
 
 ![Image](nz-images/nz-02-WebConsole/media/image24.png)
 
-# 6 Manage Databases
+## 6 Manage Databases
 
 Click the Navigation menu and select the click **Data** to access the
 Databases screen of the NPS console. The following screen opens:
@@ -462,7 +469,7 @@ Confirm the action in the pop-up menu, click **Drop**.
 
 Back in the database screen, you see only the two original databases.
 
-# 7 Queries
+## 7 Queries
 
 In the Navigation menu of the console go to **Queries** **&rarr; Recent
 queries**.
@@ -498,7 +505,7 @@ Select a **Plan ID** for one the queries.
 You are now on the query editor for the selected plan. You can run the
 query and/or get a Plan graph.
 
-# 8 Explore
+## 8 Explore
 
 There are many other options available from the Console, please use this
 time to explore. You can connect to the NPS on Cloud instance previously

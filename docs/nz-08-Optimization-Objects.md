@@ -1,4 +1,4 @@
-# 1 Optimizing Objects
+# Optimizing Objects
 
 The Netezza Performance Server is designed to provide excellent
 performance in most cases without any specific tuning or index creation.
@@ -17,7 +17,7 @@ enhance query performance of queries which are using multiple lookup
 dimensions. Cluster Based Tables (CBT) are intended to order data based
 on specified columns so that the zone maps are most effective.
 
-## 1.1 Objectives
+## 1 Objectives
 
 In the last labs we have recreated a customer database in our Netezza
 Performance Server system. We have picked distribution keys, loaded the
@@ -758,14 +758,15 @@ returns the aggregated total price of all orders by order priority for a
 given year (in this case 1996) and price range (in this case between
 150000 and 180000).
 
-```
-SELECT O_ORDERPRIORITY, SUM(O_TOTALPRICE) 
-  FROM ORDERS
-WHERE EXTRACT(YEAR FROM O_ORDERDATE) = 1996 AND
-  O_TOTALPRICE > 150000 AND
-  O_TOTALPRICE <= 180000 
-GROUP BY O_ORDERPRIORITY;
-```
+=== "SQL Query"
+	```
+	SELECT O_ORDERPRIORITY, SUM(O_TOTALPRICE) 
+	  FROM ORDERS
+	WHERE EXTRACT(YEAR FROM O_ORDERDATE) = 1996 AND
+	  O_TOTALPRICE > 150000 AND
+	  O_TOTALPRICE <= 180000 
+	GROUP BY O_ORDERPRIORITY;
+	```
 
 In this example we have a very restrictive `WHERE` condition on two
 columns: `O_ORDERDATE` and `O_TOTALPRICE`. This can help us to increase

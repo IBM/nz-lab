@@ -66,7 +66,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#1-data-distribution" class="md-skip">
+        <a href="#data-distribution" class="md-skip">
           Skip to content
         </a>
       
@@ -247,8 +247,8 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#11-objectives" class="md-nav__link">
-    1.1 Objectives
+  <a href="#1-objectives" class="md-nav__link">
+    1 Objectives
   </a>
   
 </li>
@@ -550,8 +550,8 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#11-objectives" class="md-nav__link">
-    1.1 Objectives
+  <a href="#1-objectives" class="md-nav__link">
+    1 Objectives
   </a>
   
 </li>
@@ -665,7 +665,7 @@
                 
 
 
-<h1 id="1-data-distribution">1 Data Distribution</h1>
+<h1 id="data-distribution">Data Distribution</h1>
 <p>Netezza Performance Server is a family of data-warehousing appliances
 that combine high performance with low administrative effort. Due to the
 unique data warehousing centric architecture of Netezza Performance
@@ -680,7 +680,7 @@ right distribution key. The distribution key governs which data rows of
 a table are distributed to which data slice and it is very important to
 pick an optimal distribution key to avoid data skew, processing skew and
 to make joins co-located whenever possible.</p>
-<h2 id="11-objectives">1.1 Objectives</h2>
+<h2 id="1-objectives">1 Objectives</h2>
 <p>In this lab we will cover a typical scenario in a POC or customer
 engagement which involves an existing data warehouse for customer
 transactions.</p>
@@ -722,8 +722,6 @@ follow the section called: "<strong>Increase the Number of Data Slices</strong>"
 <p>If you are continuing from the previous lab and are already
     connected to <code>nzsql</code>, quit the <code>nzsql</code> console with the <code>\q</code>
     command.</p>
-</li>
-</ol>
 <div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Input</label><label for="__tabbed_1_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
@@ -758,11 +756,13 @@ nzds
 </div>
 </div>
 <p>With the proper data slices continue to the next section.</p>
+</li>
+</ol>
 <h2 id="3-lab-setup">3 Lab Setup</h2>
 <p>This lab uses an initial setup script to make sure the correct user and
 database exist for the remainder of the lab. Follow the instructions
 below to run the setup script.</p>
-<ol start="3">
+<ol>
 <li>
 <p>Login to NPS Command Line using one of these two methods.</p>
 <p>a.  Login to the VM directly and use the terminal application
@@ -779,8 +779,6 @@ below to run the setup script.</p>
 <li>
 <p>Prepare for this lab by running the setup script. To do this use the
     following two commands:</p>
-</li>
-</ol>
 <div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">Input</label><label for="__tabbed_2_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
@@ -800,6 +798,8 @@ ALTER DATABASE
 </div>
 <p>The error message at the beginning is expected since the script tries to clean up existing <code>LINEITEM</code> tables.</p>
 <p>This lab is now setup to use for the remainder of the sections.</p>
+</li>
+</ol>
 <h2 id="4-skew">4 Skew</h2>
 <p>Tables in Netezza Performance Server are distributed across data slices
 based on the distribution method and key. If a bad data distribution
@@ -818,11 +818,11 @@ time.</p>
 <p>The first table we will create is <code>LINEITEM</code>, the main fact table of the
 schema. It contains roughly 6 million rows.</p>
 <ol>
-<li>To create the <code>LINEITEM</code> table, switch to the lab directory
-    <code>~/labs/dataDistribution</code>. To do this use the following command:
-    (Notice that you can use bash auto complete by using the Tab key to
-    complete folder and files names)</li>
-</ol>
+<li>
+<p>To create the <code>LINEITEM</code> table, switch to the lab directory
+        <code>~/labs/dataDistribution</code>. To do this use the following command:
+        (Notice that you can use bash auto complete by using the Tab key to
+        complete folder and files names)</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="3:2"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1">Input</label><label for="__tabbed_3_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
@@ -846,10 +846,10 @@ drwxr-xr-x. 2 nz nz 91 Mar 29 2020 setupLab
 </div>
 <p>The command line prompt changes to reflect the directory you are in
 (<code>dataDistribution</code>).</p>
-<ol start="2">
-<li>Create the <code>LINEITEM</code> table by using the following script. Since the
-    fact table is quite large this can take several minutes.</li>
-</ol>
+</li>
+<li>
+<p>Create the <code>LINEITEM</code> table by using the following script. Since the
+        fact table is quite large this can take several minutes.</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="4:2"><input checked="checked" id="__tabbed_4_1" name="__tabbed_4" type="radio" /><input id="__tabbed_4_2" name="__tabbed_4" type="radio" /><div class="tabbed-labels"><label for="__tabbed_4_1">Input</label><label for="__tabbed_4_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
@@ -886,10 +886,10 @@ load run the following SQL from another terminal session.</p>
 </div>
 </div>
 </div>
-<ol start="3">
-<li>Now let's have a look at the created table, open the <code>nzsql</code> console
-    by entering the command:</li>
-</ol>
+</li>
+<li>
+<p>Now let's have a look at the created table, open the <code>nzsql</code> console
+        by entering the command:</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="6:2"><input checked="checked" id="__tabbed_6_1" name="__tabbed_6" type="radio" /><input id="__tabbed_6_2" name="__tabbed_6" type="radio" /><div class="tabbed-labels"><label for="__tabbed_6_1">Input</label><label for="__tabbed_6_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
@@ -909,10 +909,10 @@ SYSTEM.ADMIN(ADMIN)=&gt;
 </div>
 </div>
 </div>
-<ol start="4">
-<li>Connect to the database <code>LABDB</code> as user <code>LABADMIN</code> by typing the
-    following command:</li>
-</ol>
+</li>
+<li>
+<p>Connect to the database <code>LABDB</code> as user <code>LABADMIN</code> by typing the
+        following command:</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="7:2"><input checked="checked" id="__tabbed_7_1" name="__tabbed_7" type="radio" /><input id="__tabbed_7_2" name="__tabbed_7" type="radio" /><div class="tabbed-labels"><label for="__tabbed_7_1">Input</label><label for="__tabbed_7_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
@@ -927,11 +927,11 @@ LABDB.ADMIN(LABADMIN)=&gt;
 </div>
 </div>
 <p>You should now be connected to the <code>LABDB</code> database as the <code>LABADMIN</code> user.</p>
-<ol start="5">
-<li>Let's have a look at the table we just created. First, we want to
-    see a description of its columns and distribution key. Use the <code>NZSQL</code>
-    describe command <code>\d LINEITEM</code> to get a description of the table.</li>
-</ol>
+</li>
+<li>
+<p>Let's have a look at the table we just created. First, we want to
+        see a description of its columns and distribution key. Use the <code>NZSQL</code>
+        describe command <code>\d LINEITEM</code> to get a description of the table.</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="8:2"><input checked="checked" id="__tabbed_8_1" name="__tabbed_8" type="radio" /><input id="__tabbed_8_2" name="__tabbed_8" type="radio" /><div class="tabbed-labels"><label for="__tabbed_8_1">Input</label><label for="__tabbed_8_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
@@ -968,14 +968,14 @@ types. Some of the columns have a "key" suffix and substrings
 containing the names of other tables and are most likely foreign keys
 of dimension tables. The distribution key is <code>L_LINESTATUS</code>, which is of
 a <code>CHAR(1)</code> data type.</p>
-<ol start="6">
-<li>Now let's have a look at the data in the table. To return a limited
-    number of rows you can use the limit keyword in your select queries.
-    Execute the following select command to return 10 rows of the
-    <code>LINEITEM</code> table. For readability we only select a couple of columns
-    including the order key (<code>L_ORDERKEY</code>), the ship date (<code>L_SHIPDATE</code>)
-    and the line status (<code>L_LINESTATUS</code>) distribution key:</li>
-</ol>
+</li>
+<li>
+<p>Now let's have a look at the data in the table. To return a limited
+        number of rows you can use the limit keyword in your select queries.
+        Execute the following select command to return 10 rows of the
+        <code>LINEITEM</code> table. For readability we only select a couple of columns
+        including the order key (<code>L_ORDERKEY</code>), the ship date (<code>L_SHIPDATE</code>)
+        and the line status (<code>L_LINESTATUS</code>) distribution key:</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="9:2"><input checked="checked" id="__tabbed_9_1" name="__tabbed_9" type="radio" /><input id="__tabbed_9_2" name="__tabbed_9" type="radio" /><div class="tabbed-labels"><label for="__tabbed_9_1">Input</label><label for="__tabbed_9_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
@@ -1009,12 +1009,12 @@ values, which may make it a bad distribution key. It is possible that
 you get different results. Since a database table is an unordered set,
 it is probable that you get different results. For example, only O or
 F values may be in the <code>L_LINESTATUS</code> column.</p>
-<ol start="7">
-<li>We will now verify the number of distinct values in the <code>L_LINESTATUS</code>
-    column with a <code>SELECT DISTINCT</code> statement. To return a list of all
-    distinct values that are in the <code>L_LINESTATUS</code> column execute the
-    following SQL command:</li>
-</ol>
+</li>
+<li>
+<p>We will now verify the number of distinct values in the <code>L_LINESTATUS</code>
+        column with a <code>SELECT DISTINCT</code> statement. To return a list of all
+        distinct values that are in the <code>L_LINESTATUS</code> column execute the
+        following SQL command:</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="10:2"><input checked="checked" id="__tabbed_10_1" name="__tabbed_10" type="radio" /><input id="__tabbed_10_2" name="__tabbed_10" type="radio" /><div class="tabbed-labels"><label for="__tabbed_10_1">Input</label><label for="__tabbed_10_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
@@ -1034,11 +1034,11 @@ F values may be in the <code>L_LINESTATUS</code> column.</p>
 <p>We can see that the <code>L_LINESTATUS</code> column only contains two distinct
 values. As a distribution key, this will result in a table that is
 only distributed to two of the available data slices.</p>
-<ol start="8">
-<li>We verify this by executing the following SQL call, which will
-    return a list of all data slices which contain rows of the <code>LINEITEM</code>
-    table, and the corresponding number of rows stored in them:</li>
-</ol>
+</li>
+<li>
+<p>We verify this by executing the following SQL call, which will
+        return a list of all data slices which contain rows of the <code>LINEITEM</code>
+        table, and the corresponding number of rows stored in them:</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="11:2"><input checked="checked" id="__tabbed_11_1" name="__tabbed_11" type="radio" /><input id="__tabbed_11_2" name="__tabbed_11" type="radio" /><div class="tabbed-labels"><label for="__tabbed_11_1">Input</label><label for="__tabbed_11_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
@@ -1067,6 +1067,8 @@ executions. In general, a good distribution key should have many unique
 values, with an even distribution of rows in the data slices. Columns
 with few unique values, especially boolean columns or date columns,
 should not be considered as distribution keys.</p>
+</li>
+</ol>
 <h3 id="42-processing-skew">4.2 Processing Skew</h3>
 <p>Even in tables that are distributed evenly across data slices, data
 processing for queries can be concentrated or skewed to a limited number
@@ -1076,12 +1078,12 @@ distribution key has few unique values. Using a DATE columns for a
 distribution key is notorious for causing processing skew, and usually
 should be avoided. The next section of the lab will show this effect.</p>
 <ol>
-<li>First, we will pick a new distribution key. As we have seen it
-    should have many unique (distinct) values. One of the columns that
-    did fit this description was the <code>L_SHIPDATE</code> column. Check the number
-    of distinct values in the <code>L_SHIPDATE</code> column with the <code>COUNT(DISTINCT
-    )</code> statement:</li>
-</ol>
+<li>
+<p>First, we will pick a new distribution key. As we have seen it
+        should have many unique (distinct) values. One of the columns that
+        did fit this description was the <code>L_SHIPDATE</code> column. Check the number
+        of distinct values in the <code>L_SHIPDATE</code> column with the <code>COUNT(DISTINCT
+        )</code> statement:</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="12:2"><input checked="checked" id="__tabbed_12_1" name="__tabbed_12" type="radio" /><input id="__tabbed_12_2" name="__tabbed_12" type="radio" /><div class="tabbed-labels"><label for="__tabbed_12_1">Input</label><label for="__tabbed_12_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
@@ -1100,21 +1102,19 @@ should be avoided. The next section of the lab will show this effect.</p>
 <p>The column has over 2500 distinct values and therefore has more than
 enough unique values to guarantee a good data distribution on 4 data
 slices.</p>
-<ol start="2">
+</li>
 <li>
 <p>Now let's reload the <code>LINEITEM</code> table with the new distribution key.
-    For this we need to change the SQL of the load script we executed at
-    the beginning of the lab. Exit the <code>nzsql</code> console by entering:
-    <code>\q</code>.</p>
+        For this we need to change the SQL of the load script we executed at
+        the beginning of the lab. Exit the <code>nzsql</code> console by entering:
+        <code>\q</code>.</p>
 </li>
 <li>
 <p>You should now be in the lab directory <code>~/labs/dataDistribution</code>. The
-    table creation statement is in the lineitem.sql file. We will need
-    to make changes to the file with a text editor. Open the file with
-    the default Linux text editor vi. To do this enter the following
-    command:</p>
-</li>
-</ol>
+        table creation statement is in the lineitem.sql file. We will need
+        to make changes to the file with a text editor. Open the file with
+        the default Linux text editor vi. To do this enter the following
+        command:</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="13:1"><input checked="checked" id="__tabbed_13_1" name="__tabbed_13" type="radio" /><div class="tabbed-labels"><label for="__tabbed_13_1">Input</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
@@ -1123,14 +1123,14 @@ slices.</p>
 </div>
 </div>
 </div>
-<ol start="4">
-<li>The vi editor has two modes, a command mode used to save files, quit
-    the editor etc. and an insert mode. Initially you will be in the
-    command mode. To change the lineitem.sql file you need to switch to
-    the insert mode by pressing "i". The editor will show an <code>-- INSERT
-    --</code> at the bottom of the screen. Use the delete key to remove
-    <code>l_linestatus</code> and type <code>l_shipdate</code>.</li>
-</ol>
+</li>
+<li>
+<p>The vi editor has two modes, a command mode used to save files, quit
+        the editor etc. and an insert mode. Initially you will be in the
+        command mode. To change the lineitem.sql file you need to switch to
+        the insert mode by pressing "i". The editor will show an <code>-- INSERT
+        --</code> at the bottom of the screen. Use the delete key to remove
+        <code>l_linestatus</code> and type <code>l_shipdate</code>.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>If you are not comfortable with vi you can used <code>gedit</code> from the virtual machine desktop.</p>
@@ -1143,12 +1143,14 @@ slices.</p>
 </div>
 </div>
 </div>
-<ol start="5">
-<li>You can now use the cursor keys to navigate to the <code>DISTRIBUTE ON</code>
-    clause at the bottom of the create command. Change the distribution
-    key to <code>L_SHIPDATE</code>. The editor should now look like the following:</li>
-</ol>
-<div class="admonition abstract">
+</li>
+<li>
+<p>You can now use the cursor keys to navigate to the <code>DISTRIBUTE ON</code>
+        clause at the bottom of the create command. Change the distribution
+        key to <code>L_SHIPDATE</code>. The editor should now look like the following:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="15:1"><input checked="checked" id="__tabbed_15_1" name="__tabbed_15" type="radio" /><div class="tabbed-labels"><label for="__tabbed_15_1">Output</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>create table lineitem
   (
     l_orderkey integer not null ,
@@ -1174,14 +1176,16 @@ DISTRIBUTE ON (l_shipdate);
 -- INSERT --   
 </code></pre></div>
 </div>
-<ol start="6">
+</div>
+</div>
+</li>
 <li>
 <p>We will now save our changes. Press <code>Esc</code> to switch back
-    into command mode. You should see that the <code>-- INSERT --</code> string at
-    the bottom of the screen vanishes. Enter <code>:wq!</code> and press
-    enter to write the file and quit the editor without any questions.
-    If you made a mistake editing and would like to undo it press <code>Esc</code>
-    then enter <code>:q!</code> and go back to step 3.</p>
+        into command mode. You should see that the <code>-- INSERT --</code> string at
+        the bottom of the screen vanishes. Enter <code>:wq!</code> and press
+        enter to write the file and quit the editor without any questions.
+        If you made a mistake editing and would like to undo it press <code>Esc</code>
+        then enter <code>:q!</code> and go back to step 3.</p>
 </li>
 <li>
 <p>Now repeat steps 3-5 of section 2.1 Data Skew:</p>
@@ -1195,12 +1199,10 @@ DISTRIBUTE ON (l_shipdate);
 </li>
 <li>
 <p>Now we verify that the new distribution key results in a good data
-    distribution. For this we will repeat the query, which returns the
-    number of rows for each datasliceid of the <code>LINEITEM</code> table. Execute
-    the following command:</p>
-</li>
-</ol>
-<div class="tabbed-set tabbed-alternate" data-tabs="15:2"><input checked="checked" id="__tabbed_15_1" name="__tabbed_15" type="radio" /><input id="__tabbed_15_2" name="__tabbed_15" type="radio" /><div class="tabbed-labels"><label for="__tabbed_15_1">Input</label><label for="__tabbed_15_2">Output</label></div>
+        distribution. For this we will repeat the query, which returns the
+        number of rows for each datasliceid of the <code>LINEITEM</code> table. Execute
+        the following command:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="16:2"><input checked="checked" id="__tabbed_16_1" name="__tabbed_16" type="radio" /><input id="__tabbed_16_2" name="__tabbed_16" type="radio" /><div class="tabbed-labels"><label for="__tabbed_16_1">Input</label><label for="__tabbed_16_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>SELECT DATASLICEID, COUNT(*) FROM LINEITEM GROUP BY DATASLICEID ORDER BY 1;
@@ -1220,14 +1222,14 @@ DISTRIBUTE ON (l_shipdate);
 </div>
 <p>We can see that the data distribution is much better now. All four
 data slices have a roughly equal number of rows.</p>
-<ol start="9">
-<li>Now that we have a database table with a good data distribution
-    let's look at a couple of queries. The following query is executed
-    regularly by the end user. It returns the average quantity shipped
-    on a given day grouped by the shipping mode. Execute the following
-    query:</li>
-</ol>
-<div class="tabbed-set tabbed-alternate" data-tabs="16:2"><input checked="checked" id="__tabbed_16_1" name="__tabbed_16" type="radio" /><input id="__tabbed_16_2" name="__tabbed_16" type="radio" /><div class="tabbed-labels"><label for="__tabbed_16_1">Input</label><label for="__tabbed_16_2">Output</label></div>
+</li>
+<li>
+<p>Now that we have a database table with a good data distribution
+        let's look at a couple of queries. The following query is executed
+        regularly by the end user. It returns the average quantity shipped
+        on a given day grouped by the shipping mode. Execute the following
+        query:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="17:2"><input checked="checked" id="__tabbed_17_1" name="__tabbed_17" type="radio" /><input id="__tabbed_17_2" name="__tabbed_17" type="radio" /><div class="tabbed-labels"><label for="__tabbed_17_1">Input</label><label for="__tabbed_17_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>SELECT AVG(L_QUANTITY) AS AVG_Q, L_SHIPMODE 
@@ -1260,7 +1262,7 @@ only rows that have the specified date will be used as input for
 computation of the AVG aggregation.</p>
 <p>Execute the following SQL statement to see on which data slice we can
 find the rows from the 29th March of 1996:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="17:2"><input checked="checked" id="__tabbed_17_1" name="__tabbed_17" type="radio" /><input id="__tabbed_17_2" name="__tabbed_17" type="radio" /><div class="tabbed-labels"><label for="__tabbed_17_1">Input</label><label for="__tabbed_17_2">Output</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="18:2"><input checked="checked" id="__tabbed_18_1" name="__tabbed_18" type="radio" /><input id="__tabbed_18_2" name="__tabbed_18" type="radio" /><div class="tabbed-labels"><label for="__tabbed_18_1">Input</label><label for="__tabbed_18_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>SELECT COUNT(\*), DATASLICEID 
@@ -1291,6 +1293,8 @@ warehousing environments this is especially true for DATE columns.</p>
 unique values and rarely result in processing skew. In our example we
 have a couple of distribution keys to choose from: <code>L_SUPPKEY</code>,
 <code>L_ORDERKEY</code>, <code>L_PARTKEY</code>. All columns have many distinct values.</p>
+</li>
+</ol>
 <h2 id="5-co-location">5 Co-Location</h2>
 <p>The most basic warehouse schema consists of a fact table containing a
 list of all business transactions and a set of dimension tables that
@@ -1315,19 +1319,17 @@ of two tables there are two possibilities.</p>
 </ul>
 <h3 id="51-investigation">5.1 Investigation</h3>
 <p>Co-location has big performance advantages. In the following section we
-will demonstrate this by introducing a second table called ORDERS.</p>
+will demonstrate this by introducing a second table called <code>ORDERS</code>.</p>
 <ol>
 <li>
 <p>Switch to the Linux command line, if you are in the NZSQL console.
-    Do this with the <code>\q</code> command.</p>
+        Do this with the <code>\q</code> command.</p>
 </li>
 <li>
 <p>Switch to the data distribution lab directory with the <code>cd
-    ~/labs/dataDistribution</code>. command, create and load the
-    ORDERS table by executing the <code>./create_orders_1.sh</code> script</p>
-</li>
-</ol>
-<div class="tabbed-set tabbed-alternate" data-tabs="18:2"><input checked="checked" id="__tabbed_18_1" name="__tabbed_18" type="radio" /><input id="__tabbed_18_2" name="__tabbed_18" type="radio" /><div class="tabbed-labels"><label for="__tabbed_18_1">Input</label><label for="__tabbed_18_2">Output</label></div>
+        ~/labs/dataDistribution</code>. command, create and load the
+        ORDERS table by executing the <code>./create_orders_1.sh</code> script</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="19:2"><input checked="checked" id="__tabbed_19_1" name="__tabbed_19" type="radio" /><input id="__tabbed_19_2" name="__tabbed_19" type="radio" /><div class="tabbed-labels"><label for="__tabbed_19_1">Input</label><label for="__tabbed_19_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>cd ~/labs/dataDistribution/
@@ -1342,12 +1344,12 @@ Load session of table &#39;ORDERS&#39; completed successfully
 </div>
 </div>
 </div>
-<ol start="3">
-<li>Enter the NZSQL console with the <code>nzsql labdb labadmin</code>
-    command and take a look at the <code>ORDERS</code> table with the <code>\d
-    orders</code> command.</li>
-</ol>
-<div class="tabbed-set tabbed-alternate" data-tabs="19:2"><input checked="checked" id="__tabbed_19_1" name="__tabbed_19" type="radio" /><input id="__tabbed_19_2" name="__tabbed_19" type="radio" /><div class="tabbed-labels"><label for="__tabbed_19_1">Input</label><label for="__tabbed_19_2">Output</label></div>
+</li>
+<li>
+<p>Enter the NZSQL console with the <code>nzsql labdb labadmin</code>
+        command and take a look at the <code>ORDERS</code> table with the <code>\d
+        orders</code> command.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="20:2"><input checked="checked" id="__tabbed_20_1" name="__tabbed_20" type="radio" /><input id="__tabbed_20_2" name="__tabbed_20" type="radio" /><div class="tabbed-labels"><label for="__tabbed_20_1">Input</label><label for="__tabbed_20_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>nzsql labdb
@@ -1378,12 +1380,12 @@ priority and date, and has been distributed on random. This means that
 Netezza Performance Server doesn't use a hash-based algorithm to
 distribute the data. Instead, rows are distributed randomly on the
 available data slices in a round-robin fashion.</p>
-<ol start="4">
-<li>You can check the data distribution of the table, using the methods
-    we have used before for the LINEITEM table. The data distribution
-    will be perfect. For example, try the following:</li>
-</ol>
-<div class="tabbed-set tabbed-alternate" data-tabs="20:2"><input checked="checked" id="__tabbed_20_1" name="__tabbed_20" type="radio" /><input id="__tabbed_20_2" name="__tabbed_20" type="radio" /><div class="tabbed-labels"><label for="__tabbed_20_1">Input</label><label for="__tabbed_20_2">Output</label></div>
+</li>
+<li>
+<p>You can check the data distribution of the table, using the methods
+        we have used before for the LINEITEM table. The data distribution
+        will be perfect. For example, try the following:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="21:2"><input checked="checked" id="__tabbed_21_1" name="__tabbed_21" type="radio" /><input id="__tabbed_21_2" name="__tabbed_21" type="radio" /><div class="tabbed-labels"><label for="__tabbed_21_1">Input</label><label for="__tabbed_21_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>SELECT COUNT(*), DATASLICEID 
@@ -1407,16 +1409,16 @@ ORDER BY 1;
 <p>There will also not be any processing skew for queries on the single
 table, since in a random distribution there can be no correlation
 between any WHERE condition and the distribution key.</p>
-<ol start="5">
-<li>We have received another typical query from our customer. It returns
-    the average total price and item quantity of all orders grouped by
-    the shipping priority. This query has to join together the <code>LINEITEM</code>
-    and ORDERS tables to get the total order cost from the orders table
-    and the quantity for each shipped item from the <code>LINEITEM</code> table. The
-    tables are joined with an inner join on the <code>L_ORDERKEY</code> column.
-    Execute the following query and note the approximate execution time:</li>
-</ol>
-<div class="tabbed-set tabbed-alternate" data-tabs="21:2"><input checked="checked" id="__tabbed_21_1" name="__tabbed_21" type="radio" /><input id="__tabbed_21_2" name="__tabbed_21" type="radio" /><div class="tabbed-labels"><label for="__tabbed_21_1">Input</label><label for="__tabbed_21_2">Output</label></div>
+</li>
+<li>
+<p>We have received another typical query from our customer. It returns
+        the average total price and item quantity of all orders grouped by
+        the shipping priority. This query has to join together the <code>LINEITEM</code>
+        and ORDERS tables to get the total order cost from the orders table
+        and the quantity for each shipped item from the <code>LINEITEM</code> table. The
+        tables are joined with an inner join on the <code>L_ORDERKEY</code> column.
+        Execute the following query and note the approximate execution time:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="22:2"><input checked="checked" id="__tabbed_22_1" name="__tabbed_22" type="radio" /><input id="__tabbed_22_2" name="__tabbed_22" type="radio" /><div class="tabbed-labels"><label for="__tabbed_22_1">Input</label><label for="__tabbed_22_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>\time
@@ -1444,18 +1446,18 @@ Elapsed time: 0m4.293s
 </div>
 <p>Notice that the query takes about 4 seconds to complete on our
 machine. The actual execution times on your machine will be different.</p>
-<ol start="6">
-<li>Remember that the <code>ORDERS</code> table was distributed randomly and the
-    <code>LINEITEM</code> table is still distributed by the <code>L_SHIPDATE</code> column. The
-    join on the other hand is taking place on the <code>L_ORDERKEY</code> and
-    <code>O_ORDERKEY</code> columns. We will now have a quick look at what is
-    happening inside the Netezza Performance Server system in this
-    scenario. To do this we use the Netezza Performance Server EXPLAIN
-    function. This will be more thoroughly covered in the Optimization
-    lab.</li>
-</ol>
+</li>
+<li>
+<p>Remember that the <code>ORDERS</code> table was distributed randomly and the
+        <code>LINEITEM</code> table is still distributed by the <code>L_SHIPDATE</code> column. The
+        join on the other hand is taking place on the <code>L_ORDERKEY</code> and
+        <code>O_ORDERKEY</code> columns. We will now have a quick look at what is
+        happening inside the Netezza Performance Server system in this
+        scenario. To do this we use the Netezza Performance Server <code>EXPLAIN</code>
+        function. This will be more thoroughly covered in the Optimization
+        lab.</p>
 <p>Execute the following command:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="22:1"><input checked="checked" id="__tabbed_22_1" name="__tabbed_22" type="radio" /><div class="tabbed-labels"><label for="__tabbed_22_1">Input</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="23:1"><input checked="checked" id="__tabbed_23_1" name="__tabbed_23" type="radio" /><div class="tabbed-labels"><label for="__tabbed_23_1">Input</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>EXPLAIN VERBOSE 
@@ -1470,9 +1472,9 @@ GROUP BY O_ORDERPRIORITY;
 </div>
 </div>
 <p>You will get a long output. Scroll up until you see your command in the
-text window. The start of the EXPLAIN output should look like the
+text window. The start of the <code>EXPLAIN</code> output should look like the
 following:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="23:1"><input checked="checked" id="__tabbed_23_1" name="__tabbed_23" type="radio" /><div class="tabbed-labels"><label for="__tabbed_23_1">Output</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="24:1"><input checked="checked" id="__tabbed_24_1" name="__tabbed_24" type="radio" /><div class="tabbed-labels"><label for="__tabbed_24_1">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>EXPLAIN VERBOSE SELECT AVG(O.O_TOTALPRICE) AS PRICE, AVG(L.L_QUANTITY) AS QUANTITY, O_ORDERPRIORITY FROM ORDERS AS O, LINEITEM AS L WHERE L.L_ORDERKEY=O.O_ORDERKEY GROUP BY O_ORDERPRIORITY;
@@ -1513,6 +1515,8 @@ that the rows can be joined together. This is very bad because both
 tables are of significant size so there is a considerable overhead. This
 inefficient double redistribution occurs because neither of the tables
 are distributed on the join key. In the next section we will fix this.</p>
+</li>
+</ol>
 <h3 id="52-co-located-joins">5.2 Co-Located Joins</h3>
 <p>In the last section we have seen that a query using joins can result in
 costly data redistribution during join execution when the joined tables
@@ -1520,11 +1524,11 @@ are not distributed on the join key. In this section we will reload the
 tables based on the mutual join key to enhance performance during joins.</p>
 <ol>
 <li>
-<p>Exit the <code>NZSQL</code> console with the [\q command.</p>
+<p>Exit the <code>NZSQL</code> console with the <code>\q</code> command.</p>
 </li>
 <li>
 <p>If not already in the <code>dataDistribution</code> directory run the command <code>cd
-    ~/labs/dataDistribution</code> to enter the directory.</p>
+        ~/labs/dataDistribution</code> to enter the directory.</p>
 </li>
 <li>
 <p>Change the distribution key in the lineitem.sql file to <code>L_ORDERKEY</code>:</p>
@@ -1538,9 +1542,9 @@ tables based on the mutual join key to enhance performance during joins.</p>
 <p>e.  Enter <code>:wq!</code> In the command line of the vi editor and press enter.
     Before pressing enter your screen should look like the
     following:</p>
-</li>
-</ol>
-<div class="admonition abstract">
+<div class="tabbed-set tabbed-alternate" data-tabs="25:1"><input checked="checked" id="__tabbed_25_1" name="__tabbed_25" type="radio" /><div class="tabbed-labels"><label for="__tabbed_25_1">Output</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>create table lineitem
   (
     l_orderkey integer not null ,
@@ -1563,7 +1567,9 @@ tables based on the mutual join key to enhance performance during joins.</p>
 DISTRIBUTE ON (l_orderkey);
 </code></pre></div>
 </div>
-<ol start="4">
+</div>
+</div>
+</li>
 <li>
 <p>Change the Distribution key in the <code>orders.sql</code> file to <code>O_ORDERKEY</code>.</p>
 <p>a.  Open the file with the vi editor by executing the command: <code>vi
@@ -1575,9 +1581,9 @@ DISTRIBUTE ON (l_orderkey);
 <p>e.  Enter <code>:wq!</code> In the command line of the VI editor and
     Press Enter. Before pressing Enter your screen should look like
     the following:</p>
-</li>
-</ol>
-<div class="admonition abstract">
+<div class="tabbed-set tabbed-alternate" data-tabs="26:1"><input checked="checked" id="__tabbed_26_1" name="__tabbed_26" type="radio" /><div class="tabbed-labels"><label for="__tabbed_26_1">Output</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>create table orders
   (
     o_orderkey integer not null ,
@@ -1593,11 +1599,13 @@ DISTRIBUTE ON (l_orderkey);
 DISTRIBUTE ON (O_ORDERKEY);
 </code></pre></div>
 </div>
-<ol start="5">
-<li>Recreate and load the <code>LINEITEM</code> table with the distribution key
-    <code>L_ORDERKEY</code> by executing the <code>./create_lineitem_1.sh</code> script.</li>
-</ol>
-<div class="tabbed-set tabbed-alternate" data-tabs="24:2"><input checked="checked" id="__tabbed_24_1" name="__tabbed_24" type="radio" /><input id="__tabbed_24_2" name="__tabbed_24" type="radio" /><div class="tabbed-labels"><label for="__tabbed_24_1">Input</label><label for="__tabbed_24_2">Output</label></div>
+</div>
+</div>
+</li>
+<li>
+<p>Recreate and load the <code>LINEITEM</code> table with the distribution key
+        <code>L_ORDERKEY</code> by executing the <code>./create_lineitem_1.sh</code> script.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="27:2"><input checked="checked" id="__tabbed_27_1" name="__tabbed_27" type="radio" /><input id="__tabbed_27_2" name="__tabbed_27" type="radio" /><div class="tabbed-labels"><label for="__tabbed_27_1">Input</label><label for="__tabbed_27_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>cd ~/labs/dataDistribution/
@@ -1612,11 +1620,11 @@ Load session of table &#39;LINEITEM&#39; completed successfully
 </div>
 </div>
 </div>
-<ol start="6">
-<li>Recreate and load the <code>ORDERS</code> table with the distribution key
-    <code>O_ORDERKEY</code> by executing the <code>./create_orders_1.sh</code> script.</li>
-</ol>
-<div class="tabbed-set tabbed-alternate" data-tabs="25:2"><input checked="checked" id="__tabbed_25_1" name="__tabbed_25" type="radio" /><input id="__tabbed_25_2" name="__tabbed_25" type="radio" /><div class="tabbed-labels"><label for="__tabbed_25_1">Input</label><label for="__tabbed_25_2">Output</label></div>
+</li>
+<li>
+<p>Recreate and load the <code>ORDERS</code> table with the distribution key
+        <code>O_ORDERKEY</code> by executing the <code>./create_orders_1.sh</code> script.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="28:2"><input checked="checked" id="__tabbed_28_1" name="__tabbed_28" type="radio" /><input id="__tabbed_28_2" name="__tabbed_28" type="radio" /><div class="tabbed-labels"><label for="__tabbed_28_1">Input</label><label for="__tabbed_28_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>./create_orders_1.sh
@@ -1630,12 +1638,12 @@ Load session of table &#39;ORDERS&#39; completed successfully
 </div>
 </div>
 </div>
-<ol start="7">
-<li>Enter the <code>NZSQL</code> console by executing the <code>nzsql labdb
-    labadmin</code> command and check the distribution key using the
-    <code>\d lineitem</code> and <code>\d orders</code> commands.</li>
-</ol>
-<div class="tabbed-set tabbed-alternate" data-tabs="26:4"><input checked="checked" id="__tabbed_26_1" name="__tabbed_26" type="radio" /><input id="__tabbed_26_2" name="__tabbed_26" type="radio" /><input id="__tabbed_26_3" name="__tabbed_26" type="radio" /><input id="__tabbed_26_4" name="__tabbed_26" type="radio" /><div class="tabbed-labels"><label for="__tabbed_26_1">Input</label><label for="__tabbed_26_2">Output</label><label for="__tabbed_26_3">Input</label><label for="__tabbed_26_4">Output</label></div>
+</li>
+<li>
+<p>Enter the <code>NZSQL</code> console by executing the <code>nzsql labdb
+        labadmin</code> command and check the distribution key using the
+        <code>\d lineitem</code> and <code>\d orders</code> commands.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="29:4"><input checked="checked" id="__tabbed_29_1" name="__tabbed_29" type="radio" /><input id="__tabbed_29_2" name="__tabbed_29" type="radio" /><input id="__tabbed_29_3" name="__tabbed_29" type="radio" /><input id="__tabbed_29_4" name="__tabbed_29" type="radio" /><div class="tabbed-labels"><label for="__tabbed_29_1">Display Lineitem</label><label for="__tabbed_29_2">Lineitem Details</label><label for="__tabbed_29_3">Display Orders</label><label for="__tabbed_29_4">Orders Details</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>nzsql labdb labadmin
@@ -1688,11 +1696,11 @@ Distributed on hash: “O_ORDERKEY”
 </div>
 </div>
 </div>
-<ol start="8">
-<li>Repeat executing the explain of our join query from the previous
-    section by executing the following command:</li>
-</ol>
-<div class="tabbed-set tabbed-alternate" data-tabs="27:2"><input checked="checked" id="__tabbed_27_1" name="__tabbed_27" type="radio" /><input id="__tabbed_27_2" name="__tabbed_27" type="radio" /><div class="tabbed-labels"><label for="__tabbed_27_1">Input</label><label for="__tabbed_27_2">Output</label></div>
+</li>
+<li>
+<p>Repeat executing the explain of our join query from the previous
+        section by executing the following command:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="30:2"><input checked="checked" id="__tabbed_30_1" name="__tabbed_30" type="radio" /><input id="__tabbed_30_2" name="__tabbed_30" type="radio" /><div class="tabbed-labels"><label for="__tabbed_30_1">Input</label><label for="__tabbed_30_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>EXPLAIN VERBOSE 
@@ -1745,10 +1753,10 @@ both tables are on the same data slices.</p>
 <p>You may see a distribution node further below during the execution of
 the group by clause, but this is estimated to distribute only one
 hundred rows which has no negative performance influence.</p>
-<ol start="9">
-<li>Finally execute the joined query again:</li>
-</ol>
-<div class="tabbed-set tabbed-alternate" data-tabs="28:2"><input checked="checked" id="__tabbed_28_1" name="__tabbed_28" type="radio" /><input id="__tabbed_28_2" name="__tabbed_28" type="radio" /><div class="tabbed-labels"><label for="__tabbed_28_1">Input</label><label for="__tabbed_28_2">Output</label></div>
+</li>
+<li>
+<p>Finally execute the joined query again:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="31:2"><input checked="checked" id="__tabbed_31_1" name="__tabbed_31" type="radio" /><input id="__tabbed_31_2" name="__tabbed_31" type="radio" /><div class="tabbed-labels"><label for="__tabbed_31_1">Input</label><label for="__tabbed_31_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>\time
@@ -1782,11 +1790,13 @@ these tables for most situations.</p>
 <p>a.  Both tables are distributed evenly across data slices, so there is
     no data skew.</p>
 <p>b.  The distribution key is highly unlikely to result in processing
-    skew, since most WHERE conditions will restrict a key column evenly</p>
+    skew, since most <code>WHERE</code> conditions will restrict a key column evenly</p>
 <p>c.  Since <code>ORDERS</code> is a parent table of <code>LINEITEM</code>, with a foreign key
     relationship between them, most queries joining them together will
     utilize the join key. These queries will be co-located.</p>
 <p>Now we will pick the distribution keys of the full schema.</p>
+</li>
+</ol>
 <h2 id="6-schema-creation">6 Schema Creation</h2>
 <p>Now that we have created the <code>ORDERS</code> and <code>LINEITEM</code> tables we need to pick
 the distribution keys for the remaining tables as well.</p>
@@ -2051,11 +2061,11 @@ distribution keys could be the following.</p>
 </table>
 <p>Finally, we will load the remaining tables.</p>
 <ol>
-<li>You should still be connected to the <code>LABDB</code> database. We now need to
-    recreate the <code>NATION</code> and <code>REGION</code> tables with a new distribution key.
-    To drop the old table versions execute the following commands.</li>
-</ol>
-<div class="tabbed-set tabbed-alternate" data-tabs="29:1"><input checked="checked" id="__tabbed_29_1" name="__tabbed_29" type="radio" /><div class="tabbed-labels"><label for="__tabbed_29_1">Input</label></div>
+<li>
+<p>You should still be connected to the <code>LABDB</code> database. We now need to
+        recreate the <code>NATION</code> and <code>REGION</code> tables with a new distribution key.
+        To drop the old table versions execute the following commands.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="32:1"><input checked="checked" id="__tabbed_32_1" name="__tabbed_32" type="radio" /><div class="tabbed-labels"><label for="__tabbed_32_1">Input</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>DROP TABLE NATION;
@@ -2064,24 +2074,22 @@ DROP TABLE REGION;
 </div>
 </div>
 </div>
-<ol start="2">
+</li>
 <li>
 <p>Quit the <code>NZSQL</code> console with the <code>\q</code> command.</p>
 </li>
 <li>
 <p>Navigate to the lab folder by executing the <code>cd
-    ~/labs/dataDistribution</code> command.</p>
+        ~/labs/dataDistribution</code> command.</p>
 </li>
 <li>
 <p>Verify the SQL script creating the remaining 6 tables with the <code>more
-    remaining_tables.sql</code> command.</p>
+        remaining_tables.sql</code> command.</p>
 </li>
 <li>
 <p>Now create the remaining tables and load the data into it with the
-    following script:</p>
-</li>
-</ol>
-<div class="tabbed-set tabbed-alternate" data-tabs="30:2"><input checked="checked" id="__tabbed_30_1" name="__tabbed_30" type="radio" /><input id="__tabbed_30_2" name="__tabbed_30" type="radio" /><div class="tabbed-labels"><label for="__tabbed_30_1">Input</label><label for="__tabbed_30_2">Output</label></div>
+        following script:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="33:2"><input checked="checked" id="__tabbed_33_1" name="__tabbed_33" type="radio" /><input id="__tabbed_33_2" name="__tabbed_33" type="radio" /><div class="tabbed-labels"><label for="__tabbed_33_1">Input</label><label for="__tabbed_33_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>./create_remaining.sh
@@ -2110,7 +2118,7 @@ clean up any old tables of the same name in case a reload is
 necessary. Also note that load logfiles have been created for these
 tables too. (<code>ls *.nzlog</code>). Review the load logfiles as time
 and interest permit.</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="31:2"><input checked="checked" id="__tabbed_31_1" name="__tabbed_31" type="radio" /><input id="__tabbed_31_2" name="__tabbed_31" type="radio" /><div class="tabbed-labels"><label for="__tabbed_31_1">Input</label><label for="__tabbed_31_2">Output</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="34:2"><input checked="checked" id="__tabbed_34_1" name="__tabbed_34" type="radio" /><input id="__tabbed_34_2" name="__tabbed_34" type="radio" /><div class="tabbed-labels"><label for="__tabbed_34_1">Input</label><label for="__tabbed_34_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>ls -l *.nzlog
@@ -2133,6 +2141,8 @@ and interest permit.</p>
 </div>
 </div>
 </div>
+</li>
+</ol>
 <div class="admonition success">
 <p class="admonition-title">Congratulations on finishing the chapter!</p>
 <p>Congratulations! You just have defined data distribution keys for a

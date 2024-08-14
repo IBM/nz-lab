@@ -1,59 +1,69 @@
 # Command Line Interface
 
-In this lab will explore the IBM Netezza Performance Server command line (CLI).  The CLI will be our primary interface to execute the labs in the workshop.
 
-## NPS and Tricks on Using the Netezza Performance Server Virtual Machines 
+## 1 Objectives
 
-The Netezza Performance Server is designed and fine-tuned for specific Cloud Pak for Data System hardware or Netezza Performance Service server on Cloud.  In order to demonstrate the system in a virtualized environment, some adaptations were made on the virtual machines. To ensure the labs run smoothly, we have listed some pointers for using the VMs:  
+In this lab will explore the IBM Netezza Performance Server command line (CLI).  
+The CLI will be our primary interface to execute the labs in the workshop.
+
+  
+## 2 Lab Environment  
+
+The lab system will be a virtual machine running on Virtual Box.  
+Please see the document on how to install the NPS Virtual Machine for your workstation
+(Windows or Mac OS).
+
+The Netezza Performance Server is designed and fine-tuned for specific Cloud Pak for Data
+System hardware or Netezza Performance Service server on Cloud.  
+In order to demonstrate the system in a virtualized environment, some adaptations were 
+made on the virtual machines. To ensure the labs run smoothly, we have listed some pointers 
+for using the VMs:  
 
 After pausing the virtual machines, nz services need to be restarted. In the case that the VMs were paused (the host operating system went into sleep or hibernation modes, the images were paused in VMware Workstation,,, etc). To continue using the VMs, run the following commands in the prompt of the Host image. 
 
-!!! abstract "Input"
-    ```bash
+=== "Input"
+    ```
     nzstop 
     nzstart 	 
     ```
-  
-## Lab Environment  
 
-The lab system will be a virtual machine running on Virtual Box.  Please see the document on how to install the NPS Virtual Machine for your workstation (Windows or Mac OS).
-
-## Connect to the Netezza Performance Server  
+## 3 Connect to the Netezza Performance Server  
 
 Use the following information on how to connect to the lab system.  There are two options to access the command line:
 
 1. Login to the VM directly and use the terminal application available inside the VM. 
 2. Local terminal application on your workstation.
 
-### Login to NPS Command Line using the Virtual Machine GUI
+### 3.1 Login to NPS Command Line using the Virtual Machine GUI
 
 After getting the VM running (see the document on how to install the VM) login as follows:
 
-Login as the `nz` user by clicking in the VM and select the `nz` user:
-
+1. Login as the `nz` user by clicking in the VM and select the `nz` user:
 
 ![NZ](nz-images/nz-01-NPS-CLI/media/nz-logon.png)
 
-At the password prompt enter : `nz` and click Sign In
+2. At the password prompt enter : `nz` and click Sign In
 
 ![NZ](nz-images/nz-01-NPS-CLI/media/nz-password.png)
 
-Once you are signed in you can right-click the desktop and select "Open Terminal"
+3. Once you are signed in you can right-click the desktop and select "Open Terminal"
 
 ![NZ](nz-images/nz-01-NPS-CLI/media/nz-desktop.png)
 
-Start NPS if not already started as follows:
-!!! abstract "Input"
-    ```bash
+4. Start NPS if not already started as follows:
+
+=== "Input"
+    ```
     nzstate
     nzstart
     nzstate
     ```
+    
 ![NZ](nz-images/nz-01-NPS-CLI/media/nz-start.png)
 
 You are now ready to proceed to the next section of the lab.
-
-### Login to NPS Command Line for Mac Users
+	
+#### 3.1.1 Login to NPS Command Line for Mac Users
 
 From your Mac OSX system, open the terminal application (or another terminal application like iTerm2).
 
@@ -65,10 +75,11 @@ Open the Terminal.app.
 
 ![NZ](nz-images/nz-01-NPS-CLI/media/osx-terminal.png)
 
-From the Terminal application ssh into the NPS VM with the nz (password:nz) ID and start NPS if not already started.
+From the Terminal application ssh into the NPS VM with the `nz` (password:`nz`) ID and 
+start NPS if not already started.
 
-!!! abstract "Input"
-    ```bash
+=== "Input"
+    ```
     ssh nz@192.168.9.2
     nzstate
     nzstart
@@ -79,7 +90,7 @@ From the Terminal application ssh into the NPS VM with the nz (password:nz) ID a
 
 !!! note "The remainder of the lab will use the command line as the `nz` user."
 
-### Login to NPS Command Line for Windows Users
+#### 3.1.2 Login to NPS Command Line for Windows Users
 
 Start a Windows PowerShell, press the Windows Key and type `powersh` in the Search Bar.  Click "Windows PowerShell"
 
@@ -87,16 +98,16 @@ Start a Windows PowerShell, press the Windows Key and type `powersh` in the Sear
 
 From the PowerShell application ssh into the NPS VM with the `nz` ID and start NPS if not already started.
 
-!!! abstract "Input"
-    ```bash
+=== "Input"
+    ```
     ssh nz@192.168.9.2
     nzstate
     ```
 
 If the system is offline:
 
-!!! abstract "Input"
-    ```bash
+=== "Input"
+    ```
     nzstart
     nzstate
     ```
@@ -105,71 +116,78 @@ If the system is offline:
 
 !!! note "The remainder of the lab will use the command line as the `nz` user."
 
-## Lab Setup
+## 4 Lab Setup
 
-This lab uses an initial setup script to make sure the correct users and databases exist for the remainder of the lab.  Follow the instructions below to run the setup script.
+This lab uses an initial setup script to make sure the correct users and
+databases exist for the remainder of the lab.  Follow the instructions below to
+run the setup script.
 
 1. Login to NPS Command Line using one of these two methods.
 
     1. Login to the VM directly and use the terminal application available inside the VM.
-    2. Connect to your Netezza Performance Server image using a terminal application (Windows PowerShell, PuTTY, Mac OSX Terminal)
+    2. Connect to your Netezza Performance Server image using a terminal application 
+       (Windows PowerShell, PuTTY, Mac OSX Terminal)
 
-2. If you are continuing from the previous lab and are already connected to nzsql, quit the nzsql console with the `\q` command.
+2. If you are continuing from the previous lab and are already connected to
+   `nzsql`, quit the nzsql console with the `\q` command.
 
 3. Prepare for this lab by running the setup script.  To do this use the following commands:
 
-!!! abstract "Input"
-    ```bash
-    cd ~/labs/cli/setupLab
-    time ./setupLab.sh
-    ```
+	=== "Input"
+	    ```
+	    cd ~/labs/cli/setupLab
+	    time ./setupLab.sh
+	    ```
+	
+	=== "Output"
+	    ```
+	    ERROR:  DROP DATABASE: object LABDB does not exist.
+	    CREATE DATABASE
+	    ERROR:  DROP USER: object LABADMIN does not exist.
+	    CREATE USER
+	    ALTER USER
+	    ALTER DATABASE
+	    CREATE TABLE
+	    CREATE TABLE
+	    CREATE TABLE
+	    CREATE TABLE
+	    CREATE TABLE
+	    CREATE TABLE
+	    CREATE TABLE
+	    CREATE TABLE
+	    Load session of table 'NATION' completed successfully
+	    Load session of table 'REGION' completed successfully
+	    Load session of table 'CUSTOMER' completed successfully
+	    Load session of table 'SUPPLIER' completed successfully
+	    Load session of table 'PART' completed successfully
+	    Load session of table 'PARTSUPP' completed successfully
+	    Load session of table 'ORDERS' completed successfully
+	    Load session of table 'LINEITEM' completed successfully
+	
+	    real	1m46.490s
+	    user	0m0.082s
+	    sys	0m0.784s
+	    ```
 
-Output similar to the following will be produced.
+	The error message at the beginning is expected since the database `LABDB` and
+	user `LABADMIN` hasn't been created yet.  However, the `DROP` statements are in
+	the setup script in the event the user `LABADMIN` and database `LABDB` exist to
+	start this lab new.
 
-!!! abstract "Output"
-    ```bash
-    ERROR:  DROP DATABASE: object LABDB does not exist.
-    CREATE DATABASE
-    ERROR:  DROP USER: object LABADMIN does not exist.
-    CREATE USER
-    ALTER USER
-    ALTER DATABASE
-    CREATE TABLE
-    CREATE TABLE
-    CREATE TABLE
-    CREATE TABLE
-    CREATE TABLE
-    CREATE TABLE
-    CREATE TABLE
-    CREATE TABLE
-    Load session of table 'NATION' completed successfully
-    Load session of table 'REGION' completed successfully
-    Load session of table 'CUSTOMER' completed successfully
-    Load session of table 'SUPPLIER' completed successfully
-    Load session of table 'PART' completed successfully
-    Load session of table 'PARTSUPP' completed successfully
-    Load session of table 'ORDERS' completed successfully
-    Load session of table 'LINEITEM' completed successfully
-
-    real	1m46.490s
-    user	0m0.082s
-    sys	0m0.784s
-    ```
-
-The error message at the beginning is expected since the database `LABDB` and user `LABADMIN` hasn't been created yet.  However, the `DROP` statements are in the setup script in the event the user `LABADMIN` and database `LABDB` exist to start this lab new.
-
-!!! error "Dan - Check this text"
-    Note: you downloaded and installed the scripts in the lab: "01-Setup-NPS-Virtual-Machine-Setup-Lab-Guide-Win10-OSX-Final”
-
+	!!! note 
+    	You downloaded and installed the scripts in the virtual machine setup lab guide.
+    
 This lab is now setup and ready to use for the remainder of the sections.
 
-## Connecting to the System Database
+## 5 Connecting to the System Database
 
-The following section details how to connect to the system database which contains all the system views that describes the database objects.
+The following section details how to connect to the system database which
+contains all the system views that describes the database objects.
 
-### Connect to the Netezza System Database Using nzsql
+### 5.1 Connect to the Netezza System Database Using nzsql
 
-Since we have not created any user and databases yet, we will connect to the default database as the default user, with the following credentials:
+Since we have not created any user and databases yet, we will connect to the
+default database as the default user, with the following credentials:
 
 * Database: `system` 
 * Username: `admin` 
@@ -177,24 +195,22 @@ Since we have not created any user and databases yet, we will connect to the def
  
 When issuing the `nzsql` command, the user supplies the user account, password and the database to connect to using the syntax, below is an example of how this would be done. Do not try to execute that command it is just demonstrating the syntax: 
 
-!!! abstract ""
-    ```bash
+=== "Sample Syntax"
+    ```
     nzsql –d [db_name] –u [user] –pw [password] 
     ```
  
 Alternatively, these values can be stored in the command shell and passed to the nzsql command when it is issued without any arguments. Let's verify the current database, user and password values stored in the command shell by issuing the `printenv NZ_DATABASE`, `printenv NZ_USER`, and `printenv NZ_PASSWORD` commands. 
 
-!!! abstract "Input"
-    ```bash
+=== "Input"
+    ```
     printenv NZ_DATABASE
     printenv NZ_USER
     printenv NZ_PASSWORD
     ```
 
-The output should look similar to the following: 
-
-!!! abstract "Output"
-    ```bash
+=== "Output"
+    ```
     [nz@netezza ~]$ printenv NZ_DATABASE 
     system
     [nz@netezza ~]$ printenv NZ_USER 
@@ -205,85 +221,85 @@ The output should look similar to the following:
 
 Since the current values correspond to our desired values, no modification is required.  
 
-Next, let's take a look at what options are available to start nzsql. Type in the following command:
+Next, let's take a look at what options are available to start `nzsql`. Type in the following command:
 
-!!! abstract "Input"
-    ```bash
+=== "Input"
+    ```
     nzsql -?
     ```
 
-!!! abstract "Output"
-    ```bash
-    This is nzsql, the IBM Netezza SQL interactive terminal.
-
-    Usage:
-      nzsql [options] [security options] [dbname [username] [password]]
-
-    Security Options:
-      -securityLevel       Security Level you wish to request (default:    preferredUnSecured)
-      -caCertFile          ROOT CA certificate file (default: NULL)
-
-    Options:
-      -a                   Echo all input from script
-      -A                   Unaligned table output mode (-P format=unaligned)
-      -c <query>           Run only single query (or slash command) and exit
-      -d <dbname>          Specify database name to connect to (default: SYSTEM)
-      -D <dbname>          Specify database name to connect to (default: SYSTEM)
-      -schema <schemaname> Specify schema name to connect to (default: $NZ_SCHEMA)
-      -e                   Echo queries sent to backend
-      -E                   Display queries that internal commands generate
-      -f <filename>        Execute queries from file, then exit
-      -F <string>          Set field separator (default: "|") (-P fieldsep=)
-                           For any binary/control/non-printable character use '$'
-                           (e.g., nzsql -F $'\t' // for TAB)
-      -host <host>         Specify database server host (default: localhost.   localdomain)
-      -h <host>            Specify database server host (default: localhost.   localdomain)
-      -H                   HTML table output mode (-P format=html)
-      -l                   List available databases, then exit
-      -n                   Disable readline
-      -o <filename>        Send query output to filename (or |pipe)
-      -O <filename>        Send query output with errors to filename (or |pipe)
-      -port <port>         Specify database server port (default: hardwired)
-      -P var[=arg]         Set printing option 'var' to 'arg' (see \pset command)
-      -q                   Run quietly (no messages, only query output)
-      -r                   Suppress row count in query output
-      -R <string>          Set record separator (default: newline) (-P recordsep=)
-      -Rev                 Show version information and exit
-      -rev                 Show version information and exit
-      -s                   Single step mode (confirm each query)
-      -S                   Single line mode (newline terminates query)
-      -t                   Print rows only (-P tuples_only)
-      -time                Print time taken by queries
-      -T text              Set HTML table tag options (width, border) (-P  tableattr=)
-      -u <username>        Specify database username (default: admin)
-      -U <username>        Specify database username (default: admin)
-      -v name=val          Set nzsqlvariable 'name' to 'value'
-      -V                   Show version information and exit
-      -w                   Don't require password, other mechanisms (Kerberos)     will supply it
-      -W <password>        Specify the database user password
-      -pw <password>       Specify the database user password
-      -x                   Turn on expanded table output (-P expanded)
-      -X                   Do not read startup file (~/.nzsqlrc)
-      -h or -? or --help   Display this help
-
-    For more information, type "\?" (for internal commands) or "\help"
-    (for SQL commands) from within nzsql.
+=== "Output"
+    ```
+	This is nzsql, the IBM Netezza SQL interactive terminal.
+	
+	Usage:
+	  nzsql [options] [security options] [dbname [username] [password]]
+	
+	Security Options:
+	  -securityLevel       Security Level you wish to request (default: preferredUnSecured)
+	  -caCertFile          ROOT CA certificate file (default: NULL)
+	
+	Options:
+	  -a                   Echo all input from script
+	  -A                   Unaligned table output mode (-P format=unaligned)
+	  -c <query>           Run only single query (or slash command) and exit
+	  -d <dbname>          Specify database name to connect to (default: SYSTEM)
+	  -D <dbname>          Specify database name to connect to (default: SYSTEM)
+	  -schema <schemaname> Specify schema name to connect to (default: $NZ_SCHEMA)
+	  -e                   Echo queries sent to backend
+	  -E                   Display queries that internal commands generate
+	  -f <filename>        Execute queries from file, then exit
+	  -F <string>          Set field separator (default: "|") (-P fieldsep=)
+	                       For any binary/control/non-printable character use '$'
+	                       (e.g., nzsql -F $'\t' // for TAB)
+	  -host <host>         Specify database server host (default: localhost.localdomain)
+	  -h <host>            Specify database server host (default: localhost.localdomain)
+	  -H                   HTML table output mode (-P format=html)
+	  -l                   List available databases, then exit
+	  -n                   Disable readline
+	  -o <filename>        Send query output to filename (or |pipe)
+	  -O <filename>        Send query output with errors to filename (or |pipe)
+	  -port <port>         Specify database server port (default: hardwired)
+	  -P var[=arg]         Set printing option 'var' to 'arg' (see \pset command)
+	  -q                   Run quietly (no messages, only query output)
+	  -r                   Suppress row count in query output
+	  -R <string>          Set record separator (default: newline) (-P recordsep=)
+	  -Rev                 Show version information and exit
+	  -rev                 Show version information and exit
+	  -s                   Single step mode (confirm each query)
+	  -S                   Single line mode (newline terminates query)
+	  -t                   Print rows only (-P tuples_only)
+	  -time                Print time taken by queries
+	  -T text              Set HTML table tag options (width, border) (-P tableattr=)
+	  -u <username>        Specify database username (default: admin)
+	  -U <username>        Specify database username (default: admin)
+	  -v name=val          Set nzsqlvariable 'name' to 'value'
+	  -V                   Show version information and exit
+	  -w                   Don't require password, other mechanisms (Kerberos) will supply it
+	  -W <password>        Specify the database user password
+	  -pw <password>       Specify the database user password
+	  -x                   Turn on expanded table output (-P expanded)
+	  -X                   Do not read startup file (~/.nzsqlrc)
+	  -h or -? or --help   Display this help
+	
+	For more information, type "\?" (for internal commands) or "\help"
+	(for SQL commands) from within nzsql.
     ```
 
-For more information, type "\?" (for internal commands) or "\help"
-(for SQL commands) from within nzsql.
-\t```
+The `-?` option will list the usage and all options for the `nzsql` command. In
+this exercise, we will start `nzsql` without arguments. In the command prompt,
+issue the command: 
 
-The `-?` option will list the usage and all options for the `nzsql` command. In this exercise, we will start `nzsql` without arguments. In the command prompt, issue the command: 
-
-!!! abstract "Input"
-    ```bash
+=== "Input"
+    ```
     nzsql 
     ```
-This will bring up the `nzsql` prompt below that shows a connection to the system database as user admin: 
+	    
+This will bring up the `nzsql` prompt below that shows a connection to the
+system database as user admin: 
 
-!!! abstract "Output"
-    ```bash
+=== "Output"
+    ```
     [nz@localhost ~]$ nzsql
     Welcome to nzsql, the IBM Netezza SQL interactive terminal.
 
@@ -293,27 +309,27 @@ This will bring up the `nzsql` prompt below that shows a connection to the syste
            \q to quit
 
     SYSTEM.ADMIN(ADMIN)=> 
+  	```
+
+### 5.2 Commonly Used Commands and SQL Statements
+
+There are commonly used commands that start with `\` which we will demonstrate in this section. First, we will run the 2 help commands to familiarize ourselves with these handy commands. The `\h` command will list the available SQL commands, while the `\?` command is used to list the internal slash commands. Examine the output for both commands: 
+
+=== "Input"
     ```
-
-### Commonly Used Commands and SQL Statements
-
-There are commonly used commands that start with "\” which we will demonstrate in this section. First, we will run the 2 help commands to familiarize ourselves with these handy commands. The \h command will list the available SQL commands, while the \? command is used to list the internal slash commands. Examine the output for both commands: 
-
-!!! abstract "Input"
-    ```bash
     \h 
     \? 
     ```
 
 From the output of the `\?` command, we found the `\l` internal command we can use to find out all the databases.  Let's find out all the databases by entering `\l`: 
 
-!!! abstract "Input"
-    ```bash
+=== "Input"
+    ```
     \l 
     ```
 
-!!! abstract "Output"
-    ```bash
+=== "Output"
+    ```
       List of databases
      DATABASE |  OWNER   
     ----------+----------
@@ -324,15 +340,13 @@ From the output of the `\?` command, we found the `\l` internal command we can u
 
 Secondly, we will use `\dSv` to find out the system views within the system database.  Note: there are system tables, however, it isn't recommended to directly access those tables as there can change from release to release and are restricted from the normal user.
 
-Input:
-
-!!! abstract "Input"
-    ```bash
+=== "Input"
+    ```
     \dSv
     ```
 
-!!! abstract "Output"
-    ```bash
+=== "Output"
+    ```
                                     List of relations
            Schema       |                 Name                  |    Type     |     Owner
     --------------------+---------------------------------------+-------------  +-------
@@ -357,12 +371,13 @@ Input:
     --More—
     ```
 
-Note: press the space bar to scroll down the result set when you see `--More--` on the screen.
+!!! note
+    Press the space bar to scroll down the result set when you see `--More--` on the screen.
 
 The list of the system views was truncated in the output above due to the length.  Here are the primary views to investigate for DBAs/users new to Netezza:
 
-!!! abstract "Output"
-    ```bash
+=== "Output"
+    ```
     _V_GROUP
     _V_USER
     _V_SESSION_V_DATABASE
@@ -379,13 +394,13 @@ The list of the system views was truncated in the output above due to the length
 
 From the previous command, we can see that there is a user table called `_V_USER`. To find out what is stored in that table, we will use the describe command \d: 
 
-!!! abstract "Input"
-    ```bash
+=== "Input"
+    ```
     \d _V_USER 
     ```
 
-!!! abstract "Output"
-    ```bash
+=== "Output"
+    ```
                                 View "_V_USER"
           Attribute      |          Type          | Modifier | Default Value
     ---------------------+------------------------+----------+---------------
@@ -415,13 +430,13 @@ From the previous command, we can see that there is a user table called `_V_USER
 
 This will return all the columns of the `_V_USER` system table. Next, we want to know the existing users stored in the table. In case too many rows are returned at once, we will first calculate the number of rows it contains by enter the following query: 
 
-!!! abstract "Input"
-    ```bash
+=== "Input"
+    ```
     SELECT COUNT(*) FROM (SELECT * FROM _V_USER) AS "Wrapper"; 
     ```
 
-!!! abstract "Output"
-    ```bash
+=== "Output"
+    ```
     COUNT
     -------
          2
@@ -430,34 +445,34 @@ This will return all the columns of the `_V_USER` system table. Next, we want to
 
 The query above is essentially the same as `SELECT COUNT (*) FROM _V_USER`, we have demonstrated the sub-select syntax in case there is a complex query that needed to have the result set evaluated. The result should show there is currently 2 entries in the user table. We can enter the following query to list the user names: 
 
-!!! abstract "Input"
-    ```bash
+=== "Input"
+    ```
     select objid, username, owner, createdate, useauth, pwd_expiry from _v_user;
     ```
 
-!!! abstract "Output"
-    ```bash
+=== "Output"
+    ```
      OBJID  | USERNAME | OWNER |     CREATEDATE      | USEAUTH | PWD_EXPIRY
     --------+----------+-------+---------------------+---------+------------
        4900 | ADMIN    | ADMIN | 2020-01-24 08:26:22 | DEFAULT |          0
      210500 | LABADMIN | ADMIN | 2020-05-11 07:58:31 | DEFAULT |          0
     ```
 
-### Exit nzsql
+### 5.3 Exit nzsql
 
 To exit nzsql, use the command \q to return to the Netezza Performance Server system.  
-!!! abstract "Input"
-    ```bash
+=== "Input"
+    ```
     \q
     ```
 
-## `nzsql` Command
+## 6 `nzsql` Command
 
 The nzsql command invokes a SQL command interpreter on the IBM® Netezza® host or on an IBM Netezza client system. You can use this SQL command interpreter to create database objects, run queries, and manage the database.
 
 To run the nzsql command, enter:
-!!! abstract "Input"
-    ```bash
+=== "Sample Syntax"
+    ```
     nzsql [options] [security options] [dbname [user] [password]]
     ```
 
@@ -466,3 +481,6 @@ The following table describes the `nzsql` command parameters.
 ![NZ](nz-images/nz-01-NPS-CLI/media/nz-parameters.png)
 
 You will be using the `nzsql` command line tool throughout the labs.
+
+!!! success "Congratulations on finishing the chapter!"
+	Congratulations on finishing the chapter on the NZ CLI commands.
