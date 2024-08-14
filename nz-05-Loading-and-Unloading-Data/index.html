@@ -66,7 +66,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#1-load-and-unloading-data" class="md-skip">
+        <a href="#load-and-unloading-data" class="md-skip">
           Skip to content
         </a>
       
@@ -277,8 +277,8 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#11-objectives" class="md-nav__link">
-    1.1 Objectives
+  <a href="#1-objectives" class="md-nav__link">
+    1 Objectives
   </a>
   
 </li>
@@ -585,8 +585,8 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#11-objectives" class="md-nav__link">
-    1.1 Objectives
+  <a href="#1-objectives" class="md-nav__link">
+    1 Objectives
   </a>
   
 </li>
@@ -735,7 +735,7 @@
                 
 
 
-<h1 id="1-load-and-unloading-data">1 Load and Unloading Data</h1>
+<h1 id="load-and-unloading-data">Load and Unloading Data</h1>
 <p>In every data warehouse environment, there is a need to load new data
 into the database. The task to load data into the database is not just a
 one-time operation but rather a continuous operation that can occur
@@ -755,7 +755,7 @@ that provides an easy method loading data into the Netezza Performance
 Server.</p>
 <p>Format Options - These are options for formatting the data load to and
 from external tables.</p>
-<h2 id="11-objectives">1.1 Objectives</h2>
+<h2 id="1-objectives">1 Objectives</h2>
 <p>This lab will help you explore the Netezza Performance Server framework
 components for loading data into the database and unloading data from
 the database. You will use the various commands to create external
@@ -806,8 +806,6 @@ below to run the setup script.</p>
 <li>
 <p>Prepare for this lab by running the setup script. To do this use the
     following two commands:</p>
-</li>
-</ol>
 <div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Input</label><label for="__tabbed_1_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
@@ -840,6 +838,8 @@ Load session of table &#39;PART&#39; completed successfully
 </div>
 <p>The error message at the beginning is expected since the script tries
 to clean up existing <code>LINEITEM</code> tables.</p>
+</li>
+</ol>
 <h2 id="5-external-tables">5 External Tables</h2>
 <p>An external table allows Netezza Performance Server to treat an external
 file as a database table. An external table has a definition, a table
@@ -925,17 +925,22 @@ unload all the rows from the <code>REGION</code> table. The records for the
 <code>ET1_REGION</code> external table will be in the external datasource file,
 et1_region_flat_file. The basic syntax to create this type of external
 table is:</p>
-<p><strong>Sample Syntax</strong>
+<div class="tabbed-set tabbed-alternate" data-tabs="5:1"><input checked="checked" id="__tabbed_5_1" name="__tabbed_5" type="radio" /><div class="tabbed-labels"><label for="__tabbed_5_1">Sample Syntax</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>CREATE EXTERNAL TABLE table_name
 SAMEAS table_name
 USING external_table_options
-</code></pre></div></p>
+</code></pre></div>
+</div>
+</div>
+</div>
 <p>The <code>SAMEAS</code> clause allows the external table to be created with the same
 column definition of the referenced table. This is referred to as
 implicit schema definition.</p>
 <p>As the <code>LABDB</code> database owner, <code>LABADMIN</code>, you will create the first basic
 external table using the same column definitions as the <code>REGION</code> table:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="5:2"><input checked="checked" id="__tabbed_5_1" name="__tabbed_5" type="radio" /><input id="__tabbed_5_2" name="__tabbed_5" type="radio" /><div class="tabbed-labels"><label for="__tabbed_5_1">Input [Terminal 1]</label><label for="__tabbed_5_2">Output</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="6:2"><input checked="checked" id="__tabbed_6_1" name="__tabbed_6" type="radio" /><input id="__tabbed_6_2" name="__tabbed_6" type="radio" /><div class="tabbed-labels"><label for="__tabbed_6_1">Input [Terminal 1]</label><label for="__tabbed_6_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>create external table et1_region sameas region using
@@ -950,7 +955,7 @@ external table using the same column definitions as the <code>REGION</code> tabl
 </div>
 <p>Use the internal slash option <code>\dx</code> to list the external tables in the
 LABDB database.</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="6:2"><input checked="checked" id="__tabbed_6_1" name="__tabbed_6" type="radio" /><input id="__tabbed_6_2" name="__tabbed_6" type="radio" /><div class="tabbed-labels"><label for="__tabbed_6_1">Input [Terminal 1]</label><label for="__tabbed_6_2">Output</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="7:2"><input checked="checked" id="__tabbed_7_1" name="__tabbed_7" type="radio" /><input id="__tabbed_7_2" name="__tabbed_7" type="radio" /><div class="tabbed-labels"><label for="__tabbed_7_1">Input [Terminal 1]</label><label for="__tabbed_7_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>\dx
@@ -969,7 +974,7 @@ LABDB database.</p>
 <p>List the properties of the external table et1_region using the following
 internal slash option to describe the table, <code>\d &lt;external table
 name&gt;</code>.</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="7:2"><input checked="checked" id="__tabbed_7_1" name="__tabbed_7" type="radio" /><input id="__tabbed_7_2" name="__tabbed_7" type="radio" /><div class="tabbed-labels"><label for="__tabbed_7_1">Input [Terminal 1]</label><label for="__tabbed_7_2">Output</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="8:2"><input checked="checked" id="__tabbed_8_1" name="__tabbed_8" type="radio" /><input id="__tabbed_8_2" name="__tabbed_8" type="radio" /><div class="tabbed-labels"><label for="__tabbed_8_1">Input [Terminal 1]</label><label for="__tabbed_8_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>\d et1_region
@@ -1038,7 +1043,7 @@ that shows the location and the name of the external datasource file
 used for the external table. We will examine some of the others.</p>
 <p>Now that the external table is created, use it to unload data from the
 <code>REGION</code> table using an <code>INSERT</code> statement.</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="8:2"><input checked="checked" id="__tabbed_8_1" name="__tabbed_8" type="radio" /><input id="__tabbed_8_2" name="__tabbed_8" type="radio" /><div class="tabbed-labels"><label for="__tabbed_8_1">Input [Terminal 1]</label><label for="__tabbed_8_2">Output</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="9:2"><input checked="checked" id="__tabbed_9_1" name="__tabbed_9" type="radio" /><input id="__tabbed_9_2" name="__tabbed_9" type="radio" /><div class="tabbed-labels"><label for="__tabbed_9_1">Input [Terminal 1]</label><label for="__tabbed_9_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>insert into et1_region select * from region;
@@ -1053,7 +1058,7 @@ used for the external table. We will examine some of the others.</p>
 <p>Use the external table like a regular table by issuing SQL statements.
 Try issuing a simple <code>SELECT FROM</code> statement to return all rows in
 external table <code>ET1_REGION</code> :</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="9:2"><input checked="checked" id="__tabbed_9_1" name="__tabbed_9" type="radio" /><input id="__tabbed_9_2" name="__tabbed_9" type="radio" /><div class="tabbed-labels"><label for="__tabbed_9_1">Input [Terminal 1]</label><label for="__tabbed_9_2">Output</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="10:2"><input checked="checked" id="__tabbed_10_1" name="__tabbed_10" type="radio" /><input id="__tabbed_10_2" name="__tabbed_10" type="radio" /><div class="tabbed-labels"><label for="__tabbed_10_1">Input [Terminal 1]</label><label for="__tabbed_10_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>select * from et1_region order by 1;
@@ -1078,7 +1083,7 @@ of this external table and not from the data within the database.</p>
 table to a file. Using the second Putty (or Terminal) session, review
 the file <code>et1_region_flat_file</code>. This is the file that was created in the
 <code>/home/nz/labs/movingData</code> directory.</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="10:2"><input checked="checked" id="__tabbed_10_1" name="__tabbed_10" type="radio" /><input id="__tabbed_10_2" name="__tabbed_10" type="radio" /><div class="tabbed-labels"><label for="__tabbed_10_1">Input [Terminal 2]</label><label for="__tabbed_10_2">Output</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="11:2"><input checked="checked" id="__tabbed_11_1" name="__tabbed_11" type="radio" /><input id="__tabbed_11_2" name="__tabbed_11" type="radio" /><div class="tabbed-labels"><label for="__tabbed_11_1">Input [Terminal 2]</label><label for="__tabbed_11_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>more et1_region_flat_file
@@ -1104,9 +1109,14 @@ create statement. A separate step is not required to unload the data.
 The external table will be named <code>ET2_REGION</code> and the external datasource
 file will be named <code>et2_region_flat_file</code>. The basic syntax to create this
 type of external table is:</p>
-<p><strong>Sample Syntax</strong>
+<div class="tabbed-set tabbed-alternate" data-tabs="12:1"><input checked="checked" id="__tabbed_12_1" name="__tabbed_12" type="radio" /><div class="tabbed-labels"><label for="__tabbed_12_1">Sample Syntax</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>CREATE EXTERNAL TABLE table_name &#39;filename&#39; AS select_statement;
-</code></pre></div></p>
+</code></pre></div>
+</div>
+</div>
+</div>
 <p>The <code>AS</code> clause allows the external table to be created with the same
 columns returned in the <code>SELECT FROM</code> statement, which is referred to as
 implicit table schema definition. This also unloads the rows at the same
@@ -1115,7 +1125,7 @@ time the external table is created.</p>
 be unloaded in a second step using an <code>INSERT</code> statement. Using the first
 Putty (or Terminal) session, create an external table and unload the
 data in a single step.</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="11:2"><input checked="checked" id="__tabbed_11_1" name="__tabbed_11" type="radio" /><input id="__tabbed_11_2" name="__tabbed_11" type="radio" /><div class="tabbed-labels"><label for="__tabbed_11_1">Input [Terminal 1]</label><label for="__tabbed_11_2">Output</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="13:2"><input checked="checked" id="__tabbed_13_1" name="__tabbed_13" type="radio" /><input id="__tabbed_13_2" name="__tabbed_13" type="radio" /><div class="tabbed-labels"><label for="__tabbed_13_1">Input [Terminal 1]</label><label for="__tabbed_13_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>create external table et2_region
@@ -1132,7 +1142,7 @@ data in a single step.</p>
 definition as the <code>REGION</code> table and also unloaded the data to the
 et2_region_flat_file.</p>
 <p>Again, use <code>\dx</code> to list the external tables in the <code>LABDB</code> database.</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="12:2"><input checked="checked" id="__tabbed_12_1" name="__tabbed_12" type="radio" /><input id="__tabbed_12_2" name="__tabbed_12" type="radio" /><div class="tabbed-labels"><label for="__tabbed_12_1">Input [Terminal 1]</label><label for="__tabbed_12_2">Output</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="14:2"><input checked="checked" id="__tabbed_14_1" name="__tabbed_14" type="radio" /><input id="__tabbed_14_2" name="__tabbed_14" type="radio" /><div class="tabbed-labels"><label for="__tabbed_14_1">Input [Terminal 1]</label><label for="__tabbed_14_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>\dx
@@ -1154,7 +1164,7 @@ list the properties of the external table. The output will be similar to
 the output in the last section, except for the filename.</p>
 <p>Using the second session, review the file that was created,
 <code>et2_region_flat_file</code>, in the <code>/home/nz/labs/movingData directory</code>.</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="13:2"><input checked="checked" id="__tabbed_13_1" name="__tabbed_13" type="radio" /><input id="__tabbed_13_2" name="__tabbed_13" type="radio" /><div class="tabbed-labels"><label for="__tabbed_13_1">Input [Terminal 2]</label><label for="__tabbed_13_2">Output</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="15:2"><input checked="checked" id="__tabbed_15_1" name="__tabbed_15" type="radio" /><input id="__tabbed_15_2" name="__tabbed_15" type="radio" /><div class="tabbed-labels"><label for="__tabbed_15_1">Input [Terminal 2]</label><label for="__tabbed_15_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>more et2_region_flat_file
@@ -1183,16 +1193,21 @@ table will be created in one step and then the data will be unloaded
 into the <code>et3_region_flat_file ASCII</code> delimited text file using a
 different delimiter string. The basic syntax to create this type of
 external table is:</p>
-<p><strong>Sample Syntax</strong>
+<div class="tabbed-set tabbed-alternate" data-tabs="16:1"><input checked="checked" id="__tabbed_16_1" name="__tabbed_16" type="radio" /><div class="tabbed-labels"><label for="__tabbed_16_1">Sample Syntax</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>CREATE EXTERNAL TABLE table_name ({column_name type} [, ... ])
 [USING external_table_options}]
-</code></pre></div></p>
+</code></pre></div>
+</div>
+</div>
+</div>
 <ol>
-<li>Create a new external table to only include the <code>R_NAME</code> and <code>R_COMMENT</code>
-    columns and exclude the <code>R_REGIONKEY</code> column from the <code>REGION</code> table.
-    Also change the delimiter string from the default '|' to '=':</li>
-</ol>
-<div class="tabbed-set tabbed-alternate" data-tabs="14:2"><input checked="checked" id="__tabbed_14_1" name="__tabbed_14" type="radio" /><input id="__tabbed_14_2" name="__tabbed_14" type="radio" /><div class="tabbed-labels"><label for="__tabbed_14_1">Input [Terminal 1]</label><label for="__tabbed_14_2">Output</label></div>
+<li>
+<p>Create a new external table to only include the <code>R_NAME</code> and <code>R_COMMENT</code>
+        columns and exclude the <code>R_REGIONKEY</code> column from the <code>REGION</code> table.
+        Also change the delimiter string from the default '|' to '=':</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="17:2"><input checked="checked" id="__tabbed_17_1" name="__tabbed_17" type="radio" /><input id="__tabbed_17_2" name="__tabbed_17" type="radio" /><div class="tabbed-labels"><label for="__tabbed_17_1">Input [Terminal 1]</label><label for="__tabbed_17_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>create external table et3_region (r_name char(25),
@@ -1206,10 +1221,10 @@ r_comment varchar(152)) USING (dataobject
 </div>
 </div>
 </div>
-<ol start="2">
-<li>List the properties of the <code>ET3_REGION</code> external table:</li>
-</ol>
-<div class="tabbed-set tabbed-alternate" data-tabs="15:2"><input checked="checked" id="__tabbed_15_1" name="__tabbed_15" type="radio" /><input id="__tabbed_15_2" name="__tabbed_15" type="radio" /><div class="tabbed-labels"><label for="__tabbed_15_1">Input [Terminal 1]</label><label for="__tabbed_15_2">Output</label></div>
+</li>
+<li>
+<p>List the properties of the <code>ET3_REGION</code> external table:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="18:2"><input checked="checked" id="__tabbed_18_1" name="__tabbed_18" type="radio" /><input id="__tabbed_18_2" name="__tabbed_18" type="radio" /><div class="tabbed-labels"><label for="__tabbed_18_1">Input [Terminal 1]</label><label for="__tabbed_18_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>\d et3_region
@@ -1275,11 +1290,11 @@ external tables that were created, with two main exceptions. The first
 difference is the Dataobjects field, since the filename is different.
 The other difference is the string used for the delimiter, since it is
 now '=' instead of the default, '|'.</p>
-<ol>
-<li>Unload the data from the <code>REGION</code> table but only the data from columns
-    <code>R_NAME</code> and <code>R_COMMENT</code>.</li>
-</ol>
-<div class="tabbed-set tabbed-alternate" data-tabs="16:2"><input checked="checked" id="__tabbed_16_1" name="__tabbed_16" type="radio" /><input id="__tabbed_16_2" name="__tabbed_16" type="radio" /><div class="tabbed-labels"><label for="__tabbed_16_1">Input [Terminal 1]</label><label for="__tabbed_16_2">Output</label></div>
+</li>
+<li>
+<p>Unload the data from the <code>REGION</code> table but only the data from columns
+        <code>R_NAME</code> and <code>R_COMMENT</code>.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="19:2"><input checked="checked" id="__tabbed_19_1" name="__tabbed_19" type="radio" /><input id="__tabbed_19_2" name="__tabbed_19" type="radio" /><div class="tabbed-labels"><label for="__tabbed_19_1">Input [Terminal 1]</label><label for="__tabbed_19_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>insert into et3_region select r_name, r_comment from region;
@@ -1293,16 +1308,15 @@ now '=' instead of the default, '|'.</p>
 </div>
 <p>Alternatively, you could have created the external table and unloaded
 the data in one step using the following command:</p>
-<p><strong>Sample Syntax</strong>
 <div class="highlight"><pre><span></span><code>create external table et4_test
 &#39;/home/nz/labs/movingData/et4_region_flat_file&#39; using (delimiter
 &#39;=&#39;) as select r_name, r_comment from region;
-</code></pre></div></p>
-<ol start="2">
-<li>Using the second session review the file that was created,
-    <code>et3_region_flat_file</code>, in the <code>/home/nz/labs/movingData</code> directory.</li>
-</ol>
-<div class="tabbed-set tabbed-alternate" data-tabs="17:2"><input checked="checked" id="__tabbed_17_1" name="__tabbed_17" type="radio" /><input id="__tabbed_17_2" name="__tabbed_17" type="radio" /><div class="tabbed-labels"><label for="__tabbed_17_1">Input [Terminal 2]</label><label for="__tabbed_17_2">Output</label></div>
+</code></pre></div>
+</li>
+<li>
+<p>Using the second session review the file that was created,
+        <code>et3_region_flat_file</code>, in the <code>/home/nz/labs/movingData</code> directory.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="20:2"><input checked="checked" id="__tabbed_20_1" name="__tabbed_20" type="radio" /><input id="__tabbed_20_2" name="__tabbed_20" type="radio" /><div class="tabbed-labels"><label for="__tabbed_20_1">Input [Terminal 2]</label><label for="__tabbed_20_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>more et3_region_flat_file
@@ -1319,6 +1333,8 @@ ap=asia pacific
 </div>
 <p>Notice that only two columns are present in the flat file using the '='
 string as a delimiter.</p>
+</li>
+</ol>
 <h4 id="514-optional-unloading-data-with-an-external-table-from-two-tables">5.1.4 (Optional) Unloading data with an External Table from two tables</h4>
 <p>The first three external table exercises unloaded data from one table.
 In this exercise, the external table will be created based on a table
@@ -1329,12 +1345,12 @@ unloaded using SQL statements other than a simple <code>SELECT FROM</code> state
 The external table will be named <code>ET_NATION_REGION</code> using another ASCII
 delimited text file named <code>et_nation_file_flat_file</code>.</p>
 <ol>
-<li>Unload data from both the <code>REGION</code> and <code>NATION</code> tables joined on the
-<code>REGIONKEY</code> column to list all of the countries and their associated
-regions. Instead of specifying the columns in the create external
-table statement you will use the <code>AS SELECT</code> option:</li>
-</ol>
-<div class="tabbed-set tabbed-alternate" data-tabs="18:2"><input checked="checked" id="__tabbed_18_1" name="__tabbed_18" type="radio" /><input id="__tabbed_18_2" name="__tabbed_18" type="radio" /><div class="tabbed-labels"><label for="__tabbed_18_1">Input [Terminal 2]</label><label for="__tabbed_18_2">Output</label></div>
+<li>
+<p>Unload data from both the <code>REGION</code> and <code>NATION</code> tables joined on the
+    <code>REGIONKEY</code> column to list all of the countries and their associated
+    regions. Instead of specifying the columns in the create external
+    table statement you will use the <code>AS SELECT</code> option:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="21:2"><input checked="checked" id="__tabbed_21_1" name="__tabbed_21" type="radio" /><input id="__tabbed_21_2" name="__tabbed_21" type="radio" /><div class="tabbed-labels"><label for="__tabbed_21_1">Input [Terminal 2]</label><label for="__tabbed_21_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>create external table et_nation_region
@@ -1348,10 +1364,10 @@ n_name, r_name from nation, region where n_regionkey=r_regionkey;
 </div>
 </div>
 </div>
-<ol start="2">
-<li>List the properties of the ET_NATION_REGION external table.</li>
-</ol>
-<div class="tabbed-set tabbed-alternate" data-tabs="19:2"><input checked="checked" id="__tabbed_19_1" name="__tabbed_19" type="radio" /><input id="__tabbed_19_2" name="__tabbed_19" type="radio" /><div class="tabbed-labels"><label for="__tabbed_19_1">Input [Terminal 1]</label><label for="__tabbed_19_2">Output</label></div>
+</li>
+<li>
+<p>List the properties of the ET_NATION_REGION external table.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="22:2"><input checked="checked" id="__tabbed_22_1" name="__tabbed_22" type="radio" /><input id="__tabbed_22_2" name="__tabbed_22" type="radio" /><div class="tabbed-labels"><label for="__tabbed_22_1">Input [Terminal 1]</label><label for="__tabbed_22_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>\d et_nation_region
@@ -1412,10 +1428,10 @@ lfinstring          -
 </div>
 <p>You will notice that the external table was created using the two
 columns specified in the <code>SELECT</code> clause: <code>N_NAME</code> and <code>R_NAME</code>.</p>
-<ol>
-<li>View the data of the <code>ET_NATION_REGION</code> external table.</li>
-</ol>
-<div class="tabbed-set tabbed-alternate" data-tabs="20:2"><input checked="checked" id="__tabbed_20_1" name="__tabbed_20" type="radio" /><input id="__tabbed_20_2" name="__tabbed_20" type="radio" /><div class="tabbed-labels"><label for="__tabbed_20_1">Input [Terminal 1]</label><label for="__tabbed_20_2">Output</label></div>
+</li>
+<li>
+<p>View the data of the <code>ET_NATION_REGION</code> external table.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="23:2"><input checked="checked" id="__tabbed_23_1" name="__tabbed_23" type="radio" /><input id="__tabbed_23_2" name="__tabbed_23" type="radio" /><div class="tabbed-labels"><label for="__tabbed_23_1">Input [Terminal 1]</label><label for="__tabbed_23_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>select * from et_nation_region;
@@ -1445,12 +1461,12 @@ columns specified in the <code>SELECT</code> clause: <code>N_NAME</code> and <co
 </div>
 <p>This is the result of the joining the <code>NATION</code> and <code>REGION</code> table on the
 <code>REGIONKEY</code> column to return just the <code>N_NAME</code> and <code>R_NAME</code> columns.</p>
-<ol start="2">
-<li>Using the second session, review the file that was created,
-    <code>et_nation_region_flat_file</code>, in the <code>/home/nz/labs/movingData</code>
-    directory:</li>
-</ol>
-<div class="tabbed-set tabbed-alternate" data-tabs="21:2"><input checked="checked" id="__tabbed_21_1" name="__tabbed_21" type="radio" /><input id="__tabbed_21_2" name="__tabbed_21" type="radio" /><div class="tabbed-labels"><label for="__tabbed_21_1">Input [Terminal 2]</label><label for="__tabbed_21_2">Output</label></div>
+</li>
+<li>
+<p>Using the second session, review the file that was created,
+        <code>et_nation_region_flat_file</code>, in the <code>/home/nz/labs/movingData</code>
+        directory:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="24:2"><input checked="checked" id="__tabbed_24_1" name="__tabbed_24" type="radio" /><input id="__tabbed_24_2" name="__tabbed_24" type="radio" /><div class="tabbed-labels"><label for="__tabbed_24_1">Input [Terminal 2]</label><label for="__tabbed_24_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>more et_nation_region_flat_file
@@ -1478,6 +1494,8 @@ new zealand|ap
 <p>We created a flat delimited flat file from a complex SQL statement.
 External tables are a very flexible and powerful way to load, unload and
 transfer data.</p>
+</li>
+</ol>
 <h4 id="515-optional-unloading-data-with-an-external-table-using-the-compress-format">5.1.5 (Optional) Unloading data with an External Table using the compress format</h4>
 <p>In the previous exercises, the external tables were created used the
 default ASCII delimited text format. In this exercise, the external
@@ -1485,18 +1503,23 @@ table will be similar to the second external table that was created, but
 instead of the using an ASCII delimited text format we will use the
 compressed binary format. The name of the external table will be
 <code>ET4_REGION</code> and the datasource file name will be <code>et4_region_compress</code>.</p>
-<p><strong>Sample Syntax</strong>
+<div class="tabbed-set tabbed-alternate" data-tabs="25:1"><input checked="checked" id="__tabbed_25_1" name="__tabbed_25" type="radio" /><div class="tabbed-labels"><label for="__tabbed_25_1">Sample Syntax</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>CREATE EXTERNAL TABLE table_name &#39;filename&#39; USING (COMPRESS true
 FORMAT &#39;internal&#39;) AS select_statement;
-</code></pre></div></p>
+</code></pre></div>
+</div>
+</div>
+</div>
 <ol>
-<li>Create an external table using a similar method that you used to
-    create the second external table, in section 2.1.2. But instead of
-    using an ASCII delimited-text format, the datasource will use the
-    compressed binary format. This is achieved by using the <code>COMPRESS</code> and
-    <code>FORMAT</code> external table options:</li>
-</ol>
-<div class="tabbed-set tabbed-alternate" data-tabs="22:2"><input checked="checked" id="__tabbed_22_1" name="__tabbed_22" type="radio" /><input id="__tabbed_22_2" name="__tabbed_22" type="radio" /><div class="tabbed-labels"><label for="__tabbed_22_1">Input [Terminal 1]</label><label for="__tabbed_22_2">Output</label></div>
+<li>
+<p>Create an external table using a similar method that you used to
+        create the second external table, in section 2.1.2. But instead of
+        using an ASCII delimited-text format, the datasource will use the
+        compressed binary format. This is achieved by using the <code>COMPRESS</code> and
+        <code>FORMAT</code> external table options:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="26:2"><input checked="checked" id="__tabbed_26_1" name="__tabbed_26" type="radio" /><input id="__tabbed_26_2" name="__tabbed_26" type="radio" /><div class="tabbed-labels"><label for="__tabbed_26_1">Input [Terminal 1]</label><label for="__tabbed_26_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>create external table et4_region
@@ -1512,10 +1535,10 @@ format &#39;internal&#39;) as select * from region;
 </div>
 <p>As a reminder, the external table is created, and the data is unloaded
 in the same operation using the <code>AS SELECT</code> clause.</p>
-<ol start="2">
-<li>List the properties of the <code>ET4_REGION</code> external table</li>
-</ol>
-<div class="tabbed-set tabbed-alternate" data-tabs="23:2"><input checked="checked" id="__tabbed_23_1" name="__tabbed_23" type="radio" /><input id="__tabbed_23_2" name="__tabbed_23" type="radio" /><div class="tabbed-labels"><label for="__tabbed_23_1">Input [Terminal 1]</label><label for="__tabbed_23_2">Output</label></div>
+</li>
+<li>
+<p>List the properties of the <code>ET4_REGION</code> external table</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="27:2"><input checked="checked" id="__tabbed_27_1" name="__tabbed_27" type="radio" /><input id="__tabbed_27_2" name="__tabbed_27" type="radio" /><div class="tabbed-labels"><label for="__tabbed_27_1">Input [Terminal 1]</label><label for="__tabbed_27_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>\d et4_region
@@ -1577,6 +1600,8 @@ lfinstring          -
 <p>Notice that the option for <code>COMPRESS</code> has changed from <code>FALSE</code> to <code>TRUE</code>
 indicating that the datasource file is compressed, and the <code>FORMAT</code> has
 changed from <code>TEXT</code> to <code>INTERNAL</code> which is required for compressed files.</p>
+</li>
+</ol>
 <h3 id="52-dropping-external-tables">5.2 Dropping External Tables</h3>
 <p>Dropping external tables is similar to dropping a regular Netezza
 Performance Server table. The column definition for the external table
@@ -1589,10 +1614,10 @@ associated external datasource file, <code>et1_region_flat_file</code>. This
 datasource file will be used later in this lab to load data into the
 <code>REGION</code> table.</p>
 <ol>
-<li>Drop the first external table that you created, <code>ET1_REGION</code>, using
-    the <code>DROP TABLE</code> command:</li>
-</ol>
-<div class="tabbed-set tabbed-alternate" data-tabs="24:2"><input checked="checked" id="__tabbed_24_1" name="__tabbed_24" type="radio" /><input id="__tabbed_24_2" name="__tabbed_24" type="radio" /><div class="tabbed-labels"><label for="__tabbed_24_1">Input [Terminal 1]</label><label for="__tabbed_24_2">Output</label></div>
+<li>
+<p>Drop the first external table that you created, <code>ET1_REGION</code>, using
+        the <code>DROP TABLE</code> command:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="28:2"><input checked="checked" id="__tabbed_28_1" name="__tabbed_28" type="radio" /><input id="__tabbed_28_2" name="__tabbed_28" type="radio" /><div class="tabbed-labels"><label for="__tabbed_28_1">Input [Terminal 1]</label><label for="__tabbed_28_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>drop table et1_region;
@@ -1606,11 +1631,11 @@ datasource file will be used later in this lab to load data into the
 </div>
 <p>The same drop command for tables is used for external tables. There is
 not a separate <code>DROP EXTERNAL TABLE</code> command.</p>
-<ol start="2">
-<li>Verify the external table has been dropped using the internal slash
-    option, <code>\dx</code>, to list all of the external tables.</li>
-</ol>
-<div class="tabbed-set tabbed-alternate" data-tabs="25:2"><input checked="checked" id="__tabbed_25_1" name="__tabbed_25" type="radio" /><input id="__tabbed_25_2" name="__tabbed_25" type="radio" /><div class="tabbed-labels"><label for="__tabbed_25_1">Input [Terminal 1]</label><label for="__tabbed_25_2">Output</label></div>
+</li>
+<li>
+<p>Verify the external table has been dropped using the internal slash
+        option, <code>\dx</code>, to list all of the external tables.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="29:2"><input checked="checked" id="__tabbed_29_1" name="__tabbed_29" type="radio" /><input id="__tabbed_29_2" name="__tabbed_29" type="radio" /><div class="tabbed-labels"><label for="__tabbed_29_1">Input [Terminal 1]</label><label for="__tabbed_29_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>\dx
@@ -1631,13 +1656,13 @@ not a separate <code>DROP EXTERNAL TABLE</code> command.</p>
 </div>
 </div>
 <p>Notice the remaining external tables that you created still exist.</p>
-<ol start="3">
-<li>Even though the external table definition no longer exists within
-    the <code>LABDB</code> database, the flat file named <code>et1_region_flat_file</code> still
-    exists in the <code>/home/nz/labs/movingData</code> directory. Verify this by
-    using the second putty session:</li>
-</ol>
-<div class="tabbed-set tabbed-alternate" data-tabs="26:2"><input checked="checked" id="__tabbed_26_1" name="__tabbed_26" type="radio" /><input id="__tabbed_26_2" name="__tabbed_26" type="radio" /><div class="tabbed-labels"><label for="__tabbed_26_1">Input [Terminal 2]</label><label for="__tabbed_26_2">Output</label></div>
+</li>
+<li>
+<p>Even though the external table definition no longer exists within
+        the <code>LABDB</code> database, the flat file named <code>et1_region_flat_file</code> still
+        exists in the <code>/home/nz/labs/movingData</code> directory. Verify this by
+        using the second putty session:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="30:2"><input checked="checked" id="__tabbed_30_1" name="__tabbed_30" type="radio" /><input id="__tabbed_30_2" name="__tabbed_30" type="radio" /><div class="tabbed-labels"><label for="__tabbed_30_1">Input [Terminal 2]</label><label for="__tabbed_30_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>ls
@@ -1652,6 +1677,8 @@ et2_region_flat_file et4_region_compress et_nation_region_flat_file
 </div>
 <p>Notice that the file <code>et1_REGION_flat_file</code> still exists. This file can
 still be used to load data into another similar table.</p>
+</li>
+</ol>
 <h3 id="53-loading-data-using-external-tables">5.3 Loading Data using External Tables</h3>
 <p>External tables can also be used to load data into tables in the
 database. In this exercise, data will be loaded into the <code>REGION</code> table,
@@ -1663,10 +1690,10 @@ the external datasource file. Loading data into a table from any
 external table will generate an associated log file with a default name
 of <code>&lt;table_name&gt;.&lt;database_name&gt;.log</code></p>
 <ol>
-<li>Before loading the data into the <code>REGION</code> table, delete the rows from
-the data using the TRUNCATE TABLE command:</li>
-</ol>
-<div class="tabbed-set tabbed-alternate" data-tabs="27:2"><input checked="checked" id="__tabbed_27_1" name="__tabbed_27" type="radio" /><input id="__tabbed_27_2" name="__tabbed_27" type="radio" /><div class="tabbed-labels"><label for="__tabbed_27_1">Input [Terminal 1]</label><label for="__tabbed_27_2">Output</label></div>
+<li>
+<p>Before loading the data into the <code>REGION</code> table, delete the rows from
+    the data using the TRUNCATE TABLE command:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="31:2"><input checked="checked" id="__tabbed_31_1" name="__tabbed_31" type="radio" /><input id="__tabbed_31_2" name="__tabbed_31" type="radio" /><div class="tabbed-labels"><label for="__tabbed_31_1">Input [Terminal 1]</label><label for="__tabbed_31_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>truncate table region;
@@ -1678,10 +1705,10 @@ the data using the TRUNCATE TABLE command:</li>
 </div>
 </div>
 </div>
-<ol start="2">
-<li>Verify the table is empty with the <code>SELECT *</code> command:</li>
-</ol>
-<div class="tabbed-set tabbed-alternate" data-tabs="28:2"><input checked="checked" id="__tabbed_28_1" name="__tabbed_28" type="radio" /><input id="__tabbed_28_2" name="__tabbed_28" type="radio" /><div class="tabbed-labels"><label for="__tabbed_28_1">Input [Terminal 1]</label><label for="__tabbed_28_2">Output</label></div>
+</li>
+<li>
+<p>Verify the table is empty with the <code>SELECT *</code> command:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="32:2"><input checked="checked" id="__tabbed_32_1" name="__tabbed_32" type="radio" /><input id="__tabbed_32_2" name="__tabbed_32" type="radio" /><div class="tabbed-labels"><label for="__tabbed_32_1">Input [Terminal 1]</label><label for="__tabbed_32_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>select * from region;
@@ -1695,11 +1722,11 @@ the data using the TRUNCATE TABLE command:</li>
 </div>
 </div>
 </div>
-<ol start="3">
-<li>Load data into the <code>REGION</code> table from the <code>ET2_REGION</code> external table
-using an <code>INSERT</code> statement:</li>
-</ol>
-<div class="tabbed-set tabbed-alternate" data-tabs="29:2"><input checked="checked" id="__tabbed_29_1" name="__tabbed_29" type="radio" /><input id="__tabbed_29_2" name="__tabbed_29" type="radio" /><div class="tabbed-labels"><label for="__tabbed_29_1">Input [Terminal 1]</label><label for="__tabbed_29_2">Output</label></div>
+</li>
+<li>
+<p>Load data into the <code>REGION</code> table from the <code>ET2_REGION</code> external table
+    using an <code>INSERT</code> statement:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="33:2"><input checked="checked" id="__tabbed_33_1" name="__tabbed_33" type="radio" /><input id="__tabbed_33_2" name="__tabbed_33" type="radio" /><div class="tabbed-labels"><label for="__tabbed_33_1">Input [Terminal 1]</label><label for="__tabbed_33_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>insert into region select * from et2_region;
@@ -1711,11 +1738,11 @@ using an <code>INSERT</code> statement:</li>
 </div>
 </div>
 </div>
-<ol start="4">
-<li>Check to ensure that the table contains the four rows using the
-    <code>SELECT *</code> statement.</li>
-</ol>
-<div class="tabbed-set tabbed-alternate" data-tabs="30:2"><input checked="checked" id="__tabbed_30_1" name="__tabbed_30" type="radio" /><input id="__tabbed_30_2" name="__tabbed_30" type="radio" /><div class="tabbed-labels"><label for="__tabbed_30_1">Input [Terminal 1]</label><label for="__tabbed_30_2">Output</label></div>
+</li>
+<li>
+<p>Check to ensure that the table contains the four rows using the
+        <code>SELECT *</code> statement.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="34:2"><input checked="checked" id="__tabbed_34_1" name="__tabbed_34" type="radio" /><input id="__tabbed_34_2" name="__tabbed_34" type="radio" /><div class="tabbed-labels"><label for="__tabbed_34_1">Input [Terminal 1]</label><label for="__tabbed_34_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>select * from region;
@@ -1733,10 +1760,10 @@ using an <code>INSERT</code> statement:</li>
 </div>
 </div>
 </div>
-<ol start="5">
-<li>Again, delete the rows in the <code>REGION</code> table:</li>
-</ol>
-<div class="tabbed-set tabbed-alternate" data-tabs="31:2"><input checked="checked" id="__tabbed_31_1" name="__tabbed_31" type="radio" /><input id="__tabbed_31_2" name="__tabbed_31" type="radio" /><div class="tabbed-labels"><label for="__tabbed_31_1">Input [Terminal 1]</label><label for="__tabbed_31_2">Output</label></div>
+</li>
+<li>
+<p>Again, delete the rows in the <code>REGION</code> table:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="35:2"><input checked="checked" id="__tabbed_35_1" name="__tabbed_35" type="radio" /><input id="__tabbed_35_2" name="__tabbed_35" type="radio" /><div class="tabbed-labels"><label for="__tabbed_35_1">Input [Terminal 1]</label><label for="__tabbed_35_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>truncate table region;
@@ -1748,11 +1775,11 @@ using an <code>INSERT</code> statement:</li>
 </div>
 </div>
 </div>
-<ol start="6">
-<li>Check to ensure that the table is empty using the <code>SELECT *</code>
-    statement.</li>
-</ol>
-<div class="tabbed-set tabbed-alternate" data-tabs="32:2"><input checked="checked" id="__tabbed_32_1" name="__tabbed_32" type="radio" /><input id="__tabbed_32_2" name="__tabbed_32" type="radio" /><div class="tabbed-labels"><label for="__tabbed_32_1">Input [Terminal 1]</label><label for="__tabbed_32_2">Output</label></div>
+</li>
+<li>
+<p>Check to ensure that the table is empty using the <code>SELECT *</code>
+        statement.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="36:2"><input checked="checked" id="__tabbed_36_1" name="__tabbed_36" type="radio" /><input id="__tabbed_36_2" name="__tabbed_36" type="radio" /><div class="tabbed-labels"><label for="__tabbed_36_1">Input [Terminal 1]</label><label for="__tabbed_36_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>select * from region;
@@ -1766,13 +1793,13 @@ using an <code>INSERT</code> statement:</li>
 </div>
 </div>
 </div>
-<ol start="7">
-<li>Load data into the <code>REGION</code> table using the ASCII delimited file that
-    was created for external table <code>ET1_REGION</code>. Recall that the
-    definition of the external table was removed from that database, but
-    the external data source file, <code>et1_region_flat_file</code>, still exists:</li>
-</ol>
-<div class="tabbed-set tabbed-alternate" data-tabs="33:2"><input checked="checked" id="__tabbed_33_1" name="__tabbed_33" type="radio" /><input id="__tabbed_33_2" name="__tabbed_33" type="radio" /><div class="tabbed-labels"><label for="__tabbed_33_1">Input [Terminal 1]</label><label for="__tabbed_33_2">Output</label></div>
+</li>
+<li>
+<p>Load data into the <code>REGION</code> table using the ASCII delimited file that
+        was created for external table <code>ET1_REGION</code>. Recall that the
+        definition of the external table was removed from that database, but
+        the external data source file, <code>et1_region_flat_file</code>, still exists:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="37:2"><input checked="checked" id="__tabbed_37_1" name="__tabbed_37" type="radio" /><input id="__tabbed_37_2" name="__tabbed_37" type="radio" /><div class="tabbed-labels"><label for="__tabbed_37_1">Input [Terminal 1]</label><label for="__tabbed_37_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>insert into region select * from external
@@ -1785,11 +1812,11 @@ using an <code>INSERT</code> statement:</li>
 </div>
 </div>
 </div>
-<ol start="8">
-<li>Verify the table contains the four rows using the <code>SELECT *</code>
-    statement.</li>
-</ol>
-<div class="tabbed-set tabbed-alternate" data-tabs="34:2"><input checked="checked" id="__tabbed_34_1" name="__tabbed_34" type="radio" /><input id="__tabbed_34_2" name="__tabbed_34" type="radio" /><div class="tabbed-labels"><label for="__tabbed_34_1">Input [Terminal 1]</label><label for="__tabbed_34_2">Output</label></div>
+</li>
+<li>
+<p>Verify the table contains the four rows using the <code>SELECT *</code>
+        statement.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="38:2"><input checked="checked" id="__tabbed_38_1" name="__tabbed_38" type="radio" /><input id="__tabbed_38_2" name="__tabbed_38" type="radio" /><div class="tabbed-labels"><label for="__tabbed_38_1">Input [Terminal 1]</label><label for="__tabbed_38_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>select * from region;
@@ -1811,7 +1838,7 @@ using an <code>INSERT</code> statement:</li>
 <code>&lt;table&gt;.&lt;database&gt;.nzlog</code> created for each load performed. By default
 this log file is created in the <code>/tmp</code> directory.</p>
 <p>In the second Putty session review this file:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="35:2"><input checked="checked" id="__tabbed_35_1" name="__tabbed_35" type="radio" /><input id="__tabbed_35_2" name="__tabbed_35" type="radio" /><div class="tabbed-labels"><label for="__tabbed_35_1">Input [Terminal 2]</label><label for="__tabbed_35_2">Output</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="39:2"><input checked="checked" id="__tabbed_39_1" name="__tabbed_39" type="radio" /><input id="__tabbed_39_2" name="__tabbed_39" type="radio" /><div class="tabbed-labels"><label for="__tabbed_39_1">Input [Terminal 2]</label><label for="__tabbed_39_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>more /tmp/REGION.ADMIN.LABDB.nzlog
@@ -1860,6 +1887,8 @@ Load completed at: 08-May-13 07:10:13 EDT
 </div>
 <p>Notice that the log file contains the load options and statistics of the
 load, along with environment information to identify the table.</p>
+</li>
+</ol>
 <h2 id="6-loading-data-using-the-nzload-utility">6 Loading Data using the nzload Utility</h2>
 <p>The <code>nzload</code> command is a SQL CLI client application that allows you to
 load data from the local host or a remote client, on all the supported
@@ -1904,14 +1933,19 @@ table will specify options at the command line. We will only need to
 specify the datasource file and we will use default options for the
 rest. The datasource file will be the et1_region_flat_file that you
 created in the External Tables section.</p>
-<p><strong>Sample Syntax</strong>
+<div class="tabbed-set tabbed-alternate" data-tabs="40:1"><input checked="checked" id="__tabbed_40_1" name="__tabbed_40" type="radio" /><div class="tabbed-labels"><label for="__tabbed_40_1">Sample Syntax</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>nzload -db &lt;database&gt; -u &lt;username&gt; -pw &lt;password&gt; -df &lt;datasource filename&gt;
-</code></pre></div></p>
+</code></pre></div>
+</div>
+</div>
+</div>
 <ol>
-<li>As the <code>LABDB</code> database owner, <code>LABADMIN</code> first remove the rows in the
-    <code>REGION</code> table:</li>
-</ol>
-<div class="tabbed-set tabbed-alternate" data-tabs="36:2"><input checked="checked" id="__tabbed_36_1" name="__tabbed_36" type="radio" /><input id="__tabbed_36_2" name="__tabbed_36" type="radio" /><div class="tabbed-labels"><label for="__tabbed_36_1">Input [Terminal 1]</label><label for="__tabbed_36_2">Output</label></div>
+<li>
+<p>As the <code>LABDB</code> database owner, <code>LABADMIN</code> first remove the rows in the
+        <code>REGION</code> table:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="41:2"><input checked="checked" id="__tabbed_41_1" name="__tabbed_41" type="radio" /><input id="__tabbed_41_2" name="__tabbed_41" type="radio" /><div class="tabbed-labels"><label for="__tabbed_41_1">Input [Terminal 1]</label><label for="__tabbed_41_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>truncate table region;
@@ -1923,11 +1957,11 @@ created in the External Tables section.</p>
 </div>
 </div>
 </div>
-<ol start="2">
-<li>Verify the rows have been removed from the table using the <code>SELECT *</code>
-    statement:</li>
-</ol>
-<div class="tabbed-set tabbed-alternate" data-tabs="37:2"><input checked="checked" id="__tabbed_37_1" name="__tabbed_37" type="radio" /><input id="__tabbed_37_2" name="__tabbed_37" type="radio" /><div class="tabbed-labels"><label for="__tabbed_37_1">Input [Terminal 1]</label><label for="__tabbed_37_2">Output</label></div>
+</li>
+<li>
+<p>Verify the rows have been removed from the table using the <code>SELECT *</code>
+        statement:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="42:2"><input checked="checked" id="__tabbed_42_1" name="__tabbed_42" type="radio" /><input id="__tabbed_42_2" name="__tabbed_42" type="radio" /><div class="tabbed-labels"><label for="__tabbed_42_1">Input [Terminal 1]</label><label for="__tabbed_42_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>select * from region;
@@ -1941,16 +1975,22 @@ created in the External Tables section.</p>
 </div>
 </div>
 </div>
-<ol start="3">
-<li>Using the second session at the OS command line, use the nzload
-    utility to load data from the <code>et1_region_flat_file</code> into the <code>REGION</code>
-    table using the following command line options:</li>
-</ol>
-<p><strong>Sample Syntax</strong>
+</li>
+<li>
+<p>Using the second session at the OS command line, use the nzload
+        utility to load data.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="43:1"><input checked="checked" id="__tabbed_43_1" name="__tabbed_43" type="radio" /><div class="tabbed-labels"><label for="__tabbed_43_1">Sample Syntax</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>-db &lt;database name&gt;, -u &lt;user&gt;, -pw &lt;password&gt;, -t &lt;table name&gt;,
 -df &lt;data file&gt;, and -delimiter &lt;string&gt;:
-</code></pre></div></p>
-<div class="tabbed-set tabbed-alternate" data-tabs="38:2"><input checked="checked" id="__tabbed_38_1" name="__tabbed_38" type="radio" /><input id="__tabbed_38_2" name="__tabbed_38" type="radio" /><div class="tabbed-labels"><label for="__tabbed_38_1">Input [Terminal 2]</label><label for="__tabbed_38_2">Output</label></div>
+</code></pre></div>
+</div>
+</div>
+</div>
+<p>The following command will load data from the <code>et1_region_flat_file</code> into the <code>REGION</code>
+    table using the following command line options:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="44:2"><input checked="checked" id="__tabbed_44_1" name="__tabbed_44" type="radio" /><input id="__tabbed_44_2" name="__tabbed_44" type="radio" /><div class="tabbed-labels"><label for="__tabbed_44_1">Input [Terminal 2]</label><label for="__tabbed_44_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>nzload -db labdb -u labadmin -pw password 
@@ -1963,11 +2003,11 @@ created in the External Tables section.</p>
 </div>
 </div>
 </div>
-<ol start="4">
-<li>Verify the rows have been load into the table by using the <code>SELECT *</code>
-    statement:</li>
-</ol>
-<div class="tabbed-set tabbed-alternate" data-tabs="39:2"><input checked="checked" id="__tabbed_39_1" name="__tabbed_39" type="radio" /><input id="__tabbed_39_2" name="__tabbed_39" type="radio" /><div class="tabbed-labels"><label for="__tabbed_39_1">Input [Terminal 1]</label><label for="__tabbed_39_2">Output</label></div>
+</li>
+<li>
+<p>Verify the rows have been load into the table by using the <code>SELECT *</code>
+        statement:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="45:2"><input checked="checked" id="__tabbed_45_1" name="__tabbed_45" type="radio" /><input id="__tabbed_45_2" name="__tabbed_45" type="radio" /><div class="tabbed-labels"><label for="__tabbed_45_1">Input [Terminal 1]</label><label for="__tabbed_45_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>select * from region;
@@ -1987,14 +2027,14 @@ created in the External Tables section.</p>
 </div>
 <p>These rows were loaded into the <code>REGION</code> table from the records in the
 <code>et1_region_flat_file</code> file.</p>
-<ol start="5">
-<li>For every load task performed there is always an associated log
-file created with the format <code>&lt;table&gt;.&lt;db&gt;.nzlog</code>. By default, this
-log file is created in the current working directory, which is the
-<code>/home/nz/labs/movingData</code> directory. In the second session review this
-file:</li>
-</ol>
-<div class="tabbed-set tabbed-alternate" data-tabs="40:2"><input checked="checked" id="__tabbed_40_1" name="__tabbed_40" type="radio" /><input id="__tabbed_40_2" name="__tabbed_40" type="radio" /><div class="tabbed-labels"><label for="__tabbed_40_1">Input [Terminal 2]</label><label for="__tabbed_40_2">Output</label></div>
+</li>
+<li>
+<p>For every load task performed there is always an associated log
+    file created with the format <code>&lt;table&gt;.&lt;db&gt;.nzlog</code>. By default, this
+    log file is created in the current working directory, which is the
+    <code>/home/nz/labs/movingData</code> directory. In the second session review this
+    file:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="46:2"><input checked="checked" id="__tabbed_46_1" name="__tabbed_46" type="radio" /><input id="__tabbed_46_2" name="__tabbed_46" type="radio" /><div class="tabbed-labels"><label for="__tabbed_46_1">Input [Terminal 2]</label><label for="__tabbed_46_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>more REGION.ADMIN.LABDB.nzlog
@@ -2076,7 +2116,9 @@ delimited text file.</p>
 we used above. It is intended to demonstrate some of the options that
 can be used with the <code>nzload</code> command, or can be omitted when default
 values are acceptable.</p>
-<p><strong>Sample Syntax</strong>
+<div class="tabbed-set tabbed-alternate" data-tabs="47:1"><input checked="checked" id="__tabbed_47_1" name="__tabbed_47" type="radio" /><div class="tabbed-labels"><label for="__tabbed_47_1">Sample Syntax</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>nzload -db labdb -u labadmin -pw password
 -t region
 -df et1_region_flat_file -delimiter &#39;|&#39;
@@ -2084,12 +2126,17 @@ values are acceptable.</p>
 -lf &lt;table&gt;.&lt;database&gt;.nzlog -bf&lt;table&gt;.&lt;database&gt;.nzlog
 -compress false -format text
 -maxErrors 1
-</code></pre></div></p>
+</code></pre></div>
+</div>
+</div>
+</div>
 <p>The <code>-lf</code>, <code>-bf</code>, and <code>-maxErrors</code> options are explained in the next
 exercise. The <code>-compress</code> and <code>-format</code> options indicate that the
 datasource file is an ASCII delimited text file. For a compressed binary
 datasource file the following options would be used: <code>-compress true
 -format internal</code>.</p>
+</li>
+</ol>
 <h3 id="62-using-the-nzload-utility-with-a-control-file">6.2 Using the nzload Utility with a Control File.</h3>
 <p>As demonstrated in section 3.1 you can run the nzload command by
 specifying the command line options or you can use another method by
@@ -2097,17 +2144,27 @@ specifying the options in a file, referred to as a control file. This is
 useful because the file can be modified over time, since loading data
 into a database for a data warehouse environment is a continuous
 operation. A nzload control file has the following basic structure:</p>
-<p><strong>Sample Syntax</strong>
+<div class="tabbed-set tabbed-alternate" data-tabs="48:1"><input checked="checked" id="__tabbed_48_1" name="__tabbed_48" type="radio" /><div class="tabbed-labels"><label for="__tabbed_48_1">Sample Syntax</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>DATAFILE &lt;filename&gt;
 {
 [&lt;option name&gt; &lt;option value&gt;]
 }
-</code></pre></div></p>
+</code></pre></div>
+</div>
+</div>
+</div>
 <p>The <code>-cf</code> option is used at the <code>nzload</code> command line to indicate the use
 of a control file:</p>
-<p><strong>Sample Syntax</strong>
+<div class="tabbed-set tabbed-alternate" data-tabs="49:1"><input checked="checked" id="__tabbed_49_1" name="__tabbed_49" type="radio" /><div class="tabbed-labels"><label for="__tabbed_49_1">Sample Syntax</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>nzload -u &lt;username&gt; -pw &lt;password&gt; -cf &lt;control file&gt;
-</code></pre></div></p>
+</code></pre></div>
+</div>
+</div>
+</div>
 <p>The <code>-u</code> and <code>-pw</code> options are optional if the <code>NZ_USER</code> and <code>NZ_PASSWORD</code>
 environment variables are set to the appropriate user and password.
 Using the <code>-u</code> and <code>-pw</code> options overrides the values in the NZ
@@ -2118,10 +2175,10 @@ following options: delimiter, logDir, logFile, and badFile, along with
 the database and table name. The datasource file to be used in this
 session is the <code>region.del</code> file.</p>
 <ol>
-<li>As the <code>LABDB</code> database owner, <code>LABADMIN</code> first remove the rows in the
-    <code>REGION</code> table:</li>
-</ol>
-<div class="tabbed-set tabbed-alternate" data-tabs="41:2"><input checked="checked" id="__tabbed_41_1" name="__tabbed_41" type="radio" /><input id="__tabbed_41_2" name="__tabbed_41" type="radio" /><div class="tabbed-labels"><label for="__tabbed_41_1">Input [Terminal 1]</label><label for="__tabbed_41_2">Output</label></div>
+<li>
+<p>As the <code>LABDB</code> database owner, <code>LABADMIN</code> first remove the rows in the
+        <code>REGION</code> table:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="50:2"><input checked="checked" id="__tabbed_50_1" name="__tabbed_50" type="radio" /><input id="__tabbed_50_2" name="__tabbed_50" type="radio" /><div class="tabbed-labels"><label for="__tabbed_50_1">Input [Terminal 1]</label><label for="__tabbed_50_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>truncate table region;
@@ -2133,11 +2190,11 @@ session is the <code>region.del</code> file.</p>
 </div>
 </div>
 </div>
-<ol start="2">
-<li>Verify the rows have been removed from the table using the <code>SELECT
-*</code> statement. The table should contain no rows.</li>
-</ol>
-<div class="tabbed-set tabbed-alternate" data-tabs="42:2"><input checked="checked" id="__tabbed_42_1" name="__tabbed_42" type="radio" /><input id="__tabbed_42_2" name="__tabbed_42" type="radio" /><div class="tabbed-labels"><label for="__tabbed_42_1">Input [Terminal 1]</label><label for="__tabbed_42_2">Output</label></div>
+</li>
+<li>
+<p>Verify the rows have been removed from the table using the <code>SELECT
+    *</code> statement. The table should contain no rows.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="51:2"><input checked="checked" id="__tabbed_51_1" name="__tabbed_51" type="radio" /><input id="__tabbed_51_2" name="__tabbed_51" type="radio" /><div class="tabbed-labels"><label for="__tabbed_51_1">Input [Terminal 1]</label><label for="__tabbed_51_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>select * from region;
@@ -2189,11 +2246,11 @@ the following options:</p>
 </tr>
 </tbody>
 </table>
-<ol start="3">
-<li>Review the control file in the second putty session with the
-    following command:</li>
-</ol>
-<div class="tabbed-set tabbed-alternate" data-tabs="43:2"><input checked="checked" id="__tabbed_43_1" name="__tabbed_43" type="radio" /><input id="__tabbed_43_2" name="__tabbed_43" type="radio" /><div class="tabbed-labels"><label for="__tabbed_43_1">Input [Terminal 2]</label><label for="__tabbed_43_2">Output</label></div>
+</li>
+<li>
+<p>Review the control file in the second putty session with the
+        following command:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="52:2"><input checked="checked" id="__tabbed_52_1" name="__tabbed_52" type="radio" /><input id="__tabbed_52_2" name="__tabbed_52" type="radio" /><div class="tabbed-labels"><label for="__tabbed_52_1">Input [Terminal 2]</label><label for="__tabbed_52_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>more control_file
@@ -2213,11 +2270,11 @@ the following options:</p>
 </div>
 </div>
 </div>
-<ol start="4">
-<li>Load the data using the nzload utility and the control file you just
-    reviewed.</li>
-</ol>
-<div class="tabbed-set tabbed-alternate" data-tabs="44:2"><input checked="checked" id="__tabbed_44_1" name="__tabbed_44" type="radio" /><input id="__tabbed_44_2" name="__tabbed_44" type="radio" /><div class="tabbed-labels"><label for="__tabbed_44_1">Input [Terminal 2]</label><label for="__tabbed_44_2">Output</label></div>
+</li>
+<li>
+<p>Load the data using the nzload utility and the control file you just
+        reviewed.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="53:2"><input checked="checked" id="__tabbed_53_1" name="__tabbed_53" type="radio" /><input id="__tabbed_53_2" name="__tabbed_53" type="radio" /><div class="tabbed-labels"><label for="__tabbed_53_1">Input [Terminal 2]</label><label for="__tabbed_53_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>nzload -u labadmin -pw password -cf control_file
@@ -2229,13 +2286,13 @@ the following options:</p>
 </div>
 </div>
 </div>
-<ol start="5">
-<li>The <code>nzload</code> log file was renamed using the information in the control
-    file. The log file name was changed from the default to region.log
-    and the location was changed from the <code>/tmp</code> directory to <code>/labs/</code>.
-    Check the <code>nzload</code> log.</li>
-</ol>
-<div class="tabbed-set tabbed-alternate" data-tabs="45:2"><input checked="checked" id="__tabbed_45_1" name="__tabbed_45" type="radio" /><input id="__tabbed_45_2" name="__tabbed_45" type="radio" /><div class="tabbed-labels"><label for="__tabbed_45_1">Input [Terminal 2]</label><label for="__tabbed_45_2">Output</label></div>
+</li>
+<li>
+<p>The <code>nzload</code> log file was renamed using the information in the control
+        file. The log file name was changed from the default to region.log
+        and the location was changed from the <code>/tmp</code> directory to <code>/labs/</code>.
+        Check the <code>nzload</code> log.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="54:2"><input checked="checked" id="__tabbed_54_1" name="__tabbed_54" type="radio" /><input id="__tabbed_54_2" name="__tabbed_54" type="radio" /><div class="tabbed-labels"><label for="__tabbed_54_1">Input [Terminal 2]</label><label for="__tabbed_54_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>more region.log
@@ -2287,11 +2344,11 @@ Load completed at: 03-Apr-20 03:38:32 PDT
 </div>
 </div>
 </div>
-<ol start="6">
-<li>Verify the rows in the <code>REGION</code> table in the first putty session with
-    the nzsql console:</li>
-</ol>
-<div class="tabbed-set tabbed-alternate" data-tabs="46:2"><input checked="checked" id="__tabbed_46_1" name="__tabbed_46" type="radio" /><input id="__tabbed_46_2" name="__tabbed_46" type="radio" /><div class="tabbed-labels"><label for="__tabbed_46_1">Input [Terminal 1]</label><label for="__tabbed_46_2">Output</label></div>
+</li>
+<li>
+<p>Verify the rows in the <code>REGION</code> table in the first putty session with
+        the nzsql console:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="55:2"><input checked="checked" id="__tabbed_55_1" name="__tabbed_55" type="radio" /><input id="__tabbed_55_2" name="__tabbed_55" type="radio" /><div class="tabbed-labels"><label for="__tabbed_55_1">Input [Terminal 1]</label><label for="__tabbed_55_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>select * from region;
@@ -2309,6 +2366,8 @@ Load completed at: 03-Apr-20 03:38:32 PDT
 </div>
 </div>
 </div>
+</li>
+</ol>
 <h3 id="63-optional-using-nzload-with-bad-records">6.3 (Optional) Using nzload with Bad Records</h3>
 <p>The first two load methods illustrated how to use the <code>nzload</code> utility to
 load data into an empty table using command line options or a control
@@ -2324,10 +2383,10 @@ we will be adding rows to the <code>NATION</code> table, there will be no need t
 truncate the table. The datasource file we will be using is the
 nation.del file, which unfortunately has a bad record.</p>
 <ol>
-<li>First check the <code>NATION</code> table by listing all of the rows in the table
-    using the <code>SELECT *</code> statement in the first putty session:</li>
-</ol>
-<div class="tabbed-set tabbed-alternate" data-tabs="47:2"><input checked="checked" id="__tabbed_47_1" name="__tabbed_47" type="radio" /><input id="__tabbed_47_2" name="__tabbed_47" type="radio" /><div class="tabbed-labels"><label for="__tabbed_47_1">Input [Terminal 1]</label><label for="__tabbed_47_2">Output</label></div>
+<li>
+<p>First check the <code>NATION</code> table by listing all of the rows in the table
+        using the <code>SELECT *</code> statement in the first putty session:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="56:2"><input checked="checked" id="__tabbed_56_1" name="__tabbed_56" type="radio" /><input id="__tabbed_56_2" name="__tabbed_56" type="radio" /><div class="tabbed-labels"><label for="__tabbed_56_1">Input [Terminal 1]</label><label for="__tabbed_56_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>select * from nation;
@@ -2355,12 +2414,12 @@ nation.del file, which unfortunately has a bad record.</p>
 </div>
 </div>
 </div>
-<ol start="2">
-<li>Using the second session at the OS command line you will use the
-    <code>nzload</code> utility to load data from the nation.del file into the
-    <code>NATION</code>:</li>
-</ol>
-<div class="tabbed-set tabbed-alternate" data-tabs="48:2"><input checked="checked" id="__tabbed_48_1" name="__tabbed_48" type="radio" /><input id="__tabbed_48_2" name="__tabbed_48" type="radio" /><div class="tabbed-labels"><label for="__tabbed_48_1">Input [Terminal 1]</label><label for="__tabbed_48_2">Output</label></div>
+</li>
+<li>
+<p>Using the second session at the OS command line you will use the
+        <code>nzload</code> utility to load data from the nation.del file into the
+        <code>NATION</code>:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="57:2"><input checked="checked" id="__tabbed_57_1" name="__tabbed_57" type="radio" /><input id="__tabbed_57_2" name="__tabbed_57" type="radio" /><div class="tabbed-labels"><label for="__tabbed_57_1">Input [Terminal 1]</label><label for="__tabbed_57_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>nzload -db LABDB -u labadmin -pw password -t nation -df nation.del -delimiter &#39;|&#39;
@@ -2377,12 +2436,12 @@ Error: Load Failed, records not inserted.
 </div>
 <p>This is an indication that the load has failed due to a bad record in
 the datasource file.</p>
-<ol start="3">
-<li>Since the load has failed no rows were loaded into the <code>NATION</code> table,
-    which you can confirm by using the <code>SELECT *</code> statement (in the first
-    session):</li>
-</ol>
-<div class="tabbed-set tabbed-alternate" data-tabs="49:2"><input checked="checked" id="__tabbed_49_1" name="__tabbed_49" type="radio" /><input id="__tabbed_49_2" name="__tabbed_49" type="radio" /><div class="tabbed-labels"><label for="__tabbed_49_1">Input [Terminal 1]</label><label for="__tabbed_49_2">Output</label></div>
+</li>
+<li>
+<p>Since the load has failed no rows were loaded into the <code>NATION</code> table,
+        which you can confirm by using the <code>SELECT *</code> statement (in the first
+        session):</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="58:2"><input checked="checked" id="__tabbed_58_1" name="__tabbed_58" type="radio" /><input id="__tabbed_58_2" name="__tabbed_58" type="radio" /><div class="tabbed-labels"><label for="__tabbed_58_1">Input [Terminal 1]</label><label for="__tabbed_58_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>select * from nation;
@@ -2410,10 +2469,10 @@ the datasource file.</p>
 </div>
 </div>
 </div>
-<ol start="4">
-<li>In the second session, check the log file to determine the problem:</li>
-</ol>
-<div class="tabbed-set tabbed-alternate" data-tabs="50:2"><input checked="checked" id="__tabbed_50_1" name="__tabbed_50" type="radio" /><input id="__tabbed_50_2" name="__tabbed_50" type="radio" /><div class="tabbed-labels"><label for="__tabbed_50_1">Input [Terminal 2]</label><label for="__tabbed_50_2">Output</label></div>
+</li>
+<li>
+<p>In the second session, check the log file to determine the problem:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="59:2"><input checked="checked" id="__tabbed_59_1" name="__tabbed_59" type="radio" /><input id="__tabbed_59_2" name="__tabbed_59" type="radio" /><div class="tabbed-labels"><label for="__tabbed_59_1">Input [Terminal 2]</label><label for="__tabbed_59_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>more NATION.ADMIN.LABDB.nzlog
@@ -2505,13 +2564,18 @@ bad record was encountered during the load process. As expected, no rows
 were inserted into the table since the default is to abort the load when
 one bad record is encountered. The log file also provides information
 about the bad record:</p>
-<p><strong>Sample Output</strong>
+<div class="tabbed-set tabbed-alternate" data-tabs="60:1"><input checked="checked" id="__tabbed_60_1" name="__tabbed_60" type="radio" /><div class="tabbed-labels"><label for="__tabbed_60_1">Sample Syntax</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>Found bad records
 
 bad #: input row #(byte offset to last char examined) [field #, declaration] diagnostic, &quot;text consumed&quot;[last char examined]
 ----------------------------------------------------------------------------------------------------------------------------
 1: 10(1) [1, INT4] expected field delimiter or end of record, &quot;2&quot;[t]
-</code></pre></div></p>
+</code></pre></div>
+</div>
+</div>
+</div>
 <p>Using the log file, we are able to determine the problem is that the
 value '2t' is in a field for an <code>INT(4)</code> column. Since '2t' is not a valid
 integer, the load marked this as a bad record</p>
@@ -2523,12 +2587,12 @@ for the column. For this example, the column number is 1 and the data
 type is <code>INT(4)</code>.</p>
 <p><code>"2"[t]</code> indicates the character that caused the problem. For this
 example, the character is <code>2t</code>.</p>
-<ol start="5">
-<li>We can verify our problem determination for the load failure is
-    correct by examining the <code>nation.del</code> datasource file that was used
-    for the load. In the second session execute the following command:</li>
-</ol>
-<div class="tabbed-set tabbed-alternate" data-tabs="51:2"><input checked="checked" id="__tabbed_51_1" name="__tabbed_51" type="radio" /><input id="__tabbed_51_2" name="__tabbed_51" type="radio" /><div class="tabbed-labels"><label for="__tabbed_51_1">Input [Terminal 2]</label><label for="__tabbed_51_2">Output</label></div>
+</li>
+<li>
+<p>We can verify our problem determination for the load failure is
+        correct by examining the <code>nation.del</code> datasource file that was used
+        for the load. In the second session execute the following command:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="61:2"><input checked="checked" id="__tabbed_61_1" name="__tabbed_61" type="radio" /><input id="__tabbed_61_2" name="__tabbed_61" type="radio" /><div class="tabbed-labels"><label for="__tabbed_61_1">Input [Terminal 2]</label><label for="__tabbed_61_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>more nation.del
@@ -2567,13 +2631,13 @@ example, the character is <code>2t</code>.</p>
 first column of the input file. Therefore, we made the correct
 assumption that the '2t' is causing the problem. From this list you can
 assume that the correct value should be <code>24</code>.</p>
-<ol start="6">
-<li>Alternatively, we could have examined the nzload bad log file
-    <code>NATION.LABDB.nzbad</code>, which will contain all bad records that are
-    encountered during a load. In the second session execute the
-    following command:</li>
-</ol>
-<div class="tabbed-set tabbed-alternate" data-tabs="52:2"><input checked="checked" id="__tabbed_52_1" name="__tabbed_52" type="radio" /><input id="__tabbed_52_2" name="__tabbed_52" type="radio" /><div class="tabbed-labels"><label for="__tabbed_52_1">Input [Terminal 2]</label><label for="__tabbed_52_2">Output</label></div>
+</li>
+<li>
+<p>Alternatively, we could have examined the nzload bad log file
+        <code>NATION.LABDB.nzbad</code>, which will contain all bad records that are
+        encountered during a load. In the second session execute the
+        following command:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="62:2"><input checked="checked" id="__tabbed_62_1" name="__tabbed_62" type="radio" /><input id="__tabbed_62_2" name="__tabbed_62" type="radio" /><div class="tabbed-labels"><label for="__tabbed_62_1">Input [Terminal 2]</label><label for="__tabbed_62_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>more NATION.ADMIN.LABDB.nzbad
@@ -2592,16 +2656,16 @@ in the bad log file. If we were to change the default behavior to allow
 more bad records to be processed, this file could potentially contain
 more records. It provides a comfortable overview of all the records that
 created exceptions during load.</p>
-<ol start="7">
-<li>We have the option of changing the <code>NATION.del</code> file to change '2t' to
-    '24' and then rerun the same <code>nzload</code> command as in step 7. Instead
-    you will rerun a similar load but you will allow 10 bad records to
-    be encountered during the load process. To change the default
-    behavior, you need to use the command option <code>-maxErrors</code>. You will
-    also change the name of the nzbad file using the <code>-bf</code> command option
-    and the log filename using the <code>-lf</code> command option:</li>
-</ol>
-<div class="tabbed-set tabbed-alternate" data-tabs="53:2"><input checked="checked" id="__tabbed_53_1" name="__tabbed_53" type="radio" /><input id="__tabbed_53_2" name="__tabbed_53" type="radio" /><div class="tabbed-labels"><label for="__tabbed_53_1">Input [Terminal 2]</label><label for="__tabbed_53_2">Output</label></div>
+</li>
+<li>
+<p>We have the option of changing the <code>NATION.del</code> file to change '2t' to
+        '24' and then rerun the same <code>nzload</code> command as in step 7. Instead
+        you will rerun a similar load but you will allow 10 bad records to
+        be encountered during the load process. To change the default
+        behavior, you need to use the command option <code>-maxErrors</code>. You will
+        also change the name of the nzbad file using the <code>-bf</code> command option
+        and the log filename using the <code>-lf</code> command option:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="63:2"><input checked="checked" id="__tabbed_63_1" name="__tabbed_63" type="radio" /><input id="__tabbed_63_2" name="__tabbed_63" type="radio" /><div class="tabbed-labels"><label for="__tabbed_63_1">Input [Terminal 2]</label><label for="__tabbed_63_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>nzload -db labdb -u labadmin -pw password -t nation -df nation.del -delimiter &#39;|&#39; -maxerrors 10 -bf nation.bad -lf nation.log
@@ -2614,11 +2678,11 @@ created exceptions during load.</p>
 </div>
 </div>
 <p>Now the load is successful.</p>
-<ol start="8">
-<li>Verify the newly loaded rows are in the <code>NATION</code> using the <code>SELECT *</code>
-    command:</li>
-</ol>
-<div class="tabbed-set tabbed-alternate" data-tabs="54:2"><input checked="checked" id="__tabbed_54_1" name="__tabbed_54" type="radio" /><input id="__tabbed_54_2" name="__tabbed_54" type="radio" /><div class="tabbed-labels"><label for="__tabbed_54_1">Input [Terminal 1]</label><label for="__tabbed_54_2">Output</label></div>
+</li>
+<li>
+<p>Verify the newly loaded rows are in the <code>NATION</code> using the <code>SELECT *</code>
+        command:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="64:2"><input checked="checked" id="__tabbed_64_1" name="__tabbed_64" type="radio" /><input id="__tabbed_64_2" name="__tabbed_64" type="radio" /><div class="tabbed-labels"><label for="__tabbed_64_1">Input [Terminal 1]</label><label for="__tabbed_64_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>select * from nation order by n_nationkey;
@@ -2672,17 +2736,17 @@ created exceptions during load.</p>
 </div>
 <p>Now all of the new records were loaded except for the one bad row with
 nation key 24.</p>
-<ol start="9">
-<li>Even though the <code>nzload</code> command received a successful message it is
-    good practice to review the <code>nzload</code> log file for any problems, for
-    example bad rows that are under the <code>maxErrors</code> threshold. In the
-    second putty session execute the following command:</li>
-</ol>
+</li>
+<li>
+<p>Even though the <code>nzload</code> command received a successful message it is
+        good practice to review the <code>nzload</code> log file for any problems, for
+        example bad rows that are under the <code>maxErrors</code> threshold. In the
+        second putty session execute the following command:</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>xxxx is the ID associated to your nzload.</p>
 </div>
-<div class="tabbed-set tabbed-alternate" data-tabs="55:1"><input checked="checked" id="__tabbed_55_1" name="__tabbed_55" type="radio" /><div class="tabbed-labels"><label for="__tabbed_55_1">Input [Terminal 2]</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="65:1"><input checked="checked" id="__tabbed_65_1" name="__tabbed_65" type="radio" /><div class="tabbed-labels"><label for="__tabbed_65_1">Input [Terminal 2]</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>more NATION.ADMIN.LABDB.xxxx.nzbad
@@ -2691,7 +2755,7 @@ nation key 24.</p>
 </div>
 </div>
 <p>The log file should be similar to the following.</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="56:1"><input checked="checked" id="__tabbed_56_1" name="__tabbed_56" type="radio" /><div class="tabbed-labels"><label for="__tabbed_56_1">Output</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="66:1"><input checked="checked" id="__tabbed_66_1" name="__tabbed_66" type="radio" /><div class="tabbed-labels"><label for="__tabbed_66_1">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>Load started at:03-Apr-20 06:12:43 PDT
@@ -2764,7 +2828,7 @@ editor etc. and an insert mode. Initially you will be in the command
 mode. To change the file, you need to switch into the insert mode by
 pressing "i". The editor will show an <code>-- INSERT --</code> at the bottom of the
 screen. Note: you can use <code>gedit</code> from the VM desktop (<code>gedit nation.bad</code>)</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="57:2"><input checked="checked" id="__tabbed_57_1" name="__tabbed_57" type="radio" /><input id="__tabbed_57_2" name="__tabbed_57" type="radio" /><div class="tabbed-labels"><label for="__tabbed_57_1">Input [Terminal 2]</label><label for="__tabbed_57_2">Output before changes</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="67:2"><input checked="checked" id="__tabbed_67_1" name="__tabbed_67" type="radio" /><input id="__tabbed_67_2" name="__tabbed_67" type="radio" /><div class="tabbed-labels"><label for="__tabbed_67_1">Input [Terminal 2]</label><label for="__tabbed_67_2">Output before changes</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>vi nation.bad
@@ -2776,12 +2840,12 @@ screen. Note: you can use <code>gedit</code> from the VM desktop (<code>gedit na
 </div>
 </div>
 </div>
-<ol start="10">
-<li>You can now use the cursor keys to navigate. Change the first two
-     chars of the bad row from 2t to 24. Your screen should look like the
-     following:</li>
-</ol>
-<div class="tabbed-set tabbed-alternate" data-tabs="58:1"><input checked="checked" id="__tabbed_58_1" name="__tabbed_58" type="radio" /><div class="tabbed-labels"><label for="__tabbed_58_1">Output after changes</label></div>
+</li>
+<li>
+<p>You can now use the cursor keys to navigate. Change the first two
+         chars of the bad row from 2t to 24. Your screen should look like the
+         following:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="68:1"><input checked="checked" id="__tabbed_68_1" name="__tabbed_68" type="radio" /><div class="tabbed-labels"><label for="__tabbed_68_1">Output after changes</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>24|denmark|3|Denmark
@@ -2792,19 +2856,17 @@ screen. Note: you can use <code>gedit</code> from the VM desktop (<code>gedit na
 </div>
 </div>
 </div>
-<ol start="11">
+</li>
 <li>
 <p>To save the changes, press <code>Esc</code> to switch back into command mode.
-     You should see that the <code>---INSERT---</code> string at the bottom of the
-     screen vanishes. Enter :wq! and press enter to write the file, and
-     quit the editor.</p>
+         You should see that the <code>-- INSERT --</code> string at the bottom of the
+         screen vanishes. Enter :wq! and press enter to write the file, and
+         quit the editor.</p>
 </li>
 <li>
 <p>After the nation.bad file has modified to correct the record, issue
-     a <code>nzload</code> to load the modified nation.bad file:</p>
-</li>
-</ol>
-<div class="tabbed-set tabbed-alternate" data-tabs="59:2"><input checked="checked" id="__tabbed_59_1" name="__tabbed_59" type="radio" /><input id="__tabbed_59_2" name="__tabbed_59" type="radio" /><div class="tabbed-labels"><label for="__tabbed_59_1">Input [Terminal 2]</label><label for="__tabbed_59_2">Output</label></div>
+         a <code>nzload</code> to load the modified nation.bad file:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="69:2"><input checked="checked" id="__tabbed_69_1" name="__tabbed_69" type="radio" /><input id="__tabbed_69_2" name="__tabbed_69" type="radio" /><div class="tabbed-labels"><label for="__tabbed_69_1">Input [Terminal 2]</label><label for="__tabbed_69_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>nzload -db labdb -u labadmin -pw password -t nation -df nation.bad -delimiter &#39;|&#39;
@@ -2816,10 +2878,10 @@ screen. Note: you can use <code>gedit</code> from the VM desktop (<code>gedit na
 </div>
 </div>
 </div>
-<ol start="13">
-<li>Verify the new row has been loaded into the table:</li>
-</ol>
-<div class="tabbed-set tabbed-alternate" data-tabs="60:2"><input checked="checked" id="__tabbed_60_1" name="__tabbed_60" type="radio" /><input id="__tabbed_60_2" name="__tabbed_60" type="radio" /><div class="tabbed-labels"><label for="__tabbed_60_1">Input [Terminal 1]</label><label for="__tabbed_60_2">Output</label></div>
+</li>
+<li>
+<p>Verify the new row has been loaded into the table:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="70:2"><input checked="checked" id="__tabbed_70_1" name="__tabbed_70" type="radio" /><input id="__tabbed_70_2" name="__tabbed_70" type="radio" /><div class="tabbed-labels"><label for="__tabbed_70_1">Input [Terminal 1]</label><label for="__tabbed_70_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>select * from nation order by n_nationkey;
@@ -2851,7 +2913,7 @@ screen. Note: you can use <code>gedit</code> from the VM desktop (<code>gedit na
           21 | chile                     |           2 | chile
           22 | cuba                      |           2 | cuba
           23 | cook islands              |           4 | cook islands
-          24 | denmark                   |           3 | denmark
+     ***  24 | denmark                   |           3 | denmark
           25 | ecuador                   |           2 | ecuador
           26 | falkland islands          |           3 | islas malinas
           27 | fiji                      |           4 | fiji
@@ -2872,8 +2934,10 @@ screen. Note: you can use <code>gedit</code> from the VM desktop (<code>gedit na
 </div>
 </div>
 </div>
-<p>The row in <strong>bold</strong> denotes the new row that was added to the table,
+<p>The row with <code>***</code> denotes the new row that was added to the table,
 which was the bad record you corrected.</p>
+</li>
+</ol>
 <div class="admonition success">
 <p class="admonition-title">Congratulations on finishing the chapter!</p>
 <p>Congratulations you have completed the lab.</p>

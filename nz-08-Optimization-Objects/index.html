@@ -66,7 +66,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#1-optimizing-objects" class="md-skip">
+        <a href="#optimizing-objects" class="md-skip">
           Skip to content
         </a>
       
@@ -322,8 +322,8 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#11-objectives" class="md-nav__link">
-    1.1 Objectives
+  <a href="#1-objectives" class="md-nav__link">
+    1 Objectives
   </a>
   
 </li>
@@ -516,8 +516,8 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#11-objectives" class="md-nav__link">
-    1.1 Objectives
+  <a href="#1-objectives" class="md-nav__link">
+    1 Objectives
   </a>
   
 </li>
@@ -597,7 +597,7 @@
                 
 
 
-<h1 id="1-optimizing-objects">1 Optimizing Objects</h1>
+<h1 id="optimizing-objects">Optimizing Objects</h1>
 <p>The Netezza Performance Server is designed to provide excellent
 performance in most cases without any specific tuning or index creation.
 One of the key technologies used to achieve this simplicity are zone
@@ -614,7 +614,7 @@ small subsets of columns. Then we will use Cluster Based Tables to
 enhance query performance of queries which are using multiple lookup
 dimensions. Cluster Based Tables (CBT) are intended to order data based
 on specified columns so that the zone maps are most effective.</p>
-<h2 id="11-objectives">1.1 Objectives</h2>
+<h2 id="1-objectives">1 Objectives</h2>
 <p>In the last labs we have recreated a customer database in our Netezza
 Performance Server system. We have picked distribution keys, loaded the
 data and made some first performance investigations. In this lab we will
@@ -1395,6 +1395,9 @@ them. The following query is a template for the queries in question. It
 returns the aggregated total price of all orders by order priority for a
 given year (in this case 1996) and price range (in this case between
 150000 and 180000).</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="24:1"><input checked="checked" id="__tabbed_24_1" name="__tabbed_24" type="radio" /><div class="tabbed-labels"><label for="__tabbed_24_1">SQL Query</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>SELECT O_ORDERPRIORITY, SUM(O_TOTALPRICE) 
   FROM ORDERS
 WHERE EXTRACT(YEAR FROM O_ORDERDATE) = 1996 AND
@@ -1402,6 +1405,9 @@ WHERE EXTRACT(YEAR FROM O_ORDERDATE) = 1996 AND
   O_TOTALPRICE &lt;= 180000 
 GROUP BY O_ORDERPRIORITY;
 </code></pre></div>
+</div>
+</div>
+</div>
 <p>In this example we have a very restrictive <code>WHERE</code> condition on two
 columns: <code>O_ORDERDATE</code> and <code>O_TOTALPRICE</code>. This can help us to increase
 performance. The <code>ORDERS</code> table has around 220,000 rows with an order date
@@ -1436,7 +1442,7 @@ as well.</p>
 <li>
 <p>Switch to the optimization lab directory by executing the following
         command:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="24:1"><input checked="checked" id="__tabbed_24_1" name="__tabbed_24" type="radio" /><div class="tabbed-labels"><label for="__tabbed_24_1">Input</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="25:1"><input checked="checked" id="__tabbed_25_1" name="__tabbed_25" type="radio" /><div class="tabbed-labels"><label for="__tabbed_25_1">Input</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>cd ~/labs/optimizationObjects
@@ -1452,7 +1458,7 @@ as well.</p>
         <code>O_ORDERDATE</code> and <code>O_TOTALPRICE</code> columns. To change the <code>CREATE</code> statement
         open the orders_cbt.sql script in the vi editor with the following
         command:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="25:1"><input checked="checked" id="__tabbed_25_1" name="__tabbed_25" type="radio" /><div class="tabbed-labels"><label for="__tabbed_25_1">Input</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="26:1"><input checked="checked" id="__tabbed_26_1" name="__tabbed_26" type="radio" /><div class="tabbed-labels"><label for="__tabbed_26_1">Input</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>vi orders_cbt.sql
@@ -1498,7 +1504,7 @@ organize on (o_orderdate, o_totalprice);
 <li>
 <p>Create and load the <code>ORDERS_CBT</code> table by executing the following
         script:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="26:2"><input checked="checked" id="__tabbed_26_1" name="__tabbed_26" type="radio" /><input id="__tabbed_26_2" name="__tabbed_26" type="radio" /><div class="tabbed-labels"><label for="__tabbed_26_1">Input</label><label for="__tabbed_26_2">Output</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="27:2"><input checked="checked" id="__tabbed_27_1" name="__tabbed_27" type="radio" /><input id="__tabbed_27_2" name="__tabbed_27" type="radio" /><div class="tabbed-labels"><label for="__tabbed_27_1">Input</label><label for="__tabbed_27_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>./create_orders_test.sh
@@ -1521,7 +1527,7 @@ This is expected since the script first tries to clean up an existing
 <p>We will now have a look at how Netezza has organized the data in
         this table. For this we use the nz_zonemap utility again. Execute
         the following command:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="27:2"><input checked="checked" id="__tabbed_27_1" name="__tabbed_27" type="radio" /><input id="__tabbed_27_2" name="__tabbed_27" type="radio" /><div class="tabbed-labels"><label for="__tabbed_27_1">Input</label><label for="__tabbed_27_2">Output</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="28:2"><input checked="checked" id="__tabbed_28_1" name="__tabbed_28" type="radio" /><input id="__tabbed_28_2" name="__tabbed_28" type="radio" /><div class="tabbed-labels"><label for="__tabbed_28_1">Input</label><label for="__tabbed_28_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>/nz/support/bin/nz_zonemap labdb orders_cbt
@@ -1557,7 +1563,7 @@ part of the organization columns.</p>
 <li>
 <p>Execute the following command to see the zone map values of the
         <code>O_ORDERDATE</code> column:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="28:2"><input checked="checked" id="__tabbed_28_1" name="__tabbed_28" type="radio" /><input id="__tabbed_28_2" name="__tabbed_28" type="radio" /><div class="tabbed-labels"><label for="__tabbed_28_1">Input</label><label for="__tabbed_28_2">Output</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="29:2"><input checked="checked" id="__tabbed_29_1" name="__tabbed_29" type="radio" /><input id="__tabbed_29_2" name="__tabbed_29" type="radio" /><div class="tabbed-labels"><label for="__tabbed_29_1">Input</label><label for="__tabbed_29_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>/nz/support/bin/nz_zonemap labdb orders_cbt o_orderdate
@@ -1610,7 +1616,7 @@ keys.</p>
 <p>To organize the table you created in the last chapter you need to
     switch to the nzsql console again. Execute the following command:
     <code>nzsql labdb labadmin</code></p>
-<div class="tabbed-set tabbed-alternate" data-tabs="29:2"><input checked="checked" id="__tabbed_29_1" name="__tabbed_29" type="radio" /><input id="__tabbed_29_2" name="__tabbed_29" type="radio" /><div class="tabbed-labels"><label for="__tabbed_29_1">Input</label><label for="__tabbed_29_2">Output</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="30:2"><input checked="checked" id="__tabbed_30_1" name="__tabbed_30" type="radio" /><input id="__tabbed_30_2" name="__tabbed_30" type="radio" /><div class="tabbed-labels"><label for="__tabbed_30_1">Input</label><label for="__tabbed_30_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>nzsql labdb labadmin 
@@ -1632,7 +1638,7 @@ LABDB.ADMIN(LABADMIN)=&gt;
 </li>
 <li>
 <p>Execute the following command to groom your cluster-based table:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="30:2"><input checked="checked" id="__tabbed_30_1" name="__tabbed_30" type="radio" /><input id="__tabbed_30_2" name="__tabbed_30" type="radio" /><div class="tabbed-labels"><label for="__tabbed_30_1">Input</label><label for="__tabbed_30_2">Output</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="31:2"><input checked="checked" id="__tabbed_31_1" name="__tabbed_31" type="radio" /><input id="__tabbed_31_2" name="__tabbed_31" type="radio" /><div class="tabbed-labels"><label for="__tabbed_31_1">Input</label><label for="__tabbed_31_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>groom table orders_cbt;
@@ -1665,7 +1671,7 @@ that the system is stuck please inform the lecturer.</p>
 <li>
 <p>Review the zone maps of the two organization columns by executing
         the following command:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="31:2"><input checked="checked" id="__tabbed_31_1" name="__tabbed_31" type="radio" /><input id="__tabbed_31_2" name="__tabbed_31" type="radio" /><div class="tabbed-labels"><label for="__tabbed_31_1">Input</label><label for="__tabbed_31_2">Output</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="32:2"><input checked="checked" id="__tabbed_32_1" name="__tabbed_32" type="radio" /><input id="__tabbed_32_2" name="__tabbed_32" type="radio" /><div class="tabbed-labels"><label for="__tabbed_32_1">Input</label><label for="__tabbed_32_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>/nz/support/bin/nz_zonemap labdb orders_cbt o_orderdate o_totalprice
@@ -1782,7 +1788,7 @@ But Netezza Performance Server zone maps are even kept at the more
 granular level of pages. Netezza page size is 128K, and so there are
 24 pages in one extent. You can look at the more granular zone map
 ranges for pages using the "-page" option of the <code>nz_zonemap</code> command:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="32:2"><input checked="checked" id="__tabbed_32_1" name="__tabbed_32" type="radio" /><input id="__tabbed_32_2" name="__tabbed_32" type="radio" /><div class="tabbed-labels"><label for="__tabbed_32_1">Input</label><label for="__tabbed_32_2">Output</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="33:2"><input checked="checked" id="__tabbed_33_1" name="__tabbed_33" type="radio" /><input id="__tabbed_33_2" name="__tabbed_33" type="radio" /><div class="tabbed-labels"><label for="__tabbed_33_1">Input</label><label for="__tabbed_33_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>/nz/support/bin/nz_zonemap labdb orders_cbt o_orderdate o_totalprice -page

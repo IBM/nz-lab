@@ -66,7 +66,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#1-data-grooming" class="md-skip">
+        <a href="#data-grooming" class="md-skip">
           Skip to content
         </a>
       
@@ -337,8 +337,8 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#11-objectives" class="md-nav__link">
-    1.1 Objectives
+  <a href="#1-objectives" class="md-nav__link">
+    1 Objectives
   </a>
   
 </li>
@@ -524,8 +524,8 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#11-objectives" class="md-nav__link">
-    1.1 Objectives
+  <a href="#1-objectives" class="md-nav__link">
+    1 Objectives
   </a>
   
 </li>
@@ -613,7 +613,7 @@
                 
 
 
-<h1 id="1-data-grooming">1 Data Grooming</h1>
+<h1 id="data-grooming">Data Grooming</h1>
 <p>As part of your routine database maintenance activities, you should plan
 to recover disk space occupied by outdated or deleted rows. In normal
 Netezza Performance Server operation, an <code>UPDATE</code> or <code>DELETE</code> of a table row
@@ -629,7 +629,7 @@ you can reclaim the space they occupy using the SQL <code>GROOM TABLE</code> com
 The <code>GROOM TABLE</code> command does not lock a table while it is running; you
 can continue to <code>SELECT,</code> <code>UPDATE,</code> and <code>INSERT</code> into the table while the
 table is being groomed.</p>
-<h2 id="11-objectives">1.1 Objectives</h2>
+<h2 id="1-objectives">1 Objectives</h2>
 <p>In this lab we will use the <code>GROOM</code> command to prepare our tables for the
 customer. During the course of the POC we have deleted and update a
 number of rows. At the end of a POC it is sensible to clean up the
@@ -840,12 +840,18 @@ Netezza Performance Server environment. There is also a safer
 environment variable, but this has some restrictions.</p>
 <p>To see deleted rows without changing the system registry parameters do
 the following:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="7:1"><input checked="checked" id="__tabbed_7_1" name="__tabbed_7" type="radio" /><div class="tabbed-labels"><label for="__tabbed_7_1">Registry Parameters</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>nzsql labdb labadmin password
 
 set show_deleted_records = true;
 select * from table_with_deleted_rows;
 set show_deleted_records = false;
 </code></pre></div>
+</div>
+</div>
+</div>
 <p>The above method is not used in this lab, please follow the steps
 below.</p>
 <ol>
@@ -857,7 +863,7 @@ below.</p>
 <p>Check the Netezza Performance Server system registry for the
         parameters host.fpgaAllowXIDOverride and system.useFpgaPrep, each
         should be set to yes:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="7:2"><input checked="checked" id="__tabbed_7_1" name="__tabbed_7" type="radio" /><input id="__tabbed_7_2" name="__tabbed_7" type="radio" /><div class="tabbed-labels"><label for="__tabbed_7_1">Input</label><label for="__tabbed_7_2">Output</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="8:2"><input checked="checked" id="__tabbed_8_1" name="__tabbed_8" type="radio" /><input id="__tabbed_8_2" name="__tabbed_8" type="radio" /><div class="tabbed-labels"><label for="__tabbed_8_1">Input</label><label for="__tabbed_8_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>nzsystem showregistry | grep -iE &#39;fpgaAllowXIDOverride|useFpgaPrep&#39;
@@ -874,7 +880,7 @@ system.useFpgaPrep = yes
 <li>
 <p>To change these system parameters, first pause the system with the
         following command:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="8:1"><input checked="checked" id="__tabbed_8_1" name="__tabbed_8" type="radio" /><div class="tabbed-labels"><label for="__tabbed_8_1">Input</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="9:1"><input checked="checked" id="__tabbed_9_1" name="__tabbed_9" type="radio" /><div class="tabbed-labels"><label for="__tabbed_9_1">Input</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>nzsystem pause
@@ -886,7 +892,7 @@ Are you sure you want to pause the system (y|n)? [n] y
 </li>
 <li>
 <p>Next, update the system parameters with the following command:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="9:1"><input checked="checked" id="__tabbed_9_1" name="__tabbed_9" type="radio" /><div class="tabbed-labels"><label for="__tabbed_9_1">Input</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="10:1"><input checked="checked" id="__tabbed_10_1" name="__tabbed_10" type="radio" /><div class="tabbed-labels"><label for="__tabbed_10_1">Input</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>nzsystem set -arg host.fpgaAllowXIDOverride=yes
@@ -900,7 +906,7 @@ Are you sure you want to change the system configuration (y|n)? [n] y
 </li>
 <li>
 <p>Resume the system with the following command:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="10:1"><input checked="checked" id="__tabbed_10_1" name="__tabbed_10" type="radio" /><div class="tabbed-labels"><label for="__tabbed_10_1">Input</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="11:1"><input checked="checked" id="__tabbed_11_1" name="__tabbed_11" type="radio" /><div class="tabbed-labels"><label for="__tabbed_11_1">Input</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>nzsystem resume
@@ -913,7 +919,7 @@ Are you sure you want to change the system configuration (y|n)? [n] y
 <p>Re-check the Netezza Performance Server system registry for the
         parameters <code>host.fpgaAllowXIDOverride</code> and <code>system.useFpgaPrep</code>, each
         should be set to yes:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="11:2"><input checked="checked" id="__tabbed_11_1" name="__tabbed_11" type="radio" /><input id="__tabbed_11_2" name="__tabbed_11" type="radio" /><div class="tabbed-labels"><label for="__tabbed_11_1">Input</label><label for="__tabbed_11_2">Output</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="12:2"><input checked="checked" id="__tabbed_12_1" name="__tabbed_12" type="radio" /><input id="__tabbed_12_2" name="__tabbed_12" type="radio" /><div class="tabbed-labels"><label for="__tabbed_12_1">Input</label><label for="__tabbed_12_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>nzsystem showregistry | grep -iE &#39;fpgaAllowXIDOverride|useFpgaPrep&#39;
@@ -929,7 +935,7 @@ system.useFpgaPrep = yes
 </li>
 <li>
 <p>Start <code>nzsql</code> from the Linux command line as following:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="12:1"><input checked="checked" id="__tabbed_12_1" name="__tabbed_12" type="radio" /><div class="tabbed-labels"><label for="__tabbed_12_1">Input</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="13:1"><input checked="checked" id="__tabbed_13_1" name="__tabbed_13" type="radio" /><div class="tabbed-labels"><label for="__tabbed_13_1">Input</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>nzsql labdb labadmin password
@@ -941,7 +947,7 @@ system.useFpgaPrep = yes
 <li>
 <p>Now we will update the row we inserted in the last chapter to the
         <code>REGION</code> table:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="13:1"><input checked="checked" id="__tabbed_13_1" name="__tabbed_13" type="radio" /><div class="tabbed-labels"><label for="__tabbed_13_1">Input</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="14:1"><input checked="checked" id="__tabbed_14_1" name="__tabbed_14" type="radio" /><div class="tabbed-labels"><label for="__tabbed_14_1">Input</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>UPDATE REGION SET R_COMMENT=&#39;Australia&#39; WHERE R_REGIONKEY=5;
@@ -952,7 +958,7 @@ system.useFpgaPrep = yes
 </li>
 <li>
 <p>Do a <code>SELECT</code> on the <code>REGION</code> table again:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="14:2"><input checked="checked" id="__tabbed_14_1" name="__tabbed_14" type="radio" /><input id="__tabbed_14_2" name="__tabbed_14" type="radio" /><div class="tabbed-labels"><label for="__tabbed_14_1">Input</label><label for="__tabbed_14_2">Output</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="15:2"><input checked="checked" id="__tabbed_15_1" name="__tabbed_15" type="radio" /><input id="__tabbed_15_2" name="__tabbed_15" type="radio" /><div class="tabbed-labels"><label for="__tabbed_15_1">Input</label><label for="__tabbed_15_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>SELECT CREATEXID, DELETEXID, ROWID,* FROM REGION;
@@ -988,7 +994,7 @@ transaction that did the insert.</p>
 <li>
 <p>Finally let's clean up the table again by deleting the Australia
         row:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="15:2"><input checked="checked" id="__tabbed_15_1" name="__tabbed_15" type="radio" /><input id="__tabbed_15_2" name="__tabbed_15" type="radio" /><div class="tabbed-labels"><label for="__tabbed_15_1">Input</label><label for="__tabbed_15_2">Output</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="16:2"><input checked="checked" id="__tabbed_16_1" name="__tabbed_16" type="radio" /><input id="__tabbed_16_2" name="__tabbed_16" type="radio" /><div class="tabbed-labels"><label for="__tabbed_16_1">Input</label><label for="__tabbed_16_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>DELETE FROM REGION WHERE R_REGIONKEY=5;
@@ -1003,7 +1009,7 @@ transaction that did the insert.</p>
 </li>
 <li>
 <p>Do a <code>SELECT</code> on the <code>REGION</code> table again:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="16:2"><input checked="checked" id="__tabbed_16_1" name="__tabbed_16" type="radio" /><input id="__tabbed_16_2" name="__tabbed_16" type="radio" /><div class="tabbed-labels"><label for="__tabbed_16_1">Input</label><label for="__tabbed_16_2">Output</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="17:2"><input checked="checked" id="__tabbed_17_1" name="__tabbed_17" type="radio" /><input id="__tabbed_17_2" name="__tabbed_17" type="radio" /><div class="tabbed-labels"><label for="__tabbed_17_1">Input</label><label for="__tabbed_17_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>SELECT CREATEXID, DELETEXID, ROWID,* FROM REGION;
@@ -1055,7 +1061,7 @@ behavior for all tree transaction types with this.</p>
 <li>
 <p>To start a transaction that we can later rollback we need to use the
         <code>BEGIN</code> keyword.</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="17:2"><input checked="checked" id="__tabbed_17_1" name="__tabbed_17" type="radio" /><input id="__tabbed_17_2" name="__tabbed_17" type="radio" /><div class="tabbed-labels"><label for="__tabbed_17_1">Input</label><label for="__tabbed_17_2">Output</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="18:2"><input checked="checked" id="__tabbed_18_1" name="__tabbed_18" type="radio" /><input id="__tabbed_18_2" name="__tabbed_18" type="radio" /><div class="tabbed-labels"><label for="__tabbed_18_1">Input</label><label for="__tabbed_18_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>BEGIN;
@@ -1077,7 +1083,7 @@ executed.</p>
 </li>
 <li>
 <p>Update the row for the AP region:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="18:2"><input checked="checked" id="__tabbed_18_1" name="__tabbed_18" type="radio" /><input id="__tabbed_18_2" name="__tabbed_18" type="radio" /><div class="tabbed-labels"><label for="__tabbed_18_1">Input</label><label for="__tabbed_18_2">Output</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="19:2"><input checked="checked" id="__tabbed_19_1" name="__tabbed_19" type="radio" /><input id="__tabbed_19_2" name="__tabbed_19" type="radio" /><div class="tabbed-labels"><label for="__tabbed_19_1">Input</label><label for="__tabbed_19_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>UPDATE REGION SET R_COMMENT=&#39;AP&#39; WHERE R_REGIONKEY=4;
@@ -1092,7 +1098,7 @@ executed.</p>
 </li>
 <li>
 <p>Do a <code>SELECT</code> on the <code>REGION</code> table again:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="19:2"><input checked="checked" id="__tabbed_19_1" name="__tabbed_19" type="radio" /><input id="__tabbed_19_2" name="__tabbed_19" type="radio" /><div class="tabbed-labels"><label for="__tabbed_19_1">Input</label><label for="__tabbed_19_2">Output</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="20:2"><input checked="checked" id="__tabbed_20_1" name="__tabbed_20" type="radio" /><input id="__tabbed_20_2" name="__tabbed_20" type="radio" /><div class="tabbed-labels"><label for="__tabbed_20_1">Input</label><label for="__tabbed_20_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>SELECT CREATEXID, DELETEXID, ROWID,* FROM REGION;
@@ -1121,7 +1127,7 @@ row, since they were updated by the same transaction.</p>
 </li>
 <li>
 <p>Now let's rollback the transaction:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="20:2"><input checked="checked" id="__tabbed_20_1" name="__tabbed_20" type="radio" /><input id="__tabbed_20_2" name="__tabbed_20" type="radio" /><div class="tabbed-labels"><label for="__tabbed_20_1">Input</label><label for="__tabbed_20_2">Output</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="21:2"><input checked="checked" id="__tabbed_21_1" name="__tabbed_21" type="radio" /><input id="__tabbed_21_2" name="__tabbed_21" type="radio" /><div class="tabbed-labels"><label for="__tabbed_21_1">Input</label><label for="__tabbed_21_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>ROLLBACK;
@@ -1136,7 +1142,7 @@ row, since they were updated by the same transaction.</p>
 </li>
 <li>
 <p>Do a <code>SELECT</code> on the <code>REGION</code> table again:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="21:2"><input checked="checked" id="__tabbed_21_1" name="__tabbed_21" type="radio" /><input id="__tabbed_21_2" name="__tabbed_21" type="radio" /><div class="tabbed-labels"><label for="__tabbed_21_1">Input</label><label for="__tabbed_21_2">Output</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="22:2"><input checked="checked" id="__tabbed_22_1" name="__tabbed_22" type="radio" /><input id="__tabbed_22_2" name="__tabbed_22" type="radio" /><div class="tabbed-labels"><label for="__tabbed_22_1">Input</label><label for="__tabbed_22_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>SELECT CREATEXID, DELETEXID, ROWID,* FROM REGION;
@@ -1174,7 +1180,7 @@ deleted rows from a table and frees up the space on the machine again.</p>
 <ol>
 <li>
 <p>Execute the <code>GROOM</code> command on the <code>REGION</code> table:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="22:2"><input checked="checked" id="__tabbed_22_1" name="__tabbed_22" type="radio" /><input id="__tabbed_22_2" name="__tabbed_22" type="radio" /><div class="tabbed-labels"><label for="__tabbed_22_1">Input</label><label for="__tabbed_22_2">Output</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="23:2"><input checked="checked" id="__tabbed_23_1" name="__tabbed_23" type="radio" /><input id="__tabbed_23_2" name="__tabbed_23" type="radio" /><div class="tabbed-labels"><label for="__tabbed_23_1">Input</label><label for="__tabbed_23_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>GROOM TABLE REGION;
@@ -1198,7 +1204,7 @@ previous chapter.</p>
 </li>
 <li>
 <p>Now select the rows from the <code>REGION</code> table again.</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="23:2"><input checked="checked" id="__tabbed_23_1" name="__tabbed_23" type="radio" /><input id="__tabbed_23_2" name="__tabbed_23" type="radio" /><div class="tabbed-labels"><label for="__tabbed_23_1">Input</label><label for="__tabbed_23_2">Output</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="24:2"><input checked="checked" id="__tabbed_24_1" name="__tabbed_24" type="radio" /><input id="__tabbed_24_2" name="__tabbed_24" type="radio" /><div class="tabbed-labels"><label for="__tabbed_24_1">Input</label><label for="__tabbed_24_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>SELECT CREATEXID, DELETEXID, ROWID,* FROM REGION;
@@ -1230,7 +1236,7 @@ and increase performance.</p>
 <li>
 <p>To change these system parameters, first pause the system with the
         following command:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="24:1"><input checked="checked" id="__tabbed_24_1" name="__tabbed_24" type="radio" /><div class="tabbed-labels"><label for="__tabbed_24_1">Input</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="25:1"><input checked="checked" id="__tabbed_25_1" name="__tabbed_25" type="radio" /><div class="tabbed-labels"><label for="__tabbed_25_1">Input</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>nzsystem pause
@@ -1242,7 +1248,7 @@ Are you sure you want to pause the system (y|n)? [n]  y
 </li>
 <li>
 <p>Next, update the system parameters with the following command:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="25:1"><input checked="checked" id="__tabbed_25_1" name="__tabbed_25" type="radio" /><div class="tabbed-labels"><label for="__tabbed_25_1">Input</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="26:1"><input checked="checked" id="__tabbed_26_1" name="__tabbed_26" type="radio" /><div class="tabbed-labels"><label for="__tabbed_26_1">Input</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>nzsystem set -arg host.fpgaAllowXIDOverride=no
@@ -1256,7 +1262,7 @@ Are you sure you want to change the system configuration (y|n)? [n] y
 </li>
 <li>
 <p>Resume the system with the following command:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="26:1"><input checked="checked" id="__tabbed_26_1" name="__tabbed_26" type="radio" /><div class="tabbed-labels"><label for="__tabbed_26_1">Input</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="27:1"><input checked="checked" id="__tabbed_27_1" name="__tabbed_27" type="radio" /><div class="tabbed-labels"><label for="__tabbed_27_1">Input</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>nzsystem resume
@@ -1269,7 +1275,7 @@ Are you sure you want to change the system configuration (y|n)? [n] y
 <p>Re-check the Netezza Performance Server system registry for the
         parameters <code>host.fpgaAllowXIDOverride</code> and <code>system.useFpgaPrep</code>, each
         should be set to yes:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="27:2"><input checked="checked" id="__tabbed_27_1" name="__tabbed_27" type="radio" /><input id="__tabbed_27_2" name="__tabbed_27" type="radio" /><div class="tabbed-labels"><label for="__tabbed_27_1">Input</label><label for="__tabbed_27_2">Output</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="28:2"><input checked="checked" id="__tabbed_28_1" name="__tabbed_28" type="radio" /><input id="__tabbed_28_2" name="__tabbed_28" type="radio" /><div class="tabbed-labels"><label for="__tabbed_28_1">Input</label><label for="__tabbed_28_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>nzsystem showregistry | grep -iE &#39;fpgaAllowXIDOverride|useFpgaPrep&#39;
@@ -1293,7 +1299,7 @@ delete the rows.</p>
 <p>First determine the physical size on disk of the table <code>ORDERS</code> using
         the following command:</p>
 <p>You should see the following results:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="28:2"><input checked="checked" id="__tabbed_28_1" name="__tabbed_28" type="radio" /><input id="__tabbed_28_2" name="__tabbed_28" type="radio" /><div class="tabbed-labels"><label for="__tabbed_28_1">Input</label><label for="__tabbed_28_2">Output</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="29:2"><input checked="checked" id="__tabbed_29_1" name="__tabbed_29" type="radio" /><input id="__tabbed_29_2" name="__tabbed_29" type="radio" /><div class="tabbed-labels"><label for="__tabbed_29_1">Input</label><label for="__tabbed_29_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>/nz/support/bin/nz_db_size LABDB
@@ -1323,7 +1329,7 @@ delete the rows.</p>
 <p>Now we are going to delete some rows from <code>ORDERS</code> table. Delete all
         rows where the <code>ORDERSTATUS</code> is marked as F for finished using the
         following command:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="29:2"><input checked="checked" id="__tabbed_29_1" name="__tabbed_29" type="radio" /><input id="__tabbed_29_2" name="__tabbed_29" type="radio" /><div class="tabbed-labels"><label for="__tabbed_29_1">Input</label><label for="__tabbed_29_2">Output</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="30:2"><input checked="checked" id="__tabbed_30_1" name="__tabbed_30" type="radio" /><input id="__tabbed_30_2" name="__tabbed_30" type="radio" /><div class="tabbed-labels"><label for="__tabbed_30_1">Input</label><label for="__tabbed_30_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>nzsql LABDB LABADMIN password
@@ -1341,7 +1347,7 @@ DELETE FROM ORDERS WHERE O_ORDERSTATUS=&#39;F&#39;;
 <p>Now check the physical table size for <code>ORDERS</code> and see if the size
         decreased using the same command as before. You must first exit
         nzsql to shell using <code>\q</code>.</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="30:2"><input checked="checked" id="__tabbed_30_1" name="__tabbed_30" type="radio" /><input id="__tabbed_30_2" name="__tabbed_30" type="radio" /><div class="tabbed-labels"><label for="__tabbed_30_1">Input</label><label for="__tabbed_30_2">Output</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="31:2"><input checked="checked" id="__tabbed_31_1" name="__tabbed_31" type="radio" /><input id="__tabbed_31_2" name="__tabbed_31" type="radio" /><div class="tabbed-labels"><label for="__tabbed_31_1">Input</label><label for="__tabbed_31_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>\q
@@ -1377,7 +1383,7 @@ statement which we just executed. (i.e. have a lower transaction id)</p>
         the <code>GROOM TABLE</code> command and specifying table <code>ORDERS</code>. When you run
         the <code>GROOM TABLE</code> command, it removes outdated and deleted records
         from tables.</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="31:2"><input checked="checked" id="__tabbed_31_1" name="__tabbed_31" type="radio" /><input id="__tabbed_31_2" name="__tabbed_31" type="radio" /><div class="tabbed-labels"><label for="__tabbed_31_1">Input</label><label for="__tabbed_31_2">Output</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="32:2"><input checked="checked" id="__tabbed_32_1" name="__tabbed_32" type="radio" /><input id="__tabbed_32_2" name="__tabbed_32" type="radio" /><div class="tabbed-labels"><label for="__tabbed_32_1">Input</label><label for="__tabbed_32_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>nzsql LABDB LABADMIN password
@@ -1403,7 +1409,7 @@ number of rows we deleted in the previous step.</p>
 <li>
 <p>Check if the <code>ORDERS</code> table size on disk has shrunk using the
         <code>nz_db_size</code> command. You must first exit <code>nzsql</code> to shell using <code>\q</code>.</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="32:2"><input checked="checked" id="__tabbed_32_1" name="__tabbed_32" type="radio" /><input id="__tabbed_32_2" name="__tabbed_32" type="radio" /><div class="tabbed-labels"><label for="__tabbed_32_1">Input</label><label for="__tabbed_32_2">Output</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="33:2"><input checked="checked" id="__tabbed_33_1" name="__tabbed_33" type="radio" /><input id="__tabbed_33_2" name="__tabbed_33" type="radio" /><div class="tabbed-labels"><label for="__tabbed_33_1">Input</label><label for="__tabbed_33_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>\q
@@ -1448,7 +1454,7 @@ Grooming the table.</p>
 <li>
 <p>Update the <code>ORDERS</code> table so that the price of everything is increased
         by $1. Do this using the following command:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="33:2"><input checked="checked" id="__tabbed_33_1" name="__tabbed_33" type="radio" /><input id="__tabbed_33_2" name="__tabbed_33" type="radio" /><div class="tabbed-labels"><label for="__tabbed_33_1">Input</label><label for="__tabbed_33_2">Output</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="34:2"><input checked="checked" id="__tabbed_34_1" name="__tabbed_34" type="radio" /><input id="__tabbed_34_2" name="__tabbed_34" type="radio" /><div class="tabbed-labels"><label for="__tabbed_34_1">Input</label><label for="__tabbed_34_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>nzsql LABDB LABADMIN password
@@ -1472,7 +1478,7 @@ left on disk are marked as logically deleted.</p>
 <p>To measure the performance of our test query, we can configure the
         nzsql console to show the elapsed execution time using the following
         command:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="34:2"><input checked="checked" id="__tabbed_34_1" name="__tabbed_34" type="radio" /><input id="__tabbed_34_2" name="__tabbed_34" type="radio" /><div class="tabbed-labels"><label for="__tabbed_34_1">Input</label><label for="__tabbed_34_2">Output</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="35:2"><input checked="checked" id="__tabbed_35_1" name="__tabbed_35" type="radio" /><input id="__tabbed_35_2" name="__tabbed_35" type="radio" /><div class="tabbed-labels"><label for="__tabbed_35_1">Input</label><label for="__tabbed_35_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>\time
@@ -1487,7 +1493,7 @@ left on disk are marked as logically deleted.</p>
 </li>
 <li>
 <p>Run our given test query and note the performance:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="35:2"><input checked="checked" id="__tabbed_35_1" name="__tabbed_35" type="radio" /><input id="__tabbed_35_2" name="__tabbed_35" type="radio" /><div class="tabbed-labels"><label for="__tabbed_35_1">Input</label><label for="__tabbed_35_2">Output</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="36:2"><input checked="checked" id="__tabbed_36_1" name="__tabbed_36" type="radio" /><input id="__tabbed_36_2" name="__tabbed_36" type="radio" /><div class="tabbed-labels"><label for="__tabbed_36_1">Input</label><label for="__tabbed_36_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>SELECT COUNT(*) FROM ORDERS;
@@ -1508,7 +1514,7 @@ Elapsed time: 0m0.641s
 <li>
 <p>Please rerun the query once or twice more to see roughly what a
         consistent query time is on your machine.</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="36:1"><input checked="checked" id="__tabbed_36_1" name="__tabbed_36" type="radio" /><div class="tabbed-labels"><label for="__tabbed_36_1">Input</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="37:1"><input checked="checked" id="__tabbed_37_1" name="__tabbed_37" type="radio" /><div class="tabbed-labels"><label for="__tabbed_37_1">Input</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>SELECT COUNT(*) FROM ORDERS;
@@ -1519,7 +1525,7 @@ Elapsed time: 0m0.641s
 </li>
 <li>
 <p>Now run the <code>GROOM TABLE</code> command on the <code>ORDER</code> table again:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="37:2"><input checked="checked" id="__tabbed_37_1" name="__tabbed_37" type="radio" /><input id="__tabbed_37_2" name="__tabbed_37" type="radio" /><div class="tabbed-labels"><label for="__tabbed_37_1">Input</label><label for="__tabbed_37_2">Output</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="38:2"><input checked="checked" id="__tabbed_38_1" name="__tabbed_38" type="radio" /><input id="__tabbed_38_2" name="__tabbed_38" type="radio" /><div class="tabbed-labels"><label for="__tabbed_38_1">Input</label><label for="__tabbed_38_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>GROOM TABLE ORDERS;
@@ -1545,7 +1551,7 @@ extents times 3MB)</p>
 <li>
 <p>Now run our chosen test query again and you should see a difference
         in performance:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="38:2"><input checked="checked" id="__tabbed_38_1" name="__tabbed_38" type="radio" /><input id="__tabbed_38_2" name="__tabbed_38" type="radio" /><div class="tabbed-labels"><label for="__tabbed_38_1">Input</label><label for="__tabbed_38_2">Output</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="39:2"><input checked="checked" id="__tabbed_39_1" name="__tabbed_39" type="radio" /><input id="__tabbed_39_2" name="__tabbed_39" type="radio" /><div class="tabbed-labels"><label for="__tabbed_39_1">Input</label><label for="__tabbed_39_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>SELECT COUNT(*) FROM ORDERS;
@@ -1633,7 +1639,7 @@ decide to increase the <code>R_NAME</code> field to a <code>CHAR(40)</code> fiel
 <li>
 <p>Add a new column to the region table with name <code>R_NAME_TEMP</code> and data
         type <code>CHAR(40)</code></p>
-<div class="tabbed-set tabbed-alternate" data-tabs="39:4"><input checked="checked" id="__tabbed_39_1" name="__tabbed_39" type="radio" /><input id="__tabbed_39_2" name="__tabbed_39" type="radio" /><input id="__tabbed_39_3" name="__tabbed_39" type="radio" /><input id="__tabbed_39_4" name="__tabbed_39" type="radio" /><div class="tabbed-labels"><label for="__tabbed_39_1">Input</label><label for="__tabbed_39_2">Output</label><label for="__tabbed_39_3">Input</label><label for="__tabbed_39_4">Output</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="40:4"><input checked="checked" id="__tabbed_40_1" name="__tabbed_40" type="radio" /><input id="__tabbed_40_2" name="__tabbed_40" type="radio" /><input id="__tabbed_40_3" name="__tabbed_40" type="radio" /><input id="__tabbed_40_4" name="__tabbed_40" type="radio" /><div class="tabbed-labels"><label for="__tabbed_40_1">Input</label><label for="__tabbed_40_2">Output</label><label for="__tabbed_40_3">Input</label><label for="__tabbed_40_4">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>\time
@@ -1660,7 +1666,7 @@ table.</p>
 </li>
 <li>
 <p>Let's insert a row into the table using the new name column</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="40:2"><input checked="checked" id="__tabbed_40_1" name="__tabbed_40" type="radio" /><input id="__tabbed_40_2" name="__tabbed_40" type="radio" /><div class="tabbed-labels"><label for="__tabbed_40_1">Input</label><label for="__tabbed_40_2">Output</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="41:2"><input checked="checked" id="__tabbed_41_1" name="__tabbed_41" type="radio" /><input id="__tabbed_41_2" name="__tabbed_41" type="radio" /><div class="tabbed-labels"><label for="__tabbed_41_1">Input</label><label for="__tabbed_41_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>INSERT INTO REGION VALUES
@@ -1677,7 +1683,7 @@ table.</p>
 </li>
 <li>
 <p>Now do a select on the table:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="41:2"><input checked="checked" id="__tabbed_41_1" name="__tabbed_41" type="radio" /><input id="__tabbed_41_2" name="__tabbed_41" type="radio" /><div class="tabbed-labels"><label for="__tabbed_41_1">Input</label><label for="__tabbed_41_2">Output</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="42:2"><input checked="checked" id="__tabbed_42_1" name="__tabbed_42" type="radio" /><input id="__tabbed_42_2" name="__tabbed_42" type="radio" /><div class="tabbed-labels"><label for="__tabbed_42_1">Input</label><label for="__tabbed_42_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>SELECT * FROM REGION;
@@ -1704,7 +1710,7 @@ new row column.</p>
 </li>
 <li>
 <p>Let's do an <code>EXPLAIN</code> on the <code>SELECT</code> query</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="42:2"><input checked="checked" id="__tabbed_42_1" name="__tabbed_42" type="radio" /><input id="__tabbed_42_2" name="__tabbed_42" type="radio" /><div class="tabbed-labels"><label for="__tabbed_42_1">Input</label><label for="__tabbed_42_2">Output</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="43:2"><input checked="checked" id="__tabbed_43_1" name="__tabbed_43" type="radio" /><input id="__tabbed_43_2" name="__tabbed_43" type="radio" /><div class="tabbed-labels"><label for="__tabbed_43_1">Input</label><label for="__tabbed_43_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>EXPLAIN VERBOSE SELECT * FROM REGION;
@@ -1805,7 +1811,7 @@ and appends them.</p>
 </li>
 <li>
 <p>Let's remove the new row again.</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="43:2"><input checked="checked" id="__tabbed_43_1" name="__tabbed_43" type="radio" /><input id="__tabbed_43_2" name="__tabbed_43" type="radio" /><div class="tabbed-labels"><label for="__tabbed_43_1">Input</label><label for="__tabbed_43_2">Output</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="44:2"><input checked="checked" id="__tabbed_44_1" name="__tabbed_44" type="radio" /><input id="__tabbed_44_2" name="__tabbed_44" type="radio" /><div class="tabbed-labels"><label for="__tabbed_44_1">Input</label><label for="__tabbed_44_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>DELETE FROM REGION WHERE R_REGIONKEY &gt; 4;
@@ -1821,7 +1827,7 @@ and appends them.</p>
 <li>
 <p>Now we will move all values of the <code>R_NAME</code> column to the <code>R_NAME_TEMP</code>
         column by updating them</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="44:2"><input checked="checked" id="__tabbed_44_1" name="__tabbed_44" type="radio" /><input id="__tabbed_44_2" name="__tabbed_44" type="radio" /><div class="tabbed-labels"><label for="__tabbed_44_1">Input</label><label for="__tabbed_44_2">Output</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="45:2"><input checked="checked" id="__tabbed_45_1" name="__tabbed_45" type="radio" /><input id="__tabbed_45_2" name="__tabbed_45" type="radio" /><div class="tabbed-labels"><label for="__tabbed_45_1">Input</label><label for="__tabbed_45_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>UPDATE REGION SET R_NAME_TEMP = R_NAME;
@@ -1836,7 +1842,7 @@ and appends them.</p>
 </li>
 <li>
 <p>Let's have a look at the table again:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="45:2"><input checked="checked" id="__tabbed_45_1" name="__tabbed_45" type="radio" /><input id="__tabbed_45_2" name="__tabbed_45" type="radio" /><div class="tabbed-labels"><label for="__tabbed_45_1">Input</label><label for="__tabbed_45_2">Output</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="46:2"><input checked="checked" id="__tabbed_46_1" name="__tabbed_46" type="radio" /><input id="__tabbed_46_2" name="__tabbed_46" type="radio" /><div class="tabbed-labels"><label for="__tabbed_46_1">Input</label><label for="__tabbed_46_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>SELECT * FROM REGION;
@@ -1857,7 +1863,7 @@ and appends them.</p>
 </li>
 <li>
 <p>Now let's remove the old column:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="46:2"><input checked="checked" id="__tabbed_46_1" name="__tabbed_46" type="radio" /><input id="__tabbed_46_2" name="__tabbed_46" type="radio" /><div class="tabbed-labels"><label for="__tabbed_46_1">Input</label><label for="__tabbed_46_2">Output</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="47:2"><input checked="checked" id="__tabbed_47_1" name="__tabbed_47" type="radio" /><input id="__tabbed_47_2" name="__tabbed_47" type="radio" /><div class="tabbed-labels"><label for="__tabbed_47_1">Input</label><label for="__tabbed_47_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>ALTER TABLE REGION DROP COLUMN R_NAME RESTRICT;
@@ -1872,7 +1878,7 @@ and appends them.</p>
 </li>
 <li>
 <p>Rename the column name <code>R_NAME_TEMP</code> to <code>R_NAME</code></p>
-<div class="tabbed-set tabbed-alternate" data-tabs="47:2"><input checked="checked" id="__tabbed_47_1" name="__tabbed_47" type="radio" /><input id="__tabbed_47_2" name="__tabbed_47" type="radio" /><div class="tabbed-labels"><label for="__tabbed_47_1">Input</label><label for="__tabbed_47_2">Output</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="48:2"><input checked="checked" id="__tabbed_48_1" name="__tabbed_48" type="radio" /><input id="__tabbed_48_2" name="__tabbed_48" type="radio" /><div class="tabbed-labels"><label for="__tabbed_48_1">Input</label><label for="__tabbed_48_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>ALTER TABLE REGION RENAME COLUMN R_NAME_TEMP TO R_NAME;
@@ -1887,7 +1893,7 @@ and appends them.</p>
 </li>
 <li>
 <p>Let's have a look at the table again:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="48:2"><input checked="checked" id="__tabbed_48_1" name="__tabbed_48" type="radio" /><input id="__tabbed_48_2" name="__tabbed_48" type="radio" /><div class="tabbed-labels"><label for="__tabbed_48_1">Input</label><label for="__tabbed_48_2">Output</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="49:2"><input checked="checked" id="__tabbed_49_1" name="__tabbed_49" type="radio" /><input id="__tabbed_49_2" name="__tabbed_49" type="radio" /><div class="tabbed-labels"><label for="__tabbed_49_1">Input</label><label for="__tabbed_49_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>SELECT * FROM REGION;
@@ -1917,7 +1923,7 @@ changes with the <code>GROOM</code> command.</p>
 <li>
 <p><code>GROOM</code> the <code>REGION</code> table with the <code>VERSIONS</code> keyword to merge table
         versions:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="49:2"><input checked="checked" id="__tabbed_49_1" name="__tabbed_49" type="radio" /><input id="__tabbed_49_2" name="__tabbed_49" type="radio" /><div class="tabbed-labels"><label for="__tabbed_49_1">Input</label><label for="__tabbed_49_2">Output</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="50:2"><input checked="checked" id="__tabbed_50_1" name="__tabbed_50" type="radio" /><input id="__tabbed_50_2" name="__tabbed_50" type="radio" /><div class="tabbed-labels"><label for="__tabbed_50_1">Input</label><label for="__tabbed_50_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>GROOM TABLE REGION VERSIONS;
@@ -1939,7 +1945,7 @@ GROOM VERSIONS
 </li>
 <li>
 <p>Finally, we will look at the <code>EXPLAIN</code> output again:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="50:2"><input checked="checked" id="__tabbed_50_1" name="__tabbed_50" type="radio" /><input id="__tabbed_50_2" name="__tabbed_50" type="radio" /><div class="tabbed-labels"><label for="__tabbed_50_1">Input</label><label for="__tabbed_50_2">Output</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="51:2"><input checked="checked" id="__tabbed_51_1" name="__tabbed_51" type="radio" /><input id="__tabbed_51_2" name="__tabbed_51" type="radio" /><div class="tabbed-labels"><label for="__tabbed_51_1">Input</label><label for="__tabbed_51_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>EXPLAIN VERBOSE SELECT * FROM REGION;
@@ -1986,7 +1992,7 @@ table.</p>
 <p>Finally, we will return the <code>REGION</code> table to the old column ordering
         to not interfere with future labs, to do this we will use a CTAS
         statement</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="51:2"><input checked="checked" id="__tabbed_51_1" name="__tabbed_51" type="radio" /><input id="__tabbed_51_2" name="__tabbed_51" type="radio" /><div class="tabbed-labels"><label for="__tabbed_51_1">Input</label><label for="__tabbed_51_2">Output</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="52:2"><input checked="checked" id="__tabbed_52_1" name="__tabbed_52" type="radio" /><input id="__tabbed_52_2" name="__tabbed_52" type="radio" /><div class="tabbed-labels"><label for="__tabbed_52_1">Input</label><label for="__tabbed_52_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>CREATE TABLE REGION_NEW AS
@@ -2003,7 +2009,7 @@ FROM REGION R;
 </li>
 <li>
 <p>Now drop the <code>REGION</code> table:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="52:2"><input checked="checked" id="__tabbed_52_1" name="__tabbed_52" type="radio" /><input id="__tabbed_52_2" name="__tabbed_52" type="radio" /><div class="tabbed-labels"><label for="__tabbed_52_1">Input</label><label for="__tabbed_52_2">Output</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="53:2"><input checked="checked" id="__tabbed_53_1" name="__tabbed_53" type="radio" /><input id="__tabbed_53_2" name="__tabbed_53" type="radio" /><div class="tabbed-labels"><label for="__tabbed_53_1">Input</label><label for="__tabbed_53_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>DROP TABLE REGION;
@@ -2019,7 +2025,7 @@ FROM REGION R;
 <li>
 <p>Finally, rename the <code>REGION_NEW</code> table to make the transformation
         complete:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="53:2"><input checked="checked" id="__tabbed_53_1" name="__tabbed_53" type="radio" /><input id="__tabbed_53_2" name="__tabbed_53" type="radio" /><div class="tabbed-labels"><label for="__tabbed_53_1">Input</label><label for="__tabbed_53_2">Output</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="54:2"><input checked="checked" id="__tabbed_54_1" name="__tabbed_54" type="radio" /><input id="__tabbed_54_2" name="__tabbed_54" type="radio" /><div class="tabbed-labels"><label for="__tabbed_54_1">Input</label><label for="__tabbed_54_2">Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>ALTER TABLE REGION_NEW RENAME TO REGION;
