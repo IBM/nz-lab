@@ -924,7 +924,7 @@ decide to increase the `R_NAME` field to a `CHAR(40)` field.
 1.  Add a new column to the region table with name `R_NAME_TEMP` and data
 	    type `CHAR(40)`
 	
-	=== "Input"
+	=== "Timer ON"
 		```
 		\time
 		```
@@ -934,7 +934,7 @@ decide to increase the `R_NAME` field to a `CHAR(40)` field.
 		Query time printout on
 		```
 	
-	=== "Input"
+	=== "ALTER TABLE"
 		```
 		ALTER TABLE REGION ADD COLUMN R_NAME_TEMP CHAR(40);
 		```

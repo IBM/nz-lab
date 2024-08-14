@@ -325,9 +325,10 @@ and then the users. The basic command to create a group is:
 		
 	To `ALTER` the user, you would use the following command:
 	
-	```
-	alter user LABADMIN with in group LAGRP;
-	```
+	=== "Input"
+		```
+		alter user LABADMIN with in group LAGRP;
+		```
 	
 3.  Now you will create the second group, `LUGRP`, which will be the user
 	    group for both the `LABUSER` and `DBUSER` users. You can specify the
@@ -409,7 +410,6 @@ and then the users. The basic command to create a group is:
 		 LABUSER  | LUGRP
 		 LABUSER  | PUBLIC
 		(6 rows)
-	
 		```
 		
 ## 4 Creating an IBM Netezza Performance Server Database
