@@ -1,0 +1,46 @@
+site_name: Netezza Performance Server Lab
+# theme:
+#   name: material
+nav:
+  # - Introduction: "wxd-intro.md"
+  - Command Line Interface: "nz-01-NPS-CLI.md"           
+  - Web Console: "nz-02-WebConsole.md"         
+  - Data Distribution: "nz-03-Data-Distribution.md"         
+  - Database Administration: "nz-04-Database-Admin.md"            
+  - Loading and Unloading Data: "nz-05-Loading-and-Unloading-Data.md"
+  - Backup and Restore: "nz-06-BNR.md"
+  - Query Optimization: "nz-07-Query-Optimization.md"        
+  - Optimization Objects: "nz-08-Optimization-Objects.md"      
+  - Grooming Data: "nz-09-Groom.md"  
+  - Stored Procedures: "nz-10-Stored-Proc.md"
+
+  - Appendix: 
+    - Disclaimer: "nz-disclaimer.md"
+    - Acknowledgements: "nz-acknowledgements.md"
+  # Copyright
+copyright: Copyright &copy; 2024 IBM 
+
+# Theme
+theme:
+  name: material
+  font:
+    text: IBM Plex Sans
+    code: IBM Plex Mono
+  logo: nz-images/IBM_logo®_rev_RGB.png  
+  palette:
+    scheme: default
+    primary: black
+    accent: black
+  features:
+    - content.code.annotate 
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences    
+  - sane_lists
+  - pymdownx.tabbed:
+      alternate_style: true
+
+extra_css:
+  - stylesheets/extra.css
